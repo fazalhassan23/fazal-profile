@@ -344,15 +344,15 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="modal-header">
             <div>
               <span class="article-category" id="modal-art-category"></span>
-              <span style="font-size:0.75rem; font-family:var(--font-mono); color:var(--text-tertiary); margin-left:0.75rem" id="modal-art-meta"></span>
+              <span style="font-size:0.85rem; font-family:var(--font-mono); color:var(--text-tertiary); margin-left:0.75rem" id="modal-art-meta"></span>
             </div>
             <button class="modal-close" onclick="window.closeArticleModal()" aria-label="Close modal">&times;</button>
           </div>
-          <h2 id="modal-art-title" style="font-family:var(--font-display); font-size:1.35rem; font-weight:700; margin-bottom:1rem; color:var(--text-primary)"></h2>
+          <h2 id="modal-art-title" style="font-family:var(--font-display); font-size:1.45rem; font-weight:700; margin-bottom:1rem; color:var(--text-primary); line-height:1.35;"></h2>
           <div class="modal-body" id="modal-art-body"></div>
-          <div style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+          <div style="margin-top:1.75rem; padding-top:1.25rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
             <div id="modal-art-tags" class="article-tags"></div>
-            <button class="btn btn-outline" style="padding:0.35rem 0.85rem; font-size:0.8125rem;" onclick="window.closeArticleModal()">Close</button>
+            <button class="btn btn-outline" style="padding:0.45rem 1rem; font-size:0.925rem;" onclick="window.closeArticleModal()">Close</button>
           </div>
         </div>
       `;
