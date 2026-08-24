@@ -2,10 +2,11 @@
    main.js — Portfolio JS
    - Scrolled nav styling
    - Active nav link highlighting
-   - Mobile menu toggle
+   - Mobile menu toggle & accessible drawer
    - Scroll-driven fade-up animations
    - Animated metric number counting
    - Interactive contact form handler
+   - CMS keyboard shortcuts
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,35 +21,71 @@ document.addEventListener('DOMContentLoaded', () => {
     onScroll();
   }
 
-  /* ── Mobile menu toggle ──────────────────────────────────── */
+  /* ── Mobile menu toggle & drawer controller ──────────────── */
   const toggle = document.querySelector('.nav-toggle');
   const navLinks = document.querySelector('.nav-links');
+
+  function closeMobileNav() {
+    if (!navLinks || !toggle) return;
+    navLinks.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    const spans = toggle.querySelectorAll('span');
+    if (spans.length >= 3) {
+      spans[0].style.transform = '';
+      spans[1].style.opacity = '';
+      spans[2].style.transform = '';
+    }
+  }
+
+  function openMobileNav() {
+    if (!navLinks || !toggle) return;
+    navLinks.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    const spans = toggle.querySelectorAll('span');
+    if (spans.length >= 3) {
+      spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    }
+  }
+
   if (toggle && navLinks) {
-    toggle.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', isOpen);
-      // Animate hamburger → X
-      const spans = toggle.querySelectorAll('span');
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = navLinks.classList.contains('open');
       if (isOpen) {
-        spans[0].style.transform = 'rotate(45deg) translate(4px, 4px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(4px, -4px)';
+        closeMobileNav();
       } else {
-        spans[0].style.transform = '';
-        spans[1].style.opacity = '';
-        spans[2].style.transform = '';
+        openMobileNav();
       }
     });
 
-    // Close menu when a link is clicked
+    // Close menu when clicking any nav link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        const spans = toggle.querySelectorAll('span');
-        spans[0].style.transform = '';
-        spans[1].style.opacity = '';
-        spans[2].style.transform = '';
+        closeMobileNav();
       });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && !toggle.contains(e.target)) {
+        closeMobileNav();
+      }
+    });
+
+    // Close menu on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+        closeMobileNav();
+      }
+    });
+
+    // Reset when resizing to desktop view
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 880 && navLinks.classList.contains('open')) {
+        closeMobileNav();
+      }
     });
   }
 
@@ -83,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
   heroContent.forEach((el, i) => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(16px)';
-    el.style.transition = `opacity 0.55s ease ${i * 90}ms, transform 0.55s ease ${i * 90}ms`;
+    el.style.transition = `opacity 0.55s ease ${i * 80}ms, transform 0.55s ease ${i * 80}ms`;
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         el.style.opacity = '1';
@@ -128,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
           metricObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.2 });
+    }, { threshold: 0.15 });
     metricObserver.observe(metricsGrid);
   }
 
@@ -158,14 +195,13 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.textContent = 'Sending Message...';
       }
 
-      // Simulate instantaneous processing or create mailto fallback
+      // Simulate instantaneous processing and prepare email
       setTimeout(() => {
         if (statusEl) {
           statusEl.className = 'form-status success';
-          statusEl.innerHTML = `✅ Thank you, <strong>${name}</strong>! Your message has been prepared. If your email client doesn't open, email me directly at <a href="mailto:fazal.mahmud.hassan@gmail.com" style="color:#34D399;text-decoration:underline;">fazal.mahmud.hassan@gmail.com</a>.`;
+          statusEl.innerHTML = `✅ Thank you, <strong>${name}</strong>! Your message has been prepared. If your email client doesn't open automatically, reach out to me directly at <a href="mailto:fazal.mahmud.hassan@gmail.com" style="color:#34D399;text-decoration:underline;">fazal.mahmud.hassan@gmail.com</a>.`;
         }
 
-        // Open mailto link with prepopulated body
         const mailtoUri = `mailto:fazal.mahmud.hassan@gmail.com?subject=${encodeURIComponent(subject || `Portfolio Contact from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
         window.location.href = mailtoUri;
 
@@ -174,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
           submitBtn.disabled = false;
           submitBtn.textContent = 'Send Message ↗';
         }
-      }, 600);
+      }, 500);
     });
   }
 

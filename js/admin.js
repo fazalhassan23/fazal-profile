@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     list.innerHTML = awards.map((awd, index) => `
       <div class="item-row">
         <div class="item-info">
-          <h4>${escapeHtml(awd.title)} ${awd.badge ? `<span style="font-size:0.75rem; background:rgba(245,158,11,0.15); color:#FBBF24; padding:2px 8px; border-radius:4px; margin-left:6px;">${escapeHtml(awd.badge)}</span>` : ''}</h4>
+          <h4>${escapeHtml(awd.title)} ${awd.badge ? `<span style="font-size:0.85rem; background:rgba(245,158,11,0.15); color:#FBBF24; padding:3px 8px; border-radius:4px; margin-left:6px;">${escapeHtml(awd.badge)}</span>` : ''}</h4>
           <p>${escapeHtml(awd.organization)} · <span style="color:var(--adm-accent)">${escapeHtml(awd.year)}</span></p>
         </div>
         <div class="item-actions">
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
     list.innerHTML = articles.map((art, index) => `
       <div class="item-row">
         <div class="item-info">
-          <h4>${escapeHtml(art.title)} <span style="font-size:0.75rem; background:rgba(59,130,246,0.15); color:var(--adm-accent-hover); padding:2px 8px; border-radius:4px; margin-left:6px;">${escapeHtml(art.category || 'Article')}</span></h4>
+          <h4>${escapeHtml(art.title)} <span style="font-size:0.85rem; background:rgba(59,130,246,0.15); color:var(--adm-accent-hover); padding:3px 8px; border-radius:4px; margin-left:6px;">${escapeHtml(art.category || 'Article')}</span></h4>
           <p>${escapeHtml(art.date)} · <span style="color:var(--adm-muted)">${escapeHtml(art.readTime || '5 min read')}</span></p>
         </div>
         <div class="item-actions">
@@ -409,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
     list.innerHTML = (data.experience || []).map((job, index) => `
       <div class="item-row">
         <div class="item-info">
-          <h4>${escapeHtml(job.role)} <span style="color:var(--adm-muted)">at</span> ${escapeHtml(job.company)} ${job.isCurrent ? '<span style="font-size:0.75rem; background:rgba(16,185,129,0.2); color:#34D399; padding:2px 6px; border-radius:4px;">Current</span>' : ''}</h4>
+          <h4>${escapeHtml(job.role)} <span style="color:var(--adm-muted)">at</span> ${escapeHtml(job.company)} ${job.isCurrent ? '<span style="font-size:0.85rem; background:rgba(16,185,129,0.2); color:#34D399; padding:3px 7px; border-radius:4px;">Current</span>' : ''}</h4>
           <p>${escapeHtml(job.period)}</p>
         </div>
         <div class="item-actions">
@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
     list.innerHTML = (data.projects || []).map((proj, index) => `
       <div class="item-row">
         <div class="item-info">
-          <h4>${escapeHtml(proj.title)} <span style="font-size:0.75rem; background:rgba(59,130,246,0.15); color:var(--adm-accent-hover); padding:2px 6px; border-radius:4px; margin-left:4px;">${escapeHtml(proj.category)}</span></h4>
+          <h4>${escapeHtml(proj.title)} <span style="font-size:0.85rem; background:rgba(59,130,246,0.15); color:var(--adm-accent-hover); padding:3px 7px; border-radius:4px; margin-left:4px;">${escapeHtml(proj.category)}</span></h4>
           <p>${escapeHtml(proj.year || '')} · <span style="color:var(--adm-muted);">${(proj.tags || []).join(', ')}</span></p>
         </div>
         <div class="item-actions">
