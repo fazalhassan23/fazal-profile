@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    /* ── 2. Availability Badge (index.html & elsewhere) ───── */
+    /* ── 2. Availability Badge ────────────────────────────── */
     const availContainer = document.getElementById('hero-availability');
     if (availContainer) {
       const status = avail.status || 'available';
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Typewriter effect initialization
     initTypewriter(avail.typewriterRoles || [p.roleTitle || "Technical Project Manager"]);
 
-    /* ── 4. Metric Counters (index.html) ─────────────────── */
+    /* ── 4. Metric Counters (Rectangular Row Cards) ──────── */
     const metricsContainer = document.getElementById('hero-metrics-container');
     if (metricsContainer && data.metrics) {
       metricsContainer.innerHTML = data.metrics.map(m => `
@@ -70,59 +70,66 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="metric-val" data-target="${escapeHtml(m.number || '0')}">${escapeHtml(m.number || '0')}</span>
             <span class="metric-suffix">${escapeHtml(m.suffix || '')}</span>
           </div>
-          <p class="metric-label">${escapeHtml(m.label || '')}</p>
-          <p class="metric-subtext">${escapeHtml(m.subtext || '')}</p>
+          <div class="metric-text-group">
+            <p class="metric-label">${escapeHtml(m.label || '')}</p>
+            <p class="metric-subtext">${escapeHtml(m.subtext || '')}</p>
+          </div>
         </div>
       `).join('');
     }
 
-    /* ── 5. Expertise Grid (index.html) ───────────────────── */
+    /* ── 5. Expertise Grid (Horizontal Row Cards) ─────────── */
     const expertiseContainer = document.getElementById('expertise-container');
     if (expertiseContainer && data.expertise) {
       expertiseContainer.innerHTML = data.expertise.map(exp => `
         <div class="expertise-card fade-up visible">
           <div class="card-icon">${escapeHtml(exp.icon || '⚡')}</div>
-          <p class="card-category">${escapeHtml(exp.category || '')}</p>
-          <h3>${escapeHtml(exp.title || '')}</h3>
+          <div>
+            <p class="card-category">${escapeHtml(exp.category || '')}</p>
+            <h3>${escapeHtml(exp.title || '')}</h3>
+          </div>
           <p>${escapeHtml(exp.description || '')}</p>
         </div>
       `).join('');
     }
 
-    /* ── 6. Awards & Honors Showcase ──────────────────────── */
+    /* ── 6. Awards & Honors Showcase (Horizontal Gold-Striped) */
     const awardsContainer = document.getElementById('awards-container');
     if (awardsContainer && data.awards) {
       awardsContainer.innerHTML = data.awards.map(awd => `
         <div class="award-card fade-up visible">
-          ${awd.badge ? `<span class="award-badge">${escapeHtml(awd.badge)}</span>` : ''}
-          <h3 class="award-title">${escapeHtml(awd.title || '')}</h3>
-          <p class="award-org">${escapeHtml(awd.organization || '')} · <span style="color:var(--text-tertiary)">${escapeHtml(awd.year || '')}</span></p>
-          <p class="award-desc">${escapeHtml(awd.description || '')}</p>
+          <div class="award-icon-box">🏆</div>
+          <div class="award-content">
+            <h3 class="award-title">${escapeHtml(awd.title || '')}</h3>
+            <p class="award-org">${escapeHtml(awd.organization || '')} · <span style="color:var(--text-tertiary)">${escapeHtml(awd.year || '')}</span></p>
+          </div>
+          <span class="award-year-badge">${escapeHtml(awd.badge || awd.year || 'Award')}</span>
         </div>
       `).join('');
     }
 
-    /* ── 7. Articles & Insights Feed ──────────────────────── */
+    /* ── 7. Articles & Insights Feed (2-Column Rows) ──────── */
     const articlesContainer = document.getElementById('articles-container');
     if (articlesContainer && data.articles) {
-      articlesContainer.innerHTML = data.articles.map(art => `
-        <div class="article-card fade-up visible" onclick="window.openArticleModal('${escapeHtml(art.id)}')">
-          <div>
-            <div class="article-meta">
-              <span class="article-category">${escapeHtml(art.category || 'Article')}</span>
-              <span>${escapeHtml(art.readTime || '5 min read')}</span>
+      articlesContainer.innerHTML = data.articles.map(art => {
+        const tagsHtml = (art.tags || []).slice(0, 2).map(t => `<span class="article-tag">${escapeHtml(t)}</span>`).join('');
+        return `
+          <div class="article-card fade-up visible" onclick="window.openArticleModal('${escapeHtml(art.id)}')">
+            <div class="article-card-content">
+              <div class="article-meta">
+                <span class="article-category">${escapeHtml(art.category || 'Article')}</span>
+                <span class="article-date">${escapeHtml(art.date || '')} · ${escapeHtml(art.readTime || '5 min read')}</span>
+              </div>
+              <h3 class="article-title">${escapeHtml(art.title || '')}</h3>
+              <p class="article-summary">${escapeHtml(art.summary || '')}</p>
             </div>
-            <h3 class="article-title">${escapeHtml(art.title || '')}</h3>
-            <p class="article-summary">${escapeHtml(art.summary || '')}</p>
-          </div>
-          <div class="article-footer">
-            <div class="article-tags">
-              ${(art.tags || []).slice(0, 2).map(t => `<span class="article-tag">${escapeHtml(t)}</span>`).join('')}
+            <div class="article-card-right">
+              <div class="article-tags">${tagsHtml}</div>
+              <span class="article-read-btn">Read →</span>
             </div>
-            <span class="article-read-btn">Read Article →</span>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     /* ── 8. Home Experience Preview (index.html - top 3) ─── */
@@ -199,8 +206,10 @@ document.addEventListener('DOMContentLoaded', () => {
       extrasContainer.innerHTML = data.extraCurriculars.map(extra => `
         <div class="expertise-card fade-up visible">
           <div class="card-icon">${escapeHtml(extra.icon || '✨')}</div>
-          <p class="card-category">${escapeHtml(extra.category || '')}</p>
-          <h3>${escapeHtml(extra.title || '')}</h3>
+          <div>
+            <p class="card-category">${escapeHtml(extra.category || '')}</p>
+            <h3>${escapeHtml(extra.title || '')}</h3>
+          </div>
           <p>${escapeHtml(extra.description || '')}</p>
         </div>
       `).join('');
@@ -216,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pubContainer = document.getElementById('projects-publication-container');
     if (pubContainer && data.projects) {
       const pubProjects = data.projects.filter(pr => pr.category === 'publication');
-      pubContainer.innerHTML = pubProjects.map(proj => renderPublicationCard(proj)).join('');
+      pubContainer.innerHTML = pubProjects.map(proj => renderProjectCard(proj)).join('');
     }
 
     const softwareContainer = document.getElementById('projects-software-container');
@@ -280,14 +289,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById('hero-typewriter');
     if (!el || !roles || !roles.length) return;
 
-    if (typewriterTimer) clearInterval(typewriterTimer);
+    if (typewriterTimer) clearTimeout(typewriterTimer);
 
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
-    const typingSpeed = 70;
-    const deleteSpeed = 35;
-    const pauseDelay = 1800;
+    const typingSpeed = 65;
+    const deleteSpeed = 30;
+    const pauseDelay = 2000;
 
     function step() {
       const currentRole = roles[roleIndex];
@@ -335,15 +344,15 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="modal-header">
             <div>
               <span class="article-category" id="modal-art-category"></span>
-              <span style="font-size:0.8rem; color:var(--text-tertiary); margin-left:0.75rem" id="modal-art-meta"></span>
+              <span style="font-size:0.75rem; font-family:var(--font-mono); color:var(--text-tertiary); margin-left:0.75rem" id="modal-art-meta"></span>
             </div>
             <button class="modal-close" onclick="window.closeArticleModal()" aria-label="Close modal">&times;</button>
           </div>
-          <h2 id="modal-art-title" style="font-family:var(--font-display); font-size:1.5rem; margin-bottom:1rem; color:var(--text-primary)"></h2>
+          <h2 id="modal-art-title" style="font-family:var(--font-display); font-size:1.35rem; font-weight:700; margin-bottom:1rem; color:var(--text-primary)"></h2>
           <div class="modal-body" id="modal-art-body"></div>
           <div style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
             <div id="modal-art-tags" class="article-tags"></div>
-            <button class="btn btn-outline" style="padding:0.4rem 1rem; font-size:0.85rem;" onclick="window.closeArticleModal()">Close</button>
+            <button class="btn btn-outline" style="padding:0.35rem 0.85rem; font-size:0.8125rem;" onclick="window.closeArticleModal()">Close</button>
           </div>
         </div>
       `;
@@ -417,37 +426,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return `
       <${tagType} ${linkAttr} class="project-card fade-up visible">
-        <div class="project-card-top">
+        <div class="project-card-content">
           <h3>${escapeHtml(proj.title || '')}</h3>
-          <span class="project-year">${escapeHtml(proj.year || '')}</span>
+          <p>${escapeHtml(proj.description || '')}</p>
         </div>
-        <p>${escapeHtml(proj.description || '')}</p>
-        <div class="tags">
-          ${tagsHtml}
+        <div class="project-card-right">
+          <span class="project-year">${escapeHtml(proj.year || '')}</span>
+          <div class="tags">
+            ${tagsHtml}
+            ${proj.badge ? `<span class="tag" style="background:var(--gold-light); color:var(--gold); border:1px solid var(--gold-border);">${escapeHtml(proj.badge)}</span>` : ''}
+          </div>
         </div>
       </${tagType}>
-    `;
-  }
-
-  function renderPublicationCard(proj) {
-    const tagsHtml = (proj.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
-    const badgeHtml = proj.badge
-      ? `<span class="tag" style="background: rgba(124, 58, 237, 0.2); color: #C4B5FD;">${escapeHtml(proj.badge)}</span>`
-      : '';
-
-    return `
-      <div class="project-card fade-up visible" style="border-left-color: #7C3AED;">
-        <div class="project-card-top">
-          <h3>${escapeHtml(proj.title || '')}</h3>
-          <span class="project-year">${escapeHtml(proj.year || '')}</span>
-        </div>
-        <p>${escapeHtml(proj.description || '')}</p>
-        ${proj.badge ? `<p style="font-size:0.875rem; color: var(--text-tertiary); margin-top: 0.5rem; margin-bottom: 0.875rem;">🏆 Recognized as <strong style="color: var(--text-secondary)">${escapeHtml(proj.badge)}</strong>.</p>` : ''}
-        <div class="tags">
-          ${tagsHtml}
-          ${badgeHtml}
-        </div>
-      </div>
     `;
   }
 
