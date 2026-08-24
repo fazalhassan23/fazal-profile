@@ -14,15 +14,119 @@ window.DEFAULT_PORTFOLIO_DATA = {
       "Before project management, I built experience in technical support (Augmedix), content and training (Therap BD), and systems engineering (Innovation Soft) — a progression that shaped my ability to communicate clearly across technical and non-technical stakeholders.",
       "Outside work, I'm an active photographer, a former university debater, and an enthusiastic tech columnist. I believe great technology is built at the intersection of clarity, collaboration, and curiosity."
     ],
-    contactIntro: "Have an interesting project or role you'd like to discuss? I'm always open to new conversations — reach out by email or connect on LinkedIn.",
+    contactIntro: "Have an interesting project, collaboration, or leadership role in mind? Send me a message below or connect with me directly.",
     email: "fazal.mahmud.hassan@gmail.com",
     phone: "+880 1712 772123",
     linkedinUrl: "https://linkedin.com/in/fazalmahmudhassan",
-    githubUrl: "https://github.com",
+    githubUrl: "https://github.com/fazalhassan23",
     location: "Dhaka, Bangladesh",
     footerTagline: "Technical Project Manager & Systems Engineer based in Dhaka, Bangladesh.",
-    copyrightYear: 2026
+    copyrightYear: 2026,
+    resumeUrl: ""
   },
+
+  availability: {
+    status: "available", // 'available' | 'consulting' | 'busy'
+    badgeText: "Available for New Opportunities",
+    typewriterRoles: [
+      "Technical Project Manager",
+      "Systems & Infrastructure Engineer",
+      "Researcher & Springer Author",
+      "Cross-Functional Team Leader",
+      "Creative Technologist & Photographer"
+    ]
+  },
+
+  metrics: [
+    {
+      id: "m-1",
+      number: "21",
+      suffix: "+",
+      label: "Projects Managed",
+      subtext: "SaaS, CRM & enterprise deliveries"
+    },
+    {
+      id: "m-2",
+      number: "95",
+      suffix: "%+",
+      label: "Client Satisfaction",
+      subtext: "Consistent top CSAT scores"
+    },
+    {
+      id: "m-3",
+      number: "25",
+      suffix: "+",
+      label: "Team Members Led",
+      subtext: "Engineers, designers & QA"
+    },
+    {
+      id: "m-4",
+      number: "7",
+      suffix: "+",
+      label: "Years in Tech",
+      subtext: "Support, Systems & PM"
+    }
+  ],
+
+  awards: [
+    {
+      id: "awd-1",
+      title: "Best Presentation Award",
+      organization: "Springer International Conference CNC-2018",
+      year: "2018",
+      description: "Conferred for presenting research on 'Prototype of Arduino-Based Robot Controlled via Android' published in Springer Advances in Intelligent Systems and Computing.",
+      badge: "Springer Conference CNC"
+    },
+    {
+      id: "awd-2",
+      title: "Top-Ranked Technical Support Engineer",
+      organization: "Augmedix Bangladesh",
+      year: "2020 — 2021",
+      description: "Ranked #1 on the US healthcare technical support leaderboard for 4 consecutive months with exemplary SLA compliance and clinician satisfaction.",
+      badge: "Leaderboard #1 (4 Mo.)"
+    },
+    {
+      id: "awd-3",
+      title: "Academic Excellence & Merit",
+      organization: "Govt. Shaheed BulBul College & Pabna Zilla School",
+      year: "2011 & 2013",
+      description: "Achieved Perfect GPA 5.00/5.00 in both Secondary School Certificate (SSC) and Higher Secondary Certificate (HSC) board examinations.",
+      badge: "GPA 5.00 / 5.00"
+    }
+  ],
+
+  articles: [
+    {
+      id: "art-1",
+      title: "Bridging the Gap: How CS + MBA Thinking Transforms Project Delivery",
+      date: "Aug 2024",
+      readTime: "4 min read",
+      category: "Leadership",
+      summary: "Why technical fluency and business psychology are a superpower for Technical Project Managers navigating tight deadlines and stakeholder expectations.",
+      tags: ["Project Management", "Leadership", "Engineering Culture"],
+      content: "In modern software engineering organizations, the biggest bottleneck is rarely writing code — it is translating strategic intent into unambiguous architectural milestones.\n\nHaving an engineering background gives project managers the ability to dissect architectural roadblocks and appreciate developer friction points. Paired with management frameworks from an MBA, you transition from simply tracking tasks to actively orchestrating team velocity, mitigating organizational friction, and communicating commercial impact directly to executive stakeholders."
+    },
+    {
+      id: "art-2",
+      title: "Managing 20+ Concurrent SaaS Workflows Without Sacrificing Code Quality",
+      date: "Nov 2024",
+      readTime: "6 min read",
+      category: "Operations",
+      summary: "A practical framework for balancing rapid client iterations, resource allocation, and continuous integration across multiple enterprise software accounts.",
+      tags: ["SaaS", "Agile", "Resource Allocation", "Quality Assurance"],
+      content: "When scaling across 20+ active project deliverables, relying on memory or ad-hoc status meetings is a recipe for missed deadlines. \n\nStandardizing discovery templates, building modular component libraries, and establishing strict definition-of-done criteria across QA and development enables teams to operate with predictability even under aggressive delivery timelines."
+    },
+    {
+      id: "art-3",
+      title: "From Breadboard to Springer Publication: Lessons from Building Bluetooth Robotics",
+      date: "Research Retrospective",
+      readTime: "5 min read",
+      category: "Research",
+      summary: "Reflections on designing Arduino-based Android-controlled robotic prototypes and presenting peer-reviewed engineering findings on an international stage.",
+      tags: ["Robotics", "Arduino", "Embedded Systems", "Academic Research"],
+      content: "Developing our Android-controlled Arduino robotics prototype taught me the essential discipline of hardware-software boundary testing. When communication latency can cause motor stall or packet loss, designing resilient serial packet validation is as critical as writing clean UI code."
+    }
+  ],
 
   expertise: [
     {
@@ -329,22 +433,22 @@ window.DEFAULT_PORTFOLIO_DATA = {
       id: "extra-1",
       icon: "📸",
       category: "Creative",
-      title: "Photography",
-      description: "Capturing moments and stories through the lens. Proficient in post-processing with Adobe Lightroom and Photoshop."
+      title: "Photography & Visual Arts",
+      description: "Capturing moments and stories through the lens. Proficient in digital post-processing with Adobe Lightroom and Photoshop."
     },
     {
       id: "extra-2",
       icon: "🎤",
       category: "Academic",
-      title: "Debating",
+      title: "Debating & Public Speaking",
       description: "Active university debater — sharpening critical thinking, argumentation, and public speaking skills across competitive forums."
     },
     {
       id: "extra-3",
       icon: "📝",
       category: "Writing",
-      title: "Tech Columnist",
-      description: "Writing about technology, culture, and their intersections for public audiences. Volunteer translator and community contributor."
+      title: "Tech Columnist & Writing",
+      description: "Writing about technology, culture, and organizational leadership. Active community contributor and technical translator."
     }
   ],
 

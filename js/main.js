@@ -4,6 +4,8 @@
    - Active nav link highlighting
    - Mobile menu toggle
    - Scroll-driven fade-up animations
+   - Animated metric number counting
+   - Interactive contact form handler
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -82,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(16px)';
     el.style.transition = `opacity 0.55s ease ${i * 90}ms, transform 0.55s ease ${i * 90}ms`;
-    // Trigger after a tiny delay so transition is registered
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         el.style.opacity = '1';
@@ -91,6 +92,92 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* ── Animated Metric Counter ─────────────────────────────── */
+  function animateMetrics() {
+    const metricElements = document.querySelectorAll('.metric-val');
+    metricElements.forEach(el => {
+      const targetStr = el.getAttribute('data-target') || el.textContent;
+      const targetNum = parseInt(targetStr, 10);
+      if (isNaN(targetNum)) return;
+
+      let current = 0;
+      const duration = 1200;
+      const stepTime = Math.max(15, Math.floor(duration / targetNum));
+      const stepVal = Math.max(1, Math.ceil(targetNum / (duration / stepTime)));
+
+      el.textContent = '0';
+      const timer = setInterval(() => {
+        current += stepVal;
+        if (current >= targetNum) {
+          el.textContent = targetNum;
+          clearInterval(timer);
+        } else {
+          el.textContent = current;
+        }
+      }, stepTime);
+    });
+  }
+
+  // Trigger metrics animation on scroll
+  const metricsGrid = document.getElementById('hero-metrics-container');
+  if (metricsGrid) {
+    const metricObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateMetrics();
+          metricObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    metricObserver.observe(metricsGrid);
+  }
+
+  /* ── Interactive Contact Form Submission ─────────────────── */
+  const contactForm = document.getElementById('portfolio-contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const statusEl = document.getElementById('contact-form-status');
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+      const name = contactForm.querySelector('[name="name"]')?.value || '';
+      const email = contactForm.querySelector('[name="email"]')?.value || '';
+      const subject = contactForm.querySelector('[name="subject"]')?.value || '';
+      const message = contactForm.querySelector('[name="message"]')?.value || '';
+
+      if (!name || !email || !message) {
+        if (statusEl) {
+          statusEl.className = 'form-status error';
+          statusEl.textContent = 'Please fill in all required fields.';
+        }
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending Message...';
+      }
+
+      // Simulate instantaneous processing or create mailto fallback
+      setTimeout(() => {
+        if (statusEl) {
+          statusEl.className = 'form-status success';
+          statusEl.innerHTML = `✅ Thank you, <strong>${name}</strong>! Your message has been prepared. If your email client doesn't open, email me directly at <a href="mailto:fazal.mahmud.hassan@gmail.com" style="color:#34D399;text-decoration:underline;">fazal.mahmud.hassan@gmail.com</a>.`;
+        }
+
+        // Open mailto link with prepopulated body
+        const mailtoUri = `mailto:fazal.mahmud.hassan@gmail.com?subject=${encodeURIComponent(subject || `Portfolio Contact from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+        window.location.href = mailtoUri;
+
+        contactForm.reset();
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send Message ↗';
+        }
+      }, 600);
+    });
+  }
+
   /* ── Keyboard shortcut: Ctrl+Shift+A to open CMS ─────────── */
   window.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
@@ -98,4 +185,5 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = 'admin.html';
     }
   });
+
 });

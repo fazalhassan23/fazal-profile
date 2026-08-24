@@ -4,12 +4,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fazal Mahmud Hassan — Technical Project Manager</title>
-  <meta name="description" content="Personal portfolio of Fazal Mahmud Hassan — Technical Project Manager with a background in Computer Science and MBA in HR & Management." />
+  <meta name="description" content="Personal portfolio of Fazal Mahmud Hassan — Technical Project Manager with Computer Science background & MBA in HR & Management. Leading 21+ SaaS & CRM deliverables." />
+
+  <!-- Open Graph & Social Sharing -->
+  <meta property="og:title" content="Fazal Mahmud Hassan — Technical Project Manager" />
+  <meta property="og:description" content="Technical Project Manager leading 21+ software deliveries. Bridges engineering precision with strategic HR & people management." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fazalhassan23.github.io/fazal-profile" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0B0B0E" />
+
+  <!-- Structured Data JSON-LD (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Fazal Mahmud Hassan",
+    "jobTitle": "Technical Project Manager",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Mediusware Limited"
+    },
+    "alumniOf": [
+      {
+        "@type": "EducationalOrganization",
+        "name": "University of Dhaka"
+      },
+      {
+        "@type": "EducationalOrganization",
+        "name": "BRAC University"
+      }
+    ],
+    "email": "fazal.mahmud.hassan@gmail.com",
+    "telephone": "+8801712772123",
+    "url": "https://fazalhassan23.github.io/fazal-profile"
+  }
+  </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/style.css" />
@@ -27,8 +62,9 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="projects.html">Projects</a></li>
-        <li><a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email">Contact</a></li>
-        <li><a href="admin.html" style="opacity: 0.65; font-size: 0.8125rem;">⚙️ CMS</a></li>
+        <li><a href="#articles">Articles</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="admin.html" style="opacity: 0.75; font-size: 0.8125rem;">⚙️ CMS</a></li>
       </ul>
 
       <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -46,11 +82,20 @@
 
     <!-- ── HERO ─────────────────────────────────────── -->
     <section class="hero" id="home" aria-label="Introduction">
+      <!-- Live Availability Badge -->
+      <div class="availability-badge available" id="hero-availability">
+        <span class="status-pulse"></span>
+        <span id="availability-text">Available for New Opportunities</span>
+      </div>
+
       <span class="section-label">home</span>
 
       <h1 id="hero-title">Fazal Mahmud<br>Hassan.</h1>
 
-      <p class="hero-role" id="hero-role">Technical Project Manager · Systems Engineer</p>
+      <!-- Animated Typewriter Role -->
+      <p class="hero-role" id="hero-role-wrapper">
+        <span id="hero-typewriter">Technical Project Manager</span><span class="typewriter-cursor">|</span>
+      </p>
 
       <p class="hero-bio" id="hero-bio">
         Result-driven professional bridging technology and people management. 
@@ -59,10 +104,47 @@
         from the University of Dhaka and a B.Sc in Computer Science from BRAC University.
       </p>
 
+      <!-- Animated Metric Counters -->
+      <div class="metrics-grid" id="hero-metrics-container">
+        <!-- Rendered dynamically by js/render.js -->
+        <div class="metric-card">
+          <div class="metric-number-wrap">
+            <span class="metric-val" data-target="21">21</span>
+            <span class="metric-suffix">+</span>
+          </div>
+          <p class="metric-label">Projects Managed</p>
+          <p class="metric-subtext">SaaS &amp; CRM platforms</p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-number-wrap">
+            <span class="metric-val" data-target="95">95</span>
+            <span class="metric-suffix">%+</span>
+          </div>
+          <p class="metric-label">Client Satisfaction</p>
+          <p class="metric-subtext">Consistent top CSAT scores</p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-number-wrap">
+            <span class="metric-val" data-target="25">25</span>
+            <span class="metric-suffix">+</span>
+          </div>
+          <p class="metric-label">Team Members Led</p>
+          <p class="metric-subtext">Engineers, UI/UX &amp; QA</p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-number-wrap">
+            <span class="metric-val" data-target="7">7</span>
+            <span class="metric-suffix">+</span>
+          </div>
+          <p class="metric-label">Years in Tech</p>
+          <p class="metric-subtext">Support, Systems &amp; PM</p>
+        </div>
+      </div>
+
       <div class="hero-ctas">
         <a href="projects.html" class="btn btn-primary">View My Work ↗</a>
-        <a href="about.html" class="btn btn-outline">About Me</a>
-        <a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email" class="btn btn-outline">Get in Touch</a>
+        <a href="about.html" class="btn btn-outline">About &amp; Experience</a>
+        <a href="javascript:void(0)" data-cms-link="resume" class="btn btn-outline">📄 Download Resume</a>
       </div>
     </section>
 
@@ -72,12 +154,22 @@
 
       <div class="expertise-grid" id="expertise-container">
         <!-- Rendered dynamically by js/render.js -->
-        <div class="expertise-card fade-up">
-          <div class="card-icon">🗂️</div>
-          <p class="card-category">Delivery &amp; Strategy</p>
-          <h3>Technical Project Management</h3>
-          <p>Managing 21+ concurrent projects across SaaS, CRM, and enterprise software.</p>
+      </div>
+    </section>
+
+    <!-- ── AWARDS & HONORS SPOTLIGHT ─────────────────── -->
+    <section class="section" id="awards" aria-label="Awards & Honors">
+      <div class="section-header">
+        <div>
+          <span class="section-label">recognition</span>
+          <p class="section-subtext" style="margin-bottom:0">
+            Selected awards, research accolades, and honors.
+          </p>
         </div>
+      </div>
+
+      <div class="awards-grid" id="awards-container">
+        <!-- Rendered dynamically by js/render.js -->
       </div>
     </section>
 
@@ -104,7 +196,7 @@
         <div>
           <span class="section-label">work</span>
           <p class="section-subtext" style="margin-bottom:0">
-            Selected academic projects and research.
+            Selected academic research and engineering projects.
           </p>
         </div>
         <a href="projects.html" class="btn btn-ghost">All projects <span class="arrow">→</span></a>
@@ -115,26 +207,84 @@
       </div>
     </section>
 
+    <!-- ── ARTICLES & INSIGHTS ────────────────────────── -->
+    <section class="section" id="articles" aria-label="Articles & Insights">
+      <div class="section-header">
+        <div>
+          <span class="section-label">insights</span>
+          <p class="section-subtext" style="margin-bottom:0">
+            Articles on technical project delivery, leadership, and systems architecture.
+          </p>
+        </div>
+      </div>
+
+      <div class="articles-grid" id="articles-container">
+        <!-- Rendered dynamically by js/render.js -->
+      </div>
+    </section>
+
     <!-- ── CONTACT ────────────────────────────────────── -->
     <section class="section" id="contact" aria-label="Contact">
       <span class="section-label">contact</span>
 
       <h2 class="section-heading" style="margin-bottom:0.875rem">Let's work together.</h2>
       <p class="contact-text" id="contact-text">
-        Have an interesting project or role you'd like to discuss? 
-        I'm always open to new conversations — reach out by email or connect on LinkedIn.
+        Have an interesting project, collaboration, or leadership role in mind? 
+        Send a message below or connect with me directly.
       </p>
 
-      <div class="contact-links">
-        <a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email" class="btn btn-primary">
-          ✉️ Send an Email
-        </a>
-        <a href="https://linkedin.com/in/fazalmahmudhassan" data-cms-link="linkedin" target="_blank" rel="noopener" class="btn btn-outline">
-          LinkedIn ↗
-        </a>
-        <a href="tel:+8801712772123" data-cms-link="phone" class="btn btn-outline">
-          <span data-cms-text="phone">+880 171 277 2123</span>
-        </a>
+      <div class="contact-container">
+        <!-- Interactive Form -->
+        <div class="contact-card-box">
+          <form id="portfolio-contact-form" class="contact-form">
+            <div id="contact-form-status" class="form-status"></div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-name">Your Name *</label>
+              <input type="text" id="contact-name" name="name" class="form-input" placeholder="e.g. Alex Rahman" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-email">Email Address *</label>
+              <input type="email" id="contact-email" name="email" class="form-input" placeholder="e.g. alex@company.com" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-subject">Subject</label>
+              <input type="text" id="contact-subject" name="subject" class="form-input" placeholder="Project collaboration / Inquiry" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-msg">Message *</label>
+              <textarea id="contact-msg" name="message" class="form-textarea" placeholder="Tell me a bit about what you have in mind..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="align-self: flex-start;">Send Message ↗</button>
+          </form>
+        </div>
+
+        <!-- Direct Contact Details -->
+        <div style="display:flex; flex-direction:column; justify-content:center; gap:1.5rem;">
+          <div>
+            <p style="font-size:0.8125rem; font-family:var(--font-mono); color:var(--text-tertiary); margin-bottom:0.25rem;">DIRECT EMAIL</p>
+            <a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email" style="font-size:1.1rem; color:var(--accent); font-weight:600;">fazal.mahmud.hassan@gmail.com</a>
+          </div>
+
+          <div>
+            <p style="font-size:0.8125rem; font-family:var(--font-mono); color:var(--text-tertiary); margin-bottom:0.25rem;">PHONE / WHATSAPP</p>
+            <a href="tel:+8801712772123" data-cms-link="phone" style="font-size:1.1rem; color:var(--text-primary);">+880 1712 772123</a>
+          </div>
+
+          <div>
+            <p style="font-size:0.8125rem; font-family:var(--font-mono); color:var(--text-tertiary); margin-bottom:0.25rem;">LOCATION</p>
+            <p style="font-size:1.05rem; color:var(--text-secondary);">Dhaka, Bangladesh</p>
+          </div>
+
+          <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
+            <a href="https://linkedin.com/in/fazalmahmudhassan" data-cms-link="linkedin" target="_blank" rel="noopener" class="btn btn-outline" style="padding:0.45rem 1rem; font-size:0.875rem;">LinkedIn ↗</a>
+            <a href="https://github.com/fazalhassan23" data-cms-link="github" target="_blank" rel="noopener" class="btn btn-outline" style="padding:0.45rem 1rem; font-size:0.875rem;">GitHub ↗</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -157,17 +307,22 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="projects.html">Projects</a></li>
-          <li><a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email">Contact</a></li>
-          <li><a href="admin.html" style="color: var(--accent);">⚙️ Admin CMS Panel</a></li>
+          <li><a href="#articles">Articles</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-links-title">Connect</p>
+        <ul class="footer-links-list">
+          <li><a href="https://linkedin.com/in/fazalmahmudhassan" data-cms-link="linkedin" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+          <li><a href="https://github.com/fazalhassan23" data-cms-link="github" target="_blank" rel="noopener">GitHub ↗</a></li>
+          <li><a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email">Email ↗</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-copy" id="footer-copy">© 2026 Fazal Mahmud Hassan</span>
-      <div class="footer-bottom-links">
-        <a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email" data-cms-text="email">fazal.mahmud.hassan@gmail.com</a>
-        <a href="tel:+8801712772123" data-cms-link="phone" data-cms-text="phone">+880 1712 772123</a>
-      </div>
+      <p id="footer-copy">© 2026 Fazal Mahmud Hassan. All rights reserved.</p>
+      <p><a href="admin.html" style="color:var(--text-tertiary); text-decoration:none;">CMS Admin Panel</a> (Press <kbd style="background:#222;padding:2px 6px;border-radius:4px;font-size:0.75rem;">Ctrl+Shift+A</kbd>)</p>
     </div>
   </footer>
 
