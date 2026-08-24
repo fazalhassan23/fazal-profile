@@ -56,6 +56,21 @@
         </button>
       </li>
       <li class="admin-nav-item">
+        <button type="button" data-tab="hero-metrics">
+          <span>📊</span> Hero &amp; Metrics
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="awards">
+          <span>🏆</span> Awards &amp; Honors
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="articles">
+          <span>✍️</span> Articles &amp; Insights
+        </button>
+      </li>
+      <li class="admin-nav-item">
         <button type="button" data-tab="experience">
           <span>💼</span> Experience
         </button>
@@ -179,6 +194,10 @@
             <input type="url" id="input-github" class="form-input" />
           </div>
           <div class="form-group">
+            <label class="form-label">Resume / CV Link (Leave blank for printable view)</label>
+            <input type="url" id="input-resumeUrl" class="form-input" placeholder="https://..." />
+          </div>
+          <div class="form-group">
             <label class="form-label">Location</label>
             <input type="text" id="input-location" class="form-input" />
           </div>
@@ -194,7 +213,83 @@
       </div>
     </section>
 
-    <!-- ── 2. PANEL: EXPERIENCE ─────────────────────── -->
+    <!-- ── 2. PANEL: HERO & METRICS ─────────────────── -->
+    <section id="panel-hero-metrics" class="admin-panel">
+      <!-- Availability Badge Control -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">🟢 Availability Status Badge</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Status Color / Mode</label>
+            <select id="input-avail-status" class="form-input">
+              <option value="available">🟢 Available (Green Pulse)</option>
+              <option value="consulting">🟡 Consulting / Part-Time (Amber Pulse)</option>
+              <option value="busy">🔴 Busy / Not Taking Roles (Red)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Badge Label Text</label>
+            <input type="text" id="input-avail-text" class="form-input" placeholder="e.g. Available for New Opportunities" />
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Typewriter Animated Roles (Comma-separated)</label>
+            <input type="text" id="input-typewriter-roles" class="form-input" placeholder="Technical Project Manager, Systems Engineer, Researcher" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Metric Cards Control -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">📊 Key Metrics &amp; Proof of Work</h2>
+        </div>
+        <div id="metrics-editor-grid" class="form-grid">
+          <!-- Populated by js/admin.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. PANEL: AWARDS & HONORS ────────────────── -->
+    <section id="panel-awards" class="admin-panel">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h2 class="admin-card-title">🏆 Awards &amp; Recognitions</h2>
+            <p style="font-size:0.875rem; color:var(--adm-muted);">Manage conference awards, performance honors, and certifications.</p>
+          </div>
+          <button id="btn-add-award" class="btn-adm btn-adm-primary btn-adm-sm">
+            ➕ Add Award
+          </button>
+        </div>
+
+        <div id="awards-list" class="item-list">
+          <!-- Populated by js/admin.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4. PANEL: ARTICLES & INSIGHTS ────────────── -->
+    <section id="panel-articles" class="admin-panel">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h2 class="admin-card-title">✍️ Articles &amp; Thought Leadership</h2>
+            <p style="font-size:0.875rem; color:var(--adm-muted);">Write case studies, technical insights, and project management writeups.</p>
+          </div>
+          <button id="btn-add-article" class="btn-adm btn-adm-primary btn-adm-sm">
+            ➕ Write New Article
+          </button>
+        </div>
+
+        <div id="articles-list" class="item-list">
+          <!-- Populated by js/admin.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. PANEL: EXPERIENCE ─────────────────────── -->
     <section id="panel-experience" class="admin-panel">
       <div class="admin-card">
         <div class="admin-card-header">
@@ -213,7 +308,7 @@
       </div>
     </section>
 
-    <!-- ── 3. PANEL: PROJECTS & RESEARCH ───────────── -->
+    <!-- ── 6. PANEL: PROJECTS & RESEARCH ───────────── -->
     <section id="panel-projects" class="admin-panel">
       <div class="admin-card">
         <div class="admin-card-header">
@@ -232,7 +327,7 @@
       </div>
     </section>
 
-    <!-- ── 4. PANEL: EDUCATION ──────────────────────── -->
+    <!-- ── 7. PANEL: EDUCATION ──────────────────────── -->
     <section id="panel-education" class="admin-panel">
       <div class="admin-card">
         <div class="admin-card-header">
@@ -248,7 +343,7 @@
       </div>
     </section>
 
-    <!-- ── 5. PANEL: SKILLS ─────────────────────────── -->
+    <!-- ── 8. PANEL: SKILLS ─────────────────────────── -->
     <section id="panel-skills" class="admin-panel">
       <!-- Technical -->
       <div class="admin-card">
@@ -299,7 +394,7 @@
       </div>
     </section>
 
-    <!-- ── 6. PANEL: SECURITY & SETTINGS ────────────── -->
+    <!-- ── 9. PANEL: SECURITY & SETTINGS ────────────── -->
     <section id="panel-settings" class="admin-panel">
       <!-- Change Password -->
       <div class="admin-card">

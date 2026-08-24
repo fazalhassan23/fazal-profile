@@ -24,22 +24,27 @@
      * Retrieve current portfolio data (from localStorage if present, else default)
      */
     getData: function () {
+      // Merge with default data to guarantee newly added keys exist
+      const defaults = window.DEFAULT_PORTFOLIO_DATA ? JSON.parse(JSON.stringify(window.DEFAULT_PORTFOLIO_DATA)) : {};
+
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
           const parsed = JSON.parse(saved);
-          return parsed;
+          return {
+            ...defaults,
+            ...parsed,
+            profile: { ...defaults.profile, ...(parsed.profile || {}) },
+            availability: { ...defaults.availability, ...(parsed.availability || {}) },
+            skills: { ...defaults.skills, ...(parsed.skills || {}) },
+            adminAuth: { ...defaults.adminAuth, ...(parsed.adminAuth || {}) }
+          };
         }
       } catch (e) {
         console.warn('Could not read portfolio data from localStorage:', e);
       }
 
-      // Fallback to default
-      if (window.DEFAULT_PORTFOLIO_DATA) {
-        return JSON.parse(JSON.stringify(window.DEFAULT_PORTFOLIO_DATA));
-      }
-
-      return {};
+      return defaults;
     },
 
     /**

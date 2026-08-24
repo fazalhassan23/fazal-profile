@@ -6,11 +6,14 @@
 document.addEventListener('DOMContentLoaded', () => {
   if (!window.PortfolioStore) return;
 
+  let typewriterTimer = null;
+
   function renderAll() {
     const data = window.PortfolioStore.getData();
     if (!data || !data.profile) return;
 
     const p = data.profile;
+    const avail = data.availability || {};
 
     /* ── 1. Global / Brand / Nav ─────────────────────────── */
     document.querySelectorAll('[data-cms="firstName"]').forEach(el => {
@@ -25,11 +28,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.title.includes('—')) {
       const parts = document.title.split('—');
       if (parts.length === 2 && parts[0].trim() === 'Fazal Mahmud Hassan') {
-        document.title = `${p.name} — ${p.roleTitle.split('·')[0].trim()}`;
+        document.title = `${p.name} — ${p.roleTitle ? p.roleTitle.split('·')[0].trim() : 'Portfolio'}`;
       }
     }
 
-    /* ── 2. Hero Section (index.html) ─────────────────────── */
+    /* ── 2. Availability Badge (index.html & elsewhere) ───── */
+    const availContainer = document.getElementById('hero-availability');
+    if (availContainer) {
+      const status = avail.status || 'available';
+      availContainer.className = `availability-badge ${status}`;
+      const availText = document.getElementById('availability-text');
+      if (availText) {
+        availText.textContent = avail.badgeText || 'Available for New Opportunities';
+      }
+    }
+
+    /* ── 3. Hero Section (index.html) ─────────────────────── */
     const heroTitle = document.getElementById('hero-title');
     if (heroTitle) {
       const nameParts = (p.name || '').split(' ');
@@ -41,13 +55,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    const heroRole = document.getElementById('hero-role');
-    if (heroRole) heroRole.textContent = p.roleTitle || '';
-
     const heroBio = document.getElementById('hero-bio');
     if (heroBio) heroBio.textContent = p.heroBio || '';
 
-    /* ── 3. Expertise Grid (index.html) ───────────────────── */
+    // Typewriter effect initialization
+    initTypewriter(avail.typewriterRoles || [p.roleTitle || "Technical Project Manager"]);
+
+    /* ── 4. Metric Counters (index.html) ─────────────────── */
+    const metricsContainer = document.getElementById('hero-metrics-container');
+    if (metricsContainer && data.metrics) {
+      metricsContainer.innerHTML = data.metrics.map(m => `
+        <div class="metric-card fade-up visible">
+          <div class="metric-number-wrap">
+            <span class="metric-val" data-target="${escapeHtml(m.number || '0')}">${escapeHtml(m.number || '0')}</span>
+            <span class="metric-suffix">${escapeHtml(m.suffix || '')}</span>
+          </div>
+          <p class="metric-label">${escapeHtml(m.label || '')}</p>
+          <p class="metric-subtext">${escapeHtml(m.subtext || '')}</p>
+        </div>
+      `).join('');
+    }
+
+    /* ── 5. Expertise Grid (index.html) ───────────────────── */
     const expertiseContainer = document.getElementById('expertise-container');
     if (expertiseContainer && data.expertise) {
       expertiseContainer.innerHTML = data.expertise.map(exp => `
@@ -60,21 +89,57 @@ document.addEventListener('DOMContentLoaded', () => {
       `).join('');
     }
 
-    /* ── 4. Home Experience Preview (index.html - top 3) ─── */
+    /* ── 6. Awards & Honors Showcase ──────────────────────── */
+    const awardsContainer = document.getElementById('awards-container');
+    if (awardsContainer && data.awards) {
+      awardsContainer.innerHTML = data.awards.map(awd => `
+        <div class="award-card fade-up visible">
+          ${awd.badge ? `<span class="award-badge">${escapeHtml(awd.badge)}</span>` : ''}
+          <h3 class="award-title">${escapeHtml(awd.title || '')}</h3>
+          <p class="award-org">${escapeHtml(awd.organization || '')} · <span style="color:var(--text-tertiary)">${escapeHtml(awd.year || '')}</span></p>
+          <p class="award-desc">${escapeHtml(awd.description || '')}</p>
+        </div>
+      `).join('');
+    }
+
+    /* ── 7. Articles & Insights Feed ──────────────────────── */
+    const articlesContainer = document.getElementById('articles-container');
+    if (articlesContainer && data.articles) {
+      articlesContainer.innerHTML = data.articles.map(art => `
+        <div class="article-card fade-up visible" onclick="window.openArticleModal('${escapeHtml(art.id)}')">
+          <div>
+            <div class="article-meta">
+              <span class="article-category">${escapeHtml(art.category || 'Article')}</span>
+              <span>${escapeHtml(art.readTime || '5 min read')}</span>
+            </div>
+            <h3 class="article-title">${escapeHtml(art.title || '')}</h3>
+            <p class="article-summary">${escapeHtml(art.summary || '')}</p>
+          </div>
+          <div class="article-footer">
+            <div class="article-tags">
+              ${(art.tags || []).slice(0, 2).map(t => `<span class="article-tag">${escapeHtml(t)}</span>`).join('')}
+            </div>
+            <span class="article-read-btn">Read Article →</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ── 8. Home Experience Preview (index.html - top 3) ─── */
     const homeExpContainer = document.getElementById('home-experience-container');
     if (homeExpContainer && data.experience) {
       const top3 = data.experience.slice(0, 3);
       homeExpContainer.innerHTML = top3.map(job => renderTimelineItem(job)).join('');
     }
 
-    /* ── 5. Home Featured Work Preview (index.html) ──────── */
+    /* ── 9. Home Featured Work Preview (index.html) ──────── */
     const homeProjContainer = document.getElementById('home-projects-container');
     if (homeProjContainer && data.projects) {
       const featured = data.projects.slice(0, 3);
       homeProjContainer.innerHTML = featured.map(proj => renderProjectCard(proj)).join('');
     }
 
-    /* ── 6. About Page Bio & Lead (about.html) ────────────── */
+    /* ── 10. About Page Bio & Lead (about.html) ───────────── */
     const aboutLead = document.getElementById('about-lead');
     if (aboutLead) aboutLead.textContent = p.aboutLead || p.heroBio || '';
 
@@ -83,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
       aboutParagraphs.innerHTML = p.aboutBodyParagraphs.map(text => `<p>${escapeHtml(text)}</p>`).join('');
     }
 
-    /* ── 7. About Page Education (about.html) ─────────────── */
+    /* ── 11. About Page Education (about.html) ────────────── */
     const eduContainer = document.getElementById('education-container');
     if (eduContainer && data.education) {
       eduContainer.innerHTML = data.education.map(edu => `
@@ -98,13 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
       `).join('');
     }
 
-    /* ── 8. About Page Full Experience Timeline ──────────── */
+    /* ── 12. About Page Full Experience Timeline ─────────── */
     const fullExpContainer = document.getElementById('full-experience-container');
     if (fullExpContainer && data.experience) {
       fullExpContainer.innerHTML = data.experience.map(job => renderTimelineItem(job)).join('');
     }
 
-    /* ── 9. About Page Skills (about.html) ───────────────── */
+    /* ── 13. About Page Skills (about.html) ──────────────── */
     const skillsContainer = document.getElementById('skills-container');
     if (skillsContainer && data.skills) {
       const categories = [
@@ -128,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }).join('');
     }
 
-    /* ── 10. About Page Extra Curriculars (about.html) ────── */
+    /* ── 14. About Page Extra Curriculars (about.html) ───── */
     const extrasContainer = document.getElementById('extras-container');
     if (extrasContainer && data.extraCurriculars) {
       extrasContainer.innerHTML = data.extraCurriculars.map(extra => `
@@ -141,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `).join('');
     }
 
-    /* ── 11. Projects Page (projects.html) ────────────────── */
+    /* ── 15. Projects Page (projects.html) ───────────────── */
     const researchContainer = document.getElementById('projects-research-container');
     if (researchContainer && data.projects) {
       const researchProjects = data.projects.filter(pr => pr.category === 'research');
@@ -166,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
       volunteerContainer.innerHTML = volunteerProjects.map(proj => renderProjectCard(proj)).join('');
     }
 
-    /* ── 12. Contact Details & Links ──────────────────────── */
+    /* ── 16. Contact Details & Links ─────────────────────── */
     const contactText = document.getElementById('contact-text');
     if (contactText) contactText.textContent = p.contactIntro || '';
 
@@ -193,13 +258,133 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    /* ── 13. Footer ───────────────────────────────────────── */
+    document.querySelectorAll('[data-cms-link="resume"]').forEach(el => {
+      if (p.resumeUrl) {
+        el.setAttribute('href', p.resumeUrl);
+        el.setAttribute('target', '_blank');
+      } else {
+        el.setAttribute('href', 'javascript:window.printCV()');
+      }
+    });
+
+    /* ── 17. Footer ──────────────────────────────────────── */
     const footerTagline = document.getElementById('footer-tagline');
     if (footerTagline) footerTagline.textContent = p.footerTagline || '';
 
     const footerCopy = document.getElementById('footer-copy');
     if (footerCopy) footerCopy.textContent = `© ${p.copyrightYear || 2026} ${p.name}`;
   }
+
+  /* ── Typewriter Engine ─────────────────────────────────── */
+  function initTypewriter(roles) {
+    const el = document.getElementById('hero-typewriter');
+    if (!el || !roles || !roles.length) return;
+
+    if (typewriterTimer) clearInterval(typewriterTimer);
+
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingSpeed = 70;
+    const deleteSpeed = 35;
+    const pauseDelay = 1800;
+
+    function step() {
+      const currentRole = roles[roleIndex];
+      if (!currentRole) return;
+
+      if (!isDeleting) {
+        charIndex++;
+        el.textContent = currentRole.substring(0, charIndex);
+        if (charIndex >= currentRole.length) {
+          isDeleting = true;
+          typewriterTimer = setTimeout(step, pauseDelay);
+          return;
+        }
+        typewriterTimer = setTimeout(step, typingSpeed);
+      } else {
+        charIndex--;
+        el.textContent = currentRole.substring(0, charIndex);
+        if (charIndex <= 0) {
+          isDeleting = false;
+          roleIndex = (roleIndex + 1) % roles.length;
+          typewriterTimer = setTimeout(step, 400);
+          return;
+        }
+        typewriterTimer = setTimeout(step, deleteSpeed);
+      }
+    }
+
+    step();
+  }
+
+  /* ── Article Modal Reader ──────────────────────────────── */
+  window.openArticleModal = function (articleId) {
+    const data = window.PortfolioStore.getData();
+    if (!data || !data.articles) return;
+    const art = data.articles.find(a => a.id === articleId);
+    if (!art) return;
+
+    let overlay = document.getElementById('article-modal-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'article-modal-overlay';
+      overlay.className = 'portfolio-modal-overlay';
+      overlay.innerHTML = `
+        <div class="portfolio-modal-box">
+          <div class="modal-header">
+            <div>
+              <span class="article-category" id="modal-art-category"></span>
+              <span style="font-size:0.8rem; color:var(--text-tertiary); margin-left:0.75rem" id="modal-art-meta"></span>
+            </div>
+            <button class="modal-close" onclick="window.closeArticleModal()" aria-label="Close modal">&times;</button>
+          </div>
+          <h2 id="modal-art-title" style="font-family:var(--font-display); font-size:1.5rem; margin-bottom:1rem; color:var(--text-primary)"></h2>
+          <div class="modal-body" id="modal-art-body"></div>
+          <div style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+            <div id="modal-art-tags" class="article-tags"></div>
+            <button class="btn btn-outline" style="padding:0.4rem 1rem; font-size:0.85rem;" onclick="window.closeArticleModal()">Close</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) window.closeArticleModal();
+      });
+    }
+
+    document.getElementById('modal-art-category').textContent = art.category || 'Article';
+    document.getElementById('modal-art-meta').textContent = `${art.date || ''} · ${art.readTime || '5 min read'}`;
+    document.getElementById('modal-art-title').textContent = art.title || '';
+    
+    // Parse paragraphs in content
+    const contentHtml = (art.content || art.summary || '')
+      .split('\n\n')
+      .map(para => `<p>${escapeHtml(para)}</p>`)
+      .join('');
+    document.getElementById('modal-art-body').innerHTML = contentHtml;
+
+    const tagsContainer = document.getElementById('modal-art-tags');
+    if (tagsContainer) {
+      tagsContainer.innerHTML = (art.tags || []).map(t => `<span class="article-tag">${escapeHtml(t)}</span>`).join('');
+    }
+
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeArticleModal = function () {
+    const overlay = document.getElementById('article-modal-overlay');
+    if (overlay) {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  };
+
+  /* ── Interactive Print/CV Action ───────────────────────── */
+  window.printCV = function () {
+    window.open('about.html', '_blank');
+  };
 
   /* ── Helper Renderers ──────────────────────────────────── */
   function renderTimelineItem(job) {

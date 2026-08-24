@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lockErrorMsg) lockErrorMsg.classList.remove('visible');
   }
 
-  // Handle Login submission
   async function handleLogin() {
     const password = inputAdminPassword ? inputAdminPassword.value : '';
     if (!password) {
@@ -71,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (lockCard) {
       lockCard.classList.remove('shake');
-      void lockCard.offsetWidth; // trigger reflow
+      void lockCard.offsetWidth;
       lockCard.classList.add('shake');
     }
     if (inputAdminPassword) {
@@ -96,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Toggle show/hide password
   if (btnTogglePwd && inputAdminPassword) {
     btnTogglePwd.addEventListener('click', () => {
       const type = inputAdminPassword.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -105,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Handle Logout
   if (btnLogout) {
     btnLogout.addEventListener('click', () => {
       window.PortfolioStore.logout();
@@ -114,82 +111,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Handle Change Password Form
-  const btnUpdatePwd = document.getElementById('btn-update-pwd');
-  if (btnUpdatePwd) {
-    btnUpdatePwd.addEventListener('click', async () => {
-      const curr = document.getElementById('input-curr-pwd').value;
-      const next = document.getElementById('input-new-pwd').value;
-      const confirm = document.getElementById('input-confirm-pwd').value;
-
-      if (!curr) {
-        showToast('Please enter your current password.', 'danger');
-        return;
-      }
-
-      if (next !== confirm) {
-        showToast('New password and confirmation do not match.', 'danger');
-        return;
-      }
-
-      const res = await window.PortfolioStore.changePassword(curr, next);
-      if (res.success) {
-        document.getElementById('input-curr-pwd').value = '';
-        document.getElementById('input-new-pwd').value = '';
-        document.getElementById('input-confirm-pwd').value = '';
-        showToast('Admin password updated successfully! 🔐');
-      } else {
-        showToast(res.error || 'Failed to update password.', 'danger');
-      }
-    });
-  }
-
-  /* ── 2. Tab Switching ──────────────────────────────────── */
-  const navButtons = document.querySelectorAll('.admin-nav-item button');
+  /* ── 2. Tab Navigation ──────────────────────────────────── */
+  const navButtons = document.querySelectorAll('.admin-nav button');
   const panels = document.querySelectorAll('.admin-panel');
 
   navButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      const targetPanel = btn.getAttribute('data-tab');
+      const tab = btn.getAttribute('data-tab');
       navButtons.forEach(b => b.classList.remove('active'));
       panels.forEach(p => p.classList.remove('active'));
 
       btn.classList.add('active');
-      const panel = document.getElementById(`panel-${targetPanel}`);
-      if (panel) panel.classList.add('active');
+      const targetPanel = document.getElementById(`panel-${tab}`);
+      if (targetPanel) targetPanel.classList.add('active');
     });
   });
 
-  /* ── 3. Toast System ───────────────────────────────────── */
-  function showToast(message, type = 'success') {
-    let container = document.querySelector('.toast-container');
-    if (!container) {
-      container = document.createElement('div');
-      container.className = 'toast-container';
-      document.body.appendChild(container);
-    }
-
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    const icon = type === 'success' ? '✅' : (type === 'danger' ? '⚠️' : 'ℹ️');
-    toast.innerHTML = `<span>${icon}</span> <span>${escapeHtml(message)}</span>`;
-    container.appendChild(toast);
-
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateY(10px)';
-      toast.style.transition = 'all 0.3s ease';
-      setTimeout(() => toast.remove(), 300);
-    }, 3200);
-  }
-
-  /* ── 4. Populate Profile Form ──────────────────────────── */
-  function populateProfileForm() {
+  /* ── 3. Populate All Data into Form Fields ──────────────── */
+  function populateAll() {
+    data = window.PortfolioStore.getData();
     const p = data.profile || {};
+    const avail = data.availability || {};
+
+    // Profile & Bio
     setVal('input-name', p.name);
     setVal('input-firstName', p.firstName);
     setVal('input-roleTitle', p.roleTitle);
-    setVal('input-location', p.location);
     setVal('input-heroBio', p.heroBio);
     setVal('input-aboutLead', p.aboutLead);
     setVal('input-aboutParagraphs', (p.aboutBodyParagraphs || []).join('\n\n'));
@@ -198,521 +145,773 @@ document.addEventListener('DOMContentLoaded', () => {
     setVal('input-phone', p.phone);
     setVal('input-linkedin', p.linkedinUrl);
     setVal('input-github', p.githubUrl);
-    setVal('input-footerTagline', p.footerTagline);
+    setVal('input-resumeUrl', p.resumeUrl || '');
+    setVal('input-location', p.location);
     setVal('input-copyrightYear', p.copyrightYear || 2026);
-  }
+    setVal('input-footerTagline', p.footerTagline);
 
-  function readProfileForm() {
-    data.profile = data.profile || {};
-    data.profile.name = getVal('input-name');
-    data.profile.firstName = getVal('input-firstName');
-    data.profile.roleTitle = getVal('input-roleTitle');
-    data.profile.location = getVal('input-location');
-    data.profile.heroBio = getVal('input-heroBio');
-    data.profile.aboutLead = getVal('input-aboutLead');
-    data.profile.aboutBodyParagraphs = getVal('input-aboutParagraphs')
-      .split('\n\n')
-      .map(s => s.trim())
-      .filter(Boolean);
-    data.profile.contactIntro = getVal('input-contactIntro');
-    data.profile.email = getVal('input-email');
-    data.profile.phone = getVal('input-phone');
-    data.profile.linkedinUrl = getVal('input-linkedin');
-    data.profile.githubUrl = getVal('input-github');
-    data.profile.footerTagline = getVal('input-footerTagline');
-    data.profile.copyrightYear = parseInt(getVal('input-copyrightYear'), 10) || 2026;
-  }
+    // Hero & Metrics
+    setVal('input-avail-status', avail.status || 'available');
+    setVal('input-avail-text', avail.badgeText || 'Available for New Opportunities');
+    setVal('input-typewriter-roles', (avail.typewriterRoles || []).join(', '));
+    renderMetricsEditor();
 
-  /* ── 5. Render Experience List ─────────────────────────── */
-  const expListEl = document.getElementById('experience-list');
-  function renderExperienceList() {
-    if (!expListEl) return;
-    expListEl.innerHTML = '';
+    // Awards
+    renderAwardsList();
 
-    (data.experience || []).forEach((job, index) => {
-      const row = document.createElement('div');
-      row.className = 'item-row';
-      row.innerHTML = `
-        <div class="item-info">
-          <h4>${escapeHtml(job.role)} ${job.isCurrent ? '<span class="tag" style="margin-left: 0.5rem;">Current</span>' : ''}</h4>
-          <div class="item-sub">
-            <span style="color: var(--adm-accent-hover);">${escapeHtml(job.company)}</span>
-            <span>•</span>
-            <span>${escapeHtml(job.period)}</span>
-            <span>•</span>
-            <span>${(job.bullets || []).length} bullets</span>
-          </div>
-        </div>
-        <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="edit-exp" data-index="${index}">✏️ Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="delete-exp" data-index="${index}">🗑️</button>
-        </div>
-      `;
-      expListEl.appendChild(row);
-    });
-  }
+    // Articles
+    renderArticlesList();
 
-  /* ── 6. Render Projects List ───────────────────────────── */
-  const projListEl = document.getElementById('projects-list');
-  function renderProjectsList() {
-    if (!projListEl) return;
-    projListEl.innerHTML = '';
-
-    (data.projects || []).forEach((proj, index) => {
-      const row = document.createElement('div');
-      row.className = 'item-row';
-      row.innerHTML = `
-        <div class="item-info">
-          <h4>${escapeHtml(proj.title)}</h4>
-          <div class="item-sub">
-            <span class="tag">${escapeHtml(proj.category)}</span>
-            <span>${escapeHtml(proj.year)}</span>
-            <span>•</span>
-            <span>${(proj.tags || []).join(', ')}</span>
-          </div>
-        </div>
-        <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="edit-proj" data-index="${index}">✏️ Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="delete-proj" data-index="${index}">🗑️</button>
-        </div>
-      `;
-      projListEl.appendChild(row);
-    });
-  }
-
-  /* ── 7. Render Education List ──────────────────────────── */
-  const eduListEl = document.getElementById('education-list');
-  function renderEducationList() {
-    if (!eduListEl) return;
-    eduListEl.innerHTML = '';
-
-    (data.education || []).forEach((edu, index) => {
-      const row = document.createElement('div');
-      row.className = 'item-row';
-      row.innerHTML = `
-        <div class="item-info">
-          <h4>${escapeHtml(edu.degree)}</h4>
-          <div class="item-sub">
-            <span style="color: var(--adm-accent-hover);">${escapeHtml(edu.institution)}</span>
-            <span>•</span>
-            <span>${escapeHtml(edu.year)}</span>
-            <span>•</span>
-            <span>${escapeHtml(edu.grade)}</span>
-          </div>
-        </div>
-        <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="edit-edu" data-index="${index}">✏️ Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="delete-edu" data-index="${index}">🗑️</button>
-        </div>
-      `;
-      eduListEl.appendChild(row);
-    });
-  }
-
-  /* ── 8. Render Skills Manager ──────────────────────────── */
-  function renderSkillsManager() {
-    const categories = ['technical', 'professional', 'creative', 'languages'];
-    categories.forEach(cat => {
-      const container = document.getElementById(`skills-tags-${cat}`);
-      if (!container) return;
-      container.innerHTML = '';
-
-      const items = (data.skills && data.skills[cat]) || [];
-      items.forEach((skill, index) => {
-        const chip = document.createElement('div');
-        chip.className = 'tag-chip';
-        chip.innerHTML = `
-          <span>${escapeHtml(skill)}</span>
-          <button data-action="delete-skill" data-cat="${cat}" data-index="${index}" title="Remove">✕</button>
-        `;
-        container.appendChild(chip);
-      });
-    });
-  }
-
-  // Handle skill tag removal
-  document.addEventListener('click', (e) => {
-    if (e.target.matches('[data-action="delete-skill"]')) {
-      const cat = e.target.getAttribute('data-cat');
-      const idx = parseInt(e.target.getAttribute('data-index'), 10);
-      if (data.skills && data.skills[cat]) {
-        data.skills[cat].splice(idx, 1);
-        renderSkillsManager();
-      }
-    }
-  });
-
-  // Handle skill tag addition
-  document.querySelectorAll('[data-action="add-skill-btn"]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const cat = btn.getAttribute('data-cat');
-      const input = document.getElementById(`new-skill-${cat}`);
-      if (input && input.value.trim()) {
-        data.skills = data.skills || {};
-        data.skills[cat] = data.skills[cat] || [];
-        data.skills[cat].push(input.value.trim());
-        input.value = '';
-        renderSkillsManager();
-      }
-    });
-  });
-
-  /* ── 9. Modal Management ───────────────────────────────── */
-  const modalBackdrop = document.getElementById('admin-modal-backdrop');
-  const modalTitle = document.getElementById('modal-title');
-  const modalBody = document.getElementById('modal-body');
-  const modalSaveBtn = document.getElementById('modal-save-btn');
-  const modalCancelBtn = document.getElementById('modal-cancel-btn');
-
-  let currentModalSaveHandler = null;
-
-  function openModal(title, bodyHtml, onSave) {
-    modalTitle.textContent = title;
-    modalBody.innerHTML = bodyHtml;
-    currentModalSaveHandler = onSave;
-    modalBackdrop.classList.add('open');
-  }
-
-  function closeModal() {
-    modalBackdrop.classList.remove('open');
-    currentModalSaveHandler = null;
-  }
-
-  if (modalCancelBtn) modalCancelBtn.addEventListener('click', closeModal);
-  if (modalSaveBtn) {
-    modalSaveBtn.addEventListener('click', () => {
-      if (currentModalSaveHandler) {
-        currentModalSaveHandler();
-      }
-      closeModal();
-    });
-  }
-
-  /* ── 10. Experience Modals (Add / Edit) ─────────────────── */
-  document.getElementById('btn-add-experience')?.addEventListener('click', () => {
-    openExperienceModal();
-  });
-
-  expListEl?.addEventListener('click', (e) => {
-    const editBtn = e.target.closest('[data-action="edit-exp"]');
-    const delBtn = e.target.closest('[data-action="delete-exp"]');
-
-    if (editBtn) {
-      const idx = parseInt(editBtn.getAttribute('data-index'), 10);
-      openExperienceModal(idx);
-    } else if (delBtn) {
-      const idx = parseInt(delBtn.getAttribute('data-index'), 10);
-      if (confirm(`Delete position "${data.experience[idx].role}"?`)) {
-        data.experience.splice(idx, 1);
-        renderExperienceList();
-        showToast('Position deleted', 'info');
-      }
-    }
-  });
-
-  function openExperienceModal(editIndex = null) {
-    const isEdit = editIndex !== null;
-    const job = isEdit ? data.experience[editIndex] : {
-      company: '', companyUrl: '', role: '', period: '', isCurrent: false, bullets: ['']
-    };
-
-    const html = `
-      <div class="form-grid">
-        <div class="form-group">
-          <label class="form-label">Job Title / Role</label>
-          <input type="text" id="modal-exp-role" class="form-input" value="${escapeHtml(job.role)}" placeholder="e.g. Technical Project Manager" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Company Name</label>
-          <input type="text" id="modal-exp-company" class="form-input" value="${escapeHtml(job.company)}" placeholder="e.g. Mediusware Limited" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Company URL</label>
-          <input type="url" id="modal-exp-url" class="form-input" value="${escapeHtml(job.companyUrl || '')}" placeholder="https://..." />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Period / Duration</label>
-          <input type="text" id="modal-exp-period" class="form-input" value="${escapeHtml(job.period)}" placeholder="e.g. Aug 2024 — Present" />
-        </div>
-        <div class="form-group full-width">
-          <label style="display: flex; align-items: center; gap: 0.5rem; color: #fff; cursor: pointer;">
-            <input type="checkbox" id="modal-exp-current" ${job.isCurrent ? 'checked' : ''} />
-            <span>Currently working here (Show 'Current' badge)</span>
-          </label>
-        </div>
-        <div class="form-group full-width">
-          <label class="form-label">Key Responsibilities / Bullet Points (One per line)</label>
-          <textarea id="modal-exp-bullets" class="form-textarea" style="min-height: 140px;" placeholder="Enter each accomplishment on a new line...">${(job.bullets || []).join('\n')}</textarea>
-        </div>
-      </div>
-    `;
-
-    openModal(isEdit ? 'Edit Experience' : 'Add Experience', html, () => {
-      const updated = {
-        id: job.id || `job-${Date.now()}`,
-        role: document.getElementById('modal-exp-role').value.trim(),
-        company: document.getElementById('modal-exp-company').value.trim(),
-        companyUrl: document.getElementById('modal-exp-url').value.trim(),
-        period: document.getElementById('modal-exp-period').value.trim(),
-        isCurrent: document.getElementById('modal-exp-current').checked,
-        bullets: document.getElementById('modal-exp-bullets').value
-          .split('\n')
-          .map(b => b.trim())
-          .filter(Boolean)
-      };
-
-      data.experience = data.experience || [];
-      if (isEdit) {
-        data.experience[editIndex] = updated;
-      } else {
-        data.experience.unshift(updated);
-      }
-
-      renderExperienceList();
-      showToast(isEdit ? 'Position updated' : 'Position added');
-    });
-  }
-
-  /* ── 11. Projects Modals (Add / Edit) ──────────────────── */
-  document.getElementById('btn-add-project')?.addEventListener('click', () => {
-    openProjectModal();
-  });
-
-  projListEl?.addEventListener('click', (e) => {
-    const editBtn = e.target.closest('[data-action="edit-proj"]');
-    const delBtn = e.target.closest('[data-action="delete-proj"]');
-
-    if (editBtn) {
-      const idx = parseInt(editBtn.getAttribute('data-index'), 10);
-      openProjectModal(idx);
-    } else if (delBtn) {
-      const idx = parseInt(delBtn.getAttribute('data-index'), 10);
-      if (confirm(`Delete project "${data.projects[idx].title}"?`)) {
-        data.projects.splice(idx, 1);
-        renderProjectsList();
-        showToast('Project deleted', 'info');
-      }
-    }
-  });
-
-  function openProjectModal(editIndex = null) {
-    const isEdit = editIndex !== null;
-    const proj = isEdit ? data.projects[editIndex] : {
-      title: '', category: 'software', year: '2026', description: '', tags: [], link: '', badge: ''
-    };
-
-    const html = `
-      <div class="form-grid">
-        <div class="form-group full-width">
-          <label class="form-label">Project / Publication Title</label>
-          <input type="text" id="modal-proj-title" class="form-input" value="${escapeHtml(proj.title)}" placeholder="e.g. Automated Field Watering System" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Category</label>
-          <select id="modal-proj-cat" class="form-select">
-            <option value="research" ${proj.category === 'research' ? 'selected' : ''}>Research & Thesis</option>
-            <option value="publication" ${proj.category === 'publication' ? 'selected' : ''}>Publication</option>
-            <option value="software" ${proj.category === 'software' ? 'selected' : ''}>Software & Engineering</option>
-            <option value="volunteer" ${proj.category === 'volunteer' ? 'selected' : ''}>Volunteer & Leadership</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Year / Venue</label>
-          <input type="text" id="modal-proj-year" class="form-input" value="${escapeHtml(proj.year)}" placeholder="e.g. 2026 or CNC-2018" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">External Link (Optional)</label>
-          <input type="url" id="modal-proj-link" class="form-input" value="${escapeHtml(proj.link || '')}" placeholder="https://..." />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Highlight / Award Badge (Optional)</label>
-          <input type="text" id="modal-proj-badge" class="form-input" value="${escapeHtml(proj.badge || '')}" placeholder="e.g. Best Presentation" />
-        </div>
-        <div class="form-group full-width">
-          <label class="form-label">Description</label>
-          <textarea id="modal-proj-desc" class="form-textarea" placeholder="Brief project summary...">${escapeHtml(proj.description || '')}</textarea>
-        </div>
-        <div class="form-group full-width">
-          <label class="form-label">Tags (comma separated)</label>
-          <input type="text" id="modal-proj-tags" class="form-input" value="${escapeHtml((proj.tags || []).join(', '))}" placeholder="e.g. IoT, Arduino, Machine Learning" />
-        </div>
-      </div>
-    `;
-
-    openModal(isEdit ? 'Edit Project' : 'Add Project', html, () => {
-      const updated = {
-        id: proj.id || `proj-${Date.now()}`,
-        title: document.getElementById('modal-proj-title').value.trim(),
-        category: document.getElementById('modal-proj-cat').value,
-        year: document.getElementById('modal-proj-year').value.trim(),
-        link: document.getElementById('modal-proj-link').value.trim(),
-        badge: document.getElementById('modal-proj-badge').value.trim(),
-        description: document.getElementById('modal-proj-desc').value.trim(),
-        tags: document.getElementById('modal-proj-tags').value
-          .split(',')
-          .map(t => t.trim())
-          .filter(Boolean)
-      };
-
-      data.projects = data.projects || [];
-      if (isEdit) {
-        data.projects[editIndex] = updated;
-      } else {
-        data.projects.unshift(updated);
-      }
-
-      renderProjectsList();
-      showToast(isEdit ? 'Project updated' : 'Project added');
-    });
-  }
-
-  /* ── 12. Education Modals (Add / Edit) ──────────────────── */
-  document.getElementById('btn-add-education')?.addEventListener('click', () => {
-    openEducationModal();
-  });
-
-  eduListEl?.addEventListener('click', (e) => {
-    const editBtn = e.target.closest('[data-action="edit-edu"]');
-    const delBtn = e.target.closest('[data-action="delete-edu"]');
-
-    if (editBtn) {
-      const idx = parseInt(editBtn.getAttribute('data-index'), 10);
-      openEducationModal(idx);
-    } else if (delBtn) {
-      const idx = parseInt(delBtn.getAttribute('data-index'), 10);
-      if (confirm(`Delete "${data.education[idx].degree}"?`)) {
-        data.education.splice(idx, 1);
-        renderEducationList();
-        showToast('Education deleted', 'info');
-      }
-    }
-  });
-
-  function openEducationModal(editIndex = null) {
-    const isEdit = editIndex !== null;
-    const edu = isEdit ? data.education[editIndex] : {
-      degree: '', field: '', institution: '', year: '', grade: ''
-    };
-
-    const html = `
-      <div class="form-grid">
-        <div class="form-group full-width">
-          <label class="form-label">Degree / Certificate Name</label>
-          <input type="text" id="modal-edu-degree" class="form-input" value="${escapeHtml(edu.degree)}" placeholder="e.g. Masters of Business Administration" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Institution / University</label>
-          <input type="text" id="modal-edu-inst" class="form-input" value="${escapeHtml(edu.institution)}" placeholder="e.g. University of Dhaka" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Major / Field</label>
-          <input type="text" id="modal-edu-field" class="form-input" value="${escapeHtml(edu.field || '')}" placeholder="e.g. HR and Management" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Graduation Year</label>
-          <input type="text" id="modal-edu-year" class="form-input" value="${escapeHtml(edu.year)}" placeholder="e.g. 2021" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Grade / GPA</label>
-          <input type="text" id="modal-edu-grade" class="form-input" value="${escapeHtml(edu.grade)}" placeholder="e.g. CGPA 3.73 / 4.00" />
-        </div>
-      </div>
-    `;
-
-    openModal(isEdit ? 'Edit Education' : 'Add Education', html, () => {
-      const updated = {
-        id: edu.id || `edu-${Date.now()}`,
-        degree: document.getElementById('modal-edu-degree').value.trim(),
-        institution: document.getElementById('modal-edu-inst').value.trim(),
-        field: document.getElementById('modal-edu-field').value.trim(),
-        year: document.getElementById('modal-edu-year').value.trim(),
-        grade: document.getElementById('modal-edu-grade').value.trim()
-      };
-
-      data.education = data.education || [];
-      if (isEdit) {
-        data.education[editIndex] = updated;
-      } else {
-        data.education.unshift(updated);
-      }
-
-      renderEducationList();
-      showToast(isEdit ? 'Education updated' : 'Education added');
-    });
-  }
-
-  /* ── 13. Save All Changes ──────────────────────────────── */
-  function saveAll() {
-    readProfileForm();
-    const res = window.PortfolioStore.saveData(data);
-    if (res.success) {
-      showToast('All changes saved and published to site! 🎉');
-    } else {
-      showToast('Error saving changes: ' + res.error, 'danger');
-    }
-  }
-
-  document.getElementById('btn-save-all')?.addEventListener('click', saveAll);
-
-  /* ── 14. Backup / Export / Import / Reset ───────────────── */
-  document.getElementById('btn-export-json')?.addEventListener('click', () => {
-    saveAll();
-    window.PortfolioStore.exportJSON();
-    showToast('Downloaded portfolio_backup.json');
-  });
-
-  const importFileInput = document.getElementById('input-import-json');
-  document.getElementById('btn-import-trigger')?.addEventListener('click', () => {
-    importFileInput.click();
-  });
-
-  importFileInput?.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const content = event.target.result;
-      const res = window.PortfolioStore.importJSON(content);
-      if (res.success) {
-        data = res.data;
-        populateAll();
-        showToast('Successfully imported portfolio data!');
-      } else {
-        showToast('Import error: ' + res.error, 'danger');
-      }
-    };
-    reader.readAsText(file);
-  });
-
-  document.getElementById('btn-reset-default')?.addEventListener('click', () => {
-    if (confirm('Are you sure you want to reset all content back to defaults?')) {
-      const res = window.PortfolioStore.resetToDefault();
-      if (res.success) {
-        data = res.data;
-        populateAll();
-        showToast('Reset back to default content', 'info');
-      }
-    }
-  });
-
-  /* ── Helpers ───────────────────────────────────────────── */
-  function populateAll() {
-    populateProfileForm();
+    // Experience, Projects, Education, Skills
     renderExperienceList();
     renderProjectsList();
     renderEducationList();
     renderSkillsManager();
   }
 
-  function getVal(id) {
-    const el = document.getElementById(id);
-    return el ? el.value : '';
-  }
-
   function setVal(id, val) {
     const el = document.getElementById(id);
     if (el) el.value = val !== undefined && val !== null ? val : '';
+  }
+
+  function getVal(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  /* ── 4. Metrics Editor ──────────────────────────────────── */
+  function renderMetricsEditor() {
+    const container = document.getElementById('metrics-editor-grid');
+    if (!container) return;
+
+    const metrics = data.metrics || [];
+    container.innerHTML = metrics.map((m, idx) => `
+      <div class="form-group" style="background:rgba(255,255,255,0.02); padding:1rem; border-radius:8px; border:1px solid var(--adm-border);">
+        <label class="form-label" style="color:var(--adm-accent-hover)">Card #${idx + 1}: ${escapeHtml(m.label)}</label>
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.5rem; margin-bottom:0.5rem;">
+          <input type="text" class="form-input" id="metric-num-${idx}" value="${escapeHtml(m.number)}" placeholder="Number (e.g. 21)" />
+          <input type="text" class="form-input" id="metric-suffix-${idx}" value="${escapeHtml(m.suffix)}" placeholder="Suffix (+)" />
+        </div>
+        <input type="text" class="form-input" id="metric-label-${idx}" value="${escapeHtml(m.label)}" placeholder="Label" style="margin-bottom:0.5rem;" />
+        <input type="text" class="form-input" id="metric-subtext-${idx}" value="${escapeHtml(m.subtext)}" placeholder="Subtext" />
+      </div>
+    `).join('');
+  }
+
+  /* ── 5. Awards & Honors Management ──────────────────────── */
+  function renderAwardsList() {
+    const list = document.getElementById('awards-list');
+    if (!list) return;
+    const awards = data.awards || [];
+
+    if (!awards.length) {
+      list.innerHTML = `<div class="empty-state">No awards added yet. Click "Add Award" to create one.</div>`;
+      return;
+    }
+
+    list.innerHTML = awards.map((awd, index) => `
+      <div class="item-row">
+        <div class="item-info">
+          <h4>${escapeHtml(awd.title)} ${awd.badge ? `<span style="font-size:0.75rem; background:rgba(245,158,11,0.15); color:#FBBF24; padding:2px 8px; border-radius:4px; margin-left:6px;">${escapeHtml(awd.badge)}</span>` : ''}</h4>
+          <p>${escapeHtml(awd.organization)} · <span style="color:var(--adm-accent)">${escapeHtml(awd.year)}</span></p>
+        </div>
+        <div class="item-actions">
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editAward(${index})">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteAward(${index})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.editAward = function (index) {
+    const isNew = index === -1;
+    const awd = !isNew ? data.awards[index] : {
+      id: `awd-${Date.now()}`,
+      title: '',
+      organization: '',
+      year: '',
+      description: '',
+      badge: ''
+    };
+
+    openModal(isNew ? 'Add Award & Honor' : 'Edit Award', `
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label class="form-label">Award Title *</label>
+          <input type="text" id="modal-awd-title" class="form-input" value="${escapeHtml(awd.title)}" placeholder="e.g. Best Presentation Award" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Organization / Conference *</label>
+          <input type="text" id="modal-awd-org" class="form-input" value="${escapeHtml(awd.organization)}" placeholder="e.g. Springer CNC-2018" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Year / Date</label>
+          <input type="text" id="modal-awd-year" class="form-input" value="${escapeHtml(awd.year)}" placeholder="e.g. 2018" />
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Ribbon Badge Text (Optional)</label>
+          <input type="text" id="modal-awd-badge" class="form-input" value="${escapeHtml(awd.badge || '')}" placeholder="e.g. Springer Award" />
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Description</label>
+          <textarea id="modal-awd-desc" class="form-textarea" style="min-height:90px;" placeholder="Details about this award...">${escapeHtml(awd.description || '')}</textarea>
+        </div>
+      </div>
+    `, () => {
+      const title = document.getElementById('modal-awd-title').value.trim();
+      const organization = document.getElementById('modal-awd-org').value.trim();
+      const year = document.getElementById('modal-awd-year').value.trim();
+      const badge = document.getElementById('modal-awd-badge').value.trim();
+      const description = document.getElementById('modal-awd-desc').value.trim();
+
+      if (!title || !organization) {
+        alert('Please provide Award Title and Organization.');
+        return false;
+      }
+
+      if (!data.awards) data.awards = [];
+
+      const updated = { ...awd, title, organization, year, badge, description };
+      if (isNew) {
+        data.awards.push(updated);
+      } else {
+        data.awards[index] = updated;
+      }
+
+      renderAwardsList();
+      return true;
+    });
+  };
+
+  window.deleteAward = function (index) {
+    if (confirm(`Are you sure you want to delete "${data.awards[index].title}"?`)) {
+      data.awards.splice(index, 1);
+      renderAwardsList();
+      showToast('Award removed.');
+    }
+  };
+
+  const btnAddAward = document.getElementById('btn-add-award');
+  if (btnAddAward) btnAddAward.addEventListener('click', () => window.editAward(-1));
+
+  /* ── 6. Articles & Insights Management ──────────────────── */
+  function renderArticlesList() {
+    const list = document.getElementById('articles-list');
+    if (!list) return;
+    const articles = data.articles || [];
+
+    if (!articles.length) {
+      list.innerHTML = `<div class="empty-state">No articles yet. Click "Write New Article" to add one.</div>`;
+      return;
+    }
+
+    list.innerHTML = articles.map((art, index) => `
+      <div class="item-row">
+        <div class="item-info">
+          <h4>${escapeHtml(art.title)} <span style="font-size:0.75rem; background:rgba(59,130,246,0.15); color:var(--adm-accent-hover); padding:2px 8px; border-radius:4px; margin-left:6px;">${escapeHtml(art.category || 'Article')}</span></h4>
+          <p>${escapeHtml(art.date)} · <span style="color:var(--adm-muted)">${escapeHtml(art.readTime || '5 min read')}</span></p>
+        </div>
+        <div class="item-actions">
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editArticle(${index})">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteArticle(${index})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.editArticle = function (index) {
+    const isNew = index === -1;
+    const art = !isNew ? data.articles[index] : {
+      id: `art-${Date.now()}`,
+      title: '',
+      category: 'Leadership',
+      date: 'Recent',
+      readTime: '5 min read',
+      summary: '',
+      tags: ['Project Management'],
+      content: ''
+    };
+
+    openModal(isNew ? 'Write New Article' : 'Edit Article', `
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label class="form-label">Article Title *</label>
+          <input type="text" id="modal-art-title" class="form-input" value="${escapeHtml(art.title)}" placeholder="e.g. Bridging the Gap: CS + MBA Thinking" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <input type="text" id="modal-art-category" class="form-input" value="${escapeHtml(art.category)}" placeholder="e.g. Leadership / Operations" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Publish Date &amp; Reading Time</label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+            <input type="text" id="modal-art-date" class="form-input" value="${escapeHtml(art.date)}" placeholder="e.g. Aug 2024" />
+            <input type="text" id="modal-art-readTime" class="form-input" value="${escapeHtml(art.readTime)}" placeholder="e.g. 5 min read" />
+          </div>
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Summary / Excerpt (Displayed on homepage preview) *</label>
+          <textarea id="modal-art-summary" class="form-textarea" style="min-height:75px;">${escapeHtml(art.summary)}</textarea>
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Tags (Comma-separated)</label>
+          <input type="text" id="modal-art-tags" class="form-input" value="${escapeHtml((art.tags || []).join(', '))}" placeholder="Agile, SaaS, Leadership" />
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Full Article / Case Study Content (Paragraphs separated by double linebreaks)</label>
+          <textarea id="modal-art-content" class="form-textarea" style="min-height:160px;">${escapeHtml(art.content || '')}</textarea>
+        </div>
+      </div>
+    `, () => {
+      const title = document.getElementById('modal-art-title').value.trim();
+      const category = document.getElementById('modal-art-category').value.trim();
+      const date = document.getElementById('modal-art-date').value.trim();
+      const readTime = document.getElementById('modal-art-readTime').value.trim();
+      const summary = document.getElementById('modal-art-summary').value.trim();
+      const tags = document.getElementById('modal-art-tags').value.split(',').map(t => t.trim()).filter(Boolean);
+      const content = document.getElementById('modal-art-content').value.trim();
+
+      if (!title || !summary) {
+        alert('Please fill in Article Title and Summary.');
+        return false;
+      }
+
+      if (!data.articles) data.articles = [];
+
+      const updated = { ...art, title, category, date, readTime, summary, tags, content };
+      if (isNew) {
+        data.articles.push(updated);
+      } else {
+        data.articles[index] = updated;
+      }
+
+      renderArticlesList();
+      return true;
+    });
+  };
+
+  window.deleteArticle = function (index) {
+    if (confirm(`Are you sure you want to delete "${data.articles[index].title}"?`)) {
+      data.articles.splice(index, 1);
+      renderArticlesList();
+      showToast('Article deleted.');
+    }
+  };
+
+  const btnAddArticle = document.getElementById('btn-add-article');
+  if (btnAddArticle) btnAddArticle.addEventListener('click', () => window.editArticle(-1));
+
+  /* ── 7. Experience Management ───────────────────────────── */
+  function renderExperienceList() {
+    const list = document.getElementById('experience-list');
+    if (!list) return;
+
+    list.innerHTML = (data.experience || []).map((job, index) => `
+      <div class="item-row">
+        <div class="item-info">
+          <h4>${escapeHtml(job.role)} <span style="color:var(--adm-muted)">at</span> ${escapeHtml(job.company)} ${job.isCurrent ? '<span style="font-size:0.75rem; background:rgba(16,185,129,0.2); color:#34D399; padding:2px 6px; border-radius:4px;">Current</span>' : ''}</h4>
+          <p>${escapeHtml(job.period)}</p>
+        </div>
+        <div class="item-actions">
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editExperience(${index})">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteExperience(${index})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.editExperience = function (index) {
+    const isNew = index === -1;
+    const job = !isNew ? data.experience[index] : {
+      id: `job-${Date.now()}`,
+      company: '',
+      companyUrl: '',
+      role: '',
+      period: '',
+      isCurrent: false,
+      bullets: []
+    };
+
+    openModal(isNew ? 'Add Experience' : 'Edit Experience', `
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Job Title / Role *</label>
+          <input type="text" id="modal-exp-role" class="form-input" value="${escapeHtml(job.role)}" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Company Name *</label>
+          <input type="text" id="modal-exp-company" class="form-input" value="${escapeHtml(job.company)}" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Company Website URL</label>
+          <input type="url" id="modal-exp-companyUrl" class="form-input" value="${escapeHtml(job.companyUrl || '')}" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Period (e.g. Aug 2024 — Present) *</label>
+          <input type="text" id="modal-exp-period" class="form-input" value="${escapeHtml(job.period)}" />
+        </div>
+        <div class="form-group full-width">
+          <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color:var(--adm-text);">
+            <input type="checkbox" id="modal-exp-isCurrent" ${job.isCurrent ? 'checked' : ''} />
+            Mark as Current Position
+          </label>
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Key Responsibilities / Achievements (One per line)</label>
+          <textarea id="modal-exp-bullets" class="form-textarea" style="min-height:140px;">${escapeHtml((job.bullets || []).join('\n'))}</textarea>
+        </div>
+      </div>
+    `, () => {
+      const role = document.getElementById('modal-exp-role').value.trim();
+      const company = document.getElementById('modal-exp-company').value.trim();
+      const companyUrl = document.getElementById('modal-exp-companyUrl').value.trim();
+      const period = document.getElementById('modal-exp-period').value.trim();
+      const isCurrent = document.getElementById('modal-exp-isCurrent').checked;
+      const bullets = document.getElementById('modal-exp-bullets').value.split('\n').map(b => b.trim()).filter(Boolean);
+
+      if (!role || !company) {
+        alert('Role and Company are required.');
+        return false;
+      }
+
+      const updated = { ...job, role, company, companyUrl, period, isCurrent, bullets };
+      if (isNew) {
+        data.experience.unshift(updated);
+      } else {
+        data.experience[index] = updated;
+      }
+
+      renderExperienceList();
+      return true;
+    });
+  };
+
+  window.deleteExperience = function (index) {
+    if (confirm(`Delete position "${data.experience[index].role}"?`)) {
+      data.experience.splice(index, 1);
+      renderExperienceList();
+      showToast('Position deleted.');
+    }
+  };
+
+  const btnAddExp = document.getElementById('btn-add-experience');
+  if (btnAddExp) btnAddExp.addEventListener('click', () => window.editExperience(-1));
+
+  /* ── 8. Projects Management ─────────────────────────────── */
+  function renderProjectsList() {
+    const list = document.getElementById('projects-list');
+    if (!list) return;
+
+    list.innerHTML = (data.projects || []).map((proj, index) => `
+      <div class="item-row">
+        <div class="item-info">
+          <h4>${escapeHtml(proj.title)} <span style="font-size:0.75rem; background:rgba(59,130,246,0.15); color:var(--adm-accent-hover); padding:2px 6px; border-radius:4px; margin-left:4px;">${escapeHtml(proj.category)}</span></h4>
+          <p>${escapeHtml(proj.year || '')} · <span style="color:var(--adm-muted);">${(proj.tags || []).join(', ')}</span></p>
+        </div>
+        <div class="item-actions">
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editProject(${index})">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteProject(${index})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.editProject = function (index) {
+    const isNew = index === -1;
+    const proj = !isNew ? data.projects[index] : {
+      id: `proj-${Date.now()}`,
+      category: 'software',
+      title: '',
+      year: new Date().getFullYear().toString(),
+      description: '',
+      tags: [],
+      link: '',
+      badge: ''
+    };
+
+    openModal(isNew ? 'Add Project' : 'Edit Project', `
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label class="form-label">Project Title *</label>
+          <input type="text" id="modal-proj-title" class="form-input" value="${escapeHtml(proj.title)}" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select id="modal-proj-category" class="form-input">
+            <option value="research" ${proj.category === 'research' ? 'selected' : ''}>Thesis &amp; Research</option>
+            <option value="publication" ${proj.category === 'publication' ? 'selected' : ''}>Publication (Springer/Journal)</option>
+            <option value="software" ${proj.category === 'software' ? 'selected' : ''}>Software &amp; Engineering</option>
+            <option value="volunteer" ${proj.category === 'volunteer' ? 'selected' : ''}>Volunteer &amp; Leadership</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Year / Event</label>
+          <input type="text" id="modal-proj-year" class="form-input" value="${escapeHtml(proj.year || '')}" />
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Description *</label>
+          <textarea id="modal-proj-desc" class="form-textarea" style="min-height:90px;">${escapeHtml(proj.description || '')}</textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tech Tags (Comma-separated)</label>
+          <input type="text" id="modal-proj-tags" class="form-input" value="${escapeHtml((proj.tags || []).join(', '))}" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Award Badge (e.g. Best Presentation)</label>
+          <input type="text" id="modal-proj-badge" class="form-input" value="${escapeHtml(proj.badge || '')}" />
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Project / Paper Link (Optional)</label>
+          <input type="url" id="modal-proj-link" class="form-input" value="${escapeHtml(proj.link || '')}" />
+        </div>
+      </div>
+    `, () => {
+      const title = document.getElementById('modal-proj-title').value.trim();
+      const category = document.getElementById('modal-proj-category').value;
+      const year = document.getElementById('modal-proj-year').value.trim();
+      const description = document.getElementById('modal-proj-desc').value.trim();
+      const tags = document.getElementById('modal-proj-tags').value.split(',').map(t => t.trim()).filter(Boolean);
+      const badge = document.getElementById('modal-proj-badge').value.trim();
+      const link = document.getElementById('modal-proj-link').value.trim();
+
+      if (!title || !description) {
+        alert('Title and Description are required.');
+        return false;
+      }
+
+      const updated = { ...proj, title, category, year, description, tags, badge, link };
+      if (isNew) {
+        data.projects.push(updated);
+      } else {
+        data.projects[index] = updated;
+      }
+
+      renderProjectsList();
+      return true;
+    });
+  };
+
+  window.deleteProject = function (index) {
+    if (confirm(`Delete project "${data.projects[index].title}"?`)) {
+      data.projects.splice(index, 1);
+      renderProjectsList();
+      showToast('Project deleted.');
+    }
+  };
+
+  const btnAddProj = document.getElementById('btn-add-project');
+  if (btnAddProj) btnAddProj.addEventListener('click', () => window.editProject(-1));
+
+  /* ── 9. Education Management ────────────────────────────── */
+  function renderEducationList() {
+    const list = document.getElementById('education-list');
+    if (!list) return;
+
+    list.innerHTML = (data.education || []).map((edu, index) => `
+      <div class="item-row">
+        <div class="item-info">
+          <h4>${escapeHtml(edu.degree)}</h4>
+          <p>${escapeHtml(edu.institution)} · ${escapeHtml(edu.year)} (${escapeHtml(edu.grade)})</p>
+        </div>
+        <div class="item-actions">
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editEducation(${index})">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteEducation(${index})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.editEducation = function (index) {
+    const isNew = index === -1;
+    const edu = !isNew ? data.education[index] : {
+      id: `edu-${Date.now()}`,
+      degree: '',
+      field: '',
+      institution: '',
+      year: '',
+      grade: ''
+    };
+
+    openModal(isNew ? 'Add Degree' : 'Edit Degree', `
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label class="form-label">Degree Name *</label>
+          <input type="text" id="modal-edu-degree" class="form-input" value="${escapeHtml(edu.degree)}" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Field of Study</label>
+          <input type="text" id="modal-edu-field" class="form-input" value="${escapeHtml(edu.field)}" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Institution Name *</label>
+          <input type="text" id="modal-edu-institution" class="form-input" value="${escapeHtml(edu.institution)}" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Year / Passing Year</label>
+          <input type="text" id="modal-edu-year" class="form-input" value="${escapeHtml(edu.year)}" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Grade / CGPA</label>
+          <input type="text" id="modal-edu-grade" class="form-input" value="${escapeHtml(edu.grade)}" />
+        </div>
+      </div>
+    `, () => {
+      const degree = document.getElementById('modal-edu-degree').value.trim();
+      const field = document.getElementById('modal-edu-field').value.trim();
+      const institution = document.getElementById('modal-edu-institution').value.trim();
+      const year = document.getElementById('modal-edu-year').value.trim();
+      const grade = document.getElementById('modal-edu-grade').value.trim();
+
+      if (!degree || !institution) {
+        alert('Degree and Institution are required.');
+        return false;
+      }
+
+      const updated = { ...edu, degree, field, institution, year, grade };
+      if (isNew) {
+        data.education.push(updated);
+      } else {
+        data.education[index] = updated;
+      }
+
+      renderEducationList();
+      return true;
+    });
+  };
+
+  window.deleteEducation = function (index) {
+    if (confirm(`Delete degree "${data.education[index].degree}"?`)) {
+      data.education.splice(index, 1);
+      renderEducationList();
+      showToast('Degree removed.');
+    }
+  };
+
+  const btnAddEdu = document.getElementById('btn-add-education');
+  if (btnAddEdu) btnAddEdu.addEventListener('click', () => window.editEducation(-1));
+
+  /* ── 10. Skills Tag Manager ─────────────────────────────── */
+  function renderSkillsManager() {
+    if (!data.skills) data.skills = {};
+    const categories = ['technical', 'professional', 'creative', 'languages'];
+
+    categories.forEach(cat => {
+      const container = document.getElementById(`skills-tags-${cat}`);
+      if (!container) return;
+
+      const items = data.skills[cat] || [];
+      container.innerHTML = items.map((tag, idx) => `
+        <span class="tag-chip">
+          ${escapeHtml(tag)}
+          <button type="button" onclick="window.removeSkillTag('${cat}', ${idx})" title="Remove">×</button>
+        </span>
+      `).join('');
+    });
+  }
+
+  window.removeSkillTag = function (cat, index) {
+    if (data.skills && data.skills[cat]) {
+      data.skills[cat].splice(index, 1);
+      renderSkillsManager();
+    }
+  };
+
+  document.querySelectorAll('[data-action="add-skill-btn"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.getAttribute('data-cat');
+      const input = document.getElementById(`new-skill-${cat}`);
+      if (!input) return;
+      const val = input.value.trim();
+      if (!val) return;
+
+      if (!data.skills[cat]) data.skills[cat] = [];
+      if (!data.skills[cat].includes(val)) {
+        data.skills[cat].push(val);
+        input.value = '';
+        renderSkillsManager();
+      }
+    });
+  });
+
+  /* ── 11. Modal Logic ────────────────────────────────────── */
+  const modalBackdrop = document.getElementById('admin-modal-backdrop');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBody = document.getElementById('modal-body');
+  const modalSaveBtn = document.getElementById('modal-save-btn');
+  const modalCancelBtn = document.getElementById('modal-cancel-btn');
+
+  let modalSaveCallback = null;
+
+  function openModal(title, htmlContent, onSave) {
+    modalTitle.textContent = title;
+    modalBody.innerHTML = htmlContent;
+    modalSaveCallback = onSave;
+    modalBackdrop.classList.add('open');
+  }
+
+  function closeModal() {
+    modalBackdrop.classList.remove('open');
+    modalSaveCallback = null;
+  }
+
+  if (modalSaveBtn) {
+    modalSaveBtn.addEventListener('click', () => {
+      if (modalSaveCallback) {
+        const success = modalSaveCallback();
+        if (success) closeModal();
+      }
+    });
+  }
+
+  if (modalCancelBtn) modalCancelBtn.addEventListener('click', closeModal);
+  if (modalBackdrop) {
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+  }
+
+  /* ── 12. Save & Publish All Changes ─────────────────────── */
+  const btnSaveAll = document.getElementById('btn-save-all');
+  if (btnSaveAll) {
+    btnSaveAll.addEventListener('click', () => {
+      // 1. Gather Profile
+      data.profile.name = getVal('input-name');
+      data.profile.firstName = getVal('input-firstName');
+      data.profile.roleTitle = getVal('input-roleTitle');
+      data.profile.heroBio = getVal('input-heroBio');
+      data.profile.aboutLead = getVal('input-aboutLead');
+      data.profile.aboutBodyParagraphs = getVal('input-aboutParagraphs').split('\n\n').map(p => p.trim()).filter(Boolean);
+      data.profile.contactIntro = getVal('input-contactIntro');
+      data.profile.email = getVal('input-email');
+      data.profile.phone = getVal('input-phone');
+      data.profile.linkedinUrl = getVal('input-linkedin');
+      data.profile.githubUrl = getVal('input-github');
+      data.profile.resumeUrl = getVal('input-resumeUrl');
+      data.profile.location = getVal('input-location');
+      data.profile.copyrightYear = parseInt(getVal('input-copyrightYear'), 10) || 2026;
+      data.profile.footerTagline = getVal('input-footerTagline');
+
+      // 2. Gather Availability & Typewriter
+      if (!data.availability) data.availability = {};
+      data.availability.status = getVal('input-avail-status');
+      data.availability.badgeText = getVal('input-avail-text');
+      data.availability.typewriterRoles = getVal('input-typewriter-roles').split(',').map(r => r.trim()).filter(Boolean);
+
+      // 3. Gather Metrics
+      if (data.metrics) {
+        data.metrics.forEach((m, idx) => {
+          const numEl = document.getElementById(`metric-num-${idx}`);
+          const sufEl = document.getElementById(`metric-suffix-${idx}`);
+          const lblEl = document.getElementById(`metric-label-${idx}`);
+          const subEl = document.getElementById(`metric-subtext-${idx}`);
+          if (numEl) m.number = numEl.value.trim();
+          if (sufEl) m.suffix = sufEl.value.trim();
+          if (lblEl) m.label = lblEl.value.trim();
+          if (subEl) m.subtext = subEl.value.trim();
+        });
+      }
+
+      // Save to storage
+      const res = window.PortfolioStore.saveData(data);
+      if (res.success) {
+        showToast('🎉 All portfolio changes published live!');
+      } else {
+        alert('Failed to save changes: ' + res.error);
+      }
+    });
+  }
+
+  /* ── 13. Password Change Form ───────────────────────────── */
+  const formChangePassword = document.getElementById('form-change-password');
+  if (formChangePassword) {
+    formChangePassword.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const curr = getVal('input-curr-pwd');
+      const newP = getVal('input-new-pwd');
+      const conf = getVal('input-confirm-pwd');
+
+      if (!curr || !newP || !conf) {
+        alert('Please fill in all password fields.');
+        return;
+      }
+      if (newP !== conf) {
+        alert('New passwords do not match.');
+        return;
+      }
+      if (newP.length < 4) {
+        alert('New password must be at least 4 characters long.');
+        return;
+      }
+
+      const res = await window.PortfolioStore.changePassword(curr, newP);
+      if (res.success) {
+        showToast('🔒 Master password successfully updated!');
+        setVal('input-curr-pwd', '');
+        setVal('input-new-pwd', '');
+        setVal('input-confirm-pwd', '');
+      } else {
+        alert(res.error || 'Failed to update password.');
+      }
+    });
+  }
+
+  /* ── 14. Export, Import & Reset Backup Tools ────────────── */
+  const btnExportJson = document.getElementById('btn-export-json');
+  if (btnExportJson) {
+    btnExportJson.addEventListener('click', () => {
+      window.PortfolioStore.exportJSON();
+      showToast('data.json backup downloaded.');
+    });
+  }
+
+  const btnImportTrigger = document.getElementById('btn-import-trigger');
+  const inputImportJson = document.getElementById('input-import-json');
+  if (btnImportTrigger && inputImportJson) {
+    btnImportTrigger.addEventListener('click', () => inputImportJson.click());
+    inputImportJson.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const res = window.PortfolioStore.importJSON(event.target.result);
+        if (res.success) {
+          populateAll();
+          showToast('Backup restored successfully!');
+        } else {
+          alert('Import failed: ' + res.error);
+        }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  const btnResetDefault = document.getElementById('btn-reset-default');
+  if (btnResetDefault) {
+    btnResetDefault.addEventListener('click', () => {
+      if (confirm('Reset all content to original resume defaults? Any unpublished modifications will be cleared.')) {
+        const res = window.PortfolioStore.resetToDefault();
+        if (res.success) {
+          populateAll();
+          showToast('Reset to original default data.');
+        }
+      }
+    });
+  }
+
+  /* ── Helper: Toast Feedback ────────────────────────────── */
+  function showToast(msg, type = 'success') {
+    let toast = document.getElementById('admin-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'admin-toast';
+      toast.className = 'admin-toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.className = `admin-toast ${type} show`;
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3200);
   }
 
   function escapeHtml(str) {
@@ -725,6 +924,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/'/g, '&#039;');
   }
 
-  // Check authentication status on startup
+  // Initialize Auth Check
   checkAuth();
 });
