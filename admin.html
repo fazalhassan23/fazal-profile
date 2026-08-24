@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMS Admin Panel — Fazal Mahmud Hassan</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="admin-body">
+
+  <!-- ══════════════════════════════════════════════════
+       PASSWORD LOCKSCREEN (Shown when not authenticated)
+  ═══════════════════════════════════════════════════ -->
+  <div id="admin-lockscreen" class="admin-lockscreen">
+    <div class="lock-card" id="lock-card">
+      <div class="lock-icon-wrap">🔒</div>
+      <h2 class="lock-title">CMS Admin Access</h2>
+      <p class="lock-subtitle">Enter your admin password to manage and edit your portfolio content.</p>
+
+      <form id="lock-form" class="lock-form" onsubmit="return false;">
+        <div class="password-input-wrap">
+          <input type="password" id="input-admin-password" class="form-input" placeholder="Enter password..." autocomplete="current-password" autofocus />
+          <button type="button" id="btn-toggle-pwd" class="btn-toggle-pwd" title="Show / Hide Password">👁️</button>
+        </div>
+        <div id="lock-error-msg" class="lock-error">Incorrect password. Please try again.</div>
+        <button type="submit" id="btn-unlock-cms" class="btn-adm btn-adm-primary" style="width: 100%; padding: 0.8rem;">
+          🔓 Unlock Dashboard
+        </button>
+      </form>
+
+      <a href="index.html" class="lock-back-link">← Return to live website</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SIDEBAR NAVIGATION
+  ═══════════════════════════════════════════════════ -->
+  <aside class="admin-sidebar" id="admin-sidebar" style="display: none;">
+    <div class="admin-sidebar-header">
+      <a href="index.html" class="admin-brand">
+        Portfolio <span class="badge">CMS</span>
+      </a>
+    </div>
+
+    <ul class="admin-nav">
+      <li class="admin-nav-item">
+        <button type="button" class="active" data-tab="profile">
+          <span>👤</span> Profile &amp; Bio
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="experience">
+          <span>💼</span> Experience
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="projects">
+          <span>🚀</span> Projects &amp; Research
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="education">
+          <span>🎓</span> Education
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="skills">
+          <span>🛠️</span> Skills &amp; Languages
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="settings">
+          <span>⚙️</span> Security &amp; Backups
+        </button>
+      </li>
+    </ul>
+
+    <div class="admin-sidebar-footer">
+      <a href="index.html" target="_blank" class="btn-view-site">
+        <span>🌐 View Live Site</span>
+      </a>
+      <button id="btn-logout" class="btn-adm btn-adm-danger btn-adm-sm" style="width: 100%; margin-top: 0.25rem;">
+        🔒 Log Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- ══════════════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════════════ -->
+  <main class="admin-main" id="admin-main" style="display: none;">
+
+    <!-- Top bar -->
+    <div class="admin-topbar">
+      <div class="admin-title-area">
+        <h1>Content Management Panel</h1>
+        <p>Edit your profile, add new projects or experience, and publish updates live.</p>
+      </div>
+
+      <div class="admin-actions-bar">
+        <button id="btn-save-all" class="btn-adm btn-adm-primary">
+          💾 Save &amp; Publish Changes
+        </button>
+      </div>
+    </div>
+
+    <!-- ── 1. PANEL: PROFILE & BIO ──────────────────── -->
+    <section id="panel-profile" class="admin-panel active">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Identity &amp; Hero Details</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="input-name" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">First Name (Logo Display)</label>
+            <input type="text" id="input-firstName" class="form-input" />
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Professional Role / Subtitle</label>
+            <input type="text" id="input-roleTitle" class="form-input" />
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Homepage Hero Bio</label>
+            <textarea id="input-heroBio" class="form-textarea"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">About Page Story</h2>
+        </div>
+        <div class="form-grid single">
+          <div class="form-group">
+            <label class="form-label">About Page Lead Paragraph</label>
+            <textarea id="input-aboutLead" class="form-textarea" style="min-height: 80px;"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Detailed Story Paragraphs (Separate each paragraph with a blank line)</label>
+            <textarea id="input-aboutParagraphs" class="form-textarea" style="min-height: 180px;"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Contact Information &amp; Social Links</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label class="form-label">Contact Section Intro</label>
+            <input type="text" id="input-contactIntro" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="input-email" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="text" id="input-phone" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">LinkedIn URL</label>
+            <input type="url" id="input-linkedin" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">GitHub URL (Optional)</label>
+            <input type="url" id="input-github" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Location</label>
+            <input type="text" id="input-location" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Copyright Year</label>
+            <input type="number" id="input-copyrightYear" class="form-input" />
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Footer Tagline</label>
+            <input type="text" id="input-footerTagline" class="form-input" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 2. PANEL: EXPERIENCE ─────────────────────── -->
+    <section id="panel-experience" class="admin-panel">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h2 class="admin-card-title">Work Experience &amp; Career History</h2>
+            <p style="font-size:0.875rem; color:var(--adm-muted);">The top 3 positions will automatically feature on the home page.</p>
+          </div>
+          <button id="btn-add-experience" class="btn-adm btn-adm-primary btn-adm-sm">
+            ➕ Add Position
+          </button>
+        </div>
+
+        <div id="experience-list" class="item-list">
+          <!-- Populated by js/admin.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 3. PANEL: PROJECTS & RESEARCH ───────────── -->
+    <section id="panel-projects" class="admin-panel">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h2 class="admin-card-title">Projects, Publications &amp; Research</h2>
+            <p style="font-size:0.875rem; color:var(--adm-muted);">Add new software projects, publications, or thesis works.</p>
+          </div>
+          <button id="btn-add-project" class="btn-adm btn-adm-primary btn-adm-sm">
+            ➕ Add Project
+          </button>
+        </div>
+
+        <div id="projects-list" class="item-list">
+          <!-- Populated by js/admin.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4. PANEL: EDUCATION ──────────────────────── -->
+    <section id="panel-education" class="admin-panel">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Degrees &amp; Education</h2>
+          <button id="btn-add-education" class="btn-adm btn-adm-primary btn-adm-sm">
+            ➕ Add Degree
+          </button>
+        </div>
+
+        <div id="education-list" class="item-list">
+          <!-- Populated by js/admin.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. PANEL: SKILLS ─────────────────────────── -->
+    <section id="panel-skills" class="admin-panel">
+      <!-- Technical -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Technical Skills</h2>
+        </div>
+        <div id="skills-tags-technical" class="tags-manager"></div>
+        <div class="tag-add-inline">
+          <input type="text" id="new-skill-technical" class="form-input" placeholder="e.g. Docker, Python..." />
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="add-skill-btn" data-cat="technical">Add Tag</button>
+        </div>
+      </div>
+
+      <!-- Professional -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Professional &amp; Soft Skills</h2>
+        </div>
+        <div id="skills-tags-professional" class="tags-manager"></div>
+        <div class="tag-add-inline">
+          <input type="text" id="new-skill-professional" class="form-input" placeholder="e.g. Stakeholder Management..." />
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="add-skill-btn" data-cat="professional">Add Tag</button>
+        </div>
+      </div>
+
+      <!-- Creative -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Creative &amp; Design Skills</h2>
+        </div>
+        <div id="skills-tags-creative" class="tags-manager"></div>
+        <div class="tag-add-inline">
+          <input type="text" id="new-skill-creative" class="form-input" placeholder="e.g. Figma..." />
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="add-skill-btn" data-cat="creative">Add Tag</button>
+        </div>
+      </div>
+
+      <!-- Languages -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Languages</h2>
+        </div>
+        <div id="skills-tags-languages" class="tags-manager"></div>
+        <div class="tag-add-inline">
+          <input type="text" id="new-skill-languages" class="form-input" placeholder="e.g. German — Elementary..." />
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="add-skill-btn" data-cat="languages">Add Tag</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 6. PANEL: SECURITY & SETTINGS ────────────── -->
+    <section id="panel-settings" class="admin-panel">
+      <!-- Change Password -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">🔐 CMS Password &amp; Security</h2>
+        </div>
+        <p style="font-size:0.9375rem; color:var(--adm-muted); margin-bottom:1.5rem;">
+          Update your admin master password. The default initial password is <code style="color:var(--adm-accent-hover); background:rgba(59,130,246,0.15); padding:2px 6px; border-radius:4px;">admin</code>.
+        </p>
+
+        <form id="form-change-password" onsubmit="return false;" style="max-width: 480px; display: flex; flex-direction: column; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Current Password</label>
+            <input type="password" id="input-curr-pwd" class="form-input" placeholder="Enter current password..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Password</label>
+            <input type="password" id="input-new-pwd" class="form-input" placeholder="Enter new password (min 4 characters)..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm New Password</label>
+            <input type="password" id="input-confirm-pwd" class="form-input" placeholder="Confirm new password..." />
+          </div>
+          <button type="submit" id="btn-update-pwd" class="btn-adm btn-adm-primary" style="align-self: flex-start;">
+            Update Admin Password
+          </button>
+        </form>
+      </div>
+
+      <!-- Backup and Reset -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Export &amp; Import JSON Backups</h2>
+        </div>
+        <p style="font-size:0.9375rem; color:var(--adm-muted); margin-bottom:1.5rem;">
+          Download a JSON backup of your current content, or restore content from a previously exported JSON file.
+        </p>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <button id="btn-export-json" class="btn-adm btn-adm-primary">
+            📥 Download data.json Backup
+          </button>
+
+          <input type="file" id="input-import-json" accept=".json" style="display:none;" />
+          <button id="btn-import-trigger" class="btn-adm btn-adm-secondary">
+            📤 Import from JSON File
+          </button>
+
+          <button id="btn-reset-default" class="btn-adm btn-adm-danger" style="margin-left: auto;">
+            🔄 Reset to Original Resume Data
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════════════
+       REUSABLE EDIT/ADD MODAL
+  ═══════════════════════════════════════════════════ -->
+  <div id="admin-modal-backdrop" class="admin-modal-backdrop">
+    <div class="admin-modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Edit Item</h3>
+      </div>
+      <div id="modal-body" class="modal-body">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button id="modal-cancel-btn" class="btn-adm btn-adm-secondary">Cancel</button>
+        <button id="modal-save-btn" class="btn-adm btn-adm-primary">Apply Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="data/default-data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
