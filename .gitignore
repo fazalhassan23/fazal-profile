@@ -1,0 +1,12 @@
+# OS Generated Files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary / Log files
+*.log

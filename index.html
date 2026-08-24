@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fazal Mahmud Hassan — Technical Project Manager</title>
+  <meta name="description" content="Personal portfolio of Fazal Mahmud Hassan — Technical Project Manager with a background in Computer Science and MBA in HR & Management." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════════ -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><span data-cms="firstName">Fazal</span><span class="dot">.</span></a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email">Contact</a></li>
+        <li><a href="admin.html" style="opacity: 0.65; font-size: 0.8125rem;">⚙️ CMS</a></li>
+      </ul>
+
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════════════ -->
+  <div class="page-wrapper">
+
+    <!-- ── HERO ─────────────────────────────────────── -->
+    <section class="hero" id="home" aria-label="Introduction">
+      <span class="section-label">home</span>
+
+      <h1 id="hero-title">Fazal Mahmud<br>Hassan.</h1>
+
+      <p class="hero-role" id="hero-role">Technical Project Manager · Systems Engineer</p>
+
+      <p class="hero-bio" id="hero-bio">
+        Result-driven professional bridging technology and people management. 
+        Currently leading 21+ projects at Mediusware Limited — overseeing SaaS and CRM 
+        delivery across cross-functional teams. I hold an MBA in HR &amp; Management 
+        from the University of Dhaka and a B.Sc in Computer Science from BRAC University.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="projects.html" class="btn btn-primary">View My Work ↗</a>
+        <a href="about.html" class="btn btn-outline">About Me</a>
+        <a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </section>
+
+    <!-- ── EXPERTISE ─────────────────────────────────── -->
+    <section class="section" id="expertise" aria-label="Expertise">
+      <span class="section-label">expertise</span>
+
+      <div class="expertise-grid" id="expertise-container">
+        <!-- Rendered dynamically by js/render.js -->
+        <div class="expertise-card fade-up">
+          <div class="card-icon">🗂️</div>
+          <p class="card-category">Delivery &amp; Strategy</p>
+          <h3>Technical Project Management</h3>
+          <p>Managing 21+ concurrent projects across SaaS, CRM, and enterprise software.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── EXPERIENCE ──────────────────────────────────── -->
+    <section class="section" id="experience" aria-label="Work experience">
+      <div class="section-header">
+        <div>
+          <span class="section-label">experience</span>
+          <p class="section-subtext" style="margin-bottom:0">
+            Selected professional background and key career milestones.
+          </p>
+        </div>
+        <a href="about.html#experience" class="btn btn-ghost">Full history <span class="arrow">→</span></a>
+      </div>
+
+      <div class="timeline" id="home-experience-container">
+        <!-- Rendered dynamically by js/render.js -->
+      </div>
+    </section>
+
+    <!-- ── FEATURED WORK ──────────────────────────────── -->
+    <section class="section" id="work" aria-label="Featured work">
+      <div class="section-header">
+        <div>
+          <span class="section-label">work</span>
+          <p class="section-subtext" style="margin-bottom:0">
+            Selected academic projects and research.
+          </p>
+        </div>
+        <a href="projects.html" class="btn btn-ghost">All projects <span class="arrow">→</span></a>
+      </div>
+
+      <div class="projects-list" id="home-projects-container">
+        <!-- Rendered dynamically by js/render.js -->
+      </div>
+    </section>
+
+    <!-- ── CONTACT ────────────────────────────────────── -->
+    <section class="section" id="contact" aria-label="Contact">
+      <span class="section-label">contact</span>
+
+      <h2 class="section-heading" style="margin-bottom:0.875rem">Let's work together.</h2>
+      <p class="contact-text" id="contact-text">
+        Have an interesting project or role you'd like to discuss? 
+        I'm always open to new conversations — reach out by email or connect on LinkedIn.
+      </p>
+
+      <div class="contact-links">
+        <a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email" class="btn btn-primary">
+          ✉️ Send an Email
+        </a>
+        <a href="https://linkedin.com/in/fazalmahmudhassan" data-cms-link="linkedin" target="_blank" rel="noopener" class="btn btn-outline">
+          LinkedIn ↗
+        </a>
+        <a href="tel:+8801712772123" data-cms-link="phone" class="btn btn-outline">
+          <span data-cms-text="phone">+880 171 277 2123</span>
+        </a>
+      </div>
+    </section>
+
+  </div><!-- /page-wrapper -->
+
+  <!-- ══════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <a href="index.html" class="footer-brand"><span data-cms="firstName">Fazal</span><span class="dot">.</span></a>
+        <p class="footer-tagline" id="footer-tagline">
+          Technical Project Manager &amp; Systems Engineer based in Dhaka, Bangladesh.
+        </p>
+      </div>
+      <div>
+        <p class="footer-links-title">Navigation</p>
+        <ul class="footer-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email">Contact</a></li>
+          <li><a href="admin.html" style="color: var(--accent);">⚙️ Admin CMS Panel</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy" id="footer-copy">© 2026 Fazal Mahmud Hassan</span>
+      <div class="footer-bottom-links">
+        <a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email" data-cms-text="email">fazal.mahmud.hassan@gmail.com</a>
+        <a href="tel:+8801712772123" data-cms-link="phone" data-cms-text="phone">+880 1712 772123</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data/default-data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
