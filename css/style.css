@@ -8,18 +8,18 @@
    CSS Custom Properties (Design System Tokens)
    ──────────────────────────────────────────────────────────── */
 :root {
-  /* === Core Palette === */
-  --bg:              #0A0A0F;       /* Refined warm charcoal black */
-  --bg-secondary:    #101016;       /* Subtle section separation */
-  --surface:         #14141C;       /* Card backgrounds */
-  --surface-hover:   #1A1A24;       /* Card hover state */
-  --surface-raised:  #1E1E2A;       /* Elevated surfaces & modals */
+  /* === Core Palette (AMOLED Pure Black) === */
+  --bg:              #000000;       /* True AMOLED Solid Black */
+  --bg-secondary:    #060608;       /* Barely perceptible section separation */
+  --surface:         #0C0C10;       /* Card backgrounds */
+  --surface-hover:   #121216;       /* Card hover state */
+  --surface-raised:  #161619;       /* Elevated surfaces & modals */
 
   /* === Text (Precision Contrast & Clarity) === */
   --text-primary:    #F4F4F9;       /* Crisp, comfortable white */
   --text-secondary:  #B0B0C8;       /* High-contrast body text */
   --text-tertiary:   #8A8AA4;       /* Metadata, captions, dates */
-  --text-inverse:    #0A0A0F;       /* Dark text on light accent */
+  --text-inverse:    #000000;       /* Dark text on light accent */
 
   /* === Accent: Electric Blue === */
   --accent:          #4A85FF;       /* Warm modern blue */
@@ -76,6 +76,46 @@
 }
 
 /* ────────────────────────────────────────────────────────────
+   Light Mode Theme Overrides
+   ──────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg:              #FFFFFF;
+  --bg-secondary:    #F6F6F8;
+  --surface:         #F0F0F3;
+  --surface-hover:   #E8E8EC;
+  --surface-raised:  #FFFFFF;
+
+  --text-primary:    #1A1A2E;
+  --text-secondary:  #4A4A68;
+  --text-tertiary:   #8888A0;
+  --text-inverse:    #FFFFFF;
+
+  --accent:          #3B6FE0;
+  --accent-hover:    #2D5CC8;
+  --accent-glow:     rgba(59, 111, 224, 0.15);
+  --accent-light:    rgba(59, 111, 224, 0.08);
+  --accent-border:   rgba(59, 111, 224, 0.25);
+
+  --gold:            #D48A0A;
+  --gold-light:      rgba(212, 138, 10, 0.08);
+  --gold-border:     rgba(212, 138, 10, 0.20);
+
+  --green:           #0F9B6E;
+  --green-light:     rgba(15, 155, 110, 0.06);
+  --green-border:    rgba(15, 155, 110, 0.18);
+
+  --border:          rgba(0, 0, 0, 0.08);
+  --border-hover:    rgba(0, 0, 0, 0.14);
+  --border-accent:   rgba(59, 111, 224, 0.30);
+
+  --shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md:       0 8px 24px rgba(0, 0, 0, 0.10);
+  --shadow-modal:    0 24px 64px rgba(0, 0, 0, 0.15);
+
+  color-scheme: light;
+}
+
+/* ────────────────────────────────────────────────────────────
    Reset & Base
    ──────────────────────────────────────────────────────────── */
 *, *::before, *::after {
@@ -100,6 +140,43 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   width: 100%;
+  position: relative;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+/* Animated subtle grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 0.025;
+  animation: grainShift 8s steps(10) infinite;
+}
+
+[data-theme="light"] body::before {
+  opacity: 0.015;
+}
+
+@keyframes grainShift {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
 }
 
 img {
@@ -129,6 +206,9 @@ a {
   background: rgba(255, 255, 255, 0.12);
   border-radius: 3px;
 }
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+}
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.22);
 }
@@ -149,17 +229,26 @@ a {
   right: 0;
   height: var(--nav-height);
   z-index: 300;
-  background: rgba(10, 10, 15, 0.88);
+  background: rgba(0, 0, 0, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
   transition: background 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
 
+[data-theme="light"] .nav {
+  background: rgba(255, 255, 255, 0.90);
+}
+
 .nav.scrolled {
-  background: rgba(10, 10, 15, 0.96);
+  background: rgba(0, 0, 0, 0.96);
   border-bottom-color: var(--border-hover);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] .nav.scrolled {
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .nav-inner {
@@ -223,6 +312,49 @@ a {
   height: 2px;
   background: var(--accent);
   border-radius: 2px;
+}
+
+/* Right-side nav group (Theme toggle + Mobile hamburger) */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: background 0.15s, border-color 0.15s, transform 0.2s var(--ease);
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: var(--surface);
+  border-color: var(--border-hover);
+}
+
+.theme-toggle .theme-icon-sun {
+  display: none;
+}
+.theme-toggle .theme-icon-moon {
+  display: inline-block;
+}
+
+[data-theme="light"] .theme-toggle .theme-icon-sun {
+  display: inline-block;
+}
+[data-theme="light"] .theme-toggle .theme-icon-moon {
+  display: none;
 }
 
 /* Mobile Nav Toggle Button */
@@ -1556,7 +1688,7 @@ a {
     top: var(--nav-height);
     left: 0;
     right: 0;
-    background: rgba(10, 10, 15, 0.98);
+    background: var(--bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     padding: 1.5rem var(--page-pad) 2rem;
