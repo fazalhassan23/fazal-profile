@@ -504,6 +504,7 @@ a {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  min-height: 1.5rem; /* Prevents text shifts when the typewriter changes text */
 }
 
 .hero-bio {
