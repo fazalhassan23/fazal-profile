@@ -62,6 +62,11 @@ body.admin-body {
   width: 100%;
 }
 
+/* Utility: used by admin.js to hide/show panels */
+.hidden {
+  display: none !important;
+}
+
 /* ────────────────────────────────────────────────────────────
    1. Lockscreen (Modern & Minimal)
    ──────────────────────────────────────────────────────────── */
