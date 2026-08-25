@@ -225,9 +225,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── Ambient Background: Meteor Shower ─────────────────── */
+  /* ── Ambient Background: Dynamic Canvas (Meteors / Birds) ── */
   const canvas = document.createElement('canvas');
-  canvas.id = 'ambient-meteors';
+  canvas.id = 'ambient-canvas';
   canvas.style.position = 'fixed';
   canvas.style.top = '0';
   canvas.style.left = '0';
@@ -246,62 +246,107 @@ document.addEventListener('DOMContentLoaded', () => {
     height = canvas.height = window.innerHeight;
   });
 
+  // --- Dark Mode: Meteors State ---
   const meteors = [];
-
-  function createMeteor() {
+  function createMeteor(initial = false) {
     return {
-      x: Math.random() * width + width * 0.4,
-      y: Math.random() * -150,
-      length: Math.random() * 120 + 80,
-      speed: Math.random() * 2 + 1.5,
-      opacity: Math.random() * 0.22 + 0.08, // Subtle opacity to avoid distraction
-      width: Math.random() * 1.2 + 0.6
+      x: initial ? Math.random() * width : Math.random() * width + width * 0.4,
+      y: initial ? Math.random() * height : Math.random() * -150,
+      length: Math.random() * 140 + 90,
+      speed: Math.random() * 2.2 + 1.8,
+      opacity: Math.random() * 0.28 + 0.18, // Increased visibility
+      width: Math.random() * 1.5 + 0.8       // Slightly thicker trail lines
     };
   }
+  for (let i = 0; i < 6; i++) {
+    meteors.push(createMeteor(true));
+  }
 
-  // Populate initial meteors sparingly
-  for (let i = 0; i < 5; i++) {
-    meteors.push(createMeteor());
-    meteors[i].y = Math.random() * height;
-    meteors[i].x = Math.random() * width;
+  // --- Light Mode: Flying Birds State ---
+  const birds = [];
+  function createBird(initial = false) {
+    return {
+      x: initial ? Math.random() * (width + 200) - 100 : -100,
+      y: Math.random() * (height * 0.6) + 80, // Fly in the upper 60% of viewport
+      size: Math.random() * 8 + 6,            // Wingspan size
+      speedX: Math.random() * 0.8 + 0.5,      // Slow gentle flight velocity
+      speedY: (Math.random() - 0.5) * 0.1,    // Subtle wave vertical drift
+      flapPhase: Math.random() * Math.PI * 2, // Flapping wing cycle phase
+      flapSpeed: Math.random() * 0.08 + 0.06,  // Wings flap speed
+      opacity: Math.random() * 0.18 + 0.12    // Soft, minimal visibility
+    };
+  }
+  for (let i = 0; i < 4; i++) {
+    birds.push(createBird(true));
   }
 
   function draw() {
     ctx.clearRect(0, 0, width, height);
 
-    // Get current theme to determine meteor colors
+    // Get current theme to determine which background effect to render
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    
-    for (let i = 0; i < meteors.length; i++) {
-      const m = meteors[i];
-      
-      // Update position (moving top-right to bottom-left)
-      m.x -= m.speed;
-      m.y += m.speed * 0.58; // gentle diagonal glide angle (approx 30 deg)
-      
-      // Draw meteor trail
-      const grad = ctx.createLinearGradient(m.x, m.y, m.x + m.length, m.y - m.length * 0.58);
-      
-      if (isLight) {
-        grad.addColorStop(0, `rgba(59, 111, 224, ${m.opacity * 0.45})`); // Soft slate-blue trail
-        grad.addColorStop(1, 'rgba(59, 111, 224, 0)');
-      } else {
-        grad.addColorStop(0, `rgba(74, 133, 255, ${m.opacity})`); // Glowing modern accent blue
-        grad.addColorStop(0.08, `rgba(255, 255, 255, ${m.opacity * 1.2})`); // Soft white bright head
-        grad.addColorStop(1, 'rgba(74, 133, 255, 0)');
+
+    if (isLight) {
+      // --- LIGHT MODE: Flock of Subtle Birds ---
+      for (let i = 0; i < birds.length; i++) {
+        const b = birds[i];
+
+        // Update positions
+        b.x += b.speedX;
+        b.y += b.speedY;
+        b.flapPhase += b.flapSpeed;
+
+        // Flapping math: Math.sin gives wings up/down coordinate offsets
+        const flapAngle = Math.sin(b.flapPhase);
+
+        ctx.save();
+        ctx.translate(b.x, b.y);
+        ctx.strokeStyle = `rgba(59, 111, 224, ${b.opacity})`; // Warm slate-blue tint
+        ctx.lineWidth = 1.6;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        ctx.beginPath();
+        // Left Wing tip to core
+        ctx.moveTo(-b.size, flapAngle * b.size * 0.35);
+        ctx.quadraticCurveTo(-b.size * 0.3, -b.size * 0.22, 0, 0);
+        // Core to Right Wing tip
+        ctx.quadraticCurveTo(b.size * 0.3, -b.size * 0.22, b.size, flapAngle * b.size * 0.35);
+        ctx.stroke();
+        ctx.restore();
+
+        // Reset bird when it flies fully off-screen right
+        if (b.x > width + 100) {
+          birds[i] = createBird(false);
+        }
       }
+    } else {
+      // --- DARK MODE: Meteor Shower (Enhanced Contrast) ---
+      for (let i = 0; i < meteors.length; i++) {
+        const m = meteors[i];
 
-      ctx.beginPath();
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = m.width;
-      ctx.lineCap = 'round';
-      ctx.moveTo(m.x, m.y);
-      ctx.lineTo(m.x + m.length, m.y - m.length * 0.58);
-      ctx.stroke();
+        // Update position
+        m.x -= m.speed;
+        m.y += m.speed * 0.58; // gentle diagonal glide angle (approx 30 deg)
 
-      // Reset meteor if it exits the viewport boundary
-      if (m.x < -m.length || m.y > height + m.length) {
-        meteors[i] = createMeteor();
+        // Draw meteor trail with double gradients for maximum glow
+        const grad = ctx.createLinearGradient(m.x, m.y, m.x + m.length, m.y - m.length * 0.58);
+        grad.addColorStop(0, `rgba(74, 133, 255, ${m.opacity})`); // Glowing modern accent blue
+        grad.addColorStop(0.06, `rgba(255, 255, 255, ${m.opacity * 1.35})`); // Vibrant white core/head
+        grad.addColorStop(1, 'rgba(74, 133, 255, 0)');
+
+        ctx.beginPath();
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = m.width;
+        ctx.lineCap = 'round';
+        ctx.moveTo(m.x, m.y);
+        ctx.lineTo(m.x + m.length, m.y - m.length * 0.58);
+        ctx.stroke();
+
+        // Reset meteor when it exits viewport boundaries
+        if (m.x < -m.length || m.y > height + m.length) {
+          meteors[i] = createMeteor(false);
+        }
       }
     }
 
