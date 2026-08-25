@@ -1,45 +1,62 @@
 /* ============================================================
    PORTFOLIO DYNAMIC RENDERER (js/render.js)
-   Binds stored CMS data to DOM elements on all pages.
+   Modular, accessible, and resilient DOM renderer for
+   binding CMS data across all portfolio views.
    ============================================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (!window.PortfolioStore) return;
+(function () {
+  'use strict';
 
   let typewriterTimer = null;
 
-  function renderAll() {
-    const data = window.PortfolioStore.getData();
-    if (!data || !data.profile) return;
+  /**
+   * Escape HTML to prevent XSS vulnerabilities in user-provided content
+   * @param {*} str
+   * @returns {string}
+   */
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
 
-    const p = data.profile;
-    const avail = data.availability || {};
+  /* ────────────────────────────────────────────────────────────
+     COMPONENT RENDERERS
+     ──────────────────────────────────────────────────────────── */
 
-    // Dynamic Font Pair Theme
+  function renderIdentityAndTheme(p) {
+    // Dynamic Font Theme
     if (p.fontPair) {
       document.documentElement.setAttribute('data-font-pair', p.fontPair);
     } else {
       document.documentElement.removeAttribute('data-font-pair');
     }
 
-    /* ── 1. Global / Brand / Nav ─────────────────────────── */
+    // Nav Brand & Full Name
     document.querySelectorAll('[data-cms="firstName"]').forEach(el => {
-      el.textContent = p.firstName || "Fazal";
+      el.textContent = p.firstName || 'Fazal';
     });
 
     document.querySelectorAll('[data-cms="fullName"]').forEach(el => {
-      el.textContent = p.name || "Fazal Mahmud Hassan";
+      el.textContent = p.name || 'Fazal Mahmud Hassan';
     });
 
-    // Update document title if applicable
+    // Dynamic Title tag
     if (document.title.includes('—')) {
       const parts = document.title.split('—');
       if (parts.length === 2 && parts[0].trim() === 'Fazal Mahmud Hassan') {
-        document.title = `${p.name} — ${p.roleTitle ? p.roleTitle.split('·')[0].trim() : 'Portfolio'}`;
+        const shortRole = p.roleTitle ? p.roleTitle.split('·')[0].trim() : 'Portfolio';
+        document.title = `${p.name || 'Fazal Mahmud Hassan'} — ${shortRole}`;
       }
     }
+  }
 
-    /* ── 2. Availability Badge ────────────────────────────── */
+  function renderHero(p, avail) {
+    // Availability Badge
     const availContainer = document.getElementById('hero-availability');
     if (availContainer) {
       const status = avail.status || 'available';
@@ -50,109 +67,141 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    /* ── 3. Hero Section (index.html) ─────────────────────── */
+    // Hero Title
     const heroTitle = document.getElementById('hero-title');
     if (heroTitle) {
-      const nameParts = (p.name || '').split(' ');
+      const nameParts = (p.name || '').trim().split(' ');
       if (nameParts.length > 1) {
         const lastWord = nameParts.pop();
-        heroTitle.innerHTML = `${nameParts.join(' ')}<br>${lastWord}.`;
+        heroTitle.innerHTML = `${escapeHtml(nameParts.join(' '))}<br>${escapeHtml(lastWord)}.`;
       } else {
-        heroTitle.innerHTML = `${p.name}.`;
+        heroTitle.innerHTML = `${escapeHtml(p.name || '')}.`;
       }
     }
 
+    // Hero Bio
     const heroBio = document.getElementById('hero-bio');
-    if (heroBio) heroBio.textContent = p.heroBio || '';
-
-    // Typewriter effect initialization
-    initTypewriter(avail.typewriterRoles || [p.roleTitle || "Technical Project Manager"]);
-
-    /* ── 4. Metric Counters (Rectangular Row Cards) ──────── */
-    const metricsContainer = document.getElementById('hero-metrics-container');
-    if (metricsContainer && data.metrics) {
-      metricsContainer.innerHTML = data.metrics.map(m => `
-        <div class="metric-card fade-up visible">
-          <div class="metric-number-wrap">
-            <span class="metric-val" data-target="${escapeHtml(m.number || '0')}">${escapeHtml(m.number || '0')}</span>
-            <span class="metric-suffix">${escapeHtml(m.suffix || '')}</span>
-          </div>
-          <div class="metric-text-group">
-            <p class="metric-label">${escapeHtml(m.label || '')}</p>
-            <p class="metric-subtext">${escapeHtml(m.subtext || '')}</p>
-          </div>
-        </div>
-      `).join('');
+    if (heroBio) {
+      heroBio.textContent = p.heroBio || '';
     }
 
-    /* ── 5. Expertise Grid (2-Column Icon + Text Block) ───── */
-    const expertiseContainer = document.getElementById('expertise-container');
-    if (expertiseContainer && data.expertise) {
-      expertiseContainer.innerHTML = data.expertise.map(exp => `
-        <div class="expertise-card fade-up visible">
-          <div class="card-icon">${escapeHtml(exp.icon || '⚡')}</div>
-          <div>
-            <p class="card-category">${escapeHtml(exp.category || '')}</p>
-            <h3>${escapeHtml(exp.title || '')}</h3>
-            <p>${escapeHtml(exp.description || '')}</p>
-          </div>
-        </div>
-      `).join('');
-    }
+    // Typewriter
+    initTypewriter(avail.typewriterRoles || [p.roleTitle || 'Technical Project Manager']);
+  }
 
-    /* ── 6. Awards & Honors Showcase (Subtle Gold Left Border) */
-    const awardsContainer = document.getElementById('awards-container');
-    if (awardsContainer && data.awards) {
-      awardsContainer.innerHTML = data.awards.map(awd => `
-        <div class="award-card fade-up visible">
-          <div class="award-icon-box">🏆</div>
-          <div class="award-content">
-            <h3 class="award-title">${escapeHtml(awd.title || '')}</h3>
-            <p class="award-org">${escapeHtml(awd.organization || '')} · <span class="award-year-inline">${escapeHtml(awd.year || '')}</span></p>
-          </div>
-        </div>
-      `).join('');
-    }
+  function renderMetrics(metrics) {
+    const container = document.getElementById('hero-metrics-container');
+    if (!container || !Array.isArray(metrics)) return;
 
-    /* ── 7. Articles & Insights Feed (2-Column Rows) ──────── */
-    const articlesContainer = document.getElementById('articles-container');
-    if (articlesContainer && data.articles) {
-      articlesContainer.innerHTML = data.articles.map(art => {
-        const tagsHtml = (art.tags || []).slice(0, 2).map(t => `<span class="article-tag">${escapeHtml(t)}</span>`).join('');
-        return `
-          <div class="article-card fade-up visible" onclick="window.openArticleModal('${escapeHtml(art.id)}')">
-            <div class="article-card-content">
-              <div class="article-meta">
-                <span class="article-category">${escapeHtml(art.category || 'Article')}</span>
-                <span class="article-date">${escapeHtml(art.date || '')} · ${escapeHtml(art.readTime || '5 min read')}</span>
-              </div>
-              <h3 class="article-title">${escapeHtml(art.title || '')}</h3>
-              <p class="article-summary">${escapeHtml(art.summary || '')}</p>
+    container.innerHTML = metrics.map(m => `
+      <div class="metric-card fade-up visible">
+        <div class="metric-number-wrap">
+          <span class="metric-val" data-target="${escapeHtml(m.number || '0')}">${escapeHtml(m.number || '0')}</span>
+          <span class="metric-suffix">${escapeHtml(m.suffix || '')}</span>
+        </div>
+        <div class="metric-text-group">
+          <p class="metric-label">${escapeHtml(m.label || '')}</p>
+          <p class="metric-subtext">${escapeHtml(m.subtext || '')}</p>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderExpertise(expertise) {
+    const container = document.getElementById('expertise-container');
+    if (!container || !Array.isArray(expertise)) return;
+
+    container.innerHTML = expertise.map(exp => `
+      <div class="expertise-card fade-up visible">
+        <div class="card-icon">${escapeHtml(exp.icon || '⚡')}</div>
+        <div>
+          <p class="card-category">${escapeHtml(exp.category || '')}</p>
+          <h3>${escapeHtml(exp.title || '')}</h3>
+          <p>${escapeHtml(exp.description || '')}</p>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderAwards(awards) {
+    const container = document.getElementById('awards-container');
+    if (!container || !Array.isArray(awards)) return;
+
+    container.innerHTML = awards.map(awd => `
+      <div class="award-card fade-up visible">
+        <div class="award-icon-box">🏆</div>
+        <div class="award-content">
+          <h3 class="award-title">${escapeHtml(awd.title || '')}</h3>
+          <p class="award-org">${escapeHtml(awd.organization || '')} · <span class="award-year-inline">${escapeHtml(awd.year || '')}</span></p>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderArticles(articles) {
+    const container = document.getElementById('articles-container');
+    if (!container || !Array.isArray(articles)) return;
+
+    container.innerHTML = articles.map(art => {
+      const tagsHtml = (art.tags || []).slice(0, 2).map(t => `<span class="article-tag">${escapeHtml(t)}</span>`).join('');
+      return `
+        <div class="article-card fade-up visible" onclick="window.PortfolioApp.openArticleModal('${escapeHtml(art.id)}')" role="button" tabindex="0" aria-label="Read article: ${escapeHtml(art.title)}">
+          <div class="article-card-content">
+            <div class="article-meta">
+              <span class="article-category">${escapeHtml(art.category || 'Article')}</span>
+              <span class="article-date">${escapeHtml(art.date || '')} · ${escapeHtml(art.readTime || '5 min read')}</span>
             </div>
-            <div class="article-card-right">
-              <div class="article-tags">${tagsHtml}</div>
-              <span class="article-read-btn">→</span>
-            </div>
+            <h3 class="article-title">${escapeHtml(art.title || '')}</h3>
+            <p class="article-summary">${escapeHtml(art.summary || '')}</p>
           </div>
-        `;
-      }).join('');
+          <div class="article-card-right">
+            <div class="article-tags">${tagsHtml}</div>
+            <span class="article-read-btn" aria-hidden="true">→</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderExperience(experience) {
+    // Home preview (top 3)
+    const homeContainer = document.getElementById('home-experience-container');
+    if (homeContainer && Array.isArray(experience)) {
+      homeContainer.innerHTML = experience.slice(0, 3).map(job => renderTimelineItem(job)).join('');
     }
 
-    /* ── 8. Home Experience Preview (index.html - top 3) ─── */
-    const homeExpContainer = document.getElementById('home-experience-container');
-    if (homeExpContainer && data.experience) {
-      const top3 = data.experience.slice(0, 3);
-      homeExpContainer.innerHTML = top3.map(job => renderTimelineItem(job)).join('');
+    // Full timeline (about.html)
+    const fullContainer = document.getElementById('full-experience-container');
+    if (fullContainer && Array.isArray(experience)) {
+      fullContainer.innerHTML = experience.map(job => renderTimelineItem(job)).join('');
     }
+  }
 
-    /* ── 9. Home Featured Work Preview (index.html) ──────── */
+  function renderProjects(projects) {
+    // Home featured work (top 3)
     const homeProjContainer = document.getElementById('home-projects-container');
-    if (homeProjContainer && data.projects) {
-      const featured = data.projects.slice(0, 3);
-      homeProjContainer.innerHTML = featured.map(proj => renderProjectCard(proj)).join('');
+    if (homeProjContainer && Array.isArray(projects)) {
+      homeProjContainer.innerHTML = projects.slice(0, 3).map(proj => renderProjectCard(proj)).join('');
     }
 
-    /* ── 10. About Page Bio & Lead (about.html) ───────────── */
+    // Categorized project containers (projects.html)
+    const categoryContainers = [
+      { id: 'projects-research-container', cat: 'research' },
+      { id: 'projects-publication-container', cat: 'publication' },
+      { id: 'projects-software-container', cat: 'software' },
+      { id: 'projects-volunteer-container', cat: 'volunteer' }
+    ];
+
+    categoryContainers.forEach(({ id, cat }) => {
+      const el = document.getElementById(id);
+      if (el && Array.isArray(projects)) {
+        const filtered = projects.filter(pr => pr.category === cat);
+        el.innerHTML = filtered.map(proj => renderProjectCard(proj)).join('');
+      }
+    });
+  }
+
+  function renderAboutPage(p, data) {
     const aboutLead = document.getElementById('about-lead');
     if (aboutLead) aboutLead.textContent = p.aboutLead || p.heroBio || '';
 
@@ -160,16 +209,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (aboutParagraphs && p.aboutBodyParagraphs) {
       aboutParagraphs.innerHTML = p.aboutBodyParagraphs.map(text => {
         if (!text) return '';
-        if (/<\/?[a-z][\s\S]*>/i.test(text)) {
-          return text;
-        }
+        if (/<\/?[a-z][\s\S]*>/i.test(text)) return text;
         return `<p>${escapeHtml(text)}</p>`;
       }).join('');
     }
 
-    /* ── 11. About Page Education (about.html) ────────────── */
+    // Education
     const eduContainer = document.getElementById('education-container');
-    if (eduContainer && data.education) {
+    if (eduContainer && Array.isArray(data.education)) {
       eduContainer.innerHTML = data.education.map(edu => `
         <div class="edu-item fade-up visible">
           <div>
@@ -182,13 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `).join('');
     }
 
-    /* ── 12. About Page Full Experience Timeline ─────────── */
-    const fullExpContainer = document.getElementById('full-experience-container');
-    if (fullExpContainer && data.experience) {
-      fullExpContainer.innerHTML = data.experience.map(job => renderTimelineItem(job)).join('');
-    }
-
-    /* ── 13. About Page Skills (about.html) ──────────────── */
+    // Skills
     const skillsContainer = document.getElementById('skills-container');
     if (skillsContainer && data.skills) {
       const categories = [
@@ -212,9 +253,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }).join('');
     }
 
-    /* ── 14. About Page Extra Curriculars (about.html) ───── */
+    // Extras
     const extrasContainer = document.getElementById('extras-container');
-    if (extrasContainer && data.extraCurriculars) {
+    if (extrasContainer && Array.isArray(data.extraCurriculars)) {
       extrasContainer.innerHTML = data.extraCurriculars.map(extra => `
         <div class="expertise-card fade-up visible">
           <div class="card-icon">${escapeHtml(extra.icon || '✨')}</div>
@@ -226,44 +267,20 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `).join('');
     }
+  }
 
-    /* ── 15. Projects Page (projects.html) ───────────────── */
-    const researchContainer = document.getElementById('projects-research-container');
-    if (researchContainer && data.projects) {
-      const researchProjects = data.projects.filter(pr => pr.category === 'research');
-      researchContainer.innerHTML = researchProjects.map(proj => renderProjectCard(proj)).join('');
-    }
-
-    const pubContainer = document.getElementById('projects-publication-container');
-    if (pubContainer && data.projects) {
-      const pubProjects = data.projects.filter(pr => pr.category === 'publication');
-      pubContainer.innerHTML = pubProjects.map(proj => renderProjectCard(proj)).join('');
-    }
-
-    const softwareContainer = document.getElementById('projects-software-container');
-    if (softwareContainer && data.projects) {
-      const softwareProjects = data.projects.filter(pr => pr.category === 'software');
-      softwareContainer.innerHTML = softwareProjects.map(proj => renderProjectCard(proj)).join('');
-    }
-
-    const volunteerContainer = document.getElementById('projects-volunteer-container');
-    if (volunteerContainer && data.projects) {
-      const volunteerProjects = data.projects.filter(pr => pr.category === 'volunteer');
-      volunteerContainer.innerHTML = volunteerProjects.map(proj => renderProjectCard(proj)).join('');
-    }
-
-    /* ── 16. Contact Details & Links ─────────────────────── */
+  function renderContactAndFooter(p) {
     const contactText = document.getElementById('contact-text');
     if (contactText) contactText.textContent = p.contactIntro || '';
 
     document.querySelectorAll('[data-cms-link="email"]').forEach(el => {
-      el.setAttribute('href', `mailto:${p.email}`);
-      if (el.hasAttribute('data-cms-text')) el.textContent = p.email;
+      el.setAttribute('href', `mailto:${p.email || ''}`);
+      if (el.hasAttribute('data-cms-text')) el.textContent = p.email || '';
     });
 
     document.querySelectorAll('[data-cms-link="phone"]').forEach(el => {
       el.setAttribute('href', `tel:${(p.phone || '').replace(/\s+/g, '')}`);
-      if (el.hasAttribute('data-cms-text')) el.textContent = p.phone;
+      if (el.hasAttribute('data-cms-text')) el.textContent = p.phone || '';
     });
 
     document.querySelectorAll('[data-cms-link="linkedin"]').forEach(el => {
@@ -283,23 +300,72 @@ document.addEventListener('DOMContentLoaded', () => {
       if (p.resumeUrl) {
         el.setAttribute('href', p.resumeUrl);
         el.setAttribute('target', '_blank');
+        el.setAttribute('rel', 'noopener noreferrer');
       } else {
-        el.setAttribute('href', 'javascript:window.printCV()');
+        el.setAttribute('href', 'about.html');
       }
     });
 
-    /* ── 17. Footer ──────────────────────────────────────── */
+    // Footer
     const footerTagline = document.getElementById('footer-tagline');
     if (footerTagline) footerTagline.textContent = p.footerTagline || '';
 
     const footerCopy = document.getElementById('footer-copy');
-    if (footerCopy) footerCopy.textContent = `© ${p.copyrightYear || 2026} ${p.name}`;
+    if (footerCopy) footerCopy.textContent = `© ${p.copyrightYear || 2026} ${p.name || 'Fazal Mahmud Hassan'}. All rights reserved.`;
   }
 
-  /* ── Typewriter Engine (Clean, no distracting cursor) ── */
+  /* ── Helper Renderers ──────────────────────────────────── */
+
+  function renderTimelineItem(job) {
+    const bulletsHtml = (job.bullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join('');
+    const badgeHtml = job.isCurrent ? `<span class="timeline-badge">Current</span>` : '';
+    const companyHtml = job.companyUrl
+      ? `<a href="${escapeHtml(job.companyUrl)}" target="_blank" rel="noopener noreferrer" class="timeline-company">${escapeHtml(job.company)}</a>`
+      : `<span class="timeline-company">${escapeHtml(job.company)}</span>`;
+
+    return `
+      <div class="timeline-item fade-up visible">
+        <div class="timeline-dot" aria-hidden="true"></div>
+        <div class="timeline-meta">
+          <span class="timeline-date">${escapeHtml(job.period || '')}</span>
+          ${badgeHtml}
+        </div>
+        <h3>${escapeHtml(job.role || '')}</h3>
+        ${companyHtml}
+        <ul class="timeline-bullets">
+          ${bulletsHtml}
+        </ul>
+      </div>
+    `;
+  }
+
+  function renderProjectCard(proj) {
+    const tagsHtml = (proj.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+    const linkAttr = proj.link ? `href="${escapeHtml(proj.link)}" target="_blank" rel="noopener noreferrer"` : '';
+    const tagType = proj.link ? 'a' : 'div';
+
+    return `
+      <${tagType} ${linkAttr} class="project-card fade-up visible">
+        <div class="project-card-content">
+          <h3>${escapeHtml(proj.title || '')}</h3>
+          <p>${escapeHtml(proj.description || '')}</p>
+        </div>
+        <div class="project-card-right">
+          <span class="project-year">${escapeHtml(proj.year || '')}</span>
+          <div class="tags">
+            ${tagsHtml}
+            ${proj.badge ? `<span class="tag" style="background:var(--gold-light); color:var(--gold); border:1px solid var(--gold-border);">${escapeHtml(proj.badge)}</span>` : ''}
+          </div>
+        </div>
+      </${tagType}>
+    `;
+  }
+
+  /* ── Typewriter Engine ─────────────────────────────────── */
+
   function initTypewriter(roles) {
     const el = document.getElementById('hero-typewriter');
-    if (!el || !roles || !roles.length) return;
+    if (!el || !Array.isArray(roles) || !roles.length) return;
 
     if (typewriterTimer) clearTimeout(typewriterTimer);
 
@@ -340,7 +406,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ── Article Modal Reader ──────────────────────────────── */
-  window.openArticleModal = function (articleId) {
+
+  function openArticleModal(articleId) {
     const data = window.PortfolioStore.getData();
     if (!data || !data.articles) return;
     const art = data.articles.find(a => a.id === articleId);
@@ -351,6 +418,10 @@ document.addEventListener('DOMContentLoaded', () => {
       overlay = document.createElement('div');
       overlay.id = 'article-modal-overlay';
       overlay.className = 'portfolio-modal-overlay';
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-modal', 'true');
+      overlay.setAttribute('aria-labelledby', 'modal-art-title');
+
       overlay.innerHTML = `
         <div class="portfolio-modal-box">
           <div class="modal-header">
@@ -358,36 +429,45 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="article-category" id="modal-art-category"></span>
               <span class="article-date" style="margin-left:0.6rem" id="modal-art-meta"></span>
             </div>
-            <button class="modal-close" onclick="window.closeArticleModal()" aria-label="Close modal">&times;</button>
+            <button class="modal-close" id="btn-modal-close" aria-label="Close article modal">&times;</button>
           </div>
           <h2 class="modal-title" id="modal-art-title"></h2>
           <div class="modal-body" id="modal-art-body"></div>
           <div class="modal-footer">
             <div id="modal-art-tags" class="article-tags"></div>
-            <button class="btn btn-outline" style="padding:0.4rem 0.9rem; font-size:0.875rem;" onclick="window.closeArticleModal()">Close</button>
+            <button class="btn btn-outline" id="btn-modal-footer-close" style="padding:0.4rem 0.9rem; font-size:0.875rem;">Close</button>
           </div>
         </div>
       `;
       document.body.appendChild(overlay);
+
+      // Event Listeners
       overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) window.closeArticleModal();
+        if (e.target === overlay) closeArticleModal();
+      });
+      document.getElementById('btn-modal-close')?.addEventListener('click', closeArticleModal);
+      document.getElementById('btn-modal-footer-close')?.addEventListener('click', closeArticleModal);
+
+      // Escape key to close
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) {
+          closeArticleModal();
+        }
       });
     }
 
     document.getElementById('modal-art-category').textContent = art.category || 'Article';
     document.getElementById('modal-art-meta').textContent = `${art.date || ''} · ${art.readTime || '5 min read'}`;
     document.getElementById('modal-art-title').textContent = art.title || '';
-    
-    // Parse paragraphs in content
+
     const rawContent = art.content || art.summary || '';
     if (/<\/?[a-z][\s\S]*>/i.test(rawContent)) {
       document.getElementById('modal-art-body').innerHTML = rawContent;
     } else {
-      const contentHtml = rawContent
+      document.getElementById('modal-art-body').innerHTML = rawContent
         .split('\n\n')
         .map(para => `<p>${escapeHtml(para)}</p>`)
         .join('');
-      document.getElementById('modal-art-body').innerHTML = contentHtml;
     }
 
     const tagsContainer = document.getElementById('modal-art-tags');
@@ -397,80 +477,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
-  };
+  }
 
-  window.closeArticleModal = function () {
+  function closeArticleModal() {
     const overlay = document.getElementById('article-modal-overlay');
     if (overlay) {
       overlay.classList.remove('open');
       document.body.style.overflow = '';
     }
-  };
+  }
 
-  /* ── Interactive Print/CV Action ───────────────────────── */
-  window.printCV = function () {
+  function printCV() {
     window.open('about.html', '_blank');
+  }
+
+  /* ── Master Render Orchestrator ────────────────────────── */
+
+  function renderAll() {
+    if (!window.PortfolioStore) return;
+    const data = window.PortfolioStore.getData();
+    if (!data || !data.profile) return;
+
+    const p = data.profile;
+    const avail = data.availability || {};
+
+    renderIdentityAndTheme(p);
+    renderHero(p, avail);
+    renderMetrics(data.metrics);
+    renderExpertise(data.expertise);
+    renderAwards(data.awards);
+    renderArticles(data.articles);
+    renderExperience(data.experience);
+    renderProjects(data.projects);
+    renderAboutPage(p, data);
+    renderContactAndFooter(p);
+  }
+
+  // Public Namespace & backward compatibility
+  window.PortfolioApp = {
+    renderAll,
+    openArticleModal,
+    closeArticleModal,
+    printCV
   };
+  window.openArticleModal = openArticleModal;
+  window.closeArticleModal = closeArticleModal;
+  window.printCV = printCV;
 
-  /* ── Helper Renderers ──────────────────────────────────── */
-  function renderTimelineItem(job) {
-    const bulletsHtml = (job.bullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join('');
-    const badgeHtml = job.isCurrent ? `<span class="timeline-badge">Current</span>` : '';
-    const companyHtml = job.companyUrl
-      ? `<a href="${escapeHtml(job.companyUrl)}" target="_blank" rel="noopener" class="timeline-company">${escapeHtml(job.company)}</a>`
-      : `<span class="timeline-company">${escapeHtml(job.company)}</span>`;
-
-    return `
-      <div class="timeline-item fade-up visible">
-        <div class="timeline-dot"></div>
-        <div class="timeline-meta">
-          <span class="timeline-date">${escapeHtml(job.period || '')}</span>
-          ${badgeHtml}
-        </div>
-        <h3>${escapeHtml(job.role || '')}</h3>
-        ${companyHtml}
-        <ul class="timeline-bullets">
-          ${bulletsHtml}
-        </ul>
-      </div>
-    `;
-  }
-
-  function renderProjectCard(proj) {
-    const tagsHtml = (proj.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
-    const linkAttr = proj.link ? `href="${escapeHtml(proj.link)}" target="_blank" rel="noopener"` : '';
-    const tagType = proj.link ? 'a' : 'div';
-
-    return `
-      <${tagType} ${linkAttr} class="project-card fade-up visible">
-        <div class="project-card-content">
-          <h3>${escapeHtml(proj.title || '')}</h3>
-          <p>${escapeHtml(proj.description || '')}</p>
-        </div>
-        <div class="project-card-right">
-          <span class="project-year">${escapeHtml(proj.year || '')}</span>
-          <div class="tags">
-            ${tagsHtml}
-            ${proj.badge ? `<span class="tag" style="background:var(--gold-light); color:var(--gold); border:1px solid var(--gold-border);">${escapeHtml(proj.badge)}</span>` : ''}
-          </div>
-        </div>
-      </${tagType}>
-    `;
-  }
-
-  function escapeHtml(str) {
-    if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
-
-  // Initial render
-  renderAll();
-
-  // Listen for live updates from CMS admin panel
+  // Initialize
+  document.addEventListener('DOMContentLoaded', renderAll);
   window.addEventListener('portfolioDataChanged', renderAll);
-});
+})();

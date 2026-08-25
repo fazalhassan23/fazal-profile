@@ -10,3 +10,8 @@ Thumbs.db
 
 # Temporary / Log files
 *.log
+*.zip
+*.bak
+*.tmp
+.gemini/
+
