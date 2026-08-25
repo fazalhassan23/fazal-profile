@@ -282,6 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setVal('input-roleTitle', p.roleTitle);
     setVal('input-heroBio', p.heroBio);
     setVal('input-aboutLead', p.aboutLead);
+    setVal('input-fontPair', p.fontPair || 'geometric');
     
     // Initialize About Story Rich Text Editor
     const aboutStoryWrap = document.getElementById('editor-aboutParagraphs-wrap');
@@ -946,6 +947,7 @@ document.addEventListener('DOMContentLoaded', () => {
       data.profile.roleTitle = getVal('input-roleTitle');
       data.profile.heroBio = getVal('input-heroBio');
       data.profile.aboutLead = getVal('input-aboutLead');
+      data.profile.fontPair = getVal('input-fontPair');
       
       // Save Rich Text About Story
       const aboutContent = aboutStoryEditor ? aboutStoryEditor.getHTML() : getVal('input-aboutParagraphs');

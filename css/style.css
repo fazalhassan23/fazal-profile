@@ -116,6 +116,24 @@
 }
 
 /* ────────────────────────────────────────────────────────────
+   Typography / Font Pair Theme Overrides
+   ──────────────────────────────────────────────────────────── */
+:root[data-font-pair="sleek"] {
+  --font-display:    'Outfit', system-ui, -apple-system, sans-serif;
+  --font-body:       'Inter', system-ui, -apple-system, sans-serif;
+}
+
+:root[data-font-pair="elegant"] {
+  --font-display:    'Playfair Display', Georgia, serif;
+  --font-body:       'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+:root[data-font-pair="editorial"] {
+  --font-display:    'Syne', system-ui, -apple-system, sans-serif;
+  --font-body:       'Manrope', system-ui, -apple-system, sans-serif;
+}
+
+/* ────────────────────────────────────────────────────────────
    Reset & Base
    ──────────────────────────────────────────────────────────── */
 *, *::before, *::after {

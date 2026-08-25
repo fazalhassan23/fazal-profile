@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const p = data.profile;
     const avail = data.availability || {};
 
+    // Dynamic Font Pair Theme
+    if (p.fontPair) {
+      document.documentElement.setAttribute('data-font-pair', p.fontPair);
+    } else {
+      document.documentElement.removeAttribute('data-font-pair');
+    }
+
     /* ── 1. Global / Brand / Nav ─────────────────────────── */
     document.querySelectorAll('[data-cms="firstName"]').forEach(el => {
       el.textContent = p.firstName || "Fazal";
