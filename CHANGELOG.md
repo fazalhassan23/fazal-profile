@@ -8,10 +8,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [1.5.0] — 2026-08-25
 
 ### Added
-- **Canvas-based Ambient Meteor Shower**: Implemented a lightweight, GPU-optimized floating meteor canvas animation injected globally via `main.js`.
-  - Animates glowing meteors sliding diagonally from top-right to bottom-left.
-  - Automatically listens to window resizing.
-  - Theme-adaptive: Renders as bright white/electric-blue meteors on AMOLED black, and converts to soft semi-transparent slate-blue trails in light mode to remain non-distracting.
+- **Dynamic Theme-Adaptive Canvas Background**:
+  - **Dark Mode**: Enhanced meteor shower visibility with increased base opacity (`0.18` to `0.45`), glowing multi-stop gradients, and thicker line trails for improved contrast on all displays.
+  - **Light Mode**: Replaced meteors with an elegant, minimalist **flock of flying birds** that flap wings dynamically (using a sine-wave phase offsets) and slide across the sky slowly to convey a peaceful daytime aesthetic.
 - **Global Typography Selector** in the CMS panel (Identity & Hero Details).
   - Supports 4 curated modern font configurations:
     1. **Geometric Tech**: Space Grotesk + DM Sans (Default)
