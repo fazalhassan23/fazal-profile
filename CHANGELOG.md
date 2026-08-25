@@ -5,7 +5,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [Unreleased]
+## [1.5.0] — 2026-08-25
+
+### Added
+- **Global Typography Selector** in the CMS panel (Identity & Hero Details).
+  - Supports 4 curated modern font configurations:
+    1. **Geometric Tech**: Space Grotesk + DM Sans (Default)
+    2. **Sleek Minimalist**: Outfit + Inter
+    3. **Warm & Elegant**: Playfair Display + Plus Jakarta Sans
+    4. **Bold Editorial**: Syne + Manrope
+  - Embedded CSS overrides using custom properties dynamically active when `:root[data-font-pair="..."]` is loaded.
+  - Linked preconnect and Google Fonts import rules in the heads of all HTML pages.
+  - Custom FOUC script updated to read the saved font selector from storage instantly to prevent layout shift.
 
 ---
 
