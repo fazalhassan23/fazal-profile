@@ -8,6 +8,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [1.5.0] — 2026-08-25
 
 ### Added
+- **Canvas-based Ambient Meteor Shower**: Implemented a lightweight, GPU-optimized floating meteor canvas animation injected globally via `main.js`.
+  - Animates glowing meteors sliding diagonally from top-right to bottom-left.
+  - Automatically listens to window resizing.
+  - Theme-adaptive: Renders as bright white/electric-blue meteors on AMOLED black, and converts to soft semi-transparent slate-blue trails in light mode to remain non-distracting.
 - **Global Typography Selector** in the CMS panel (Identity & Hero Details).
   - Supports 4 curated modern font configurations:
     1. **Geometric Tech**: Space Grotesk + DM Sans (Default)
@@ -18,8 +22,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Linked preconnect and Google Fonts import rules in the heads of all HTML pages.
   - Custom FOUC script updated to read the saved font selector from storage instantly to prevent layout shift.
 
----
-
+### Fixed
+- **Typewriter layout jumps**: Added `min-height: 1.5rem;` to the `.hero-role` wrapper in `css/style.css` to prevent layout collapse and jumps during dynamic text transitions.
 ## [1.4.0] — 2026-08-25
 
 ### Added
