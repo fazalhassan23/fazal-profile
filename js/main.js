@@ -225,4 +225,89 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ── Ambient Background: Meteor Shower ─────────────────── */
+  const canvas = document.createElement('canvas');
+  canvas.id = 'ambient-meteors';
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100vw';
+  canvas.style.height = '100vh';
+  canvas.style.zIndex = '-1'; // Sits strictly behind all content
+  canvas.style.pointerEvents = 'none'; // No interference with clicks
+  document.body.prepend(canvas);
+
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  const meteors = [];
+
+  function createMeteor() {
+    return {
+      x: Math.random() * width + width * 0.4,
+      y: Math.random() * -150,
+      length: Math.random() * 120 + 80,
+      speed: Math.random() * 2 + 1.5,
+      opacity: Math.random() * 0.22 + 0.08, // Subtle opacity to avoid distraction
+      width: Math.random() * 1.2 + 0.6
+    };
+  }
+
+  // Populate initial meteors sparingly
+  for (let i = 0; i < 5; i++) {
+    meteors.push(createMeteor());
+    meteors[i].y = Math.random() * height;
+    meteors[i].x = Math.random() * width;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Get current theme to determine meteor colors
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    
+    for (let i = 0; i < meteors.length; i++) {
+      const m = meteors[i];
+      
+      // Update position (moving top-right to bottom-left)
+      m.x -= m.speed;
+      m.y += m.speed * 0.58; // gentle diagonal glide angle (approx 30 deg)
+      
+      // Draw meteor trail
+      const grad = ctx.createLinearGradient(m.x, m.y, m.x + m.length, m.y - m.length * 0.58);
+      
+      if (isLight) {
+        grad.addColorStop(0, `rgba(59, 111, 224, ${m.opacity * 0.45})`); // Soft slate-blue trail
+        grad.addColorStop(1, 'rgba(59, 111, 224, 0)');
+      } else {
+        grad.addColorStop(0, `rgba(74, 133, 255, ${m.opacity})`); // Glowing modern accent blue
+        grad.addColorStop(0.08, `rgba(255, 255, 255, ${m.opacity * 1.2})`); // Soft white bright head
+        grad.addColorStop(1, 'rgba(74, 133, 255, 0)');
+      }
+
+      ctx.beginPath();
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = m.width;
+      ctx.lineCap = 'round';
+      ctx.moveTo(m.x, m.y);
+      ctx.lineTo(m.x + m.length, m.y - m.length * 0.58);
+      ctx.stroke();
+
+      // Reset meteor if it exits the viewport boundary
+      if (m.x < -m.length || m.y > height + m.length) {
+        meteors[i] = createMeteor();
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+
 });
