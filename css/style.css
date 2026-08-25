@@ -156,11 +156,12 @@ html {
   scroll-behavior: smooth;
   color-scheme: dark;
   -webkit-text-size-adjust: 100%;
+  background-color: var(--bg);
 }
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg);
+  background-color: transparent;
   color: var(--text-primary);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
