@@ -154,7 +154,10 @@
 
       <div class="admin-card">
         <div class="admin-card-header">
-          <h2 class="admin-card-title">About Page Story</h2>
+          <div>
+            <h2 class="admin-card-title">About Page Story</h2>
+            <p style="font-size:0.875rem; color:var(--adm-muted); margin-top:0.25rem;">Format your bio story with headings, bold text, bullet points, and links.</p>
+          </div>
         </div>
         <div class="form-grid single">
           <div class="form-group">
@@ -162,8 +165,9 @@
             <textarea id="input-aboutLead" class="form-textarea" style="min-height: 80px;"></textarea>
           </div>
           <div class="form-group">
-            <label class="form-label">Detailed Story Paragraphs (Separate each paragraph with a blank line)</label>
-            <textarea id="input-aboutParagraphs" class="form-textarea" style="min-height: 180px;"></textarea>
+            <label class="form-label">Detailed Story (Rich Text Editor)</label>
+            <div id="editor-aboutParagraphs-wrap"></div>
+            <textarea id="input-aboutParagraphs" class="form-textarea" style="display:none;"></textarea>
           </div>
         </div>
       </div>

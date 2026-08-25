@@ -1,5 +1,6 @@
 /* ============================================================
    PORTFOLIO CMS ADMIN LOGIC & AUTH (js/admin.js)
+   With Built-in Rich Text WYSIWYG Editor Support
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,6 +10,148 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   let data = window.PortfolioStore.getData();
+  let aboutStoryEditor = null;
+
+  /* ── 0. Built-in Rich Text Editor (WYSIWYG) Engine ─────── */
+  function createRichTextEditor(container, initialContent = '', placeholder = 'Start writing...') {
+    if (!container) return null;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'rte-wrapper';
+
+    wrapper.innerHTML = `
+      <div class="rte-toolbar">
+        <div class="rte-group">
+          <button type="button" class="rte-btn" data-cmd="bold" title="Bold (Ctrl+B)"><strong>B</strong></button>
+          <button type="button" class="rte-btn" data-cmd="italic" title="Italic (Ctrl+I)"><em>I</em></button>
+          <button type="button" class="rte-btn" data-cmd="underline" title="Underline (Ctrl+U)"><u>U</u></button>
+          <button type="button" class="rte-btn" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+        </div>
+
+        <div class="rte-group">
+          <button type="button" class="rte-btn rte-btn-tag" data-cmd="formatBlock" data-val="h2" title="Heading 2">H2</button>
+          <button type="button" class="rte-btn rte-btn-tag" data-cmd="formatBlock" data-val="h3" title="Heading 3">H3</button>
+          <button type="button" class="rte-btn rte-btn-tag" data-cmd="formatBlock" data-val="p" title="Paragraph">¶</button>
+        </div>
+
+        <div class="rte-group">
+          <button type="button" class="rte-btn" data-cmd="insertUnorderedList" title="Bullet List">•≡</button>
+          <button type="button" class="rte-btn" data-cmd="insertOrderedList" title="Numbered List">1≡</button>
+          <button type="button" class="rte-btn" data-cmd="formatBlock" data-val="blockquote" title="Quote">“ ”</button>
+          <button type="button" class="rte-btn" data-cmd="formatBlock" data-val="pre" title="Code Block">&lt;&gt;</button>
+        </div>
+
+        <div class="rte-group">
+          <button type="button" class="rte-btn" data-action="link" title="Insert Link">🔗</button>
+          <button type="button" class="rte-btn" data-cmd="unlink" title="Remove Link">⛓️‍💥</button>
+          <button type="button" class="rte-btn" data-cmd="removeFormat" title="Clear Formatting">🧹</button>
+        </div>
+
+        <div class="rte-group">
+          <button type="button" class="rte-btn" data-cmd="undo" title="Undo (Ctrl+Z)">↩</button>
+          <button type="button" class="rte-btn" data-cmd="redo" title="Redo (Ctrl+Y)">↪</button>
+        </div>
+
+        <button type="button" class="rte-btn rte-btn-html" data-action="toggle-html" title="Toggle HTML Source Code">&lt;/&gt; HTML</button>
+      </div>
+
+      <div class="rte-content" contenteditable="true" data-placeholder="${escapeHtml(placeholder)}"></div>
+      <textarea class="rte-html-textarea" placeholder="Raw HTML code..."></textarea>
+    `;
+
+    container.innerHTML = '';
+    container.appendChild(wrapper);
+
+    const contentArea = wrapper.querySelector('.rte-content');
+    const htmlArea = wrapper.querySelector('.rte-html-textarea');
+    const toolbar = wrapper.querySelector('.rte-toolbar');
+    let isHtmlMode = false;
+
+    // Load initial content
+    if (initialContent) {
+      if (/<\/?[a-z][\s\S]*>/i.test(initialContent)) {
+        contentArea.innerHTML = initialContent;
+        htmlArea.value = initialContent;
+      } else {
+        const formatted = initialContent
+          .split('\n\n')
+          .map(p => `<p>${escapeHtml(p)}</p>`)
+          .join('');
+        contentArea.innerHTML = formatted;
+        htmlArea.value = formatted;
+      }
+    }
+
+    // Handle toolbar actions
+    toolbar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.rte-btn');
+      if (!btn) return;
+      e.preventDefault();
+
+      const cmd = btn.getAttribute('data-cmd');
+      const val = btn.getAttribute('data-val') || null;
+      const action = btn.getAttribute('data-action');
+
+      if (action === 'toggle-html') {
+        isHtmlMode = !isHtmlMode;
+        btn.classList.toggle('active', isHtmlMode);
+        if (isHtmlMode) {
+          htmlArea.value = contentArea.innerHTML;
+          contentArea.style.display = 'none';
+          htmlArea.style.display = 'block';
+          htmlArea.focus();
+        } else {
+          contentArea.innerHTML = htmlArea.value;
+          htmlArea.style.display = 'none';
+          contentArea.style.display = 'block';
+          contentArea.focus();
+        }
+        return;
+      }
+
+      if (isHtmlMode) return;
+
+      if (action === 'link') {
+        const url = prompt('Enter web link URL (e.g. https://...):');
+        if (url) {
+          document.execCommand('createLink', false, url);
+          contentArea.querySelectorAll('a').forEach(a => a.setAttribute('target', '_blank'));
+        }
+        return;
+      }
+
+      if (cmd) {
+        document.execCommand(cmd, false, val);
+        updateActiveStates();
+        contentArea.focus();
+      }
+    });
+
+    function updateActiveStates() {
+      toolbar.querySelectorAll('[data-cmd]').forEach(b => {
+        const command = b.getAttribute('data-cmd');
+        if (command && document.queryCommandState && ['bold', 'italic', 'underline', 'strikeThrough', 'insertUnorderedList', 'insertOrderedList'].includes(command)) {
+          b.classList.toggle('active', document.queryCommandState(command));
+        }
+      });
+    }
+
+    contentArea.addEventListener('keyup', updateActiveStates);
+    contentArea.addEventListener('mouseup', updateActiveStates);
+
+    return {
+      getHTML: () => {
+        if (isHtmlMode) {
+          return htmlArea.value.trim();
+        }
+        return contentArea.innerHTML.trim();
+      },
+      setHTML: (html) => {
+        contentArea.innerHTML = html || '';
+        htmlArea.value = html || '';
+      }
+    };
+  }
 
   /* ── 1. Authentication & Lockscreen Management ─────────── */
   const lockscreen = document.getElementById('admin-lockscreen');
@@ -139,7 +282,14 @@ document.addEventListener('DOMContentLoaded', () => {
     setVal('input-roleTitle', p.roleTitle);
     setVal('input-heroBio', p.heroBio);
     setVal('input-aboutLead', p.aboutLead);
-    setVal('input-aboutParagraphs', (p.aboutBodyParagraphs || []).join('\n\n'));
+    
+    // Initialize About Story Rich Text Editor
+    const aboutStoryWrap = document.getElementById('editor-aboutParagraphs-wrap');
+    if (aboutStoryWrap) {
+      const initialAboutContent = (p.aboutBodyParagraphs || []).join('\n\n');
+      aboutStoryEditor = createRichTextEditor(aboutStoryWrap, initialAboutContent, 'Write your detailed bio story with headings, bullet points, and formatting...');
+    }
+
     setVal('input-contactIntro', p.contactIntro);
     setVal('input-email', p.email);
     setVal('input-phone', p.phone);
@@ -294,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnAddAward = document.getElementById('btn-add-award');
   if (btnAddAward) btnAddAward.addEventListener('click', () => window.editAward(-1));
 
-  /* ── 6. Articles & Insights Management ──────────────────── */
+  /* ── 6. Articles & Insights Management (With Rich Text) ─── */
   function renderArticlesList() {
     const list = document.getElementById('articles-list');
     if (!list) return;
@@ -332,6 +482,8 @@ document.addEventListener('DOMContentLoaded', () => {
       content: ''
     };
 
+    let currentArtEditor = null;
+
     openModal(isNew ? 'Write New Article' : 'Edit Article', `
       <div class="form-grid">
         <div class="form-group full-width">
@@ -358,8 +510,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <input type="text" id="modal-art-tags" class="form-input" value="${escapeHtml((art.tags || []).join(', '))}" placeholder="Agile, SaaS, Leadership" />
         </div>
         <div class="form-group full-width">
-          <label class="form-label">Full Article / Case Study Content (Paragraphs separated by double linebreaks)</label>
-          <textarea id="modal-art-content" class="form-textarea" style="min-height:160px;">${escapeHtml(art.content || '')}</textarea>
+          <label class="form-label">Full Article / Case Study Content (Rich Text Editor)</label>
+          <div id="modal-art-editor-wrap"></div>
         </div>
       </div>
     `, () => {
@@ -369,7 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const readTime = document.getElementById('modal-art-readTime').value.trim();
       const summary = document.getElementById('modal-art-summary').value.trim();
       const tags = document.getElementById('modal-art-tags').value.split(',').map(t => t.trim()).filter(Boolean);
-      const content = document.getElementById('modal-art-content').value.trim();
+      const content = currentArtEditor ? currentArtEditor.getHTML() : '';
 
       if (!title || !summary) {
         alert('Please fill in Article Title and Summary.');
@@ -387,6 +539,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       renderArticlesList();
       return true;
+    }, () => {
+      // Initialize Rich Text Editor inside modal
+      const editorWrap = document.getElementById('modal-art-editor-wrap');
+      if (editorWrap) {
+        currentArtEditor = createRichTextEditor(editorWrap, art.content || '', 'Write your complete article, project retrospective, or case study here...');
+      }
     });
   };
 
@@ -451,14 +609,14 @@ document.addEventListener('DOMContentLoaded', () => {
           <input type="text" id="modal-exp-period" class="form-input" value="${escapeHtml(job.period)}" />
         </div>
         <div class="form-group full-width">
-          <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color:var(--adm-text);">
+          <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
             <input type="checkbox" id="modal-exp-isCurrent" ${job.isCurrent ? 'checked' : ''} />
-            Mark as Current Position
+            <span>Mark as Current Position</span>
           </label>
         </div>
         <div class="form-group full-width">
           <label class="form-label">Key Responsibilities / Achievements (One per line)</label>
-          <textarea id="modal-exp-bullets" class="form-textarea" style="min-height:140px;">${escapeHtml((job.bullets || []).join('\n'))}</textarea>
+          <textarea id="modal-exp-bullets" class="form-textarea" style="min-height:140px;">${(job.bullets || []).join('\n')}</textarea>
         </div>
       </div>
     `, () => {
@@ -469,14 +627,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const isCurrent = document.getElementById('modal-exp-isCurrent').checked;
       const bullets = document.getElementById('modal-exp-bullets').value.split('\n').map(b => b.trim()).filter(Boolean);
 
-      if (!role || !company) {
-        alert('Role and Company are required.');
+      if (!role || !company || !period) {
+        alert('Please fill in Role, Company, and Period.');
         return false;
       }
 
+      if (!data.experience) data.experience = [];
+
       const updated = { ...job, role, company, companyUrl, period, isCurrent, bullets };
       if (isNew) {
-        data.experience.unshift(updated);
+        data.experience.push(updated);
       } else {
         data.experience[index] = updated;
       }
@@ -487,17 +647,17 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   window.deleteExperience = function (index) {
-    if (confirm(`Delete position "${data.experience[index].role}"?`)) {
+    if (confirm(`Delete experience entry for "${data.experience[index].role}"?`)) {
       data.experience.splice(index, 1);
       renderExperienceList();
-      showToast('Position deleted.');
+      showToast('Experience entry deleted.');
     }
   };
 
-  const btnAddExp = document.getElementById('btn-add-experience');
-  if (btnAddExp) btnAddExp.addEventListener('click', () => window.editExperience(-1));
+  const btnAddExperience = document.getElementById('btn-add-experience');
+  if (btnAddExperience) btnAddExperience.addEventListener('click', () => window.editExperience(-1));
 
-  /* ── 8. Projects Management ─────────────────────────────── */
+  /* ── 8. Projects & Research Management ──────────────────── */
   function renderProjectsList() {
     const list = document.getElementById('projects-list');
     if (!list) return;
@@ -505,8 +665,8 @@ document.addEventListener('DOMContentLoaded', () => {
     list.innerHTML = (data.projects || []).map((proj, index) => `
       <div class="item-row">
         <div class="item-info">
-          <h4>${escapeHtml(proj.title)} <span style="font-size:0.85rem; background:rgba(59,130,246,0.15); color:var(--adm-accent-hover); padding:3px 7px; border-radius:4px; margin-left:4px;">${escapeHtml(proj.category)}</span></h4>
-          <p>${escapeHtml(proj.year || '')} · <span style="color:var(--adm-muted);">${(proj.tags || []).join(', ')}</span></p>
+          <h4>${escapeHtml(proj.title)} <span style="font-size:0.8rem; background:rgba(255,255,255,0.06); color:var(--adm-muted); padding:2px 6px; border-radius:4px;">${escapeHtml(proj.category)}</span></h4>
+          <p>${escapeHtml(proj.year)}</p>
         </div>
         <div class="item-actions">
           <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editProject(${index})">Edit</button>
@@ -529,7 +689,7 @@ document.addEventListener('DOMContentLoaded', () => {
       badge: ''
     };
 
-    openModal(isNew ? 'Add Project' : 'Edit Project', `
+    openModal(isNew ? 'Add Project / Research' : 'Edit Project', `
       <div class="form-grid">
         <div class="form-group full-width">
           <label class="form-label">Project Title *</label>
@@ -539,47 +699,49 @@ document.addEventListener('DOMContentLoaded', () => {
           <label class="form-label">Category</label>
           <select id="modal-proj-category" class="form-input">
             <option value="research" ${proj.category === 'research' ? 'selected' : ''}>Thesis &amp; Research</option>
-            <option value="publication" ${proj.category === 'publication' ? 'selected' : ''}>Publication (Springer/Journal)</option>
+            <option value="publication" ${proj.category === 'publication' ? 'selected' : ''}>Publication</option>
             <option value="software" ${proj.category === 'software' ? 'selected' : ''}>Software &amp; Engineering</option>
             <option value="volunteer" ${proj.category === 'volunteer' ? 'selected' : ''}>Volunteer &amp; Leadership</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Year / Event</label>
-          <input type="text" id="modal-proj-year" class="form-input" value="${escapeHtml(proj.year || '')}" />
-        </div>
-        <div class="form-group full-width">
-          <label class="form-label">Description *</label>
-          <textarea id="modal-proj-desc" class="form-textarea" style="min-height:90px;">${escapeHtml(proj.description || '')}</textarea>
+          <label class="form-label">Year / Timeline *</label>
+          <input type="text" id="modal-proj-year" class="form-input" value="${escapeHtml(proj.year)}" />
         </div>
         <div class="form-group">
-          <label class="form-label">Tech Tags (Comma-separated)</label>
-          <input type="text" id="modal-proj-tags" class="form-input" value="${escapeHtml((proj.tags || []).join(', '))}" />
+          <label class="form-label">External Project Link (Optional)</label>
+          <input type="url" id="modal-proj-link" class="form-input" value="${escapeHtml(proj.link || '')}" placeholder="https://..." />
         </div>
         <div class="form-group">
-          <label class="form-label">Award Badge (e.g. Best Presentation)</label>
+          <label class="form-label">Honor Badge (e.g. Best Presentation)</label>
           <input type="text" id="modal-proj-badge" class="form-input" value="${escapeHtml(proj.badge || '')}" />
         </div>
         <div class="form-group full-width">
-          <label class="form-label">Project / Paper Link (Optional)</label>
-          <input type="url" id="modal-proj-link" class="form-input" value="${escapeHtml(proj.link || '')}" />
+          <label class="form-label">Tags (Comma-separated)</label>
+          <input type="text" id="modal-proj-tags" class="form-input" value="${escapeHtml((proj.tags || []).join(', '))}" />
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Project Description</label>
+          <textarea id="modal-proj-desc" class="form-textarea" style="min-height:95px;">${escapeHtml(proj.description || '')}</textarea>
         </div>
       </div>
     `, () => {
       const title = document.getElementById('modal-proj-title').value.trim();
       const category = document.getElementById('modal-proj-category').value;
       const year = document.getElementById('modal-proj-year').value.trim();
-      const description = document.getElementById('modal-proj-desc').value.trim();
-      const tags = document.getElementById('modal-proj-tags').value.split(',').map(t => t.trim()).filter(Boolean);
-      const badge = document.getElementById('modal-proj-badge').value.trim();
       const link = document.getElementById('modal-proj-link').value.trim();
+      const badge = document.getElementById('modal-proj-badge').value.trim();
+      const tags = document.getElementById('modal-proj-tags').value.split(',').map(t => t.trim()).filter(Boolean);
+      const description = document.getElementById('modal-proj-desc').value.trim();
 
-      if (!title || !description) {
-        alert('Title and Description are required.');
+      if (!title || !year) {
+        alert('Please provide Title and Year.');
         return false;
       }
 
-      const updated = { ...proj, title, category, year, description, tags, badge, link };
+      if (!data.projects) data.projects = [];
+
+      const updated = { ...proj, title, category, year, link, badge, tags, description };
       if (isNew) {
         data.projects.push(updated);
       } else {
@@ -595,12 +757,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (confirm(`Delete project "${data.projects[index].title}"?`)) {
       data.projects.splice(index, 1);
       renderProjectsList();
-      showToast('Project deleted.');
+      showToast('Project removed.');
     }
   };
 
-  const btnAddProj = document.getElementById('btn-add-project');
-  if (btnAddProj) btnAddProj.addEventListener('click', () => window.editProject(-1));
+  const btnAddProject = document.getElementById('btn-add-project');
+  if (btnAddProject) btnAddProject.addEventListener('click', () => window.editProject(-1));
 
   /* ── 9. Education Management ────────────────────────────── */
   function renderEducationList() {
@@ -611,7 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="item-row">
         <div class="item-info">
           <h4>${escapeHtml(edu.degree)}</h4>
-          <p>${escapeHtml(edu.institution)} · ${escapeHtml(edu.year)} (${escapeHtml(edu.grade)})</p>
+          <p>${escapeHtml(edu.institution)} · <span style="color:var(--adm-accent)">${escapeHtml(edu.year)}</span></p>
         </div>
         <div class="item-actions">
           <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editEducation(${index})">Edit</button>
@@ -632,10 +794,10 @@ document.addEventListener('DOMContentLoaded', () => {
       grade: ''
     };
 
-    openModal(isNew ? 'Add Degree' : 'Edit Degree', `
+    openModal(isNew ? 'Add Education' : 'Edit Education', `
       <div class="form-grid">
         <div class="form-group full-width">
-          <label class="form-label">Degree Name *</label>
+          <label class="form-label">Degree Title *</label>
           <input type="text" id="modal-edu-degree" class="form-input" value="${escapeHtml(edu.degree)}" />
         </div>
         <div class="form-group">
@@ -647,11 +809,11 @@ document.addEventListener('DOMContentLoaded', () => {
           <input type="text" id="modal-edu-institution" class="form-input" value="${escapeHtml(edu.institution)}" />
         </div>
         <div class="form-group">
-          <label class="form-label">Year / Passing Year</label>
+          <label class="form-label">Year of Completion</label>
           <input type="text" id="modal-edu-year" class="form-input" value="${escapeHtml(edu.year)}" />
         </div>
         <div class="form-group">
-          <label class="form-label">Grade / CGPA</label>
+          <label class="form-label">Grade / GPA / CGPA</label>
           <input type="text" id="modal-edu-grade" class="form-input" value="${escapeHtml(edu.grade)}" />
         </div>
       </div>
@@ -663,9 +825,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const grade = document.getElementById('modal-edu-grade').value.trim();
 
       if (!degree || !institution) {
-        alert('Degree and Institution are required.');
+        alert('Please provide Degree and Institution.');
         return false;
       }
+
+      if (!data.education) data.education = [];
 
       const updated = { ...edu, degree, field, institution, year, grade };
       if (isNew) {
@@ -680,38 +844,37 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   window.deleteEducation = function (index) {
-    if (confirm(`Delete degree "${data.education[index].degree}"?`)) {
+    if (confirm(`Delete education record "${data.education[index].degree}"?`)) {
       data.education.splice(index, 1);
       renderEducationList();
-      showToast('Degree removed.');
+      showToast('Education record deleted.');
     }
   };
 
-  const btnAddEdu = document.getElementById('btn-add-education');
-  if (btnAddEdu) btnAddEdu.addEventListener('click', () => window.editEducation(-1));
+  const btnAddEducation = document.getElementById('btn-add-education');
+  if (btnAddEducation) btnAddEducation.addEventListener('click', () => window.editEducation(-1));
 
-  /* ── 10. Skills Tag Manager ─────────────────────────────── */
+  /* ── 10. Skills Management ──────────────────────────────── */
   function renderSkillsManager() {
-    if (!data.skills) data.skills = {};
-    const categories = ['technical', 'professional', 'creative', 'languages'];
+    if (!data.skills) return;
 
-    categories.forEach(cat => {
+    ['technical', 'professional', 'creative', 'languages'].forEach(cat => {
       const container = document.getElementById(`skills-tags-${cat}`);
       if (!container) return;
 
       const items = data.skills[cat] || [];
-      container.innerHTML = items.map((tag, idx) => `
-        <span class="tag-chip">
-          ${escapeHtml(tag)}
-          <button type="button" onclick="window.removeSkillTag('${cat}', ${idx})" title="Remove">×</button>
+      container.innerHTML = items.map((skill, idx) => `
+        <span class="tag-pill">
+          ${escapeHtml(skill)}
+          <button type="button" onclick="window.removeSkillTag('${cat}', ${idx})" title="Remove skill">&times;</button>
         </span>
       `).join('');
     });
   }
 
-  window.removeSkillTag = function (cat, index) {
+  window.removeSkillTag = function (cat, idx) {
     if (data.skills && data.skills[cat]) {
-      data.skills[cat].splice(index, 1);
+      data.skills[cat].splice(idx, 1);
       renderSkillsManager();
     }
   };
@@ -742,11 +905,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let modalSaveCallback = null;
 
-  function openModal(title, htmlContent, onSave) {
+  function openModal(title, htmlContent, onSave, onOpen) {
     modalTitle.textContent = title;
     modalBody.innerHTML = htmlContent;
     modalSaveCallback = onSave;
     modalBackdrop.classList.add('open');
+    if (typeof onOpen === 'function') {
+      setTimeout(onOpen, 10);
+    }
   }
 
   function closeModal() {
@@ -780,7 +946,15 @@ document.addEventListener('DOMContentLoaded', () => {
       data.profile.roleTitle = getVal('input-roleTitle');
       data.profile.heroBio = getVal('input-heroBio');
       data.profile.aboutLead = getVal('input-aboutLead');
-      data.profile.aboutBodyParagraphs = getVal('input-aboutParagraphs').split('\n\n').map(p => p.trim()).filter(Boolean);
+      
+      // Save Rich Text About Story
+      const aboutContent = aboutStoryEditor ? aboutStoryEditor.getHTML() : getVal('input-aboutParagraphs');
+      if (aboutContent) {
+        data.profile.aboutBodyParagraphs = [aboutContent];
+      } else {
+        data.profile.aboutBodyParagraphs = [];
+      }
+
       data.profile.contactIntro = getVal('input-contactIntro');
       data.profile.email = getVal('input-email');
       data.profile.phone = getVal('input-phone');

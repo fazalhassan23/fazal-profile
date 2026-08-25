@@ -151,7 +151,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const aboutParagraphs = document.getElementById('about-paragraphs');
     if (aboutParagraphs && p.aboutBodyParagraphs) {
-      aboutParagraphs.innerHTML = p.aboutBodyParagraphs.map(text => `<p>${escapeHtml(text)}</p>`).join('');
+      aboutParagraphs.innerHTML = p.aboutBodyParagraphs.map(text => {
+        if (!text) return '';
+        if (/<\/?[a-z][\s\S]*>/i.test(text)) {
+          return text;
+        }
+        return `<p>${escapeHtml(text)}</p>`;
+      }).join('');
     }
 
     /* ── 11. About Page Education (about.html) ────────────── */
@@ -366,11 +372,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modal-art-title').textContent = art.title || '';
     
     // Parse paragraphs in content
-    const contentHtml = (art.content || art.summary || '')
-      .split('\n\n')
-      .map(para => `<p>${escapeHtml(para)}</p>`)
-      .join('');
-    document.getElementById('modal-art-body').innerHTML = contentHtml;
+    const rawContent = art.content || art.summary || '';
+    if (/<\/?[a-z][\s\S]*>/i.test(rawContent)) {
+      document.getElementById('modal-art-body').innerHTML = rawContent;
+    } else {
+      const contentHtml = rawContent
+        .split('\n\n')
+        .map(para => `<p>${escapeHtml(para)}</p>`)
+        .join('');
+      document.getElementById('modal-art-body').innerHTML = contentHtml;
+    }
 
     const tagsContainer = document.getElementById('modal-art-tags');
     if (tagsContainer) {
