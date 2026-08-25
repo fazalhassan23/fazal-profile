@@ -756,3 +756,208 @@ body.admin-body {
     left: 1rem;
   }
 }
+
+/* ────────────────────────────────────────────────────────────
+   Rich Text Editor (WYSIWYG) Component Styles
+   ──────────────────────────────────────────────────────────── */
+.rte-wrapper {
+  border: 1px solid var(--adm-border);
+  border-radius: var(--adm-radius);
+  background: var(--adm-input-bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.rte-wrapper:focus-within {
+  border-color: var(--adm-border-focus);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.rte-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.45rem 0.6rem;
+  background: #15151D;
+  border-bottom: 1px solid var(--adm-border);
+  flex-wrap: wrap;
+  user-select: none;
+}
+
+.rte-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-right: 0.35rem;
+  margin-right: 0.35rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rte-group:last-child {
+  border-right: none;
+  padding-right: 0;
+  margin-right: 0;
+}
+
+.rte-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--adm-muted);
+  width: 32px;
+  height: 30px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--adm-font);
+  transition: all 0.15s;
+  padding: 0;
+}
+
+.rte-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+.rte-btn.active {
+  background: rgba(59, 130, 246, 0.25);
+  color: var(--adm-accent-hover);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.rte-btn-tag {
+  font-size: 0.75rem;
+  font-family: var(--adm-font-mono);
+  padding: 0 0.4rem;
+  width: auto;
+  min-width: 32px;
+}
+
+.rte-btn-html {
+  margin-left: auto;
+  font-family: var(--adm-font-mono);
+  font-size: 0.75rem;
+  width: auto;
+  padding: 0 0.5rem;
+  color: var(--adm-accent-hover);
+}
+
+.rte-btn-html.active {
+  background: var(--adm-accent);
+  color: #FFFFFF;
+}
+
+.rte-content {
+  padding: 1rem 1.15rem;
+  min-height: 180px;
+  max-height: 480px;
+  overflow-y: auto;
+  color: var(--adm-text);
+  font-family: var(--adm-font);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  outline: none;
+  background: var(--adm-input-bg);
+}
+
+.rte-content[contenteditable="true"]:empty:before {
+  content: attr(data-placeholder);
+  color: rgba(165, 165, 186, 0.5);
+  pointer-events: none;
+  display: block;
+}
+
+/* Rich Content Typography inside editable area */
+.rte-content h2 {
+  font-family: var(--adm-font-title);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-top: 1.25rem;
+  margin-bottom: 0.45rem;
+}
+
+.rte-content h3 {
+  font-family: var(--adm-font-title);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.rte-content p {
+  margin-bottom: 0.85rem;
+}
+
+.rte-content ul, .rte-content ol {
+  margin-bottom: 0.85rem;
+  padding-left: 1.5rem;
+}
+
+.rte-content li {
+  margin-bottom: 0.25rem;
+}
+
+.rte-content blockquote {
+  border-left: 3px solid var(--adm-accent);
+  padding: 0.5rem 0.85rem;
+  margin: 0.85rem 0;
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--adm-text);
+  font-style: italic;
+  border-radius: 0 4px 4px 0;
+}
+
+.rte-content code {
+  font-family: var(--adm-font-mono);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: var(--adm-accent-hover);
+}
+
+.rte-content pre {
+  background: #09090D;
+  border: 1px solid var(--adm-border);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-bottom: 0.85rem;
+}
+
+.rte-content pre code {
+  background: transparent;
+  padding: 0;
+  color: var(--adm-text);
+}
+
+.rte-content a {
+  color: var(--adm-accent-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.rte-html-textarea {
+  display: none;
+  width: 100%;
+  min-height: 180px;
+  max-height: 480px;
+  padding: 1rem;
+  font-family: var(--adm-font-mono);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  background: #09090D;
+  color: #7DD3FC;
+  border: none;
+  resize: vertical;
+  outline: none;
+}
+
