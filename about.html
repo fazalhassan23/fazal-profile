@@ -41,7 +41,7 @@
   <nav class="nav" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo"><span data-cms="firstName">Fazal</span><span class="dot">.</span></a>
-      <ul class="nav-links">
+      <ul class="nav-links" id="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="projects.html">Projects</a></li>
@@ -53,7 +53,7 @@
           <span class="theme-icon-moon">🌙</span>
         </button>
 
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -92,7 +92,7 @@
 
       <div style="margin-top: 2rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
         <a href="projects.html" class="btn btn-primary">View Projects ↗</a>
-        <a href="javascript:void(0)" data-cms-link="resume" class="btn btn-outline">Download Resume</a>
+        <a href="about.html" data-cms-link="resume" class="btn btn-outline">Download Resume</a>
         <a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email" class="btn btn-outline">Get in Touch</a>
       </div>
     </section>

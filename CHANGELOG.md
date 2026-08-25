@@ -5,6 +5,30 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.6.0] — 2026-08-25
+
+### Refactored & Enhanced
+- **Data Layer & Store Resilience (`js/store.js`)**:
+  - Implemented deep schema fallback merging to guarantee all objects and arrays exist safely even if localStorage is empty or corrupted.
+  - Added JSON schema validation for backup imports and robust error handling.
+- **Component Architecture (`js/render.js`)**:
+  - Modularized the monolithic renderer into focused, single-responsibility functions (`renderHero`, `renderMetrics`, `renderExpertise`, `renderAwards`, `renderArticles`, `renderExperience`, `renderProjects`, `renderAboutPage`, `renderContactAndFooter`).
+  - Improved Article Reader modal with keyboard focus trapping, `Escape` key close listener, and accessible `aria-modal` dialog attributes.
+  - Upgraded HTML sanitization helper for improved XSS protection.
+- **Performance & Canvas Optimization (`js/main.js`)**:
+  - Added Retina / HiDPI `devicePixelRatio` scaling for razor-sharp canvas rendering across 4K and high-density mobile screens.
+  - Added Tab Visibility Lifecycle (`document.hidden` / `visibilitychange`) to pause `requestAnimationFrame` when the user leaves the tab, reducing battery and GPU usage.
+  - Debounced window resize event listeners.
+- **Design System & Accessibility (`css/style.css`)**:
+  - Tokenized z-index layers (`--z-canvas`, `--z-base`, `--z-grain`, `--z-nav`, `--z-drawer`, `--z-modal`, `--z-toast`) to eliminate magic numbers.
+  - Added universal `@media (prefers-reduced-motion: reduce)` accessibility overrides for all animations and transitions.
+- **Code Hygiene & HTML Standards**:
+  - Replaced outdated `javascript:void(0)` links with clean semantic hrefs.
+  - Added `id="nav-links"` and `aria-controls` across all navigation headers.
+  - Upgraded repository `README.md` and cleaned up temporary archive artifacts.
+
+---
+
 ## [1.5.0] — 2026-08-25
 
 ### Added
