@@ -6,7 +6,7 @@
    - Scroll-driven fade-up animations
    - Animated metric number counting
    - Interactive contact form handler
-   - CMS keyboard shortcuts
+   - Dark / Light theme toggle
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -214,12 +214,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── Keyboard shortcut: Ctrl+Shift+A to open CMS ─────────── */
-  window.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
-      e.preventDefault();
-      window.location.href = 'admin.html';
-    }
-  });
+  /* ── Dark / Light Theme Toggle ──────────────────────────── */
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('portfolio_theme', next);
+    });
+  }
 
 });
