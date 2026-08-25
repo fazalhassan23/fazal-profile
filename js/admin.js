@@ -337,14 +337,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const metrics = data.metrics || [];
     container.innerHTML = metrics.map((m, idx) => `
-      <div class="form-group" style="background:rgba(255,255,255,0.02); padding:1rem; border-radius:8px; border:1px solid var(--adm-border);">
-        <label class="form-label" style="color:var(--adm-accent-hover)">Card #${idx + 1}: ${escapeHtml(m.label)}</label>
-        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.5rem; margin-bottom:0.5rem;">
+      <div class="form-group" style="background: var(--adm-input-bg); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--adm-border);">
+        <label class="form-label" style="color: var(--adm-accent); font-weight: 600; margin-bottom: 0.25rem;">Metric #${idx + 1}</label>
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
           <input type="text" class="form-input" id="metric-num-${idx}" value="${escapeHtml(m.number)}" placeholder="Number (e.g. 21)" />
           <input type="text" class="form-input" id="metric-suffix-${idx}" value="${escapeHtml(m.suffix)}" placeholder="Suffix (+)" />
         </div>
-        <input type="text" class="form-input" id="metric-label-${idx}" value="${escapeHtml(m.label)}" placeholder="Label" style="margin-bottom:0.5rem;" />
-        <input type="text" class="form-input" id="metric-subtext-${idx}" value="${escapeHtml(m.subtext)}" placeholder="Subtext" />
+        <input type="text" class="form-input" id="metric-label-${idx}" value="${escapeHtml(m.label)}" placeholder="Label (e.g. Projects Managed)" style="margin-bottom: 0.5rem;" />
+        <input type="text" class="form-input" id="metric-subtext-${idx}" value="${escapeHtml(m.subtext)}" placeholder="Subtext description" />
       </div>
     `).join('');
   }

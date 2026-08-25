@@ -5,6 +5,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.7.0] — 2026-08-25
+
+### Refactored & Enhanced
+- **Modernized CMS Admin Dashboard (`admin.html`, `css/admin.css`, `js/admin.js`)**:
+  - **Decluttered Obsidian Design**: Transitioned to a deep obsidian palette (`#070709` body, `#111117` cards, `#15151E` inputs) with subtle borders and clean typography matching the main portfolio aesthetic.
+  - **Categorized Sidebar Navigation**: Organized the 9 flat sidebar tabs into structured categories (*Core Content*, *Highlights & Skills*, *Settings*) with modern active pill states and subtle icon alignment.
+  - **Noise & Emoji Elimination**: Removed noisy emojis and repetitive subheaders across all card headers and forms.
+  - **2x2 Consolidated Skills Grid**: Combined 4 stacked full-width skill cards into a responsive 2-column grid to maximize screen real estate and reduce scrolling.
+  - **Refined Metrics & Form Controls**: Redesigned metric tiles with consistent input padding, subtle borders, and smooth focus glow rings.
+
+---
+
 ## [1.6.0] — 2026-08-25
 
 ### Refactored & Enhanced
