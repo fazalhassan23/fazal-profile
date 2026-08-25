@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `).join('');
     }
 
-    /* ── 5. Expertise Grid (Horizontal Row Cards) ─────────── */
+    /* ── 5. Expertise Grid (2-Column Icon + Text Block) ───── */
     const expertiseContainer = document.getElementById('expertise-container');
     if (expertiseContainer && data.expertise) {
       expertiseContainer.innerHTML = data.expertise.map(exp => `
@@ -87,13 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
           <div>
             <p class="card-category">${escapeHtml(exp.category || '')}</p>
             <h3>${escapeHtml(exp.title || '')}</h3>
+            <p>${escapeHtml(exp.description || '')}</p>
           </div>
-          <p>${escapeHtml(exp.description || '')}</p>
         </div>
       `).join('');
     }
 
-    /* ── 6. Awards & Honors Showcase (Horizontal Gold-Striped) */
+    /* ── 6. Awards & Honors Showcase (Subtle Gold Left Border) */
     const awardsContainer = document.getElementById('awards-container');
     if (awardsContainer && data.awards) {
       awardsContainer.innerHTML = data.awards.map(awd => `
@@ -101,9 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="award-icon-box">🏆</div>
           <div class="award-content">
             <h3 class="award-title">${escapeHtml(awd.title || '')}</h3>
-            <p class="award-org">${escapeHtml(awd.organization || '')} · <span style="color:var(--text-tertiary)">${escapeHtml(awd.year || '')}</span></p>
+            <p class="award-org">${escapeHtml(awd.organization || '')} · <span class="award-year-inline">${escapeHtml(awd.year || '')}</span></p>
           </div>
-          <span class="award-year-badge">${escapeHtml(awd.badge || awd.year || 'Award')}</span>
         </div>
       `).join('');
     }
@@ -125,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="article-card-right">
               <div class="article-tags">${tagsHtml}</div>
-              <span class="article-read-btn">Read →</span>
+              <span class="article-read-btn">→</span>
             </div>
           </div>
         `;
@@ -209,8 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <div>
             <p class="card-category">${escapeHtml(extra.category || '')}</p>
             <h3>${escapeHtml(extra.title || '')}</h3>
+            <p>${escapeHtml(extra.description || '')}</p>
           </div>
-          <p>${escapeHtml(extra.description || '')}</p>
         </div>
       `).join('');
     }
@@ -284,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (footerCopy) footerCopy.textContent = `© ${p.copyrightYear || 2026} ${p.name}`;
   }
 
-  /* ── Typewriter Engine ─────────────────────────────────── */
+  /* ── Typewriter Engine (Clean, no distracting cursor) ── */
   function initTypewriter(roles) {
     const el = document.getElementById('hero-typewriter');
     if (!el || !roles || !roles.length) return;
@@ -294,9 +293,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
-    const typingSpeed = 65;
-    const deleteSpeed = 30;
-    const pauseDelay = 2000;
+    const typingSpeed = 60;
+    const deleteSpeed = 25;
+    const pauseDelay = 2200;
 
     function step() {
       const currentRole = roles[roleIndex];
@@ -344,15 +343,15 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="modal-header">
             <div>
               <span class="article-category" id="modal-art-category"></span>
-              <span style="font-size:0.85rem; font-family:var(--font-mono); color:var(--text-tertiary); margin-left:0.75rem" id="modal-art-meta"></span>
+              <span class="article-date" style="margin-left:0.6rem" id="modal-art-meta"></span>
             </div>
             <button class="modal-close" onclick="window.closeArticleModal()" aria-label="Close modal">&times;</button>
           </div>
-          <h2 id="modal-art-title" style="font-family:var(--font-display); font-size:1.45rem; font-weight:700; margin-bottom:1rem; color:var(--text-primary); line-height:1.35;"></h2>
+          <h2 class="modal-title" id="modal-art-title"></h2>
           <div class="modal-body" id="modal-art-body"></div>
-          <div style="margin-top:1.75rem; padding-top:1.25rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+          <div class="modal-footer">
             <div id="modal-art-tags" class="article-tags"></div>
-            <button class="btn btn-outline" style="padding:0.45rem 1rem; font-size:0.925rem;" onclick="window.closeArticleModal()">Close</button>
+            <button class="btn btn-outline" style="padding:0.4rem 0.9rem; font-size:0.875rem;" onclick="window.closeArticleModal()">Close</button>
           </div>
         </div>
       `;
