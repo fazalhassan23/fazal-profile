@@ -22,7 +22,8 @@ window.DEFAULT_PORTFOLIO_DATA = {
     location: "Dhaka, Bangladesh",
     footerTagline: "Technical Project Manager & Systems Engineer based in Dhaka, Bangladesh.",
     copyrightYear: 2026,
-    resumeUrl: ""
+    resumeUrl: "",
+    fontPair: "geometric"
   },
 
   availability: {
