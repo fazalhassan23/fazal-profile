@@ -220,10 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ── 8. Ambient Background Canvas (Retina & Battery Aware) ─ */
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!prefersReducedMotion) {
-    initAmbientCanvas();
-  }
+  initAmbientCanvas();
 
   function initAmbientCanvas() {
     const canvas = document.createElement('canvas');
@@ -233,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.style.left = '0';
     canvas.style.width = '100vw';
     canvas.style.height = '100vh';
-    canvas.style.zIndex = 'var(--z-canvas, -1)';
+    canvas.style.zIndex = '-1';
     canvas.style.pointerEvents = 'none';
     document.body.prepend(canvas);
 
