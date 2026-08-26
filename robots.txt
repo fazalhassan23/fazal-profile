@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /api/
+Disallow: /data/portfolio-data.json
+
+Sitemap: https://fazalmahmudhassan.com/sitemap.xml
