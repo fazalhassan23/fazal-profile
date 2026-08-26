@@ -63,7 +63,7 @@
       availContainer.className = `availability-badge ${status}`;
       const availText = document.getElementById('availability-text');
       if (availText) {
-        availText.textContent = avail.badgeText || 'Available for New Opportunities';
+        availText.textContent = avail.badgeText || 'Open to Research & Advisory';
       }
     }
 

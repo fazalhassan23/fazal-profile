@@ -28,7 +28,7 @@ window.DEFAULT_PORTFOLIO_DATA = {
 
   availability: {
     status: "available", // 'available' | 'consulting' | 'busy'
-    badgeText: "Available for New Opportunities",
+    badgeText: "Open to Research & Advisory",
     typewriterRoles: [
       "Technical Project Manager",
       "Systems & Infrastructure Engineer",
