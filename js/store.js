@@ -93,11 +93,39 @@
     },
 
     /**
-     * Save updated portfolio data to localStorage and notify listeners
-     * @param {Object} data
-     * @returns {{ success: boolean, error?: string }}
+     * Fetch latest data from server JSON database if available
+     * @returns {Promise<Object>}
      */
-    saveData: function (data) {
+    fetchServerData: async function () {
+      if (window.location.protocol === 'file:') {
+        return this.getData();
+      }
+
+      try {
+        const res = await fetch('data/portfolio-data.json?t=' + Date.now(), { cache: 'no-store' });
+        if (res.ok) {
+          const serverData = await res.json();
+          if (serverData && typeof serverData === 'object') {
+            const defaults = window.DEFAULT_PORTFOLIO_DATA ? deepClone(window.DEFAULT_PORTFOLIO_DATA) : {};
+            const validated = mergeSchema(defaults, serverData);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(validated));
+            window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: validated }));
+            return validated;
+          }
+        }
+      } catch (e) {
+        console.info('[PortfolioStore] Server sync skipped or offline, using local cache.');
+      }
+
+      return this.getData();
+    },
+
+    /**
+     * Save updated portfolio data to localStorage and sync with server API
+     * @param {Object} data
+     * @returns {Promise<{ success: boolean, serverSynced?: boolean, error?: string }>}
+     */
+    saveData: async function (data) {
       if (!data || typeof data !== 'object') {
         return { success: false, error: 'Invalid data payload provided.' };
       }
@@ -105,11 +133,34 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
         window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: data }));
-        return { success: true };
       } catch (e) {
-        console.error('[PortfolioStore] Save failed:', e);
+        console.error('[PortfolioStore] Local save failed:', e);
         return { success: false, error: e.message || 'LocalStorage write error.' };
       }
+
+      // Sync to PHP flat-file backend if reachable
+      let serverSynced = false;
+      if (window.location.protocol !== 'file:') {
+        try {
+          const sessionHash = sessionStorage.getItem(SESSION_AUTH_KEY) || '';
+          const res = await fetch('api/save.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': sessionHash ? 'Bearer ' + sessionHash : ''
+            },
+            body: JSON.stringify(data)
+          });
+          const result = await res.json();
+          if (result && result.success) {
+            serverSynced = true;
+          }
+        } catch (err) {
+          console.warn('[PortfolioStore] Server persistence skipped (static or local environment):', err);
+        }
+      }
+
+      return { success: true, serverSynced: serverSynced };
     },
 
     /**
@@ -121,6 +172,7 @@
         localStorage.removeItem(STORAGE_KEY);
         const defaults = window.DEFAULT_PORTFOLIO_DATA ? deepClone(window.DEFAULT_PORTFOLIO_DATA) : {};
         window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: defaults }));
+        this.saveData(defaults);
         return { success: true, data: defaults };
       } catch (e) {
         return { success: false, error: e.message };
@@ -148,9 +200,9 @@
     /**
      * Import portfolio data from a JSON string with validation
      * @param {string} jsonString
-     * @returns {{ success: boolean, data?: Object, error?: string }}
+     * @returns {Promise<{ success: boolean, data?: Object, error?: string }>}
      */
-    importJSON: function (jsonString) {
+    importJSON: async function (jsonString) {
       try {
         const parsed = JSON.parse(jsonString);
         if (!parsed || typeof parsed !== 'object' || !parsed.profile) {
@@ -159,7 +211,7 @@
 
         const defaults = window.DEFAULT_PORTFOLIO_DATA ? deepClone(window.DEFAULT_PORTFOLIO_DATA) : {};
         const validated = mergeSchema(defaults, parsed);
-        this.saveData(validated);
+        await this.saveData(validated);
         return { success: true, data: validated };
       } catch (e) {
         return { success: false, error: e.message || 'Invalid JSON file format.' };
@@ -173,7 +225,7 @@
      * @returns {boolean}
      */
     isAuthenticated: function () {
-      return sessionStorage.getItem(SESSION_AUTH_KEY) === 'authenticated_true';
+      return Boolean(sessionStorage.getItem(SESSION_AUTH_KEY));
     },
 
     /**
@@ -194,7 +246,7 @@
       try {
         const inputHash = await computeSha256(password);
         if (inputHash === storedHash) {
-          sessionStorage.setItem(SESSION_AUTH_KEY, 'authenticated_true');
+          sessionStorage.setItem(SESSION_AUTH_KEY, inputHash);
           return { success: true };
         } else {
           return { success: false, error: 'Incorrect password.' };
@@ -232,13 +284,17 @@
         const data = this.getData();
         data.adminAuth = data.adminAuth || {};
         data.adminAuth.passwordHash = newHash;
-        this.saveData(data);
+        await this.saveData(data);
+        sessionStorage.setItem(SESSION_AUTH_KEY, newHash);
         return { success: true };
       } catch (e) {
         return { success: false, error: 'Failed to encrypt new password: ' + e.message };
       }
     }
   };
+
+  // Eager background sync on load
+  PortfolioStore.fetchServerData();
 
   window.PortfolioStore = PortfolioStore;
 })();

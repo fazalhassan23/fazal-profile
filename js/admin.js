@@ -987,10 +987,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // Save to storage
-      const res = window.PortfolioStore.saveData(data);
+      // Save to storage & server
+      const res = await window.PortfolioStore.saveData(data);
       if (res.success) {
-        showToast('🎉 All portfolio changes published live!');
+        if (res.serverSynced) {
+          showToast('🎉 All portfolio changes saved and synced to live server!');
+        } else {
+          showToast('🎉 Changes saved locally to your browser.');
+        }
       } else {
         alert('Failed to save changes: ' + res.error);
       }

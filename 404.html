@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found — Fazal Mahmud Hassan</title>
+  <meta name="robots" content="noindex, follow" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- Fonts (Localized) -->
+  <link rel="stylesheet" href="css/fonts.css" />
+
+  <!-- Inline Theme & Font Flash Prevention -->
+  <script>
+    (function() {
+      var savedTheme = localStorage.getItem('portfolio_theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+      try {
+        var savedData = localStorage.getItem('fazal_portfolio_cms_data');
+        if (savedData) {
+          var parsed = JSON.parse(savedData);
+          if (parsed && parsed.profile && parsed.profile.fontPair) {
+            document.documentElement.setAttribute('data-font-pair', parsed.profile.fontPair);
+          }
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .error-hero {
+      min-height: calc(100vh - 160px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--space-3xl) var(--space-md);
+      position: relative;
+    }
+    .error-code {
+      font-family: var(--font-mono);
+      font-size: clamp(5rem, 15vw, 10rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--text-tertiary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: var(--space-md);
+    }
+    .error-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: var(--space-sm);
+    }
+    .error-description {
+      font-size: 1.0625rem;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin-bottom: var(--space-xl);
+      line-height: 1.6;
+    }
+    .redirect-timer {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--text-tertiary);
+      margin-top: var(--space-lg);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Canvas Background -->
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
+  <!-- Navigation -->
+  <header class="nav-header">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand" aria-label="Fazal Mahmud Hassan — Homepage">
+        <span class="brand-first" data-cms="firstName">Fazal</span><span class="brand-dot">.</span>
+      </a>
+
+      <nav class="nav-links" id="main-nav" aria-label="Main Navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects &amp; Publications</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle visual theme" title="Toggle theme">
+          <span class="theme-icon" aria-hidden="true">☀️</span>
+        </button>
+        <button class="nav-toggle" aria-label="Toggle navigation drawer" aria-expanded="false" aria-controls="main-nav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-wrapper">
+    <section class="error-hero">
+      <div class="error-code">404</div>
+      <h1 class="error-heading">Page Not Found</h1>
+      <p class="error-description">
+        The requested URL was not found on this server. You might have clicked an outdated link or typed the URL incorrectly.
+      </p>
+      
+      <div class="hero-ctas">
+        <a href="index.html" class="btn btn-primary">Return to Homepage ↗</a>
+        <a href="projects.html" class="btn btn-secondary">Explore Projects</a>
+      </div>
+
+      <div class="redirect-timer" id="redirect-msg">
+        Auto-redirecting to homepage in <span id="countdown">10</span>s...
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <p class="copyright">&copy; <span data-cms="copyrightYear">2026</span> <span data-cms="fullName">Fazal Mahmud Hassan</span>. All rights reserved.</p>
+        <div class="footer-cms-hint">
+          <a href="admin.html" class="admin-quick-link" title="CMS Admin Panel">🔒 CMS</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data/default-data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    let timeLeft = 10;
+    const countdownEl = document.getElementById('countdown');
+    const timer = setInterval(() => {
+      timeLeft--;
+      if (countdownEl) countdownEl.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        window.location.href = 'index.html';
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
