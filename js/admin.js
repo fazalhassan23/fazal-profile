@@ -3,7 +3,7 @@
    With Built-in Rich Text WYSIWYG Editor Support
    ============================================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
+function initAdminApp() {
   if (!window.PortfolioStore) {
     console.error('PortfolioStore not loaded.');
     return;
@@ -1703,6 +1703,34 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/'/g, '&#039;');
   }
 
+  // Expose global PortfolioAdmin namespace
+  window.PortfolioAdmin = {
+    handleLogin,
+    togglePasswordVisibility: function() {
+      const inp = document.getElementById('input-admin-password');
+      const btn = document.getElementById('btn-toggle-pwd');
+      if (inp && btn) {
+        const cur = inp.getAttribute('type') || 'password';
+        const next = cur === 'password' ? 'text' : 'password';
+        inp.setAttribute('type', next);
+        btn.textContent = next === 'password' ? '👁️' : '🙈';
+        btn.setAttribute('title', next === 'password' ? 'Show password' : 'Hide password');
+        inp.focus();
+      }
+    },
+    unlockDashboard,
+    lockDashboard,
+    populateAll,
+    init: initAdminApp
+  };
+
   // Initialize Auth Check
   checkAuth();
-});
+}
+
+// Resilient auto-initialization
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAdminApp);
+} else {
+  initAdminApp();
+}

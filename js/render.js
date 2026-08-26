@@ -863,6 +863,10 @@
   window.printCV = printCV;
 
   // Initialize
-  document.addEventListener('DOMContentLoaded', renderAll);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderAll);
+  } else {
+    renderAll();
+  }
   window.addEventListener('portfolioDataChanged', renderAll);
 })();
