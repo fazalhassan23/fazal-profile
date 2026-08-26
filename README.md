@@ -1,8 +1,8 @@
-﻿# Fazal Mahmud Hassan — Personal Portfolio & CMS
+# Fazal Mahmud Hassan — Personal Portfolio & CMS
 
 > A zero-dependency, production-grade personal portfolio built entirely on **Vanilla HTML5, modern CSS, and plain JavaScript** — no frameworks, no bundlers, no build steps. Includes a fully client-side Content Management System (CMS) with SHA-256 authentication, a custom WYSIWYG rich-text editor, a dual-mode animated canvas background, and an optional PHP flat-file persistence API.
 
-**Current Version**: `v1.7.0` | **License**: MIT
+**Current Version**: `v1.8.0` | **License**: MIT
 
 ---
 
@@ -116,7 +116,7 @@ fazal-portfolio/
 |
 +-- sitemap.xml           # Static XML sitemap for search engines
 +-- robots.txt            # robots.txt with sitemap reference
-+-- CHANGELOG.md          # Full version history (v0.1.0 to v1.7.0)
++-- CHANGELOG.md          # Full version history (v0.1.0 to v1.8.0)
 +-- DEPLOYMENT.md         # Step-by-step cPanel deployment guide
 ```
 
@@ -637,6 +637,7 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 
 | Version | Date | Summary |
 |---|---|---|
+| v1.8.0 | 2026-08-27 | **Bug fix (by @pabonsaha)**: stateful SHA-256 rewrite (store.js), missing brace in admin.js save pipeline, form submit hardening in admin.html |
 | v1.7.0 | 2026-08-25 | Admin dashboard redesign: obsidian palette, categorised sidebar, 2x2 skills grid |
 | v1.6.0 | 2026-08-25 | Store resilience (deep merge), modular renderer, HiDPI canvas, tab visibility lifecycle, z-index tokens, reduced-motion a11y |
 | v1.5.0 | 2026-08-25 | Light-mode bird animation, 4-pairing global font selector, FOUC prevention script |
