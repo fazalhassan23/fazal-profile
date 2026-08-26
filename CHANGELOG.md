@@ -5,6 +5,57 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.8.0] — 2026-08-27
+
+### Fixed (merged from `admin-login` branch — authored by @pabonsaha)
+
+#### `js/store.js` — SHA-256 Pure-JS Implementation Rewrite
+- **Root cause**: The original `jsSha256()` implementation used a lazy prime-sieve initialization
+  pattern (`jsSha256.h`, `jsSha256.k` as mutable static properties on the function object) that
+  caused the internal hash state to bleed across multiple calls in the same session. After the
+  first successful login attempt, the constants array was permanently mutated, producing incorrect
+  digests on all subsequent hash operations — making password changes and re-logins silently fail.
+- **Fix**: Replaced the stateful sieve-based SHA-256 with a clean, stateless implementation that
+  uses hardcoded round constants (`K[]`) and initial hash values (`H[]`). Key improvements:
+  - Constants `K[64]` and initial hash registers `H[8]` are now defined inline as local `const`
+    arrays within each function call — no shared mutable state between invocations.
+  - Input string pre-processing now routes through `unescape(encodeURIComponent(str))` to correctly
+    handle UTF-8 multi-byte characters (e.g. passwords containing non-ASCII characters, accented
+    letters, emoji) before byte-packing into the message schedule.
+  - Message schedule expansion (`W[64]`) is allocated with `new Array(64)` and filled cleanly per
+    block, eliminating the `words.slice()` copy pattern that caused off-by-one errors.
+  - Compression round uses named register variables (`a, b, c, d, e, f, g, h`) instead of
+    destructuring array mutation — substantially easier to audit and verify for correctness.
+  - Output hex encoding simplified: uses `(H[i] >>> 0).toString(16)` padded to 8 hex chars via
+    `('00000000' + hex).slice(-8)`, replacing the previous double-loop with potential endianness issues.
+  - Function parameter renamed from `ascii` to `str` to accurately reflect that UTF-8 strings are accepted.
+
+#### `js/admin.js` — Missing Closing Brace Bug
+- **Root cause**: A missing `}` closing brace in the metrics gather block (around line 1452) caused
+  the JavaScript parser to silently swallow the entire Navigation & Header gather section into the
+  metrics `forEach` callback scope. This meant `data.navigation`, `data.sections`, and all subsequent
+  fields were never collected when saving from the admin panel, causing partial saves and data loss
+  for nav/section configuration.
+- **Fix**: Inserted the missing closing brace `}` to correctly terminate the `forEach` callback,
+  restoring proper execution scope for all subsequent data-gather steps.
+
+#### `admin.html` — Login Form Submit Hardening
+- **Root cause**: The "Unlock Dashboard" button used `type="button"` with an inline `onclick`
+  attribute (`window.PortfolioAdmin?.handleLogin()`). If `PortfolioAdmin` was not yet initialized
+  at the moment of the click (e.g. slow device, script still executing), the optional-chain silently
+  no-opped and nothing happened — locking the user out with no error feedback.
+  The password visibility toggle button similarly relied on `window.PortfolioAdmin?.togglePasswordVisibility()`
+  inline, creating the same fragility.
+- **Fix**:
+  - Changed the unlock button from `type="button"` to `type="submit"` and removed the inline
+    `onclick` attribute. The form's `onsubmit` handler (`window.PortfolioAdmin?.handleLogin()`)
+    was already present and correctly connected — making it the single, reliable trigger.
+  - Removed the inline `onclick` from the password visibility toggle button; the handler is now
+    registered programmatically inside `admin.js` after `PortfolioAdmin` is fully initialized,
+    guaranteeing the function reference always exists before it can be invoked.
+
+---
+
 ## [1.7.0] — 2026-08-25
 
 ### Refactored & Enhanced
