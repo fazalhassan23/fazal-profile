@@ -1452,6 +1452,8 @@ function initAdminApp() {
           if (lblEl) m.label = lblEl.value.trim();
           if (subEl) m.subtext = subEl.value.trim();
         });
+      }
+
       // 4. Gather Navigation & Header
       if (!data.navigation) data.navigation = {};
       data.navigation.logoText = getVal('input-nav-logo-text');
