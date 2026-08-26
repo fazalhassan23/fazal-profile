@@ -68,4 +68,4 @@ Once the secrets are set up:
 2. Commit and push the changes to the `main` branch.
 3. Go to the **Actions** tab on your GitHub repository page.
 4. You will see a live workflow run named **Deploy to Namecheap cPanel** executing. You can click it to view the real-time upload progress.
-5. Once it completes with a green checkmark, check your site on your domain/iPad to confirm the updates are live!
+5. Once it completes with a green checkmark, check your site on your domain/iPad to confirm the updates are live! (Verified)
