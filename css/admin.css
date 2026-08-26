@@ -158,7 +158,17 @@ body.admin-body {
   color: var(--adm-muted);
   cursor: pointer;
   padding: 0.35rem;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  z-index: 10;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.btn-toggle-pwd:hover {
+  opacity: 0.85;
 }
 
 .lock-error {

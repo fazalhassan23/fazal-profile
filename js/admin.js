@@ -222,6 +222,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  const btnUnlockCms = document.getElementById('btn-unlock-cms');
+  if (btnUnlockCms) {
+    btnUnlockCms.addEventListener('click', (e) => {
+      e.preventDefault();
+      handleLogin();
+    });
+  }
+
   if (lockForm) {
     lockForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -239,10 +247,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (btnTogglePwd && inputAdminPassword) {
-    btnTogglePwd.addEventListener('click', () => {
-      const type = inputAdminPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-      inputAdminPassword.setAttribute('type', type);
-      btnTogglePwd.textContent = type === 'password' ? '👁️' : '🔒';
+    btnTogglePwd.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const currentType = inputAdminPassword.getAttribute('type') || 'password';
+      const newType = currentType === 'password' ? 'text' : 'password';
+      inputAdminPassword.setAttribute('type', newType);
+      btnTogglePwd.textContent = newType === 'password' ? '👁️' : '🙈';
+      btnTogglePwd.setAttribute('title', newType === 'password' ? 'Show password' : 'Hide password');
+      inputAdminPassword.focus();
     });
   }
 
