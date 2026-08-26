@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hero & Metrics
     setVal('input-avail-status', avail.status || 'available');
-    setVal('input-avail-text', avail.badgeText || 'Available for New Opportunities');
+    setVal('input-avail-text', avail.badgeText || 'Open to Research & Advisory');
     setVal('input-typewriter-roles', (avail.typewriterRoles || []).join(', '));
     renderMetricsEditor();
 
