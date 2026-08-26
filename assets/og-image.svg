@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="bg" cx="70%" cy="20%" r="90%">
+      <stop offset="0%" stop-color="#14142B"/>
+      <stop offset="50%" stop-color="#0B0B14"/>
+      <stop offset="100%" stop-color="#050508"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A85FF"/>
+      <stop offset="100%" stop-color="#6FA2FF"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.06)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.02)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Subtle decorative grid -->
+  <circle cx="1050" cy="150" r="350" fill="rgba(74, 133, 255, 0.08)"/>
+  <circle cx="150" cy="550" r="250" fill="rgba(52, 211, 153, 0.05)"/>
+
+  <!-- Brand / Category pill -->
+  <rect x="100" y="90" width="310" height="42" rx="21" fill="rgba(74, 133, 255, 0.12)" stroke="rgba(74, 133, 255, 0.35)" stroke-width="1"/>
+  <circle cx="124" cy="111" r="5" fill="#34D399"/>
+  <text x="142" y="117" fill="#4A85FF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" letter-spacing="1.5">PORTFOLIO &amp; ARCHIVES</text>
+
+  <!-- Main Headline / Name -->
+  <text x="100" y="240" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="64" font-weight="800" letter-spacing="-1.5">Fazal Mahmud Hassan</text>
+  
+  <!-- Subtitle / Role -->
+  <text x="100" y="315" fill="#4A85FF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="600">Technical Project Manager · Systems Engineer</text>
+
+  <!-- Description Paragraph -->
+  <text x="100" y="385" fill="#B0B0C8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="400">
+    <tspan x="100" dy="0">Leading 21+ SaaS &amp; CRM deliveries at Mediusware. MBA in HR &amp; Management</tspan>
+    <tspan x="100" dy="34">(University of Dhaka) &amp; B.Sc in Computer Science &amp; Engineering (BRAC University).</tspan>
+  </text>
+
+  <!-- Quick Stats Badges -->
+  <!-- Stat 1 -->
+  <rect x="100" y="475" width="220" height="80" rx="12" fill="url(#cardGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="125" y="525" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="700">21+</text>
+  <text x="125" y="545" fill="#8A8AA4" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500">Projects Delivered</text>
+
+  <!-- Stat 2 -->
+  <rect x="340" y="475" width="220" height="80" rx="12" fill="url(#cardGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="365" y="525" fill="#34D399" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="700">95%+</text>
+  <text x="365" y="545" fill="#8A8AA4" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500">Client CSAT Score</text>
+
+  <!-- Stat 3 -->
+  <rect x="580" y="475" width="220" height="80" rx="12" fill="url(#cardGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="605" y="525" fill="#F5A623" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="700">Springer</text>
+  <text x="605" y="545" fill="#8A8AA4" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500">Author &amp; Awardee</text>
+
+  <!-- Canonical URL watermark -->
+  <text x="1100" y="550" text-anchor="end" fill="#8A8AA4" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace" font-size="18">fazalmahmudhassan.com</text>
+</svg>
