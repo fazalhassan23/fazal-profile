@@ -318,6 +318,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProjectsList();
     renderEducationList();
     renderSkillsManager();
+
+    // Site Structure & Layout Managers
+    populateNavigation();
+    populateSections();
+    populateContact();
+    populateFooter();
+    populateSEO();
   }
 
   function setVal(id, val) {
@@ -330,9 +337,445 @@ document.addEventListener('DOMContentLoaded', () => {
     return el ? el.value.trim() : '';
   }
 
-  /* ── 4. Metrics Editor ──────────────────────────────────── */
-  function renderMetricsEditor() {
-    const container = document.getElementById('metrics-editor-grid');
+  function setChecked(id, bool) {
+    const el = document.getElementById(id);
+    if (el) el.checked = !!bool;
+  }
+
+  function getChecked(id) {
+    const el = document.getElementById(id);
+    return el ? el.checked : false;
+  }
+
+  /* ── 4. Navigation & Header Manager ─────────────────────── */
+  function populateNavigation() {
+    if (!data.navigation) data.navigation = {};
+    setVal('input-nav-logo-text', data.navigation.logoText || 'Fazal');
+    setVal('input-nav-logo-link', data.navigation.logoLink || 'index.html');
+    setChecked('checkbox-nav-logo-dot', data.navigation.logoDot !== false);
+
+    const cta = data.navigation.cta || {};
+    setVal('input-nav-cta-text', cta.text || '');
+    setVal('input-nav-cta-url', cta.url || '');
+    setChecked('checkbox-nav-cta-visible', !!cta.visible);
+
+    renderNavItemsList();
+  }
+
+  function renderNavItemsList() {
+    const container = document.getElementById('nav-items-list');
+    if (!container) return;
+
+    const items = data.navigation?.items || [];
+    if (!items.length) {
+      container.innerHTML = '<p class="admin-empty-notice">No navigation items added yet.</p>';
+      return;
+    }
+
+    container.innerHTML = items.map((item, idx) => `
+      <div class="admin-item-card">
+        <div class="admin-item-content">
+          <h4 class="admin-item-title">${escapeHtml(item.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${escapeHtml(item.url)})</span></h4>
+          <p class="admin-item-sub">
+            <span class="badge ${item.visible !== false ? 'badge-success' : 'badge-muted'}">${item.visible !== false ? 'Visible' : 'Hidden'}</span>
+            ${item.isExternal ? '<span class="badge badge-info" style="margin-left:0.3rem;">External</span>' : ''}
+          </p>
+        </div>
+        <div class="admin-item-actions">
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.moveNavItem(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Move Up">↑</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.moveNavItem(${idx}, 1)" ${idx === items.length - 1 ? 'disabled' : ''} title="Move Down">↓</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editNavItem(${idx})">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteNavItem(${idx})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.editNavItem = function(idx) {
+    const item = data.navigation.items[idx];
+    if (!item) return;
+    openNavItemModal(item, false, idx);
+  };
+
+  window.deleteNavItem = function(idx) {
+    if (confirm('Delete this menu item?')) {
+      data.navigation.items.splice(idx, 1);
+      renderNavItemsList();
+      showToast('Menu item removed.');
+    }
+  };
+
+  window.moveNavItem = function(idx, dir) {
+    const targetIdx = idx + dir;
+    if (targetIdx < 0 || targetIdx >= data.navigation.items.length) return;
+    const temp = data.navigation.items[idx];
+    data.navigation.items[idx] = data.navigation.items[targetIdx];
+    data.navigation.items[targetIdx] = temp;
+    renderNavItemsList();
+  };
+
+  function openNavItemModal(item, isNew, idx) {
+    const html = `
+      <div class="form-group">
+        <label class="form-label">Menu Item Label *</label>
+        <input type="text" id="modal-nav-label" class="form-input" value="${escapeHtml(item.label || '')}" placeholder="e.g. Articles" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Destination URL *</label>
+        <input type="text" id="modal-nav-url" class="form-input" value="${escapeHtml(item.url || '')}" placeholder="index.html#articles or https://..." required />
+      </div>
+      <div class="form-group">
+        <label class="form-checkbox-label">
+          <input type="checkbox" id="modal-nav-external" ${item.isExternal ? 'checked' : ''} />
+          <span>Open link in new tab (External URL)</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="form-checkbox-label">
+          <input type="checkbox" id="modal-nav-visible" ${item.visible !== false ? 'checked' : ''} />
+          <span>Visible in navigation</span>
+        </label>
+      </div>
+    `;
+
+    openModal(isNew ? 'Add Navigation Item' : 'Edit Navigation Item', html, () => {
+      const label = document.getElementById('modal-nav-label').value.trim();
+      const url = document.getElementById('modal-nav-url').value.trim();
+      const isExternal = document.getElementById('modal-nav-external').checked;
+      const visible = document.getElementById('modal-nav-visible').checked;
+
+      if (!label || !url) {
+        alert('Please provide both a label and a URL.');
+        return false;
+      }
+
+      if (isNew) {
+        if (!data.navigation) data.navigation = {};
+        if (!Array.isArray(data.navigation.items)) data.navigation.items = [];
+        data.navigation.items.push({
+          id: 'nav-' + Date.now(),
+          label,
+          url,
+          isExternal,
+          visible
+        });
+      } else {
+        data.navigation.items[idx] = {
+          ...data.navigation.items[idx],
+          label,
+          url,
+          isExternal,
+          visible
+        };
+      }
+
+      renderNavItemsList();
+      showToast(isNew ? 'New navigation item added.' : 'Navigation item updated.');
+      return true;
+    });
+  }
+
+  const btnAddNavItem = document.getElementById('btn-add-nav-item');
+  if (btnAddNavItem) {
+    btnAddNavItem.addEventListener('click', () => {
+      openNavItemModal({ label: '', url: '', isExternal: false, visible: true }, true);
+    });
+  }
+
+  /* ── 5. Page Sections & Visibility Populator ───────────── */
+  function populateSections() {
+    const s = data.sections || {};
+
+    // Home Hero & CTAs
+    const hh = s.homeHero || {};
+    setVal('input-sec-home-hero-label', hh.label || 'home');
+    setChecked('checkbox-sec-metrics-visible', hh.metricsVisible !== false);
+
+    setVal('input-sec-hero-cta1-text', hh.cta1?.text || 'View My Work ↗');
+    setVal('input-sec-hero-cta1-url', hh.cta1?.url || 'projects.html');
+    setVal('input-sec-hero-cta2-text', hh.cta2?.text || 'About & Experience');
+    setVal('input-sec-hero-cta2-url', hh.cta2?.url || 'about.html');
+    setVal('input-sec-hero-cta3-text', hh.cta3?.text || 'Download Resume');
+    setVal('input-sec-hero-cta3-url', hh.cta3?.url || 'about.html');
+
+    // Expertise
+    const exp = s.expertise || {};
+    setVal('input-sec-exp-label', exp.label || 'expertise');
+    setChecked('checkbox-sec-exp-vis', exp.visible !== false);
+
+    // Awards
+    const awd = s.awards || {};
+    setVal('input-sec-awards-label', awd.label || 'recognition');
+    setVal('input-sec-awards-subtext', awd.subtext || 'Selected awards, research accolades, and honors.');
+    setChecked('checkbox-sec-awards-vis', awd.visible !== false);
+
+    // Experience
+    const ex = s.experience || {};
+    setVal('input-sec-experience-label', ex.label || 'experience');
+    setVal('input-sec-experience-subtext', ex.subtext || 'Selected professional background and key career milestones.');
+    setVal('input-sec-experience-cta-text', ex.ctaText || 'Full history →');
+    setVal('input-sec-experience-cta-url', ex.ctaUrl || 'about.html#experience');
+    setChecked('checkbox-sec-experience-vis', ex.visible !== false);
+
+    // Work
+    const wk = s.work || {};
+    setVal('input-sec-work-label', wk.label || 'work');
+    setVal('input-sec-work-subtext', wk.subtext || 'Selected academic research and engineering projects.');
+    setVal('input-sec-work-cta-text', wk.ctaText || 'All projects →');
+    setVal('input-sec-work-cta-url', wk.ctaUrl || 'projects.html');
+    setChecked('checkbox-sec-work-vis', wk.visible !== false);
+
+    // Articles
+    const art = s.articles || {};
+    setVal('input-sec-art-label', art.label || 'insights');
+    setVal('input-sec-art-subtext', art.subtext || 'Articles on technical project delivery, leadership, and systems architecture.');
+    setChecked('checkbox-sec-art-vis', art.visible !== false);
+
+    // About Page
+    const ab = s.aboutPage || {};
+    setVal('input-sec-ab-hero-label', ab.heroLabel || 'about');
+    setVal('input-sec-ab-bio-label', ab.bioLabel || 'biography');
+    setVal('input-sec-ab-hero-sub', ab.heroSubtitle || '');
+    setVal('input-sec-ab-awards-label', ab.awardsLabel || 'recognition');
+    setChecked('checkbox-sec-ab-awards-vis', ab.awardsVisible !== false);
+    setVal('input-sec-ab-edu-label', ab.educationLabel || 'education');
+    setChecked('checkbox-sec-ab-edu-vis', ab.educationVisible !== false);
+    setVal('input-sec-ab-exp-label', ab.experienceLabel || 'experience');
+    setChecked('checkbox-sec-ab-exp-vis', ab.experienceVisible !== false);
+    setVal('input-sec-ab-skills-label', ab.skillsLabel || 'skills');
+    setChecked('checkbox-sec-ab-skills-vis', ab.skillsVisible !== false);
+    setVal('input-sec-ab-extras-label', ab.extrasLabel || 'beyond work');
+    setChecked('checkbox-sec-ab-extras-vis', ab.extrasVisible !== false);
+
+    // Projects Page
+    const pr = s.projectsPage || {};
+    setVal('input-sec-pr-hero-label', pr.heroLabel || 'work');
+    setVal('input-sec-pr-hero-title', pr.heroTitle || 'Projects & Research.');
+    setVal('input-sec-pr-hero-sub', pr.heroSubtitle || '');
+    setVal('input-sec-pr-res-label', pr.researchLabel || 'research');
+    setChecked('checkbox-sec-pr-res-vis', pr.researchVisible !== false);
+    setVal('input-sec-pr-pub-label', pr.publicationLabel || 'publication');
+    setChecked('checkbox-sec-pr-pub-vis', pr.publicationVisible !== false);
+    setVal('input-sec-pr-soft-label', pr.softwareLabel || 'software & engineering');
+    setChecked('checkbox-sec-pr-soft-vis', pr.softwareVisible !== false);
+    setVal('input-sec-pr-vol-label', pr.volunteerLabel || 'volunteer & leadership');
+    setChecked('checkbox-sec-pr-vol-vis', pr.volunteerVisible !== false);
+
+    // Error 404 Page
+    const err = s.errorPage || {};
+    setVal('input-sec-404-code', err.code || '404');
+    setVal('input-sec-404-heading', err.heading || 'Page Not Found');
+    setVal('input-sec-404-desc', err.description || '');
+    setVal('input-sec-404-cta1-text', err.cta1Text || 'Return to Homepage ↗');
+    setVal('input-sec-404-cta1-url', err.cta1Url || 'index.html');
+    setVal('input-sec-404-cta2-text', err.cta2Text || 'Explore Projects');
+    setVal('input-sec-404-cta2-url', err.cta2Url || 'projects.html');
+  }
+
+  /* ── 6. Contact Form & Info Populator ───────────────────── */
+  function populateContact() {
+    const c = data.sections?.contact || {};
+    setVal('input-sec-contact-label', c.label || 'contact');
+    setVal('input-sec-contact-heading', c.heading || "Let's work together.");
+    setVal('textarea-sec-contact-subtext', c.subtext || '');
+    setChecked('checkbox-sec-contact-vis', c.visible !== false);
+
+    const f = c.form || {};
+    setVal('input-contact-name-label', f.nameLabel || 'Your Name *');
+    setVal('input-contact-name-ph', f.namePlaceholder || 'e.g. Alex Rahman');
+    setVal('input-contact-email-label', f.emailLabel || 'Email Address *');
+    setVal('input-contact-email-ph', f.emailPlaceholder || 'e.g. alex@company.com');
+    setVal('input-contact-subj-label', f.subjectLabel || 'Subject');
+    setVal('input-contact-subj-ph', f.subjectPlaceholder || 'Project collaboration / Inquiry');
+    setVal('input-contact-msg-label', f.messageLabel || 'Message *');
+    setVal('input-contact-msg-ph', f.messagePlaceholder || 'Tell me a bit about what you have in mind...');
+    setVal('input-contact-submit-text', f.submitText || 'Send Message ↗');
+
+    const d = c.details || {};
+    setVal('input-contact-lbl-email', d.emailLabel || 'Direct Email');
+    setVal('input-contact-lbl-phone', d.phoneLabel || 'Phone / WhatsApp');
+    setVal('input-contact-lbl-location', d.locationLabel || 'Location');
+    setVal('input-contact-lbl-connect', d.connectLabel || 'Connect');
+  }
+
+  /* ── 7. Footer & Social Links Manager ──────────────────── */
+  function populateFooter() {
+    const f = data.footer || {};
+    setVal('textarea-footer-tagline', f.tagline || data.profile?.footerTagline || '');
+    setVal('input-footer-col1-title', f.navTitle || 'Navigation');
+    setVal('input-footer-col2-title', f.connectTitle || 'Connect');
+    setVal('input-footer-copyright', f.copyright || `© ${data.profile?.copyrightYear || 2026} ${data.profile?.name || 'Fazal Mahmud Hassan'}. All rights reserved.`);
+
+    renderFooterLinksList();
+    renderFooterSocialList();
+  }
+
+  function renderFooterLinksList() {
+    const container = document.getElementById('footer-links-list');
+    if (!container) return;
+
+    const links = data.footer?.links || [];
+    if (!links.length) {
+      container.innerHTML = '<p class="admin-empty-notice">No footer navigation links.</p>';
+      return;
+    }
+
+    container.innerHTML = links.map((link, idx) => `
+      <div class="admin-item-card">
+        <div class="admin-item-content">
+          <h4 class="admin-item-title">${escapeHtml(link.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${escapeHtml(link.url)})</span></h4>
+        </div>
+        <div class="admin-item-actions">
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editFooterLink(${idx})">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteFooterLink(${idx})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.editFooterLink = function(idx) {
+    const link = data.footer.links[idx];
+    if (!link) return;
+    openFooterLinkModal(link, false, idx);
+  };
+
+  window.deleteFooterLink = function(idx) {
+    if (confirm('Delete this footer link?')) {
+      data.footer.links.splice(idx, 1);
+      renderFooterLinksList();
+      showToast('Footer link removed.');
+    }
+  };
+
+  function openFooterLinkModal(link, isNew, idx) {
+    const html = `
+      <div class="form-group">
+        <label class="form-label">Link Label *</label>
+        <input type="text" id="modal-fl-label" class="form-input" value="${escapeHtml(link.label || '')}" placeholder="e.g. About" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Destination URL *</label>
+        <input type="text" id="modal-fl-url" class="form-input" value="${escapeHtml(link.url || '')}" placeholder="about.html" required />
+      </div>
+    `;
+
+    openModal(isNew ? 'Add Footer Link' : 'Edit Footer Link', html, () => {
+      const label = document.getElementById('modal-fl-label').value.trim();
+      const url = document.getElementById('modal-fl-url').value.trim();
+
+      if (!label || !url) {
+        alert('Please provide both label and URL.');
+        return false;
+      }
+
+      if (isNew) {
+        if (!data.footer) data.footer = {};
+        if (!Array.isArray(data.footer.links)) data.footer.links = [];
+        data.footer.links.push({ id: 'fl-' + Date.now(), label, url });
+      } else {
+        data.footer.links[idx] = { ...data.footer.links[idx], label, url };
+      }
+
+      renderFooterLinksList();
+      showToast(isNew ? 'Footer link added.' : 'Footer link updated.');
+      return true;
+    });
+  }
+
+  const btnAddFooterLink = document.getElementById('btn-add-footer-link');
+  if (btnAddFooterLink) {
+    btnAddFooterLink.addEventListener('click', () => {
+      openFooterLinkModal({ label: '', url: '' }, true);
+    });
+  }
+
+  function renderFooterSocialList() {
+    const container = document.getElementById('footer-social-list');
+    if (!container) return;
+
+    const links = data.footer?.socialLinks || [];
+    if (!links.length) {
+      container.innerHTML = '<p class="admin-empty-notice">No footer connect links.</p>';
+      return;
+    }
+
+    container.innerHTML = links.map((link, idx) => `
+      <div class="admin-item-card">
+        <div class="admin-item-content">
+          <h4 class="admin-item-title">${escapeHtml(link.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${escapeHtml(link.url)})</span></h4>
+        </div>
+        <div class="admin-item-actions">
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editFooterSocial(${idx})">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteFooterSocial(${idx})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.editFooterSocial = function(idx) {
+    const link = data.footer.socialLinks[idx];
+    if (!link) return;
+    openFooterSocialModal(link, false, idx);
+  };
+
+  window.deleteFooterSocial = function(idx) {
+    if (confirm('Delete this connect link?')) {
+      data.footer.socialLinks.splice(idx, 1);
+      renderFooterSocialList();
+      showToast('Connect link removed.');
+    }
+  };
+
+  function openFooterSocialModal(link, isNew, idx) {
+    const html = `
+      <div class="form-group">
+        <label class="form-label">Link Label *</label>
+        <input type="text" id="modal-sl-label" class="form-input" value="${escapeHtml(link.label || '')}" placeholder="e.g. LinkedIn ↗" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Destination URL *</label>
+        <input type="text" id="modal-sl-url" class="form-input" value="${escapeHtml(link.url || '')}" placeholder="https://linkedin.com/..." required />
+      </div>
+    `;
+
+    openModal(isNew ? 'Add Connect Link' : 'Edit Connect Link', html, () => {
+      const label = document.getElementById('modal-sl-label').value.trim();
+      const url = document.getElementById('modal-sl-url').value.trim();
+
+      if (!label || !url) {
+        alert('Please provide both label and URL.');
+        return false;
+      }
+
+      if (isNew) {
+        if (!data.footer) data.footer = {};
+        if (!Array.isArray(data.footer.socialLinks)) data.footer.socialLinks = [];
+        data.footer.socialLinks.push({ id: 'sl-' + Date.now(), label, url });
+      } else {
+        data.footer.socialLinks[idx] = { ...data.footer.socialLinks[idx], label, url };
+      }
+
+      renderFooterSocialList();
+      showToast(isNew ? 'Connect link added.' : 'Connect link updated.');
+      return true;
+    });
+  }
+
+  const btnAddFooterSocial = document.getElementById('btn-add-footer-social');
+  if (btnAddFooterSocial) {
+    btnAddFooterSocial.addEventListener('click', () => {
+      openFooterSocialModal({ label: '', url: '' }, true);
+    });
+  }
+
+  /* ── 8. SEO & Social Metadata Populator ─────────────────── */
+  function populateSEO() {
+    const s = data.seo || {};
+    setVal('input-seo-title', s.siteTitle || '');
+    setVal('textarea-seo-desc', s.metaDescription || '');
+    setVal('textarea-seo-keywords', s.keywords || '');
+    setVal('input-seo-og-image', s.ogImage || '');
+  }
     if (!container) return;
 
     const metrics = data.metrics || [];
@@ -986,6 +1429,149 @@ document.addEventListener('DOMContentLoaded', () => {
           if (subEl) m.subtext = subEl.value.trim();
         });
       }
+
+      // 4. Gather Navigation & Header
+      if (!data.navigation) data.navigation = {};
+      data.navigation.logoText = getVal('input-nav-logo-text');
+      data.navigation.logoLink = getVal('input-nav-logo-link');
+      data.navigation.logoDot = getChecked('checkbox-nav-logo-dot');
+      if (!data.navigation.cta) data.navigation.cta = {};
+      data.navigation.cta.text = getVal('input-nav-cta-text');
+      data.navigation.cta.url = getVal('input-nav-cta-url');
+      data.navigation.cta.visible = getChecked('checkbox-nav-cta-visible');
+
+      // 5. Gather Page Sections & Visibility
+      if (!data.sections) data.sections = {};
+      
+      // Home Hero
+      if (!data.sections.homeHero) data.sections.homeHero = {};
+      data.sections.homeHero.label = getVal('input-sec-home-hero-label');
+      data.sections.homeHero.metricsVisible = getChecked('checkbox-sec-metrics-visible');
+      if (!data.sections.homeHero.cta1) data.sections.homeHero.cta1 = {};
+      data.sections.homeHero.cta1.text = getVal('input-sec-hero-cta1-text');
+      data.sections.homeHero.cta1.url = getVal('input-sec-hero-cta1-url');
+      data.sections.homeHero.cta1.visible = true;
+
+      if (!data.sections.homeHero.cta2) data.sections.homeHero.cta2 = {};
+      data.sections.homeHero.cta2.text = getVal('input-sec-hero-cta2-text');
+      data.sections.homeHero.cta2.url = getVal('input-sec-hero-cta2-url');
+      data.sections.homeHero.cta2.visible = true;
+
+      if (!data.sections.homeHero.cta3) data.sections.homeHero.cta3 = {};
+      data.sections.homeHero.cta3.text = getVal('input-sec-hero-cta3-text');
+      data.sections.homeHero.cta3.url = getVal('input-sec-hero-cta3-url');
+      data.sections.homeHero.cta3.visible = true;
+
+      // Expertise
+      if (!data.sections.expertise) data.sections.expertise = {};
+      data.sections.expertise.label = getVal('input-sec-exp-label');
+      data.sections.expertise.visible = getChecked('checkbox-sec-exp-vis');
+
+      // Awards
+      if (!data.sections.awards) data.sections.awards = {};
+      data.sections.awards.label = getVal('input-sec-awards-label');
+      data.sections.awards.subtext = getVal('input-sec-awards-subtext');
+      data.sections.awards.visible = getChecked('checkbox-sec-awards-vis');
+
+      // Experience
+      if (!data.sections.experience) data.sections.experience = {};
+      data.sections.experience.label = getVal('input-sec-experience-label');
+      data.sections.experience.subtext = getVal('input-sec-experience-subtext');
+      data.sections.experience.ctaText = getVal('input-sec-experience-cta-text');
+      data.sections.experience.ctaUrl = getVal('input-sec-experience-cta-url');
+      data.sections.experience.visible = getChecked('checkbox-sec-experience-vis');
+
+      // Work
+      if (!data.sections.work) data.sections.work = {};
+      data.sections.work.label = getVal('input-sec-work-label');
+      data.sections.work.subtext = getVal('input-sec-work-subtext');
+      data.sections.work.ctaText = getVal('input-sec-work-cta-text');
+      data.sections.work.ctaUrl = getVal('input-sec-work-cta-url');
+      data.sections.work.visible = getChecked('checkbox-sec-work-vis');
+
+      // Articles
+      if (!data.sections.articles) data.sections.articles = {};
+      data.sections.articles.label = getVal('input-sec-art-label');
+      data.sections.articles.subtext = getVal('input-sec-art-subtext');
+      data.sections.articles.visible = getChecked('checkbox-sec-art-vis');
+
+      // About Page
+      if (!data.sections.aboutPage) data.sections.aboutPage = {};
+      data.sections.aboutPage.heroLabel = getVal('input-sec-ab-hero-label');
+      data.sections.aboutPage.bioLabel = getVal('input-sec-ab-bio-label');
+      data.sections.aboutPage.heroSubtitle = getVal('input-sec-ab-hero-sub');
+      data.sections.aboutPage.awardsLabel = getVal('input-sec-ab-awards-label');
+      data.sections.aboutPage.awardsVisible = getChecked('checkbox-sec-ab-awards-vis');
+      data.sections.aboutPage.educationLabel = getVal('input-sec-ab-edu-label');
+      data.sections.aboutPage.educationVisible = getChecked('checkbox-sec-ab-edu-vis');
+      data.sections.aboutPage.experienceLabel = getVal('input-sec-ab-exp-label');
+      data.sections.aboutPage.experienceVisible = getChecked('checkbox-sec-ab-exp-vis');
+      data.sections.aboutPage.skillsLabel = getVal('input-sec-ab-skills-label');
+      data.sections.aboutPage.skillsVisible = getChecked('checkbox-sec-ab-skills-vis');
+      data.sections.aboutPage.extrasLabel = getVal('input-sec-ab-extras-label');
+      data.sections.aboutPage.extrasVisible = getChecked('checkbox-sec-ab-extras-vis');
+
+      // Projects Page
+      if (!data.sections.projectsPage) data.sections.projectsPage = {};
+      data.sections.projectsPage.heroLabel = getVal('input-sec-pr-hero-label');
+      data.sections.projectsPage.heroTitle = getVal('input-sec-pr-hero-title');
+      data.sections.projectsPage.heroSubtitle = getVal('input-sec-pr-hero-sub');
+      data.sections.projectsPage.researchLabel = getVal('input-sec-pr-res-label');
+      data.sections.projectsPage.researchVisible = getChecked('checkbox-sec-pr-res-vis');
+      data.sections.projectsPage.publicationLabel = getVal('input-sec-pr-pub-label');
+      data.sections.projectsPage.publicationVisible = getChecked('checkbox-sec-pr-pub-vis');
+      data.sections.projectsPage.softwareLabel = getVal('input-sec-pr-soft-label');
+      data.sections.projectsPage.softwareVisible = getChecked('checkbox-sec-pr-soft-vis');
+      data.sections.projectsPage.volunteerLabel = getVal('input-sec-pr-vol-label');
+      data.sections.projectsPage.volunteerVisible = getChecked('checkbox-sec-pr-vol-vis');
+
+      // 404 Error Page
+      if (!data.sections.errorPage) data.sections.errorPage = {};
+      data.sections.errorPage.code = getVal('input-sec-404-code');
+      data.sections.errorPage.heading = getVal('input-sec-404-heading');
+      data.sections.errorPage.description = getVal('input-sec-404-desc');
+      data.sections.errorPage.cta1Text = getVal('input-sec-404-cta1-text');
+      data.sections.errorPage.cta1Url = getVal('input-sec-404-cta1-url');
+      data.sections.errorPage.cta2Text = getVal('input-sec-404-cta2-text');
+      data.sections.errorPage.cta2Url = getVal('input-sec-404-cta2-url');
+
+      // 6. Gather Contact Section & Form
+      if (!data.sections.contact) data.sections.contact = {};
+      data.sections.contact.label = getVal('input-sec-contact-label');
+      data.sections.contact.heading = getVal('input-sec-contact-heading');
+      data.sections.contact.subtext = getVal('textarea-sec-contact-subtext');
+      data.sections.contact.visible = getChecked('checkbox-sec-contact-vis');
+
+      if (!data.sections.contact.form) data.sections.contact.form = {};
+      data.sections.contact.form.nameLabel = getVal('input-contact-name-label');
+      data.sections.contact.form.namePlaceholder = getVal('input-contact-name-ph');
+      data.sections.contact.form.emailLabel = getVal('input-contact-email-label');
+      data.sections.contact.form.emailPlaceholder = getVal('input-contact-email-ph');
+      data.sections.contact.form.subjectLabel = getVal('input-contact-subj-label');
+      data.sections.contact.form.subjectPlaceholder = getVal('input-contact-subj-ph');
+      data.sections.contact.form.messageLabel = getVal('input-contact-msg-label');
+      data.sections.contact.form.messagePlaceholder = getVal('input-contact-msg-ph');
+      data.sections.contact.form.submitText = getVal('input-contact-submit-text');
+
+      if (!data.sections.contact.details) data.sections.contact.details = {};
+      data.sections.contact.details.emailLabel = getVal('input-contact-lbl-email');
+      data.sections.contact.details.phoneLabel = getVal('input-contact-lbl-phone');
+      data.sections.contact.details.locationLabel = getVal('input-contact-lbl-location');
+      data.sections.contact.details.connectLabel = getVal('input-contact-lbl-connect');
+
+      // 7. Gather Footer
+      if (!data.footer) data.footer = {};
+      data.footer.tagline = getVal('textarea-footer-tagline');
+      data.footer.navTitle = getVal('input-footer-col1-title');
+      data.footer.connectTitle = getVal('input-footer-col2-title');
+      data.footer.copyright = getVal('input-footer-copyright');
+
+      // 8. Gather SEO
+      if (!data.seo) data.seo = {};
+      data.seo.siteTitle = getVal('input-seo-title');
+      data.seo.metaDescription = getVal('textarea-seo-desc');
+      data.seo.keywords = getVal('textarea-seo-keywords');
+      data.seo.ogImage = getVal('input-seo-og-image');
 
       // Save to storage & server
       const res = await window.PortfolioStore.saveData(data);

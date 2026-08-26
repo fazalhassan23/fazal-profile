@@ -269,10 +269,301 @@
     }
   }
 
-  function renderContactAndFooter(p) {
-    const contactText = document.getElementById('contact-text');
-    if (contactText) contactText.textContent = p.contactIntro || '';
+  function renderNavigation(navData, p) {
+    const nav = navData || {};
+    const logoElements = document.querySelectorAll('.nav-logo');
+    logoElements.forEach(logo => {
+      if (nav.logoLink) logo.setAttribute('href', nav.logoLink);
+      const dotHtml = nav.logoDot !== false ? '<span class="dot">.</span>' : '';
+      logo.innerHTML = `<span data-cms="firstName">${escapeHtml(nav.logoText || p.firstName || 'Fazal')}</span>${dotHtml}`;
+    });
 
+    const navLinksList = document.getElementById('nav-links');
+    if (navLinksList && Array.isArray(nav.items) && nav.items.length > 0) {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      navLinksList.innerHTML = nav.items
+        .filter(item => item.visible !== false)
+        .map(item => {
+          const isExternal = item.isExternal || /^https?:\/\//i.test(item.url);
+          const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+          const isActive = item.url === currentPage || (currentPage === 'index.html' && item.url === 'index.html') ? ' class="active"' : '';
+          return `<li><a href="${escapeHtml(item.url)}"${targetAttr}${isActive}>${escapeHtml(item.label)}</a></li>`;
+        }).join('');
+    }
+  }
+
+  function renderSectionHeadersAndVisibility(sectionsData, data) {
+    const s = sectionsData || {};
+
+    // ── 1. Homepage Sections ──────────────────────────
+    // Hero Section
+    const heroLabel = document.getElementById('home-section-label');
+    if (heroLabel && s.homeHero?.label) heroLabel.textContent = s.homeHero.label;
+
+    const heroMetricsContainer = document.getElementById('hero-metrics-container');
+    if (heroMetricsContainer && s.homeHero) {
+      heroMetricsContainer.style.display = s.homeHero.metricsVisible !== false ? '' : 'none';
+    }
+
+    const heroCta1 = document.getElementById('hero-cta-1');
+    if (heroCta1 && s.homeHero?.cta1) {
+      heroCta1.textContent = s.homeHero.cta1.text || 'View My Work ↗';
+      heroCta1.setAttribute('href', s.homeHero.cta1.url || 'projects.html');
+      heroCta1.style.display = s.homeHero.cta1.visible !== false ? '' : 'none';
+    }
+
+    const heroCta2 = document.getElementById('hero-cta-2');
+    if (heroCta2 && s.homeHero?.cta2) {
+      heroCta2.textContent = s.homeHero.cta2.text || 'About & Experience';
+      heroCta2.setAttribute('href', s.homeHero.cta2.url || 'about.html');
+      heroCta2.style.display = s.homeHero.cta2.visible !== false ? '' : 'none';
+    }
+
+    const heroCta3 = document.getElementById('hero-cta-3');
+    if (heroCta3 && s.homeHero?.cta3) {
+      heroCta3.textContent = s.homeHero.cta3.text || 'Download Resume';
+      heroCta3.setAttribute('href', s.homeHero.cta3.url || 'about.html');
+      heroCta3.style.display = s.homeHero.cta3.visible !== false ? '' : 'none';
+    }
+
+    // Expertise Section
+    const secExpertise = document.getElementById('expertise');
+    if (secExpertise && s.expertise) {
+      secExpertise.style.display = s.expertise.visible !== false ? '' : 'none';
+      const label = document.getElementById('expertise-section-label');
+      if (label && s.expertise.label) label.textContent = s.expertise.label;
+    }
+
+    // Awards Section
+    const secAwards = document.getElementById('awards');
+    if (secAwards && s.awards) {
+      secAwards.style.display = s.awards.visible !== false ? '' : 'none';
+      const label = document.getElementById('awards-section-label');
+      if (label && s.awards.label) label.textContent = s.awards.label;
+      const subtext = document.getElementById('awards-section-subtext');
+      if (subtext && s.awards.subtext) subtext.textContent = s.awards.subtext;
+    }
+
+    // Experience Section
+    const secExp = document.getElementById('experience');
+    if (secExp && s.experience) {
+      secExp.style.display = s.experience.visible !== false ? '' : 'none';
+      const label = document.getElementById('experience-section-label');
+      if (label && s.experience.label) label.textContent = s.experience.label;
+      const subtext = document.getElementById('experience-section-subtext');
+      if (subtext && s.experience.subtext) subtext.textContent = s.experience.subtext;
+      const cta = document.getElementById('experience-section-cta');
+      if (cta && s.experience.ctaText) {
+        cta.innerHTML = `${escapeHtml(s.experience.ctaText)} <span class="arrow">→</span>`;
+        if (s.experience.ctaUrl) cta.setAttribute('href', s.experience.ctaUrl);
+      }
+    }
+
+    // Work Section
+    const secWork = document.getElementById('work');
+    if (secWork && s.work) {
+      secWork.style.display = s.work.visible !== false ? '' : 'none';
+      const label = document.getElementById('work-section-label');
+      if (label && s.work.label) label.textContent = s.work.label;
+      const subtext = document.getElementById('work-section-subtext');
+      if (subtext && s.work.subtext) subtext.textContent = s.work.subtext;
+      const cta = document.getElementById('work-section-cta');
+      if (cta && s.work.ctaText) {
+        cta.innerHTML = `${escapeHtml(s.work.ctaText)} <span class="arrow">→</span>`;
+        if (s.work.ctaUrl) cta.setAttribute('href', s.work.ctaUrl);
+      }
+    }
+
+    // Articles Section
+    const secArticles = document.getElementById('articles');
+    if (secArticles && s.articles) {
+      secArticles.style.display = s.articles.visible !== false ? '' : 'none';
+      const label = document.getElementById('articles-section-label');
+      if (label && s.articles.label) label.textContent = s.articles.label;
+      const subtext = document.getElementById('articles-section-subtext');
+      if (subtext && s.articles.subtext) subtext.textContent = s.articles.subtext;
+    }
+
+    // Contact Section
+    const secContact = document.getElementById('contact');
+    if (secContact && s.contact) {
+      secContact.style.display = s.contact.visible !== false ? '' : 'none';
+      const label = document.getElementById('contact-section-label');
+      if (label && s.contact.label) label.textContent = s.contact.label;
+      const heading = document.getElementById('contact-section-heading');
+      if (heading && s.contact.heading) heading.textContent = s.contact.heading;
+      const subtext = document.getElementById('contact-text');
+      if (subtext && s.contact.subtext) subtext.textContent = s.contact.subtext;
+
+      // Contact Form Labels & Placeholders
+      const f = s.contact.form || {};
+      const lblName = document.getElementById('label-contact-name');
+      if (lblName && f.nameLabel) lblName.textContent = f.nameLabel;
+      const inpName = document.getElementById('contact-name');
+      if (inpName && f.namePlaceholder) inpName.setAttribute('placeholder', f.namePlaceholder);
+
+      const lblEmail = document.getElementById('label-contact-email');
+      if (lblEmail && f.emailLabel) lblEmail.textContent = f.emailLabel;
+      const inpEmail = document.getElementById('contact-email');
+      if (inpEmail && f.emailPlaceholder) inpEmail.setAttribute('placeholder', f.emailPlaceholder);
+
+      const lblSubject = document.getElementById('label-contact-subject');
+      if (lblSubject && f.subjectLabel) lblSubject.textContent = f.subjectLabel;
+      const inpSubject = document.getElementById('contact-subject');
+      if (inpSubject && f.subjectPlaceholder) inpSubject.setAttribute('placeholder', f.subjectPlaceholder);
+
+      const lblMsg = document.getElementById('label-contact-msg');
+      if (lblMsg && f.messageLabel) lblMsg.textContent = f.messageLabel;
+      const inpMsg = document.getElementById('contact-msg');
+      if (inpMsg && f.messagePlaceholder) inpMsg.setAttribute('placeholder', f.messagePlaceholder);
+
+      const btnSubmit = document.getElementById('btn-contact-submit');
+      if (btnSubmit && f.submitText) btnSubmit.textContent = f.submitText;
+
+      // Contact Detail Labels
+      const d = s.contact.details || {};
+      const lblDetEmail = document.getElementById('contact-detail-label-email');
+      if (lblDetEmail && d.emailLabel) lblDetEmail.textContent = d.emailLabel;
+
+      const lblDetPhone = document.getElementById('contact-detail-label-phone');
+      if (lblDetPhone && d.phoneLabel) lblDetPhone.textContent = d.phoneLabel;
+
+      const lblDetLoc = document.getElementById('contact-detail-label-location');
+      if (lblDetLoc && d.locationLabel) lblDetLoc.textContent = d.locationLabel;
+
+      const lblDetConn = document.getElementById('contact-detail-label-connect');
+      if (lblDetConn && d.connectLabel) lblDetConn.textContent = d.connectLabel;
+    }
+
+    // ── 2. About Page Headers & Visibility ────────────
+    const ab = s.aboutPage || {};
+    const abHeroLabel = document.getElementById('about-hero-label');
+    if (abHeroLabel && ab.heroLabel) abHeroLabel.textContent = ab.heroLabel;
+
+    const abHeroSubtitle = document.getElementById('about-hero-subtitle');
+    if (abHeroSubtitle && ab.heroSubtitle) abHeroSubtitle.textContent = ab.heroSubtitle;
+
+    const abBioLabel = document.getElementById('about-bio-label');
+    if (abBioLabel && ab.bioLabel) abBioLabel.textContent = ab.bioLabel;
+
+    const abBioCta1 = document.getElementById('about-bio-cta-1');
+    if (abBioCta1 && ab.bioCta1Text) {
+      abBioCta1.textContent = ab.bioCta1Text;
+      if (ab.bioCta1Url) abBioCta1.setAttribute('href', ab.bioCta1Url);
+    }
+    const abBioCta2 = document.getElementById('about-bio-cta-2');
+    if (abBioCta2 && ab.bioCta2Text) {
+      abBioCta2.textContent = ab.bioCta2Text;
+      if (ab.bioCta2Url) abBioCta2.setAttribute('href', ab.bioCta2Url);
+    }
+    const abBioCta3 = document.getElementById('about-bio-cta-3');
+    if (abBioCta3 && ab.bioCta3Text) {
+      abBioCta3.textContent = ab.bioCta3Text;
+      if (ab.bioCta3Url) abBioCta3.setAttribute('href', ab.bioCta3Url);
+    }
+
+    const secAbAwards = document.getElementById('about-awards');
+    if (secAbAwards) {
+      secAbAwards.style.display = ab.awardsVisible !== false ? '' : 'none';
+      const label = document.getElementById('about-awards-label');
+      if (label && ab.awardsLabel) label.textContent = ab.awardsLabel;
+    }
+
+    const secAbEdu = document.getElementById('about-education');
+    if (secAbEdu) {
+      secAbEdu.style.display = ab.educationVisible !== false ? '' : 'none';
+      const label = document.getElementById('about-education-label');
+      if (label && ab.educationLabel) label.textContent = ab.educationLabel;
+    }
+
+    const secAbExp = document.getElementById('about-experience');
+    if (secAbExp) {
+      secAbExp.style.display = ab.experienceVisible !== false ? '' : 'none';
+      const label = document.getElementById('about-experience-label');
+      if (label && ab.experienceLabel) label.textContent = ab.experienceLabel;
+    }
+
+    const secAbSkills = document.getElementById('about-skills');
+    if (secAbSkills) {
+      secAbSkills.style.display = ab.skillsVisible !== false ? '' : 'none';
+      const label = document.getElementById('about-skills-label');
+      if (label && ab.skillsLabel) label.textContent = ab.skillsLabel;
+    }
+
+    const secAbExtras = document.getElementById('about-extras');
+    if (secAbExtras) {
+      secAbExtras.style.display = ab.extrasVisible !== false ? '' : 'none';
+      const label = document.getElementById('about-extras-label');
+      if (label && ab.extrasLabel) label.textContent = ab.extrasLabel;
+    }
+
+    // ── 3. Projects Page Headers & Visibility ─────────
+    const pr = s.projectsPage || {};
+    const prHeroLabel = document.getElementById('projects-hero-label');
+    if (prHeroLabel && pr.heroLabel) prHeroLabel.textContent = pr.heroLabel;
+
+    const prHeroTitle = document.getElementById('projects-hero-title');
+    if (prHeroTitle && pr.heroTitle) prHeroTitle.textContent = pr.heroTitle;
+
+    const prHeroSubtitle = document.getElementById('projects-hero-subtitle');
+    if (prHeroSubtitle && pr.heroSubtitle) prHeroSubtitle.textContent = pr.heroSubtitle;
+
+    const secPrResearch = document.getElementById('thesis');
+    if (secPrResearch) {
+      secPrResearch.style.display = pr.researchVisible !== false ? '' : 'none';
+      const label = document.getElementById('projects-research-label');
+      if (label && pr.researchLabel) label.textContent = pr.researchLabel;
+    }
+
+    const secPrPub = document.getElementById('publication');
+    if (secPrPub) {
+      secPrPub.style.display = pr.publicationVisible !== false ? '' : 'none';
+      const label = document.getElementById('projects-publication-label');
+      if (label && pr.publicationLabel) label.textContent = pr.publicationLabel;
+    }
+
+    const secPrSoft = document.getElementById('university-projects');
+    if (secPrSoft) {
+      secPrSoft.style.display = pr.softwareVisible !== false ? '' : 'none';
+      const label = document.getElementById('projects-software-label');
+      if (label && pr.softwareLabel) label.textContent = pr.softwareLabel;
+    }
+
+    const secPrVol = document.getElementById('volunteer');
+    if (secPrVol) {
+      secPrVol.style.display = pr.volunteerVisible !== false ? '' : 'none';
+      const label = document.getElementById('projects-volunteer-label');
+      if (label && pr.volunteerLabel) label.textContent = pr.volunteerLabel;
+    }
+
+    // ── 4. Error 404 Page ─────────────────────────────
+    const err = s.errorPage || {};
+    const errCode = document.getElementById('error-code');
+    if (errCode && err.code) errCode.textContent = err.code;
+
+    const errHeading = document.getElementById('error-heading');
+    if (errHeading && err.heading) errHeading.textContent = err.heading;
+
+    const errDesc = document.getElementById('error-description');
+    if (errDesc && err.description) errDesc.textContent = err.description;
+
+    const errCta1 = document.getElementById('error-cta-1');
+    if (errCta1 && err.cta1Text) {
+      errCta1.textContent = err.cta1Text;
+      if (err.cta1Url) errCta1.setAttribute('href', err.cta1Url);
+    }
+
+    const errCta2 = document.getElementById('error-cta-2');
+    if (errCta2 && err.cta2Text) {
+      errCta2.textContent = err.cta2Text;
+      if (err.cta2Url) errCta2.setAttribute('href', err.cta2Url);
+    }
+  }
+
+  function renderContactAndFooter(p, footerData) {
+    const f = footerData || {};
+
+    // Dynamic Contact Links
     document.querySelectorAll('[data-cms-link="email"]').forEach(el => {
       el.setAttribute('href', `mailto:${p.email || ''}`);
       if (el.hasAttribute('data-cms-text')) el.textContent = p.email || '';
@@ -306,12 +597,56 @@
       }
     });
 
-    // Footer
+    // Footer Tagline & Copy
     const footerTagline = document.getElementById('footer-tagline');
-    if (footerTagline) footerTagline.textContent = p.footerTagline || '';
+    if (footerTagline) footerTagline.textContent = f.tagline || p.footerTagline || '';
 
     const footerCopy = document.getElementById('footer-copy');
-    if (footerCopy) footerCopy.textContent = `© ${p.copyrightYear || 2026} ${p.name || 'Fazal Mahmud Hassan'}. All rights reserved.`;
+    if (footerCopy) {
+      footerCopy.textContent = f.copyright || `© ${p.copyrightYear || 2026} ${p.name || 'Fazal Mahmud Hassan'}. All rights reserved.`;
+    }
+
+    const footerNavTitle = document.getElementById('footer-nav-title');
+    if (footerNavTitle && f.navTitle) footerNavTitle.textContent = f.navTitle;
+
+    const footerNavLinks = document.getElementById('footer-nav-links');
+    if (footerNavLinks && Array.isArray(f.links) && f.links.length > 0) {
+      footerNavLinks.innerHTML = f.links.map(link => `
+        <li><a href="${escapeHtml(link.url)}">${escapeHtml(link.label)}</a></li>
+      `).join('');
+    }
+
+    const footerConnectTitle = document.getElementById('footer-connect-title');
+    if (footerConnectTitle && f.connectTitle) footerConnectTitle.textContent = f.connectTitle;
+
+    const footerSocialLinks = document.getElementById('footer-social-links');
+    if (footerSocialLinks && Array.isArray(f.socialLinks) && f.socialLinks.length > 0) {
+      footerSocialLinks.innerHTML = f.socialLinks.map(link => {
+        const isExternal = /^https?:\/\//i.test(link.url);
+        const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+        return `<li><a href="${escapeHtml(link.url)}"${targetAttr}>${escapeHtml(link.label)}</a></li>`;
+      }).join('');
+    }
+  }
+
+  function renderSEO(seoData, p) {
+    const seo = seoData || {};
+    if (seo.siteTitle && document.title.includes('—')) {
+      const pagePrefix = document.title.split('—')[0].trim();
+      if (pagePrefix === 'Fazal Mahmud Hassan' || pagePrefix === 'About' || pagePrefix === 'Projects' || pagePrefix === 'Page Not Found') {
+        // Keep page prefix intact
+      }
+    }
+
+    if (seo.metaDescription) {
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', seo.metaDescription);
+    }
+
+    if (seo.keywords) {
+      const metaKw = document.querySelector('meta[name="keywords"]');
+      if (metaKw) metaKw.setAttribute('content', seo.keywords);
+    }
   }
 
   /* ── Helper Renderers ──────────────────────────────────── */
@@ -502,6 +837,7 @@
     const avail = data.availability || {};
 
     renderIdentityAndTheme(p);
+    renderNavigation(data.navigation, p);
     renderHero(p, avail);
     renderMetrics(data.metrics);
     renderExpertise(data.expertise);
@@ -510,7 +846,9 @@
     renderExperience(data.experience);
     renderProjects(data.projects);
     renderAboutPage(p, data);
-    renderContactAndFooter(p);
+    renderSectionHeadersAndVisibility(data.sections, data);
+    renderContactAndFooter(p, data.footer);
+    renderSEO(data.seo, p);
   }
 
   // Public Namespace & backward compatibility

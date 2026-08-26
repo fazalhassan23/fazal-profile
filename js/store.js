@@ -54,6 +54,38 @@
         creative: Array.isArray(saved.skills?.creative) ? saved.skills.creative : (defaults.skills?.creative || []),
         languages: Array.isArray(saved.skills?.languages) ? saved.skills.languages : (defaults.skills?.languages || [])
       },
+      navigation: {
+        ...(defaults.navigation || {}),
+        ...(saved.navigation || {}),
+        items: Array.isArray(saved.navigation?.items) ? saved.navigation.items : (defaults.navigation?.items || []),
+        cta: { ...(defaults.navigation?.cta || {}), ...(saved.navigation?.cta || {}) }
+      },
+      sections: {
+        ...(defaults.sections || {}),
+        ...(saved.sections || {}),
+        homeHero: { ...(defaults.sections?.homeHero || {}), ...(saved.sections?.homeHero || {}) },
+        expertise: { ...(defaults.sections?.expertise || {}), ...(saved.sections?.expertise || {}) },
+        awards: { ...(defaults.sections?.awards || {}), ...(saved.sections?.awards || {}) },
+        experience: { ...(defaults.sections?.experience || {}), ...(saved.sections?.experience || {}) },
+        work: { ...(defaults.sections?.work || {}), ...(saved.sections?.work || {}) },
+        articles: { ...(defaults.sections?.articles || {}), ...(saved.sections?.articles || {}) },
+        contact: {
+          ...(defaults.sections?.contact || {}),
+          ...(saved.sections?.contact || {}),
+          form: { ...(defaults.sections?.contact?.form || {}), ...(saved.sections?.contact?.form || {}) },
+          details: { ...(defaults.sections?.contact?.details || {}), ...(saved.sections?.contact?.details || {}) }
+        },
+        aboutPage: { ...(defaults.sections?.aboutPage || {}), ...(saved.sections?.aboutPage || {}) },
+        projectsPage: { ...(defaults.sections?.projectsPage || {}), ...(saved.sections?.projectsPage || {}) },
+        errorPage: { ...(defaults.sections?.errorPage || {}), ...(saved.sections?.errorPage || {}) }
+      },
+      footer: {
+        ...(defaults.footer || {}),
+        ...(saved.footer || {}),
+        links: Array.isArray(saved.footer?.links) ? saved.footer.links : (defaults.footer?.links || []),
+        socialLinks: Array.isArray(saved.footer?.socialLinks) ? saved.footer.socialLinks : (defaults.footer?.socialLinks || [])
+      },
+      seo: { ...(defaults.seo || {}), ...(saved.seo || {}) },
       adminAuth: { ...(defaults.adminAuth || {}), ...(saved.adminAuth || {}) }
     };
 

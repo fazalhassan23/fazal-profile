@@ -453,6 +453,154 @@ window.DEFAULT_PORTFOLIO_DATA = {
     }
   ],
 
+  navigation: {
+    logoText: "Fazal",
+    logoDot: true,
+    logoLink: "index.html",
+    items: [
+      { id: "nav-1", label: "Home", url: "index.html", isExternal: false, visible: true },
+      { id: "nav-2", label: "About", url: "about.html", isExternal: false, visible: true },
+      { id: "nav-3", label: "Projects", url: "projects.html", isExternal: false, visible: true },
+      { id: "nav-4", label: "Articles", url: "index.html#articles", isExternal: false, visible: true },
+      { id: "nav-5", label: "Contact", url: "index.html#contact", isExternal: false, visible: true }
+    ],
+    cta: {
+      text: "Resume",
+      url: "about.html",
+      visible: false
+    }
+  },
+
+  sections: {
+    homeHero: {
+      label: "home",
+      cta1: { text: "View My Work ↗", url: "projects.html", visible: true },
+      cta2: { text: "About & Experience", url: "about.html", visible: true },
+      cta3: { text: "Download Resume", url: "about.html", visible: true },
+      metricsVisible: true
+    },
+    expertise: {
+      label: "expertise",
+      visible: true
+    },
+    awards: {
+      label: "recognition",
+      subtext: "Selected awards, research accolades, and honors.",
+      visible: true
+    },
+    experience: {
+      label: "experience",
+      subtext: "Selected professional background and key career milestones.",
+      ctaText: "Full history →",
+      ctaUrl: "about.html#experience",
+      visible: true
+    },
+    work: {
+      label: "work",
+      subtext: "Selected academic research and engineering projects.",
+      ctaText: "All projects →",
+      ctaUrl: "projects.html",
+      visible: true
+    },
+    articles: {
+      label: "insights",
+      subtext: "Articles on technical project delivery, leadership, and systems architecture.",
+      visible: true
+    },
+    contact: {
+      label: "contact",
+      heading: "Let's work together.",
+      subtext: "Have an interesting project, collaboration, or leadership role in mind? Send a message below or connect with me directly.",
+      form: {
+        nameLabel: "Your Name *",
+        namePlaceholder: "e.g. Alex Rahman",
+        emailLabel: "Email Address *",
+        emailPlaceholder: "e.g. alex@company.com",
+        subjectLabel: "Subject",
+        subjectPlaceholder: "Project collaboration / Inquiry",
+        messageLabel: "Message *",
+        messagePlaceholder: "Tell me a bit about what you have in mind...",
+        submitText: "Send Message ↗"
+      },
+      details: {
+        emailLabel: "Direct Email",
+        phoneLabel: "Phone / WhatsApp",
+        locationLabel: "Location",
+        connectLabel: "Connect"
+      },
+      visible: true
+    },
+    aboutPage: {
+      heroLabel: "about",
+      heroSubtitle: "Technical Project Manager. Systems thinker. Lifelong learner. Based in Dhaka, Bangladesh.",
+      bioLabel: "biography",
+      bioCta1Text: "View Projects ↗",
+      bioCta1Url: "projects.html",
+      bioCta2Text: "Download Resume",
+      bioCta2Url: "about.html",
+      bioCta3Text: "Get in Touch",
+      bioCta3Url: "mailto:fazal.mahmud.hassan@gmail.com",
+      awardsLabel: "recognition",
+      awardsVisible: true,
+      educationLabel: "education",
+      educationVisible: true,
+      experienceLabel: "experience",
+      experienceVisible: true,
+      skillsLabel: "skills",
+      skillsVisible: true,
+      extrasLabel: "beyond work",
+      extrasVisible: true
+    },
+    projectsPage: {
+      heroLabel: "work",
+      heroTitle: "Projects & Research.",
+      heroSubtitle: "Academic research, engineering projects, and publications — spanning data science, robotics, and organizational studies.",
+      researchLabel: "research",
+      researchVisible: true,
+      publicationLabel: "publication",
+      publicationVisible: true,
+      softwareLabel: "software & engineering",
+      softwareVisible: true,
+      volunteerLabel: "volunteer & leadership",
+      volunteerVisible: true
+    },
+    errorPage: {
+      code: "404",
+      heading: "Page Not Found",
+      description: "The requested URL was not found on this server. You might have clicked an outdated link or typed the URL incorrectly.",
+      cta1Text: "Return to Homepage ↗",
+      cta1Url: "index.html",
+      cta2Text: "Explore Projects",
+      cta2Url: "projects.html"
+    }
+  },
+
+  footer: {
+    tagline: "Technical Project Manager & Systems Engineer based in Dhaka, Bangladesh.",
+    navTitle: "Navigation",
+    connectTitle: "Connect",
+    copyright: "© 2026 Fazal Mahmud Hassan. All rights reserved.",
+    links: [
+      { id: "fl-1", label: "Home", url: "index.html" },
+      { id: "fl-2", label: "About", url: "about.html" },
+      { id: "fl-3", label: "Projects", url: "projects.html" },
+      { id: "fl-4", label: "Articles", url: "index.html#articles" },
+      { id: "fl-5", label: "Contact", url: "index.html#contact" }
+    ],
+    socialLinks: [
+      { id: "sl-1", label: "LinkedIn ↗", url: "https://linkedin.com/in/fazalmahmudhassan" },
+      { id: "sl-2", label: "GitHub ↗", url: "https://github.com/fazalhassan23" },
+      { id: "sl-3", label: "Email ↗", url: "mailto:fazal.mahmud.hassan@gmail.com" }
+    ]
+  },
+
+  seo: {
+    siteTitle: "Fazal Mahmud Hassan — Technical Project Manager",
+    metaDescription: "Personal portfolio of Fazal Mahmud Hassan — Technical Project Manager with Computer Science background & MBA in HR & Management. Leading 21+ SaaS & CRM deliverables.",
+    keywords: "Fazal Mahmud Hassan, Fazal Hassan, Faal Mahmud Hassan, Fazal Mahmud, Technical Project Manager, Systems Engineer, Mediusware Limited, BRAC University, University of Dhaka, Springer CNC-2018, Dhaka Bangladesh, SaaS Project Manager, Agile Scrum",
+    ogImage: "https://fazalmahmudhassan.com/assets/og-image.svg"
+  },
+
   adminAuth: {
     // SHA-256 hash for default password: "fazal2026"
     passwordHash: "caf4346b968c185dce13d7145fa1bc1cc21e6460a66796f93d9baebc0fc49893"

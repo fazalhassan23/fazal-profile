@@ -101,9 +101,9 @@
 
     <!-- ── PAGE HERO ──────────────────────────────────── -->
     <div class="page-hero">
-      <span class="section-label">work</span>
-      <h1>Projects &amp; Research.</h1>
-      <p>
+      <span class="section-label" id="projects-hero-label">work</span>
+      <h1 id="projects-hero-title">Projects &amp; Research.</h1>
+      <p id="projects-hero-subtitle">
         Academic research, engineering projects, and publications — 
         spanning data science, robotics, and organizational studies.
       </p>
@@ -113,7 +113,7 @@
          THESIS & RESEARCH
     ═══════════════════════════════════════════════════ -->
     <section class="section" id="thesis" aria-label="Thesis and research">
-      <span class="section-label">research</span>
+      <span class="section-label" id="projects-research-label">research</span>
       <div id="projects-research-container" class="projects-list">
         <!-- Rendered dynamically by js/render.js -->
       </div>
@@ -123,7 +123,7 @@
          PUBLICATION
     ═══════════════════════════════════════════════════ -->
     <section class="section" id="publication" aria-label="Publication">
-      <span class="section-label">publication</span>
+      <span class="section-label" id="projects-publication-label">publication</span>
       <div id="projects-publication-container">
         <!-- Rendered dynamically by js/render.js -->
       </div>
@@ -133,7 +133,7 @@
          UNIVERSITY & SOFTWARE PROJECTS
     ═══════════════════════════════════════════════════ -->
     <section class="section" id="university-projects" aria-label="University projects">
-      <span class="section-label">software &amp; engineering</span>
+      <span class="section-label" id="projects-software-label">software &amp; engineering</span>
       <div id="projects-software-container" class="projects-list">
         <!-- Rendered dynamically by js/render.js -->
       </div>
@@ -143,7 +143,7 @@
          VOLUNTEER
     ═══════════════════════════════════════════════════ -->
     <section class="section" id="volunteer" aria-label="Volunteer work">
-      <span class="section-label">volunteer &amp; leadership</span>
+      <span class="section-label" id="projects-volunteer-label">volunteer &amp; leadership</span>
       <div id="projects-volunteer-container" class="projects-list">
         <!-- Rendered dynamically by js/render.js -->
       </div>
@@ -157,14 +157,14 @@
   <footer class="footer">
     <div class="footer-inner">
       <div>
-        <a href="index.html" class="footer-brand"><span data-cms="firstName">Fazal</span><span class="dot">.</span></a>
+        <a href="index.html" class="footer-brand nav-logo"><span data-cms="firstName">Fazal</span><span class="dot">.</span></a>
         <p class="footer-tagline" id="footer-tagline">
           Technical Project Manager &amp; Systems Engineer based in Dhaka, Bangladesh.
         </p>
       </div>
       <div>
-        <p class="footer-links-title">Navigation</p>
-        <ul class="footer-links-list">
+        <p class="footer-links-title" id="footer-nav-title">Navigation</p>
+        <ul class="footer-links-list" id="footer-nav-links">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="projects.html">Projects</a></li>
@@ -173,8 +173,8 @@
         </ul>
       </div>
       <div>
-        <p class="footer-links-title">Connect</p>
-        <ul class="footer-links-list">
+        <p class="footer-links-title" id="footer-connect-title">Connect</p>
+        <ul class="footer-links-list" id="footer-social-links">
           <li><a href="https://linkedin.com/in/fazalmahmudhassan" data-cms-link="linkedin" target="_blank" rel="noopener">LinkedIn ↗</a></li>
           <li><a href="https://github.com/fazalhassan23" data-cms-link="github" target="_blank" rel="noopener">GitHub ↗</a></li>
           <li><a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email">Email ↗</a></li>
