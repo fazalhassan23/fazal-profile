@@ -63,6 +63,11 @@
       merged[key] = Array.isArray(saved[key]) ? saved[key] : (defaults[key] || []);
     });
 
+    // Auto-migrate old "Available for New Opportunities" string to "Open to Research & Advisory"
+    if (merged.availability && (merged.availability.badgeText === "Available for New Opportunities" || !merged.availability.badgeText)) {
+      merged.availability.badgeText = "Open to Research & Advisory";
+    }
+
     return merged;
   }
 
