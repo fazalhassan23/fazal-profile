@@ -173,14 +173,18 @@ function initAdminApp() {
   }
 
   function unlockDashboard() {
-    lockscreen.classList.add('hidden');
+    if (lockscreen) lockscreen.classList.add('hidden');
     if (sidebar) sidebar.style.display = 'flex';
     if (mainContent) mainContent.style.display = 'block';
-    populateAll();
+    try {
+      populateAll();
+    } catch (e) {
+      console.warn('[Admin] populateAll partial error caught:', e);
+    }
   }
 
   function lockDashboard() {
-    lockscreen.classList.remove('hidden');
+    if (lockscreen) lockscreen.classList.remove('hidden');
     if (sidebar) sidebar.style.display = 'none';
     if (mainContent) mainContent.style.display = 'none';
     if (inputAdminPassword) {
@@ -191,7 +195,7 @@ function initAdminApp() {
   }
 
   async function handleLogin() {
-    const password = inputAdminPassword ? inputAdminPassword.value : '';
+    const password = inputAdminPassword ? inputAdminPassword.value.trim() : '';
     if (!password) {
       showLockError('Please enter your password.');
       return;
@@ -222,6 +226,18 @@ function initAdminApp() {
     }
   }
 
+  function togglePasswordVisibility() {
+    if (!inputAdminPassword) return;
+    const current = inputAdminPassword.getAttribute('type') || 'password';
+    const next = current === 'password' ? 'text' : 'password';
+    inputAdminPassword.setAttribute('type', next);
+    if (btnTogglePwd) {
+      btnTogglePwd.textContent = next === 'password' ? '👁️' : '🙈';
+      btnTogglePwd.setAttribute('title', next === 'password' ? 'Show password' : 'Hide password');
+    }
+    inputAdminPassword.focus();
+  }
+
   const btnUnlockCms = document.getElementById('btn-unlock-cms');
   if (btnUnlockCms) {
     btnUnlockCms.addEventListener('click', (e) => {
@@ -246,16 +262,11 @@ function initAdminApp() {
     });
   }
 
-  if (btnTogglePwd && inputAdminPassword) {
+  if (btnTogglePwd) {
     btnTogglePwd.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const currentType = inputAdminPassword.getAttribute('type') || 'password';
-      const newType = currentType === 'password' ? 'text' : 'password';
-      inputAdminPassword.setAttribute('type', newType);
-      btnTogglePwd.textContent = newType === 'password' ? '👁️' : '🙈';
-      btnTogglePwd.setAttribute('title', newType === 'password' ? 'Show password' : 'Hide password');
-      inputAdminPassword.focus();
+      togglePasswordVisibility();
     });
   }
 
@@ -360,7 +371,7 @@ function initAdminApp() {
     return el ? el.checked : false;
   }
 
-  /* ── 4. Navigation & Header Manager ─────────────────────── */
+  /* ── 3B. Site Layout & Sections Managers ───────────────── */
   function populateNavigation() {
     if (!data.navigation) data.navigation = {};
     setVal('input-nav-logo-text', data.navigation.logoText || 'Fazal');
@@ -405,7 +416,7 @@ function initAdminApp() {
   }
 
   window.editNavItem = function(idx) {
-    const item = data.navigation.items[idx];
+    const item = data.navigation?.items ? data.navigation.items[idx] : null;
     if (!item) return;
     openNavItemModal(item, false, idx);
   };
@@ -495,7 +506,6 @@ function initAdminApp() {
     });
   }
 
-  /* ── 5. Page Sections & Visibility Populator ───────────── */
   function populateSections() {
     const s = data.sections || {};
 
@@ -585,7 +595,6 @@ function initAdminApp() {
     setVal('input-sec-404-cta2-url', err.cta2Url || 'projects.html');
   }
 
-  /* ── 6. Contact Form & Info Populator ───────────────────── */
   function populateContact() {
     const c = data.sections?.contact || {};
     setVal('input-sec-contact-label', c.label || 'contact');
@@ -611,7 +620,6 @@ function initAdminApp() {
     setVal('input-contact-lbl-connect', d.connectLabel || 'Connect');
   }
 
-  /* ── 7. Footer & Social Links Manager ──────────────────── */
   function populateFooter() {
     const f = data.footer || {};
     setVal('textarea-footer-tagline', f.tagline || data.profile?.footerTagline || '');
@@ -647,7 +655,7 @@ function initAdminApp() {
   }
 
   window.editFooterLink = function(idx) {
-    const link = data.footer.links[idx];
+    const link = data.footer?.links ? data.footer.links[idx] : null;
     if (!link) return;
     openFooterLinkModal(link, false, idx);
   };
@@ -726,7 +734,7 @@ function initAdminApp() {
   }
 
   window.editFooterSocial = function(idx) {
-    const link = data.footer.socialLinks[idx];
+    const link = data.footer?.socialLinks ? data.footer.socialLinks[idx] : null;
     if (!link) return;
     openFooterSocialModal(link, false, idx);
   };
@@ -781,7 +789,6 @@ function initAdminApp() {
     });
   }
 
-  /* ── 8. SEO & Social Metadata Populator ─────────────────── */
   function populateSEO() {
     const s = data.seo || {};
     setVal('input-seo-title', s.siteTitle || '');
@@ -789,6 +796,10 @@ function initAdminApp() {
     setVal('textarea-seo-keywords', s.keywords || '');
     setVal('input-seo-og-image', s.ogImage || '');
   }
+
+  /* ── 4. Metrics Editor ──────────────────────────────────── */
+  function renderMetricsEditor() {
+    const container = document.getElementById('metrics-editor-grid');
     if (!container) return;
 
     const metrics = data.metrics || [];
@@ -1396,7 +1407,7 @@ function initAdminApp() {
   /* ── 12. Save & Publish All Changes ─────────────────────── */
   const btnSaveAll = document.getElementById('btn-save-all');
   if (btnSaveAll) {
-    btnSaveAll.addEventListener('click', () => {
+    btnSaveAll.addEventListener('click', async () => {
       // 1. Gather Profile
       data.profile.name = getVal('input-name');
       data.profile.firstName = getVal('input-firstName');
@@ -1441,8 +1452,6 @@ function initAdminApp() {
           if (lblEl) m.label = lblEl.value.trim();
           if (subEl) m.subtext = subEl.value.trim();
         });
-      }
-
       // 4. Gather Navigation & Header
       if (!data.navigation) data.navigation = {};
       data.navigation.logoText = getVal('input-nav-logo-text');
