@@ -11,16 +11,99 @@
   const SESSION_AUTH_KEY = 'fazal_portfolio_auth_session';
 
   /**
-   * Helper to compute SHA-256 hex string using Web Crypto API
+   * Pure JavaScript SHA-256 implementation (Works in all environments including non-HTTPS IP addresses)
+   * @param {string} ascii
+   * @returns {string}
+   */
+  function jsSha256(ascii) {
+    function rightRotate(value, amount) {
+      return (value >>> amount) | (value << (32 - amount));
+    }
+    const mathPow = Math.pow;
+    const maxWord = mathPow(2, 32);
+    let lengthProperty = 'length';
+    let i, j;
+    let result = '';
+
+    const words = [];
+    const asciiBitLength = ascii[lengthProperty] * 8;
+
+    let hash = jsSha256.h = jsSha256.h || [];
+    const k = jsSha256.k = jsSha256.k || [];
+    let primeCounter = k[lengthProperty];
+
+    const isComposite = {};
+    for (let candidate = 2; primeCounter < 64; candidate++) {
+      if (!isComposite[candidate]) {
+        for (i = 0; i < 300; i += candidate) {
+          isComposite[i] = candidate;
+        }
+        hash[primeCounter] = (mathPow(candidate, 0.5) * maxWord) | 0;
+        k[primeCounter++] = (mathPow(candidate, 1 / 3) * maxWord) | 0;
+      }
+    }
+
+    hash = hash.slice(0);
+    for (i = 0; i < ascii[lengthProperty]; i++) {
+      j = ascii.charCodeAt(i);
+      words[i >> 2] |= j << ((3 - (i % 4)) * 8);
+    }
+    words[asciiBitLength >> 5] |= 0x80 << (24 - (asciiBitLength % 32));
+    words[(((asciiBitLength + 64) >> 9) << 4) + 15] = asciiBitLength;
+
+    for (i = 0; i < words[lengthProperty]; i += 16) {
+      const w = words.slice(i, i + 16);
+      const oldHash = hash.slice(0);
+
+      for (j = 0; j < 64; j++) {
+        if (j >= 16) {
+          const s0 = rightRotate(w[j - 15], 7) ^ rightRotate(w[j - 15], 18) ^ (w[j - 15] >>> 3);
+          const s1 = rightRotate(w[j - 2], 17) ^ rightRotate(w[j - 2], 19) ^ (w[j - 2] >>> 10);
+          w[j] = (w[j - 16] + s0 + w[j - 7] + s1) | 0;
+        }
+
+        const S1 = rightRotate(hash[4], 6) ^ rightRotate(hash[4], 11) ^ rightRotate(hash[4], 25);
+        const ch = (hash[4] & hash[5]) ^ (~hash[4] & hash[6]);
+        const temp1 = (hash[7] + S1 + ch + k[j] + w[j]) | 0;
+        const S0 = rightRotate(hash[0], 2) ^ rightRotate(hash[0], 13) ^ rightRotate(hash[0], 22);
+        const maj = (hash[0] & hash[1]) ^ (hash[0] & hash[2]) ^ (hash[1] & hash[2]);
+        const temp2 = (S0 + maj) | 0;
+
+        hash = [(temp1 + temp2) | 0, hash[0], hash[1], hash[2], (hash[3] + temp1) | 0, hash[4], hash[5], hash[6]];
+      }
+
+      for (j = 0; j < 8; j++) {
+        hash[j] = (hash[j] + oldHash[j]) | 0;
+      }
+    }
+
+    for (i = 0; i < 8; i++) {
+      for (j = 3; j >= 0; j--) {
+        const b = (hash[i] >> (8 * j)) & 255;
+        result += (b < 16 ? '0' : '') + b.toString(16);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Helper to compute SHA-256 hex string using Web Crypto API with pure JS fallback
    * @param {string} str
    * @returns {Promise<string>}
    */
   async function computeSha256(str) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(str);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    try {
+      if (window.crypto && window.crypto.subtle && typeof window.crypto.subtle.digest === 'function') {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(str);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+    } catch (e) {
+      console.warn('[PortfolioStore] Web Crypto API unavailable, using JS SHA-256 fallback.');
+    }
+    return jsSha256(str);
   }
 
   /**
