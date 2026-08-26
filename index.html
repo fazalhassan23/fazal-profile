@@ -241,15 +241,15 @@
       </div>
 
       <div class="hero-ctas">
-        <a href="projects.html" class="btn btn-primary">View My Work ↗</a>
-        <a href="about.html" class="btn btn-outline">About &amp; Experience</a>
-        <a href="about.html" data-cms-link="resume" class="btn btn-outline">Download Resume</a>
+        <a href="projects.html" id="hero-cta-1" class="btn btn-primary">View My Work ↗</a>
+        <a href="about.html" id="hero-cta-2" class="btn btn-outline">About &amp; Experience</a>
+        <a href="about.html" id="hero-cta-3" data-cms-link="resume" class="btn btn-outline">Download Resume</a>
       </div>
     </section>
 
     <!-- ── EXPERTISE ─────────────────────────────────── -->
     <section class="section" id="expertise" aria-label="Expertise">
-      <span class="section-label">expertise</span>
+      <span class="section-label" id="expertise-section-label">expertise</span>
 
       <div class="expertise-grid" id="expertise-container">
         <!-- Rendered dynamically by js/render.js -->
@@ -260,8 +260,8 @@
     <section class="section" id="awards" aria-label="Awards & Honors">
       <div class="section-header">
         <div>
-          <span class="section-label">recognition</span>
-          <p class="section-subtext">
+          <span class="section-label" id="awards-section-label">recognition</span>
+          <p class="section-subtext" id="awards-section-subtext">
             Selected awards, research accolades, and honors.
           </p>
         </div>
@@ -276,12 +276,12 @@
     <section class="section" id="experience" aria-label="Work experience">
       <div class="section-header">
         <div>
-          <span class="section-label">experience</span>
-          <p class="section-subtext">
+          <span class="section-label" id="experience-section-label">experience</span>
+          <p class="section-subtext" id="experience-section-subtext">
             Selected professional background and key career milestones.
           </p>
         </div>
-        <a href="about.html#experience" class="btn btn-ghost">Full history <span class="arrow">→</span></a>
+        <a href="about.html#experience" id="experience-section-cta" class="btn btn-ghost">Full history <span class="arrow">→</span></a>
       </div>
 
       <div class="timeline" id="home-experience-container">
@@ -293,12 +293,12 @@
     <section class="section" id="work" aria-label="Featured work">
       <div class="section-header">
         <div>
-          <span class="section-label">work</span>
-          <p class="section-subtext">
+          <span class="section-label" id="work-section-label">work</span>
+          <p class="section-subtext" id="work-section-subtext">
             Selected academic research and engineering projects.
           </p>
         </div>
-        <a href="projects.html" class="btn btn-ghost">All projects <span class="arrow">→</span></a>
+        <a href="projects.html" id="work-section-cta" class="btn btn-ghost">All projects <span class="arrow">→</span></a>
       </div>
 
       <div class="projects-list" id="home-projects-container">
@@ -310,8 +310,8 @@
     <section class="section" id="articles" aria-label="Articles & Insights">
       <div class="section-header">
         <div>
-          <span class="section-label">insights</span>
-          <p class="section-subtext">
+          <span class="section-label" id="articles-section-label">insights</span>
+          <p class="section-subtext" id="articles-section-subtext">
             Articles on technical project delivery, leadership, and systems architecture.
           </p>
         </div>
@@ -324,9 +324,9 @@
 
     <!-- ── CONTACT ────────────────────────────────────── -->
     <section class="section" id="contact" aria-label="Contact">
-      <span class="section-label">contact</span>
+      <span class="section-label" id="contact-section-label">contact</span>
 
-      <h2 class="section-heading">Let's work together.</h2>
+      <h2 class="section-heading" id="contact-section-heading">Let's work together.</h2>
       <p class="section-subtext" id="contact-text">
         Have an interesting project, collaboration, or leadership role in mind? 
         Send a message below or connect with me directly.
@@ -339,48 +339,48 @@
             <div id="contact-form-status" class="form-status"></div>
 
             <div class="form-group">
-              <label class="form-label" for="contact-name">Your Name *</label>
+              <label class="form-label" id="label-contact-name" for="contact-name">Your Name *</label>
               <input type="text" id="contact-name" name="name" class="form-input" placeholder="e.g. Alex Rahman" required />
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="contact-email">Email Address *</label>
+              <label class="form-label" id="label-contact-email" for="contact-email">Email Address *</label>
               <input type="email" id="contact-email" name="email" class="form-input" placeholder="e.g. alex@company.com" required />
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="contact-subject">Subject</label>
+              <label class="form-label" id="label-contact-subject" for="contact-subject">Subject</label>
               <input type="text" id="contact-subject" name="subject" class="form-input" placeholder="Project collaboration / Inquiry" />
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="contact-msg">Message *</label>
+              <label class="form-label" id="label-contact-msg" for="contact-msg">Message *</label>
               <textarea id="contact-msg" name="message" class="form-textarea" placeholder="Tell me a bit about what you have in mind..." required></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="align-self: flex-start;">Send Message ↗</button>
+            <button type="submit" id="btn-contact-submit" class="btn btn-primary" style="align-self: flex-start;">Send Message ↗</button>
           </form>
         </div>
 
         <!-- Direct Contact Details -->
         <div class="contact-details-col">
           <div>
-            <p class="contact-detail-label">Direct Email</p>
+            <p class="contact-detail-label" id="contact-detail-label-email">Direct Email</p>
             <a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email" class="contact-detail-value accent">fazal.mahmud.hassan@gmail.com</a>
           </div>
 
           <div>
-            <p class="contact-detail-label">Phone / WhatsApp</p>
+            <p class="contact-detail-label" id="contact-detail-label-phone">Phone / WhatsApp</p>
             <a href="tel:+8801712772123" data-cms-link="phone" class="contact-detail-value">+880 1712 772123</a>
           </div>
 
           <div>
-            <p class="contact-detail-label">Location</p>
+            <p class="contact-detail-label" id="contact-detail-label-location">Location</p>
             <p class="contact-detail-value" style="color: var(--text-secondary);">Dhaka, Bangladesh</p>
           </div>
 
           <div>
-            <p class="contact-detail-label">Connect</p>
+            <p class="contact-detail-label" id="contact-detail-label-connect">Connect</p>
             <div class="contact-social-links">
               <a href="https://linkedin.com/in/fazalmahmudhassan" data-cms-link="linkedin" target="_blank" rel="noopener" class="contact-social-link">LinkedIn ↗</a>
               <a href="https://github.com/fazalhassan23" data-cms-link="github" target="_blank" rel="noopener" class="contact-social-link">GitHub ↗</a>
@@ -398,14 +398,14 @@
   <footer class="footer">
     <div class="footer-inner">
       <div>
-        <a href="index.html" class="footer-brand"><span data-cms="firstName">Fazal</span><span class="dot">.</span></a>
+        <a href="index.html" class="footer-brand nav-logo"><span data-cms="firstName">Fazal</span><span class="dot">.</span></a>
         <p class="footer-tagline" id="footer-tagline">
           Technical Project Manager &amp; Systems Engineer based in Dhaka, Bangladesh.
         </p>
       </div>
       <div>
-        <p class="footer-links-title">Navigation</p>
-        <ul class="footer-links-list">
+        <p class="footer-links-title" id="footer-nav-title">Navigation</p>
+        <ul class="footer-links-list" id="footer-nav-links">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="projects.html">Projects</a></li>
@@ -414,8 +414,8 @@
         </ul>
       </div>
       <div>
-        <p class="footer-links-title">Connect</p>
-        <ul class="footer-links-list">
+        <p class="footer-links-title" id="footer-connect-title">Connect</p>
+        <ul class="footer-links-list" id="footer-social-links">
           <li><a href="https://linkedin.com/in/fazalmahmudhassan" data-cms-link="linkedin" target="_blank" rel="noopener">LinkedIn ↗</a></li>
           <li><a href="https://github.com/fazalhassan23" data-cms-link="github" target="_blank" rel="noopener">GitHub ↗</a></li>
           <li><a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email">Email ↗</a></li>

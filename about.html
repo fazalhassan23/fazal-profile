@@ -107,9 +107,9 @@
 
     <!-- ── PAGE HERO ──────────────────────────────────── -->
     <div class="page-hero">
-      <span class="section-label">about</span>
+      <span class="section-label" id="about-hero-label">about</span>
       <h1><span data-cms="fullName">Fazal Mahmud Hassan</span>.</h1>
-      <p>
+      <p id="about-hero-subtitle">
         Technical Project Manager. Systems thinker. Lifelong learner. 
         Based in Dhaka, Bangladesh.
       </p>
@@ -117,7 +117,7 @@
 
     <!-- ── BIO ────────────────────────────────────────── -->
     <section class="section" id="bio" aria-label="Biography">
-      <span class="section-label">biography</span>
+      <span class="section-label" id="about-bio-label">biography</span>
 
       <div class="about-body">
         <p class="about-lead" id="about-lead">
@@ -131,15 +131,15 @@
       </div>
 
       <div style="margin-top: 2rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
-        <a href="projects.html" class="btn btn-primary">View Projects ↗</a>
-        <a href="about.html" data-cms-link="resume" class="btn btn-outline">Download Resume</a>
-        <a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email" class="btn btn-outline">Get in Touch</a>
+        <a href="projects.html" id="about-bio-cta-1" class="btn btn-primary">View Projects ↗</a>
+        <a href="about.html" id="about-bio-cta-2" data-cms-link="resume" class="btn btn-outline">Download Resume</a>
+        <a href="mailto:fazal.mahmud.hassan@gmail.com" id="about-bio-cta-3" data-cms-link="email" class="btn btn-outline">Get in Touch</a>
       </div>
     </section>
 
     <!-- ── AWARDS & HONORS ────────────────────────────── -->
-    <section class="section" id="awards" aria-label="Awards & Honors">
-      <span class="section-label">recognition</span>
+    <section class="section" id="about-awards" aria-label="Awards & Honors">
+      <span class="section-label" id="about-awards-label">recognition</span>
 
       <div class="awards-grid" id="awards-container">
         <!-- Rendered dynamically by js/render.js -->
@@ -147,8 +147,8 @@
     </section>
 
     <!-- ── EDUCATION ──────────────────────────────────── -->
-    <section class="section" id="education" aria-label="Education">
-      <span class="section-label">education</span>
+    <section class="section" id="about-education" aria-label="Education">
+      <span class="section-label" id="about-education-label">education</span>
 
       <div class="edu-list" id="education-container">
         <!-- Rendered dynamically by js/render.js -->
@@ -156,8 +156,8 @@
     </section>
 
     <!-- ── FULL EXPERIENCE ───────────────────────────── -->
-    <section class="section" id="experience" aria-label="Work history">
-      <span class="section-label">experience</span>
+    <section class="section" id="about-experience" aria-label="Work history">
+      <span class="section-label" id="about-experience-label">experience</span>
 
       <div class="timeline" id="full-experience-container">
         <!-- Rendered dynamically by js/render.js -->
@@ -165,8 +165,8 @@
     </section>
 
     <!-- ── SKILLS ──────────────────────────────────────── -->
-    <section class="section" id="skills" aria-label="Skills">
-      <span class="section-label">skills</span>
+    <section class="section" id="about-skills" aria-label="Skills">
+      <span class="section-label" id="about-skills-label">skills</span>
 
       <div id="skills-container">
         <!-- Rendered dynamically by js/render.js -->
@@ -174,8 +174,8 @@
     </section>
 
     <!-- ── EXTRA CURRICULARS ──────────────────────────── -->
-    <section class="section" id="extras" aria-label="Extra curriculars">
-      <span class="section-label">beyond work</span>
+    <section class="section" id="about-extras" aria-label="Extra curriculars">
+      <span class="section-label" id="about-extras-label">beyond work</span>
 
       <div class="expertise-grid" id="extras-container">
         <!-- Rendered dynamically by js/render.js -->
@@ -190,14 +190,14 @@
   <footer class="footer">
     <div class="footer-inner">
       <div>
-        <a href="index.html" class="footer-brand"><span data-cms="firstName">Fazal</span><span class="dot">.</span></a>
+        <a href="index.html" class="footer-brand nav-logo"><span data-cms="firstName">Fazal</span><span class="dot">.</span></a>
         <p class="footer-tagline" id="footer-tagline">
           Technical Project Manager &amp; Systems Engineer based in Dhaka, Bangladesh.
         </p>
       </div>
       <div>
-        <p class="footer-links-title">Navigation</p>
-        <ul class="footer-links-list">
+        <p class="footer-links-title" id="footer-nav-title">Navigation</p>
+        <ul class="footer-links-list" id="footer-nav-links">
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="projects.html">Projects</a></li>
@@ -206,8 +206,8 @@
         </ul>
       </div>
       <div>
-        <p class="footer-links-title">Connect</p>
-        <ul class="footer-links-list">
+        <p class="footer-links-title" id="footer-connect-title">Connect</p>
+        <ul class="footer-links-list" id="footer-social-links">
           <li><a href="https://linkedin.com/in/fazalmahmudhassan" data-cms-link="linkedin" target="_blank" rel="noopener">LinkedIn ↗</a></li>
           <li><a href="https://github.com/fazalhassan23" data-cms-link="github" target="_blank" rel="noopener">GitHub ↗</a></li>
           <li><a href="mailto:fazal.mahmud.hassan@gmail.com" data-cms-link="email">Email ↗</a></li>

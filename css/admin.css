@@ -564,18 +564,120 @@ body.admin-body {
   font-size: 0.875rem;
 }
 
-.item-actions {
-  display: flex;
-  gap: 0.5rem;
+.form-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--adm-text-primary);
+  cursor: pointer;
+  user-select: none;
 }
 
-.empty-state {
-  padding: 2.5rem 1rem;
+.form-checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--adm-accent);
+}
+
+.form-checkbox-label code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  color: var(--adm-accent);
+}
+
+.admin-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-item-card {
+  background: var(--adm-input-bg);
+  border: 1px solid var(--adm-border);
+  border-radius: 10px;
+  padding: 0.9rem 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all 0.15s ease;
+}
+
+.admin-item-card:hover {
+  border-color: var(--adm-border-hover);
+  background: #181822;
+}
+
+.admin-item-content {
+  flex: 1;
+}
+
+.admin-item-title {
+  font-family: var(--adm-font-title);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admin-item-sub {
+  color: var(--adm-muted);
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.admin-item-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.admin-empty-notice {
+  padding: 2rem 1rem;
   text-align: center;
   color: var(--adm-muted);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   border: 1px dashed var(--adm-border);
-  border-radius: 10px;
+  border-radius: 8px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-family: var(--adm-font-mono);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--adm-success);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-info {
+  background: rgba(74, 133, 255, 0.15);
+  color: var(--adm-accent);
+  border: 1px solid rgba(74, 133, 255, 0.3);
+}
+
+.badge-muted {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--adm-muted);
+  border: 1px solid var(--adm-border);
 }
 
 /* ────────────────────────────────────────────────────────────

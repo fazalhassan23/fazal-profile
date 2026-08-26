@@ -93,6 +93,29 @@
         </button>
       </li>
 
+      <!-- Section: Structure & Layout -->
+      <li class="nav-section-label">Site Structure &amp; Layout</li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="navigation">
+          <span class="icon">🧭</span> Navigation &amp; Header
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="sections">
+          <span class="icon">📑</span> Page Sections &amp; Visibility
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="contact">
+          <span class="icon">✉️</span> Contact Form &amp; Info
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="footer">
+          <span class="icon">🦶</span> Footer &amp; Social Links
+        </button>
+      </li>
+
       <!-- Section: Highlights -->
       <li class="nav-section-label">Highlights &amp; Skills</li>
       <li class="admin-nav-item">
@@ -117,7 +140,12 @@
       </li>
 
       <!-- Section: Settings -->
-      <li class="nav-section-label">Settings</li>
+      <li class="nav-section-label">SEO &amp; Settings</li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="seo">
+          <span class="icon">🔍</span> SEO &amp; Social Meta
+        </button>
+      </li>
       <li class="admin-nav-item">
         <button type="button" data-tab="settings">
           <span class="icon">⚙️</span> Security &amp; Backups
@@ -430,7 +458,595 @@
       </div>
     </section>
 
-    <!-- ── 9. PANEL: SECURITY & SETTINGS ────────────── -->
+    <!-- ── PANEL: NAVIGATION & HEADER ─────────────── -->
+    <section id="panel-navigation" class="admin-panel">
+      <!-- Logo & Brand Settings -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Logo &amp; Brand Settings</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="input-nav-logo-text">Logo Brand Text</label>
+            <input type="text" id="input-nav-logo-text" class="form-input" placeholder="e.g. Fazal" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-nav-logo-link">Logo Link URL</label>
+            <input type="text" id="input-nav-logo-link" class="form-input" placeholder="index.html" />
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-checkbox-label">
+              <input type="checkbox" id="checkbox-nav-logo-dot" />
+              <span>Show colored dot accent after logo text (e.g. <code>Fazal.</code>)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links Manager -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h2 class="admin-card-title">Navigation Menu Items</h2>
+            <p style="font-size:0.875rem; color:var(--adm-muted); margin-top:0.25rem;">
+              Manage the links displayed in the desktop header navbar and mobile slide-out drawer.
+            </p>
+          </div>
+          <button id="btn-add-nav-item" class="btn-adm btn-adm-primary btn-adm-sm">
+            + Add Menu Item
+          </button>
+        </div>
+        <div id="nav-items-list" class="admin-items-list">
+          <!-- Populated by js/admin.js -->
+        </div>
+      </div>
+
+      <!-- Nav CTA Button -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Navigation Action / CTA Button (Optional)</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="input-nav-cta-text">CTA Button Text</label>
+            <input type="text" id="input-nav-cta-text" class="form-input" placeholder="e.g. Resume" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-nav-cta-url">CTA Destination URL</label>
+            <input type="text" id="input-nav-cta-url" class="form-input" placeholder="about.html" />
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-checkbox-label">
+              <input type="checkbox" id="checkbox-nav-cta-visible" />
+              <span>Enable CTA Button in Navbar</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PANEL: PAGE SECTIONS & VISIBILITY ────────── -->
+    <section id="panel-sections" class="admin-panel">
+      <!-- Homepage Sections -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Homepage Sections &amp; CTAs</h2>
+        </div>
+
+        <div class="form-grid" style="margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label class="form-label" for="input-sec-home-hero-label">Hero Section Label</label>
+            <input type="text" id="input-sec-home-hero-label" class="form-input" placeholder="home" />
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox-label" style="margin-top: 1.8rem;">
+              <input type="checkbox" id="checkbox-sec-metrics-visible" />
+              <span>Show Animated Metrics Counters on Home</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Hero CTAs -->
+        <h3 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--adm-text-primary);">Hero Action Buttons</h3>
+        <div class="form-grid" style="margin-bottom: 1.5rem; background: var(--adm-bg-subtle, rgba(255,255,255,0.03)); padding: 1rem; border-radius: 8px;">
+          <!-- CTA 1 -->
+          <div class="form-group">
+            <label class="form-label" for="input-sec-hero-cta1-text">CTA Button 1 Label</label>
+            <input type="text" id="input-sec-hero-cta1-text" class="form-input" placeholder="View My Work ↗" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-hero-cta1-url">CTA Button 1 URL</label>
+            <input type="text" id="input-sec-hero-cta1-url" class="form-input" placeholder="projects.html" />
+          </div>
+          <!-- CTA 2 -->
+          <div class="form-group">
+            <label class="form-label" for="input-sec-hero-cta2-text">CTA Button 2 Label</label>
+            <input type="text" id="input-sec-hero-cta2-text" class="form-input" placeholder="About & Experience" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-hero-cta2-url">CTA Button 2 URL</label>
+            <input type="text" id="input-sec-hero-cta2-url" class="form-input" placeholder="about.html" />
+          </div>
+          <!-- CTA 3 -->
+          <div class="form-group">
+            <label class="form-label" for="input-sec-hero-cta3-text">CTA Button 3 Label</label>
+            <input type="text" id="input-sec-hero-cta3-text" class="form-input" placeholder="Download Resume" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-hero-cta3-url">CTA Button 3 URL</label>
+            <input type="text" id="input-sec-hero-cta3-url" class="form-input" placeholder="about.html" />
+          </div>
+        </div>
+
+        <!-- Section Copy & Visibility Controls -->
+        <h3 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--adm-text-primary);">Section Titles &amp; Visibility</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Expertise -->
+          <div class="form-grid" style="border-bottom: 1px solid var(--adm-border); padding-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="input-sec-exp-label">Expertise Label</label>
+              <input type="text" id="input-sec-exp-label" class="form-input" placeholder="expertise" />
+            </div>
+            <div class="form-group">
+              <label class="form-checkbox-label" style="margin-top: 1.8rem;">
+                <input type="checkbox" id="checkbox-sec-exp-vis" />
+                <span>Show Expertise Section</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Awards -->
+          <div class="form-grid" style="border-bottom: 1px solid var(--adm-border); padding-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="input-sec-awards-label">Recognition / Awards Label</label>
+              <input type="text" id="input-sec-awards-label" class="form-input" placeholder="recognition" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-sec-awards-subtext">Awards Subtext</label>
+              <input type="text" id="input-sec-awards-subtext" class="form-input" placeholder="Selected awards, research accolades, and honors." />
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-checkbox-label">
+                <input type="checkbox" id="checkbox-sec-awards-vis" />
+                <span>Show Recognition / Awards Spotlight</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Experience -->
+          <div class="form-grid" style="border-bottom: 1px solid var(--adm-border); padding-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="input-sec-experience-label">Experience Label</label>
+              <input type="text" id="input-sec-experience-label" class="form-input" placeholder="experience" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-sec-experience-subtext">Experience Subtext</label>
+              <input type="text" id="input-sec-experience-subtext" class="form-input" placeholder="Selected professional background..." />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-sec-experience-cta-text">Experience CTA Text</label>
+              <input type="text" id="input-sec-experience-cta-text" class="form-input" placeholder="Full history →" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-sec-experience-cta-url">Experience CTA URL</label>
+              <input type="text" id="input-sec-experience-cta-url" class="form-input" placeholder="about.html#experience" />
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-checkbox-label">
+                <input type="checkbox" id="checkbox-sec-experience-vis" />
+                <span>Show Experience Section</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Work -->
+          <div class="form-grid" style="border-bottom: 1px solid var(--adm-border); padding-bottom: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="input-sec-work-label">Work Label</label>
+              <input type="text" id="input-sec-work-label" class="form-input" placeholder="work" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-sec-work-subtext">Work Subtext</label>
+              <input type="text" id="input-sec-work-subtext" class="form-input" placeholder="Selected academic research..." />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-sec-work-cta-text">Work CTA Text</label>
+              <input type="text" id="input-sec-work-cta-text" class="form-input" placeholder="All projects →" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-sec-work-cta-url">Work CTA URL</label>
+              <input type="text" id="input-sec-work-cta-url" class="form-input" placeholder="projects.html" />
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-checkbox-label">
+                <input type="checkbox" id="checkbox-sec-work-vis" />
+                <span>Show Featured Work Section</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Articles -->
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="input-sec-art-label">Insights / Articles Label</label>
+              <input type="text" id="input-sec-art-label" class="form-input" placeholder="insights" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-sec-art-subtext">Articles Subtext</label>
+              <input type="text" id="input-sec-art-subtext" class="form-input" placeholder="Articles on technical project delivery..." />
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-checkbox-label">
+                <input type="checkbox" id="checkbox-sec-art-vis" />
+                <span>Show Articles &amp; Insights Section</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- About Page Settings -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">About Page Headers &amp; Sections</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-hero-label">Page Hero Label</label>
+            <input type="text" id="input-sec-ab-hero-label" class="form-input" placeholder="about" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-bio-label">Bio Section Label</label>
+            <input type="text" id="input-sec-ab-bio-label" class="form-input" placeholder="biography" />
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="input-sec-ab-hero-sub">Page Hero Subtitle Copy</label>
+            <input type="text" id="input-sec-ab-hero-sub" class="form-input" placeholder="Technical Project Manager. Systems thinker..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-awards-label">Recognition Label</label>
+            <input type="text" id="input-sec-ab-awards-label" class="form-input" placeholder="recognition" />
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox-label" style="margin-top: 1.8rem;">
+              <input type="checkbox" id="checkbox-sec-ab-awards-vis" />
+              <span>Show Awards on About Page</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-edu-label">Education Label</label>
+            <input type="text" id="input-sec-ab-edu-label" class="form-input" placeholder="education" />
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox-label" style="margin-top: 1.8rem;">
+              <input type="checkbox" id="checkbox-sec-ab-edu-vis" />
+              <span>Show Education on About Page</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-exp-label">Experience Label</label>
+            <input type="text" id="input-sec-ab-exp-label" class="form-input" placeholder="experience" />
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox-label" style="margin-top: 1.8rem;">
+              <input type="checkbox" id="checkbox-sec-ab-exp-vis" />
+              <span>Show Experience on About Page</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-skills-label">Skills Label</label>
+            <input type="text" id="input-sec-ab-skills-label" class="form-input" placeholder="skills" />
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox-label" style="margin-top: 1.8rem;">
+              <input type="checkbox" id="checkbox-sec-ab-skills-vis" />
+              <span>Show Skills on About Page</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-extras-label">Extras Label</label>
+            <input type="text" id="input-sec-ab-extras-label" class="form-input" placeholder="beyond work" />
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox-label" style="margin-top: 1.8rem;">
+              <input type="checkbox" id="checkbox-sec-ab-extras-vis" />
+              <span>Show Beyond Work on About Page</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects Page Settings -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Projects Page Headers &amp; Categories</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="input-sec-pr-hero-label">Page Hero Label</label>
+            <input type="text" id="input-sec-pr-hero-label" class="form-input" placeholder="work" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-pr-hero-title">Page Hero Title</label>
+            <input type="text" id="input-sec-pr-hero-title" class="form-input" placeholder="Projects & Research." />
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="input-sec-pr-hero-sub">Page Hero Subtitle Copy</label>
+            <input type="text" id="input-sec-pr-hero-sub" class="form-input" placeholder="Academic research, engineering projects..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-pr-res-label">Research Category Label</label>
+            <input type="text" id="input-sec-pr-res-label" class="form-input" placeholder="research" />
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox-label" style="margin-top: 1.8rem;">
+              <input type="checkbox" id="checkbox-sec-pr-res-vis" />
+              <span>Show Research Category</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-pr-pub-label">Publication Category Label</label>
+            <input type="text" id="input-sec-pr-pub-label" class="form-input" placeholder="publication" />
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox-label" style="margin-top: 1.8rem;">
+              <input type="checkbox" id="checkbox-sec-pr-pub-vis" />
+              <span>Show Publication Category</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-pr-soft-label">Software Category Label</label>
+            <input type="text" id="input-sec-pr-soft-label" class="form-input" placeholder="software & engineering" />
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox-label" style="margin-top: 1.8rem;">
+              <input type="checkbox" id="checkbox-sec-pr-soft-vis" />
+              <span>Show Software Category</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-pr-vol-label">Volunteer Category Label</label>
+            <input type="text" id="input-sec-pr-vol-label" class="form-input" placeholder="volunteer & leadership" />
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox-label" style="margin-top: 1.8rem;">
+              <input type="checkbox" id="checkbox-sec-pr-vol-vis" />
+              <span>Show Volunteer Category</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 404 Error Page Settings -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">404 Error Page Copy</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="input-sec-404-code">Error Code</label>
+            <input type="text" id="input-sec-404-code" class="form-input" placeholder="404" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-404-heading">Error Heading</label>
+            <input type="text" id="input-sec-404-heading" class="form-input" placeholder="Page Not Found" />
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="input-sec-404-desc">Error Description</label>
+            <input type="text" id="input-sec-404-desc" class="form-input" placeholder="The requested URL was not found on this server..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-404-cta1-text">CTA 1 Label</label>
+            <input type="text" id="input-sec-404-cta1-text" class="form-input" placeholder="Return to Homepage ↗" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-404-cta1-url">CTA 1 Destination</label>
+            <input type="text" id="input-sec-404-cta1-url" class="form-input" placeholder="index.html" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-404-cta2-text">CTA 2 Label</label>
+            <input type="text" id="input-sec-404-cta2-text" class="form-input" placeholder="Explore Projects" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-404-cta2-url">CTA 2 Destination</label>
+            <input type="text" id="input-sec-404-cta2-url" class="form-input" placeholder="projects.html" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PANEL: CONTACT FORM & INFO ────────────────── -->
+    <section id="panel-contact" class="admin-panel">
+      <!-- Section Copy -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Contact Section Copy</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="input-sec-contact-label">Section Label</label>
+            <input type="text" id="input-sec-contact-label" class="form-input" placeholder="contact" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-contact-heading">Main Heading</label>
+            <input type="text" id="input-sec-contact-heading" class="form-input" placeholder="Let's work together." />
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="textarea-sec-contact-subtext">Section Subtext Copy</label>
+            <textarea id="textarea-sec-contact-subtext" class="form-textarea" placeholder="Have an interesting project, collaboration..."></textarea>
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-checkbox-label">
+              <input type="checkbox" id="checkbox-sec-contact-vis" />
+              <span>Show Contact Section on Homepage</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form Fields Copy -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Interactive Form Labels &amp; Placeholders</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="input-contact-name-label">Name Field Label</label>
+            <input type="text" id="input-contact-name-label" class="form-input" placeholder="Your Name *" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-contact-name-ph">Name Placeholder</label>
+            <input type="text" id="input-contact-name-ph" class="form-input" placeholder="e.g. Alex Rahman" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-contact-email-label">Email Field Label</label>
+            <input type="text" id="input-contact-email-label" class="form-input" placeholder="Email Address *" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-contact-email-ph">Email Placeholder</label>
+            <input type="text" id="input-contact-email-ph" class="form-input" placeholder="e.g. alex@company.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-contact-subj-label">Subject Field Label</label>
+            <input type="text" id="input-contact-subj-label" class="form-input" placeholder="Subject" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-contact-subj-ph">Subject Placeholder</label>
+            <input type="text" id="input-contact-subj-ph" class="form-input" placeholder="Project collaboration / Inquiry" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-contact-msg-label">Message Field Label</label>
+            <input type="text" id="input-contact-msg-label" class="form-input" placeholder="Message *" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-contact-msg-ph">Message Placeholder</label>
+            <input type="text" id="input-contact-msg-ph" class="form-input" placeholder="Tell me a bit about what you have in mind..." />
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="input-contact-submit-text">Submit Button Label</label>
+            <input type="text" id="input-contact-submit-text" class="form-input" placeholder="Send Message ↗" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Direct Details Block Labels -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Direct Contact Card Block Labels</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="input-contact-lbl-email">Email Label</label>
+            <input type="text" id="input-contact-lbl-email" class="form-input" placeholder="Direct Email" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-contact-lbl-phone">Phone Label</label>
+            <input type="text" id="input-contact-lbl-phone" class="form-input" placeholder="Phone / WhatsApp" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-contact-lbl-location">Location Label</label>
+            <input type="text" id="input-contact-lbl-location" class="form-input" placeholder="Location" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-contact-lbl-connect">Connect Label</label>
+            <input type="text" id="input-contact-lbl-connect" class="form-input" placeholder="Connect" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PANEL: FOOTER & SOCIAL LINKS ─────────────── -->
+    <section id="panel-footer" class="admin-panel">
+      <!-- Footer Branding & Copyright -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Footer Brand Copy &amp; Headers</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="textarea-footer-tagline">Footer Tagline</label>
+            <textarea id="textarea-footer-tagline" class="form-textarea" placeholder="Technical Project Manager & Systems Engineer based in Dhaka..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-footer-col1-title">Column 1 Header (Navigation)</label>
+            <input type="text" id="input-footer-col1-title" class="form-input" placeholder="Navigation" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-footer-col2-title">Column 2 Header (Connect)</label>
+            <input type="text" id="input-footer-col2-title" class="form-input" placeholder="Connect" />
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="input-footer-copyright">Copyright Notice</label>
+            <input type="text" id="input-footer-copyright" class="form-input" placeholder="© 2026 Fazal Mahmud Hassan. All rights reserved." />
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Navigation Links -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h2 class="admin-card-title">Footer Navigation Links</h2>
+            <p style="font-size:0.875rem; color:var(--adm-muted); margin-top:0.25rem;">
+              Manage the links displayed in the first column of the footer.
+            </p>
+          </div>
+          <button id="btn-add-footer-link" class="btn-adm btn-adm-primary btn-adm-sm">
+            + Add Footer Link
+          </button>
+        </div>
+        <div id="footer-links-list" class="admin-items-list">
+          <!-- Populated by js/admin.js -->
+        </div>
+      </div>
+
+      <!-- Footer Social Links -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h2 class="admin-card-title">Footer Connect / Social Links</h2>
+            <p style="font-size:0.875rem; color:var(--adm-muted); margin-top:0.25rem;">
+              Manage the links displayed in the second column of the footer.
+            </p>
+          </div>
+          <button id="btn-add-footer-social" class="btn-adm btn-adm-primary btn-adm-sm">
+            + Add Connect Link
+          </button>
+        </div>
+        <div id="footer-social-list" class="admin-items-list">
+          <!-- Populated by js/admin.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PANEL: SEO & SOCIAL METADATA ─────────────── -->
+    <section id="panel-seo" class="admin-panel">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">SEO &amp; OpenGraph Settings</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="input-seo-title">Global Site Title</label>
+            <input type="text" id="input-seo-title" class="form-input" placeholder="Fazal Mahmud Hassan — Technical Project Manager" />
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="textarea-seo-desc">Global Meta Description (Search Snippet)</label>
+            <textarea id="textarea-seo-desc" class="form-textarea" placeholder="Personal portfolio of Fazal Mahmud Hassan..."></textarea>
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="textarea-seo-keywords">Target Search Keywords</label>
+            <textarea id="textarea-seo-keywords" class="form-textarea" placeholder="Fazal Mahmud Hassan, Technical Project Manager, Mediusware..."></textarea>
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="input-seo-og-image">Social Share Preview Image URL (OpenGraph / Twitter)</label>
+            <input type="text" id="input-seo-og-image" class="form-input" placeholder="https://fazalmahmudhassan.com/assets/og-image.svg" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PANEL: SECURITY & SETTINGS ────────────── -->
     <section id="panel-settings" class="admin-panel">
       <!-- Change Password -->
       <div class="admin-card">
