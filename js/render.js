@@ -201,6 +201,106 @@
     });
   }
 
+  function renderRecommendations(recommendations) {
+    if (!Array.isArray(recommendations)) return;
+
+    const visibleRecs = recommendations.filter(r => r.visible !== false);
+
+    function getAvatarHtml(r) {
+      if (r.avatar && r.avatar.trim()) {
+        return `<img src="${escapeHtml(r.avatar)}" alt="${escapeHtml(r.author)}" class="rec-avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" /><div class="rec-avatar-initials" style="display:none;"></div>`;
+      }
+      const initials = (r.author || '')
+        .split(' ')
+        .map(n => n[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase();
+      return `<div class="rec-avatar-initials">${escapeHtml(initials)}</div>`;
+    }
+
+    const homeContainer = document.getElementById('recommendations-container');
+    if (homeContainer) {
+      let featured = visibleRecs.filter(r => r.featured === true);
+      if (featured.length === 0) featured = visibleRecs;
+
+      homeContainer.innerHTML = featured.map(r => `
+        <div class="recommendation-card fade-up visible">
+          <div class="rec-quote-mark">“</div>
+          <div class="rec-header">
+            <div class="rec-avatar-wrap">
+              ${getAvatarHtml(r)}
+            </div>
+            <div class="rec-author-info">
+              <div class="rec-author-name">
+                ${escapeHtml(r.author)}
+                ${r.linkedinUrl ? `
+                  <a href="${escapeHtml(r.linkedinUrl)}" target="_blank" rel="noopener noreferrer" class="rec-linkedin-link" title="View LinkedIn Profile">
+                    <svg class="rec-linkedin-icon" viewBox="0 0 24 24" width="16" height="16" style="vertical-align: middle; margin-left: 4px; fill: var(--accent);"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.8v8h2.8v-4.87c0-.26.05-.5.14-.68a1 1 0 0 1 .93-.68c.72 0 .88.61.88 1.5v4.73zm-11.25-9H10.1v-8H7.25zM8.65 4.25a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
+                  </a>
+                ` : ''}
+              </div>
+              <div class="rec-author-headline">${escapeHtml(r.headline || '')}</div>
+              ${r.company ? `<div class="rec-author-company">${escapeHtml(r.company)}</div>` : ''}
+            </div>
+          </div>
+          <div class="rec-meta">
+            <span class="rec-relationship">${escapeHtml(r.relationship || '')}</span>
+            <span class="rec-date">${escapeHtml(r.date || '')}</span>
+          </div>
+          <div class="rec-text">
+            ${r.text.length > 250 ? `
+              <span class="rec-text-preview">${escapeHtml(r.text.slice(0, 250))}...</span>
+              <span class="rec-text-full hidden">${escapeHtml(r.text)}</span>
+              <button type="button" class="btn-rec-toggle" onclick="this.previousElementSibling.classList.toggle('hidden'); this.previousElementSibling.previousElementSibling.classList.toggle('hidden'); this.textContent = this.textContent === 'Read more' ? 'Read less' : 'Read more';">Read more</button>
+            ` : `
+              <span>${escapeHtml(r.text)}</span>
+            `}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    const aboutContainer = document.getElementById('about-recommendations-container');
+    if (aboutContainer) {
+      aboutContainer.innerHTML = visibleRecs.map(r => `
+        <div class="recommendation-card fade-up visible">
+          <div class="rec-quote-mark">“</div>
+          <div class="rec-header">
+            <div class="rec-avatar-wrap">
+              ${getAvatarHtml(r)}
+            </div>
+            <div class="rec-author-info">
+              <div class="rec-author-name">
+                ${escapeHtml(r.author)}
+                ${r.linkedinUrl ? `
+                  <a href="${escapeHtml(r.linkedinUrl)}" target="_blank" rel="noopener noreferrer" class="rec-linkedin-link" title="View LinkedIn Profile">
+                    <svg class="rec-linkedin-icon" viewBox="0 0 24 24" width="16" height="16" style="vertical-align: middle; margin-left: 4px; fill: var(--accent);"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.8v8h2.8v-4.87c0-.26.05-.5.14-.68a1 1 0 0 1 .93-.68c.72 0 .88.61.88 1.5v4.73zm-11.25-9H10.1v-8H7.25zM8.65 4.25a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
+                  </a>
+                ` : ''}
+              </div>
+              <div class="rec-author-headline">${escapeHtml(r.headline || '')}</div>
+              ${r.company ? `<div class="rec-author-company">${escapeHtml(r.company)}</div>` : ''}
+            </div>
+          </div>
+          <div class="rec-meta">
+            <span class="rec-relationship">${escapeHtml(r.relationship || '')}</span>
+            <span class="rec-date">${escapeHtml(r.date || '')}</span>
+          </div>
+          <div class="rec-text">
+            ${r.text.length > 300 ? `
+              <span class="rec-text-preview">${escapeHtml(r.text.slice(0, 300))}...</span>
+              <span class="rec-text-full hidden">${escapeHtml(r.text)}</span>
+              <button type="button" class="btn-rec-toggle" onclick="this.previousElementSibling.classList.toggle('hidden'); this.previousElementSibling.previousElementSibling.classList.toggle('hidden'); this.textContent = this.textContent === 'Read more' ? 'Read less' : 'Read more';">Read more</button>
+            ` : `
+              <span>${escapeHtml(r.text)}</span>
+            `}
+          </div>
+        </div>
+      `).join('');
+    }
+  }
+
   function renderAboutPage(p, data) {
     const aboutLead = document.getElementById('about-lead');
     if (aboutLead) aboutLead.textContent = p.aboutLead || p.heroBio || '';
@@ -384,6 +484,16 @@
       if (subtext && s.articles.subtext) subtext.textContent = s.articles.subtext;
     }
 
+    // Recommendations Section
+    const secRec = document.getElementById('recommendations');
+    if (secRec && s.recommendations) {
+      secRec.style.display = s.recommendations.visible !== false ? '' : 'none';
+      const label = document.getElementById('recommendations-section-label');
+      if (label && s.recommendations.label) label.textContent = s.recommendations.label;
+      const subtext = document.getElementById('recommendations-section-subtext');
+      if (subtext && s.recommendations.subtext) subtext.textContent = s.recommendations.subtext;
+    }
+
     // Contact Section
     const secContact = document.getElementById('contact');
     if (secContact && s.contact) {
@@ -495,6 +605,13 @@
       secAbExtras.style.display = ab.extrasVisible !== false ? '' : 'none';
       const label = document.getElementById('about-extras-label');
       if (label && ab.extrasLabel) label.textContent = ab.extrasLabel;
+    }
+
+    const secAbRec = document.getElementById('about-recommendations');
+    if (secAbRec) {
+      secAbRec.style.display = (ab.recommendationsVisible !== false && s.recommendations?.visible !== false) ? '' : 'none';
+      const label = document.getElementById('about-recommendations-label');
+      if (label && s.recommendations?.label) label.textContent = s.recommendations.label;
     }
 
     // ── 3. Projects Page Headers & Visibility ─────────
@@ -845,6 +962,7 @@
     renderArticles(data.articles);
     renderExperience(data.experience);
     renderProjects(data.projects);
+    renderRecommendations(data.recommendations);
     renderAboutPage(p, data);
     renderSectionHeadersAndVisibility(data.sections, data);
     renderContactAndFooter(p, data.footer);

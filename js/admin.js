@@ -342,6 +342,7 @@ function initAdminApp() {
     renderProjectsList();
     renderEducationList();
     renderSkillsManager();
+    renderRecommendationsList();
 
     // Site Structure & Layout Managers
     populateNavigation();
@@ -553,6 +554,11 @@ function initAdminApp() {
     setVal('input-sec-art-label', art.label || 'insights');
     setVal('input-sec-art-subtext', art.subtext || 'Articles on technical project delivery, leadership, and systems architecture.');
     setChecked('checkbox-sec-art-vis', art.visible !== false);
+
+    // Recommendations
+    const rec = s.recommendations || {};
+    setVal('input-rec-section-label', rec.label || 'endorsements');
+    setVal('input-rec-section-subtext', rec.subtext || 'What colleagues, clients, and partners say about working with me.');
 
     // About Page
     const ab = s.aboutPage || {};
@@ -1364,6 +1370,382 @@ function initAdminApp() {
     });
   });
 
+  /* ── 10b. Recommendations & Endorsements Manager ────────── */
+  function renderRecommendationsList() {
+    const container = document.getElementById('rec-list-container');
+    if (!container) return;
+
+    const list = data.recommendations || [];
+    if (!list.length) {
+      container.innerHTML = '<p class="admin-empty-notice">No recommendations found. Upload a LinkedIn CSV or add one manually.</p>';
+      return;
+    }
+
+    container.innerHTML = list.map((rec, idx) => `
+      <div class="admin-item-card">
+        <div class="admin-item-content">
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <h4 class="admin-item-title">${escapeHtml(rec.author)}</h4>
+            ${rec.featured ? '<span class="admin-tag admin-tag-success" style="background:#e6f4ea; color:#137333; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem;">★ Featured</span>' : ''}
+            ${rec.visible === false ? '<span class="admin-tag admin-tag-danger" style="background:#fce8e6; color:#c5221f; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem;">👁 Hidden</span>' : ''}
+          </div>
+          <p class="admin-item-subtitle" style="margin: 0.15rem 0;">${escapeHtml(rec.headline || '')} at ${escapeHtml(rec.company || '')}</p>
+          <p class="admin-item-excerpt" style="font-size:0.85rem; color:var(--adm-muted); margin-top:0.25rem;">"${escapeHtml(rec.text.slice(0, 120))}${rec.text.length > 120 ? '...' : ''}"</p>
+        </div>
+        <div class="admin-item-actions">
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.moveRecommendation(${idx}, -1)" ${idx === 0 ? 'disabled' : ''}>▲</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.moveRecommendation(${idx}, 1)" ${idx === list.length - 1 ? 'disabled' : ''}>▼</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.toggleRecommendationFeatured(${idx})">${rec.featured ? 'Unstar' : 'Star'}</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.toggleRecommendationVisible(${idx})">${rec.visible !== false ? 'Hide' : 'Show'}</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editRecommendation(${idx})">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteRecommendation(${idx})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.moveRecommendation = function(idx, dir) {
+    const list = data.recommendations || [];
+    const targetIdx = idx + dir;
+    if (targetIdx < 0 || targetIdx >= list.length) return;
+    const temp = list[idx];
+    list[idx] = list[targetIdx];
+    list[targetIdx] = temp;
+    renderRecommendationsList();
+    showToast('Order updated.');
+  };
+
+  window.toggleRecommendationFeatured = function(idx) {
+    const list = data.recommendations || [];
+    list[idx].featured = !list[idx].featured;
+    renderRecommendationsList();
+    showToast(list[idx].featured ? 'Marked as featured.' : 'Removed from featured.');
+  };
+
+  window.toggleRecommendationVisible = function(idx) {
+    const list = data.recommendations || [];
+    list[idx].visible = list[idx].visible !== false;
+    renderRecommendationsList();
+    showToast(list[idx].visible !== false ? 'Recommendation visible.' : 'Recommendation hidden.');
+  };
+
+  window.deleteRecommendation = function(idx) {
+    if (confirm('Are you sure you want to delete this recommendation?')) {
+      data.recommendations.splice(idx, 1);
+      renderRecommendationsList();
+      showToast('Recommendation deleted.');
+    }
+  };
+
+  window.editRecommendation = function(idx) {
+    const rec = data.recommendations[idx];
+    openRecommendationFormModal(rec, false, idx);
+  };
+
+  function parseCSV(text) {
+    const lines = [];
+    let row = [""];
+    let inQuotes = false;
+
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      const next = text[i+1];
+
+      if (c === '"') {
+        if (inQuotes && next === '"') {
+          row[row.length - 1] += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (c === ',' && !inQuotes) {
+        row.push('');
+      } else if ((c === '\r' || c === '\n') && !inQuotes) {
+        if (c === '\r' && next === '\n') i++;
+        lines.push(row);
+        row = [''];
+      } else {
+        row[row.length - 1] += c;
+      }
+    }
+    if (row.length > 1 || row[0] !== '') {
+      lines.push(row);
+    }
+    return lines;
+  }
+
+  function handleCSVImport(file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const csvText = e.target.result;
+      const rows = parseCSV(csvText);
+      if (rows.length < 2) {
+        alert('Invalid CSV structure or empty file.');
+        return;
+      }
+
+      const headers = rows[0].map(h => h.trim().replace(/^"|"$/g, ''));
+      const textIdx = headers.indexOf('Text');
+      const firstNameIdx = headers.indexOf('First Name');
+      const lastNameIdx = headers.indexOf('Last Name');
+      const companyIdx = headers.indexOf('Company');
+      const titleIdx = headers.indexOf('Job Title');
+      const dateIdx = headers.indexOf('Creation Date');
+
+      if (textIdx === -1 || firstNameIdx === -1) {
+        alert('Missing required LinkedIn CSV columns. Ensure the file contains at least "First Name" and "Text".');
+        return;
+      }
+
+      if (!data.recommendations) data.recommendations = [];
+      let importedCount = 0;
+      let duplicateCount = 0;
+
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        if (row.length < headers.length) continue;
+
+        const text = row[textIdx].trim();
+        const firstName = row[firstNameIdx].trim();
+        const lastName = lastNameIdx !== -1 ? row[lastNameIdx].trim() : '';
+        const author = `${firstName} ${lastName}`.trim();
+        const company = companyIdx !== -1 ? row[companyIdx].trim() : '';
+        const headline = titleIdx !== -1 ? row[titleIdx].trim() : '';
+        const rawDate = dateIdx !== -1 ? row[dateIdx].trim() : '';
+
+        if (!text || !firstName) continue;
+
+        const isDuplicate = data.recommendations.some(r => {
+          return r.author.toLowerCase() === author.toLowerCase() && 
+                 r.text.substring(0, 50).toLowerCase() === text.substring(0, 50).toLowerCase();
+        });
+
+        if (isDuplicate) {
+          duplicateCount++;
+          continue;
+        }
+
+        let dateStr = rawDate;
+        if (rawDate && rawDate.includes('/')) {
+          try {
+            const parsedD = new Date(rawDate.split(',')[0]);
+            if (!isNaN(parsedD.getTime())) {
+              const options = { year: 'numeric', month: 'long' };
+              dateStr = parsedD.toLocaleDateString('en-US', options);
+            }
+          } catch(e) {}
+        }
+
+        data.recommendations.push({
+          id: 'rec-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+          author: author,
+          firstName: firstName,
+          lastName: lastName,
+          headline: headline,
+          company: company,
+          avatar: '',
+          linkedinUrl: '',
+          relationship: 'LinkedIn recommendation received',
+          date: dateStr,
+          text: text,
+          featured: false,
+          visible: true
+        });
+        importedCount++;
+      }
+
+      renderRecommendationsList();
+      showToast(`Imported ${importedCount} recommendations. (${duplicateCount} duplicates skipped)`);
+    };
+    reader.readAsText(file);
+  }
+
+  // Setup input triggers in DOM
+  setTimeout(() => {
+    const inputCsv = document.getElementById('input-rec-csv');
+    const btnCsvTrigger = document.getElementById('btn-rec-csv-trigger');
+    if (inputCsv && btnCsvTrigger) {
+      btnCsvTrigger.addEventListener('click', () => inputCsv.click());
+      inputCsv.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          handleCSVImport(file);
+          e.target.value = '';
+        }
+      });
+    }
+
+    const btnAddRec = document.getElementById('btn-add-rec');
+    if (btnAddRec) {
+      btnAddRec.addEventListener('click', () => {
+        openRecommendationFormModal({
+          author: '',
+          headline: '',
+          company: '',
+          avatar: '',
+          linkedinUrl: '',
+          relationship: 'Worked with Fazal',
+          date: '',
+          text: '',
+          featured: false,
+          visible: true
+        }, true);
+      });
+    }
+
+    const btnPasteTrigger = document.getElementById('btn-rec-paste-trigger');
+    if (btnPasteTrigger) {
+      btnPasteTrigger.addEventListener('click', () => {
+        const template = `
+          <div class="form-group full-width">
+            <label class="form-label">Paste Raw Text or JSON</label>
+            <textarea id="paste-rec-text" class="form-textarea" style="min-height: 250px;" placeholder="Paste raw recommendation text or a JSON array..."></textarea>
+            <p style="font-size:0.8rem; color:var(--adm-muted); margin-top:0.5rem;">JSON format: [{"author":"Name", "text":"Text content", ...}] or plain text containing sections.</p>
+          </div>
+        `;
+        openModal('Quick Paste Recommendation', template, () => {
+          const raw = document.getElementById('paste-rec-text').value.trim();
+          if (!raw) return false;
+
+          try {
+            if (raw.startsWith('[') || raw.startsWith('{')) {
+              const parsed = JSON.parse(raw);
+              const list = Array.isArray(parsed) ? parsed : [parsed];
+              if (!data.recommendations) data.recommendations = [];
+              list.forEach(item => {
+                if (item.author && item.text) {
+                  data.recommendations.push({
+                    id: 'rec-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+                    author: item.author,
+                    firstName: item.author.split(' ')[0] || '',
+                    lastName: item.author.split(' ').slice(1).join(' ') || '',
+                    headline: item.headline || '',
+                    company: item.company || '',
+                    avatar: item.avatar || '',
+                    linkedinUrl: item.linkedinUrl || '',
+                    relationship: item.relationship || 'LinkedIn recommendation received',
+                    date: item.date || '',
+                    text: item.text,
+                    featured: !!item.featured,
+                    visible: item.visible !== false
+                  });
+                }
+              });
+              renderRecommendationsList();
+              showToast('JSON recommendations imported.');
+              return true;
+            }
+          } catch(e) {
+            const textClean = raw.replace(/\r\n/g, '\n');
+            const lines = textClean.split('\n').filter(Boolean);
+            if (lines.length >= 2) {
+              const author = lines[0].trim();
+              const text = lines.slice(1).join('\n').trim();
+              if (!data.recommendations) data.recommendations = [];
+              data.recommendations.push({
+                id: 'rec-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+                author: author,
+                firstName: author.split(' ')[0] || '',
+                lastName: author.split(' ').slice(1).join(' ') || '',
+                headline: 'LinkedIn Colleague',
+                company: '',
+                avatar: '',
+                linkedinUrl: '',
+                relationship: 'Worked with Fazal',
+                date: '',
+                text: text,
+                featured: false,
+                visible: true
+              });
+              renderRecommendationsList();
+              showToast('Recommendation text imported.');
+              return true;
+            }
+          }
+          alert('Could not parse text. Ensure at least two lines: 1st line is Recommender Name, remaining lines are the text.');
+          return false;
+        });
+      });
+    }
+  }, 100);
+
+  function openRecommendationFormModal(rec, isNew, idx) {
+    const template = `
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Author Full Name *</label>
+          <input type="text" id="modal-rec-author" class="form-input" value="${escapeHtml(rec.author)}" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Job Title / Headline</label>
+          <input type="text" id="modal-rec-headline" class="form-input" value="${escapeHtml(rec.headline || '')}" placeholder="e.g. Senior Project Manager" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Company Name</label>
+          <input type="text" id="modal-rec-company" class="form-input" value="${escapeHtml(rec.company || '')}" placeholder="e.g. Mediusware Limited" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">LinkedIn Profile URL</label>
+          <input type="url" id="modal-rec-url" class="form-input" value="${escapeHtml(rec.linkedinUrl || '')}" placeholder="https://linkedin.com/in/username" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Relationship Badge</label>
+          <input type="text" id="modal-rec-relationship" class="form-input" value="${escapeHtml(rec.relationship || '')}" placeholder="e.g. Managed Fazal directly" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="text" id="modal-rec-date" class="form-input" value="${escapeHtml(rec.date || '')}" placeholder="e.g. July 2026" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Avatar Image URL (Optional)</label>
+          <input type="text" id="modal-rec-avatar" class="form-input" value="${escapeHtml(rec.avatar || '')}" placeholder="assets/testimonials/avatar.jpg" />
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Recommendation Text *</label>
+          <textarea id="modal-rec-text" class="form-textarea" style="min-height: 120px;" required>${escapeHtml(rec.text || '')}</textarea>
+        </div>
+      </div>
+    `;
+
+    openModal(isNew ? 'Add Recommendation' : 'Edit Recommendation', template, () => {
+      const author = document.getElementById('modal-rec-author').value.trim();
+      const text = document.getElementById('modal-rec-text').value.trim();
+
+      if (!author || !text) {
+        alert('Please fill in Author Name and Recommendation Text.');
+        return false;
+      }
+
+      const updated = {
+        id: isNew ? 'rec-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5) : rec.id,
+        author: author,
+        firstName: author.split(' ')[0] || '',
+        lastName: author.split(' ').slice(1).join(' ') || '',
+        headline: document.getElementById('modal-rec-headline').value.trim(),
+        company: document.getElementById('modal-rec-company').value.trim(),
+        avatar: document.getElementById('modal-rec-avatar').value.trim(),
+        linkedinUrl: document.getElementById('modal-rec-url').value.trim(),
+        relationship: document.getElementById('modal-rec-relationship').value.trim(),
+        date: document.getElementById('modal-rec-date').value.trim(),
+        text: text,
+        featured: rec.featured,
+        visible: rec.visible !== false
+      };
+
+      if (!data.recommendations) data.recommendations = [];
+
+      if (isNew) {
+        data.recommendations.push(updated);
+      } else {
+        data.recommendations[idx] = updated;
+      }
+
+      renderRecommendationsList();
+      showToast(isNew ? 'Recommendation added.' : 'Recommendation updated.');
+      return true;
+    });
+  }
+
   /* ── 11. Modal Logic ────────────────────────────────────── */
   const modalBackdrop = document.getElementById('admin-modal-backdrop');
   const modalTitle = document.getElementById('modal-title');
@@ -1518,6 +1900,11 @@ function initAdminApp() {
       data.sections.articles.label = getVal('input-sec-art-label');
       data.sections.articles.subtext = getVal('input-sec-art-subtext');
       data.sections.articles.visible = getChecked('checkbox-sec-art-vis');
+
+      // Recommendations
+      if (!data.sections.recommendations) data.sections.recommendations = {};
+      data.sections.recommendations.label = getVal('input-rec-section-label');
+      data.sections.recommendations.subtext = getVal('input-rec-section-subtext');
 
       // About Page
       if (!data.sections.aboutPage) data.sections.aboutPage = {};
