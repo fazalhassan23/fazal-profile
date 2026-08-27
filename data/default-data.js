@@ -453,6 +453,24 @@ window.DEFAULT_PORTFOLIO_DATA = {
     }
   ],
 
+  recommendations: [
+    {
+      id: "rec-1",
+      author: "Pabon Saha",
+      firstName: "Pabon",
+      lastName: "Saha",
+      headline: "Senior Software Engineer",
+      company: "Mediusware Limited",
+      avatar: "",
+      linkedinUrl: "https://linkedin.com/in/fazalmahmudhassan",
+      relationship: "Worked with Fazal on several enterprise deliverables",
+      date: "August 2026",
+      text: "Fazal brings an exceptional combination of technical systems knowledge and project coordination. He excels at keeping cross-functional development teams aligned and delivering SaaS projects on schedule.",
+      featured: true,
+      visible: true
+    }
+  ],
+
   navigation: {
     logoText: "Fazal",
     logoDot: true,
@@ -505,6 +523,11 @@ window.DEFAULT_PORTFOLIO_DATA = {
     articles: {
       label: "insights",
       subtext: "Articles on technical project delivery, leadership, and systems architecture.",
+      visible: true
+    },
+    recommendations: {
+      label: "endorsements",
+      subtext: "What colleagues, clients, and partners say about working with me.",
       visible: true
     },
     contact: {

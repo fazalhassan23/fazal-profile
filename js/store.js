@@ -153,7 +153,8 @@
         },
         aboutPage: { ...(defaults.sections?.aboutPage || {}), ...(saved.sections?.aboutPage || {}) },
         projectsPage: { ...(defaults.sections?.projectsPage || {}), ...(saved.sections?.projectsPage || {}) },
-        errorPage: { ...(defaults.sections?.errorPage || {}), ...(saved.sections?.errorPage || {}) }
+        errorPage: { ...(defaults.sections?.errorPage || {}), ...(saved.sections?.errorPage || {}) },
+        recommendations: { ...(defaults.sections?.recommendations || {}), ...(saved.sections?.recommendations || {}) }
       },
       footer: {
         ...(defaults.footer || {}),
@@ -166,7 +167,7 @@
     };
 
     // Guarantee essential arrays are strictly arrays
-    const arrayKeys = ['metrics', 'expertise', 'awards', 'articles', 'experience', 'projects', 'education', 'extraCurriculars'];
+    const arrayKeys = ['metrics', 'expertise', 'awards', 'articles', 'experience', 'projects', 'education', 'extraCurriculars', 'recommendations'];
     arrayKeys.forEach(key => {
       merged[key] = Array.isArray(saved[key]) ? saved[key] : (defaults[key] || []);
     });

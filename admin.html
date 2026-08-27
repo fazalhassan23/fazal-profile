@@ -92,6 +92,11 @@
           <span class="icon">✍️</span> Articles &amp; Insights
         </button>
       </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="recommendations">
+          <span class="icon">🗣️</span> Recommendations
+        </button>
+      </li>
 
       <!-- Section: Structure & Layout -->
       <li class="nav-section-label">Site Structure &amp; Layout</li>
@@ -1042,6 +1047,57 @@
             <label class="form-label" for="input-seo-og-image">Social Share Preview Image URL (OpenGraph / Twitter)</label>
             <input type="text" id="input-seo-og-image" class="form-input" placeholder="https://fazalmahmudhassan.com/assets/og-image.svg" />
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PANEL: RECOMMENDATIONS ───────────────────── -->
+    <section id="panel-recommendations" class="admin-panel">
+      <!-- Recommendations Section Settings -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">Recommendations Settings</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Section Heading Label</label>
+            <input type="text" id="input-rec-section-label" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Section Subtext</label>
+            <input type="text" id="input-rec-section-subtext" class="form-input" />
+          </div>
+        </div>
+      </div>
+
+      <!-- List and Action Bar -->
+      <div class="admin-card">
+        <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <h2 class="admin-card-title" style="margin-bottom: 0;">Recommendations List</h2>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <!-- CSV Importer -->
+            <input type="file" id="input-rec-csv" accept=".csv" style="display: none;" />
+            <button id="btn-rec-csv-trigger" class="btn-adm btn-adm-secondary btn-adm-sm">
+              📁 Upload LinkedIn CSV
+            </button>
+            <!-- Paste Dialog trigger -->
+            <button id="btn-rec-paste-trigger" class="btn-adm btn-adm-secondary btn-adm-sm">
+              📋 Quick Paste Text
+            </button>
+            <!-- Add Manual -->
+            <button id="btn-add-rec" class="btn-adm btn-adm-primary btn-adm-sm">
+              ➕ Add Manual
+            </button>
+          </div>
+        </div>
+
+        <p style="font-size:0.85rem; color:var(--adm-muted); margin-bottom:1.25rem;">
+          To sync your official LinkedIn received recommendations, export your data from **LinkedIn Settings & Privacy -> Data Privacy -> Get a copy of your data -> Recommendations** and upload the generated `Recommendations Received.csv` file here.
+        </p>
+
+        <!-- List container -->
+        <div id="rec-list-container" class="admin-items-list">
+          <!-- Rendered dynamically -->
         </div>
       </div>
     </section>
