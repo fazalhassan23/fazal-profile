@@ -2,7 +2,7 @@
 
 > A zero-dependency, production-grade personal portfolio built entirely on **Vanilla HTML5, modern CSS, and plain JavaScript** — no frameworks, no bundlers, no build steps. Includes a fully client-side Content Management System (CMS) with SHA-256 authentication, a custom WYSIWYG rich-text editor, a dual-mode animated canvas background, and an optional PHP flat-file persistence API.
 
-**Current Version**: `v1.8.0` | **License**: MIT
+**Current Version**: `v1.9.0` | **License**: MIT
 
 ---
 
@@ -28,6 +28,7 @@
 14. [Local Development](#14-local-development)
 15. [CMS Admin Access](#15-cms-admin-access)
 16. [Versioning & Changelog](#16-versioning--changelog)
+17. [Branch History](#17-branch-history)
 
 ---
 
@@ -56,8 +57,9 @@ This portfolio was built around three principles:
 | **CMS** | Password-protected `/admin.html` panel with SHA-256 hashed auth |
 | **CMS** | Custom built-in WYSIWYG Rich Text Editor (RTE) with HTML source toggle |
 | **CMS** | Full CRUD for Profile, Metrics, Expertise, Awards, Articles, Experience, Projects, Education, Skills |
+| **CMS** | LinkedIn CSV import for Recommendations with auto-deduplication and immediate persistence |
 | **CMS** | One-click JSON backup export and import with schema validation |
-| **CMS** | Resilient `localStorage` + optional PHP server sync |
+| **CMS** | Resilient `localStorage` + optional PHP server sync (smart merge: localStorage wins for CMS arrays) |
 | **SEO** | Dynamic `<title>`, meta description & keywords driven by CMS data |
 | **a11y** | `aria-modal`, `aria-expanded`, `aria-label`, keyboard focus trapping |
 | **a11y** | `@media (prefers-reduced-motion: reduce)` global animation overrides |
@@ -105,6 +107,12 @@ fazal-portfolio/
 |                         #   POST-only, schema-validates, bearer-token auth,
 |                         #   atomic write via tmp file + rename.
 |
++-- fetch-linkedin.ps1    # PowerShell: LinkedIn Voyager API recommendation fetcher (v1)
++-- fetch-linkedin2.ps1   # PowerShell: LinkedIn Voyager API recommendation fetcher (v2)
++-- fetch-linkedin3.ps1   # PowerShell: LinkedIn Voyager API recommendation fetcher (v3,
+|                         #   current) — merges fetched recs into portfolio-data.json
+|                         #   Branch: feature/recommendations-fix-and-linkedin-scripts
+|
 +-- assets/
 |   +-- favicon.svg       # Inline SVG favicon (no extra network request)
 |   +-- og-image.svg      # Open Graph social preview image
@@ -137,9 +145,14 @@ page load
   +-- store.js loaded        -> defines PortfolioStore, calls PortfolioStore.fetchServerData() eagerly
   |     +-- fetchServerData():
   |           1. Fetch data/portfolio-data.json?t={timestamp}  (cache-busted)
-  |           2. If ok -> mergeSchema(defaults, serverData) -> save to localStorage
-  |           3. Dispatch CustomEvent 'portfolioDataChanged'
-  |           4. On failure (offline / static) -> fall back to getData() (localStorage or defaults)
+  |           2. Read existing localStorage snapshot
+  |           3. mergeSchema(defaults, serverData) -> serverMerged
+  |           4. Smart merge: for CMS-managed arrays (recommendations, experience,
+  |              projects, etc.), keep whichever source has MORE items
+  |              (localStorage wins if user added entries via CMS)
+  |           5. Save combined result to localStorage
+  |           6. Dispatch CustomEvent 'portfolioDataChanged'
+  |           7. On failure (offline / static) -> fall back to getData() (localStorage or defaults)
   +-- render.js / admin.js  -> listen for 'portfolioDataChanged', re-render
 ```
 
@@ -637,6 +650,7 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 
 | Version | Date | Summary |
 |---|---|---|
+| v1.9.0 | 2026-08-28 | Recommendations persistence fix (CSV import now saves), smart store merge (localStorage wins for CMS arrays), LinkedIn Voyager fetch scripts |
 | v1.8.0 | 2026-08-27 | **Bug fix (by @pabonsaha)**: stateful SHA-256 rewrite (store.js), missing brace in admin.js save pipeline, form submit hardening in admin.html |
 | v1.7.0 | 2026-08-25 | Admin dashboard redesign: obsidian palette, categorised sidebar, 2x2 skills grid |
 | v1.6.0 | 2026-08-25 | Store resilience (deep merge), modular renderer, HiDPI canvas, tab visibility lifecycle, z-index tokens, reduced-motion a11y |
@@ -649,3 +663,20 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 | v0.1.0 | 2026-08-20 | Initial scaffold |
 
 See [CHANGELOG.md](./CHANGELOG.md) for full release notes.
+
+---
+
+## 17. Branch History
+
+This table tracks which features and fixes were developed on which Git branches.
+
+| Branch | Based On | Date | Files Changed | Feature / Fix |
+|---|---|---|---|---|
+| `feature/recommendations-fix-and-linkedin-scripts` | `Worked-from-office` | 2026-08-28 | `js/admin.js`, `js/store.js`, `data/portfolio-data.json`, `fetch-linkedin*.ps1` | Fixed CSV import not persisting recommendations; fixed server fetch overwriting CMS localStorage data; added LinkedIn Voyager API PowerShell fetch scripts |
+| `admin-login` | `main` | 2026-08-27 | `js/store.js`, `js/admin.js`, `admin.html` | Stateful SHA-256 bug fix, missing closing brace in admin save pipeline, login form submit hardening |
+| `Worked-from-office` | `main` | 2026-08-25 | `admin.html`, `css/admin.css`, `js/admin.js` | Admin dashboard redesign (obsidian palette, categorised sidebar, 2x2 skills grid) |
+| `main` | — | 2026-08-20 → ongoing | All files | Primary production branch. Receives merges from feature branches after review. |
+
+> **Convention**: All new features and bug fixes are developed on dedicated branches named
+> `feature/<description>` or `fix/<description>`, then merged into `main` for deployment.
+> The `Worked-from-office` branch tracks work done during in-office sessions before merge.

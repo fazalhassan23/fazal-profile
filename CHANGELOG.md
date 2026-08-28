@@ -5,6 +5,43 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.9.0] — 2026-08-28
+
+> Branch: `feature/recommendations-fix-and-linkedin-scripts` (based on `Worked-from-office`)
+
+### Fixed
+
+#### `js/admin.js` — CSV Import Not Persisting Recommendations
+- **Root cause**: `handleCSVImport()` updated the in-memory `data.recommendations` array and
+  refreshed the admin UI list, but never called `PortfolioStore.saveData()`. When the admin
+  session ended, all imported recommendations were silently lost — they existed only in JS heap
+  memory for the duration of that browser tab.
+- **Fix**: Added `window.PortfolioStore.saveData(data)` call immediately after the import loop
+  completes. The toast message now confirms whether the save was server-synced (`— Saved!`) or
+  local-only (`— Saved locally.`), giving clear feedback based on the environment.
+
+#### `js/store.js` — Server Fetch Overwriting CMS-Managed localStorage Data
+- **Root cause**: `fetchServerData()` fetched `data/portfolio-data.json` (which only had 1
+  recommendation — the baseline committed to the repo) and called
+  `localStorage.setItem(STORAGE_KEY, JSON.stringify(validated))` unconditionally, completely
+  overwriting the richer localStorage state that contained all CMS-imported recommendations.
+  Every page load on an HTTP server wiped the user's CMS work back to the JSON snapshot.
+- **Fix**: `fetchServerData()` now reads the existing localStorage state before merging server
+  data. For CMS-managed arrays (`recommendations`, `metrics`, `expertise`, `awards`, `articles`,
+  `experience`, `projects`, `education`, `skills`) it keeps whichever source has **more items**,
+  ensuring that CMS additions are never silently discarded by a server fetch.
+
+### Added
+
+#### `fetch-linkedin.ps1`, `fetch-linkedin2.ps1`, `fetch-linkedin3.ps1` — LinkedIn Voyager API Scripts
+- PowerShell scripts that authenticate to the LinkedIn Voyager private API using a session
+  `li_at` cookie, fetch received recommendations via
+  `/voyager/api/identity/profiles/{id}/recommendationsReceived`, and merge the results directly
+  into `data/portfolio-data.json` — populating `recommendations[]` without manual data entry.
+- Scripts are for local use only and are not deployed to production.
+
+---
+
 ## [1.8.0] — 2026-08-27
 
 ### Fixed (merged from `admin-login` branch — authored by @pabonsaha)
