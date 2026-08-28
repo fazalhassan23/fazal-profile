@@ -216,10 +216,41 @@
           const serverData = await res.json();
           if (serverData && typeof serverData === 'object') {
             const defaults = window.DEFAULT_PORTFOLIO_DATA ? deepClone(window.DEFAULT_PORTFOLIO_DATA) : {};
-            const validated = mergeSchema(defaults, serverData);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(validated));
-            window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: validated }));
-            return validated;
+
+            // Merge server data with existing localStorage — localStorage wins for
+            // CMS-managed arrays (recommendations etc.) if it has more entries.
+            let localData = null;
+            try {
+              const saved = localStorage.getItem(STORAGE_KEY);
+              if (saved) localData = JSON.parse(saved);
+            } catch (e) {}
+
+            const serverMerged = mergeSchema(defaults, serverData);
+
+            if (localData && typeof localData === 'object') {
+              // For arrays managed via CMS, keep whichever has more items
+              const cmsArrayKeys = ['recommendations', 'metrics', 'expertise', 'awards',
+                                    'articles', 'experience', 'projects', 'education', 'skills'];
+              const combined = { ...serverMerged };
+              for (const key of cmsArrayKeys) {
+                const localArr = localData[key];
+                const serverArr = serverMerged[key];
+                if (Array.isArray(localArr) && Array.isArray(serverArr) && localArr.length > serverArr.length) {
+                  combined[key] = localArr;
+                }
+              }
+              // Also preserve nested skills from localStorage if richer
+              if (localData.skills && typeof localData.skills === 'object' && !Array.isArray(localData.skills)) {
+                combined.skills = localData.skills;
+              }
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(combined));
+              window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: combined }));
+              return combined;
+            }
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(serverMerged));
+            window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: serverMerged }));
+            return serverMerged;
           }
         }
       } catch (e) {

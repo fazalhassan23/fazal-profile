@@ -1555,7 +1555,11 @@ function initAdminApp() {
       }
 
       renderRecommendationsList();
-      showToast(`Imported ${importedCount} recommendations. (${duplicateCount} duplicates skipped)`);
+      window.PortfolioStore.saveData(data).then(() => {
+        showToast(`Imported ${importedCount} recommendations. (${duplicateCount} duplicates skipped) — Saved!`);
+      }).catch(() => {
+        showToast(`Imported ${importedCount} recommendations. (${duplicateCount} duplicates skipped) — Saved locally.`);
+      });
     };
     reader.readAsText(file);
   }
