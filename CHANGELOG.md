@@ -5,6 +5,25 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.10.0] — 2026-09-01
+
+### Added
+- **CMS Section Visibility Toggles**: Added the ability to toggle the visibility of the "Recommendations / Endorsements" section directly from the admin panel (`admin.html`), syncing with the frontend renderer.
+
+### Changed
+- **Recommendation Cards UI**:
+  - Replaced the generic large quotation mark icon with a LinkedIn logo to clearly indicate the source of the endorsements.
+  - Aligned the recommendation date to the right side of the card.
+  - Removed redundant generic text ("LinkedIn recommendation received") to clean up the card UI.
+
+### Refactored & Enhanced
+- **Codebase Audit & Technical Debt Cleanup**:
+  - **Deduplication**: Extracted `escapeHtml` and LinkedIn SVG paths into a new shared `js/utils.js` file to eliminate duplicated code in `render.js` and `admin.js`.
+  - **Event Delegation**: Replaced inline `onclick` handlers across all CMS CRUD lists (Awards, Articles, Experience, etc.) in `admin.js` with a secure `data-action` event delegation pattern.
+  - **Data-Driven Logic**: The contact form's `mailto:` success link and handler in `main.js` now dynamically read the owner's email from the CMS (`data.profile.email`) instead of being hardcoded.
+  - **Separation of Concerns**: Extracted inline CSS strings (`style="..."`) inside `render.js` HTML templates to dedicated classes in `css/style.css`.
+  - **Code Hygiene**: Removed magic numbers in `main.js`, fixed silent `catch` blocks in `store.js`, and renamed the misleading `printCV()` function to `openAboutPage()`.
+
 ## [1.9.0] — 2026-08-28
 
 > Branch: `feature/recommendations-fix-and-linkedin-scripts` (based on `Worked-from-office`)

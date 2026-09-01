@@ -1,3 +1,5 @@
+'use strict';
+
 /* ============================================================
    PORTFOLIO MAIN INTERACTIONS (js/main.js)
    - Navigation scroll states & mobile drawer controller
@@ -9,8 +11,11 @@
    - Dark / Light mode toggle
    ============================================================ */
 
+const NAV_SCROLL_THRESHOLD = 10;       // px scrolled before nav gets 'scrolled' class
+const DESKTOP_BREAKPOINT = 880;        // matches CSS @media breakpoint in style.css
+const METRIC_COUNTER_DURATION_MS = 1200;
+
 document.addEventListener('DOMContentLoaded', () => {
-  'use strict';
 
   /* ── 1. Navigation Scroll State ───────────────────────────── */
   const nav = document.querySelector('.nav');
@@ -19,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const onScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          nav.classList.toggle('scrolled', window.scrollY > 10);
+          nav.classList.toggle('scrolled', window.scrollY > NAV_SCROLL_THRESHOLD);
           ticking = false;
         });
         ticking = true;
@@ -89,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Reset when resizing to desktop
     window.addEventListener('resize', () => {
-      if (window.innerWidth > 880 && navLinks.classList.contains('open')) {
+      if (window.innerWidth > DESKTOP_BREAKPOINT && navLinks.classList.contains('open')) {
         closeMobileNav();
       }
     });
@@ -130,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isNaN(targetNum)) return;
 
       let current = 0;
-      const duration = 1200;
+      const duration = METRIC_COUNTER_DURATION_MS;
       const stepTime = Math.max(15, Math.floor(duration / targetNum));
       const stepVal = Math.max(1, Math.ceil(targetNum / (duration / stepTime)));
 
@@ -187,12 +192,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       setTimeout(() => {
+        const pData = window.PortfolioStore ? window.PortfolioStore.getData() : {};
+        const ownerEmail = pData?.profile?.email || 'fazal.mahmud.hassan@gmail.com';
+
         if (statusEl) {
           statusEl.className = 'form-status success';
-          statusEl.innerHTML = `✅ Thank you, <strong>${escapeContactStr(name)}</strong>! Preparing your email client. If it does not open automatically, email me directly at <a href="mailto:fazal.mahmud.hassan@gmail.com" style="color:#34D399;text-decoration:underline;">fazal.mahmud.hassan@gmail.com</a>.`;
+          statusEl.innerHTML = `✅ Thank you, <strong>${escapeContactStr(name)}</strong>! Preparing your email client. If it does not open automatically, email me directly at <a href="mailto:${ownerEmail}" style="color:#34D399;text-decoration:underline;">${ownerEmail}</a>.`;
         }
 
-        const mailtoUri = `mailto:fazal.mahmud.hassan@gmail.com?subject=${encodeURIComponent(subject || `Portfolio Inquiry from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+        const mailtoUri = `mailto:${ownerEmail}?subject=${encodeURIComponent(subject || `Portfolio Inquiry from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
         window.location.href = mailtoUri;
 
         contactForm.reset();

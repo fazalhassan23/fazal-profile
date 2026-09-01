@@ -2,7 +2,7 @@
 
 > A zero-dependency, production-grade personal portfolio built entirely on **Vanilla HTML5, modern CSS, and plain JavaScript** — no frameworks, no bundlers, no build steps. Includes a fully client-side Content Management System (CMS) with SHA-256 authentication, a custom WYSIWYG rich-text editor, a dual-mode animated canvas background, and an optional PHP flat-file persistence API.
 
-**Current Version**: `v1.9.0` | **License**: MIT
+**Current Version**: `v1.10.0` | **License**: MIT
 
 ---
 
@@ -124,7 +124,7 @@ fazal-portfolio/
 |
 +-- sitemap.xml           # Static XML sitemap for search engines
 +-- robots.txt            # robots.txt with sitemap reference
-+-- CHANGELOG.md          # Full version history (v0.1.0 to v1.8.0)
++-- CHANGELOG.md          # Full version history (v0.1.0 to v1.10.0)
 +-- DEPLOYMENT.md         # Step-by-step cPanel deployment guide
 ```
 
@@ -650,6 +650,7 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 
 | Version | Date | Summary |
 |---|---|---|
+| v1.10.0 | 2026-09-01 | **Codebase Audit & Refactoring**: event delegation, deduplication (utils.js), CSS extraction, magic numbers cleaned, data-driven email, recommendations UI updates & CMS visibility toggle |
 | v1.9.0 | 2026-08-28 | Recommendations persistence fix (CSV import now saves), smart store merge (localStorage wins for CMS arrays), LinkedIn Voyager fetch scripts |
 | v1.8.0 | 2026-08-27 | **Bug fix (by @pabonsaha)**: stateful SHA-256 rewrite (store.js), missing brace in admin.js save pipeline, form submit hardening in admin.html |
 | v1.7.0 | 2026-08-25 | Admin dashboard redesign: obsidian palette, categorised sidebar, 2x2 skills grid |
@@ -672,6 +673,7 @@ This table tracks which features and fixes were developed on which Git branches.
 
 | Branch | Based On | Date | Files Changed | Feature / Fix |
 |---|---|---|---|---|
+| `main` | `Worked-from-office` | 2026-09-01 | `js/*.js`, `css/style.css`, `CHANGELOG.md` | Extensive codebase audit and refactoring (event delegation, data-driven strings, utilities deduplication, magic numbers, recommendation UI enhancements, and CMS visibility toggles) |
 | `feature/recommendations-fix-and-linkedin-scripts` | `Worked-from-office` | 2026-08-28 | `js/admin.js`, `js/store.js`, `data/portfolio-data.json`, `fetch-linkedin*.ps1` | Fixed CSV import not persisting recommendations; fixed server fetch overwriting CMS localStorage data; added LinkedIn Voyager API PowerShell fetch scripts |
 | `admin-login` | `main` | 2026-08-27 | `js/store.js`, `js/admin.js`, `admin.html` | Stateful SHA-256 bug fix, missing closing brace in admin save pipeline, login form submit hardening |
 | `Worked-from-office` | `main` | 2026-08-25 | `admin.html`, `css/admin.css`, `js/admin.js` | Admin dashboard redesign (obsidian palette, categorised sidebar, 2x2 skills grid) |

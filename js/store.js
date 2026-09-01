@@ -223,7 +223,9 @@
             try {
               const saved = localStorage.getItem(STORAGE_KEY);
               if (saved) localData = JSON.parse(saved);
-            } catch (e) {}
+            } catch (e) {
+              console.warn('[PortfolioStore] Failed to parse localStorage in fetchServerData:', e);
+            }
 
             const serverMerged = mergeSchema(defaults, serverData);
 

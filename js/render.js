@@ -9,24 +9,6 @@
 
   let typewriterTimer = null;
 
-  /**
-   * Escape HTML to prevent XSS vulnerabilities in user-provided content
-   * @param {*} str
-   * @returns {string}
-   */
-  function escapeHtml(str) {
-    if (str === null || str === undefined) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
-
-  /* ────────────────────────────────────────────────────────────
-     COMPONENT RENDERERS
-     ──────────────────────────────────────────────────────────── */
 
   function renderIdentityAndTheme(p) {
     // Dynamic Font Theme
@@ -38,20 +20,17 @@
 
     // Nav Brand & Full Name
     document.querySelectorAll('[data-cms="firstName"]').forEach(el => {
-      el.textContent = p.firstName || 'Fazal';
+      el.textContent = p.firstName || 'Fazal'; // fallback default
     });
 
     document.querySelectorAll('[data-cms="fullName"]').forEach(el => {
-      el.textContent = p.name || 'Fazal Mahmud Hassan';
+      el.textContent = p.name || 'Fazal Mahmud Hassan'; // fallback default
     });
 
     // Dynamic Title tag
-    if (document.title.includes('—')) {
-      const parts = document.title.split('—');
-      if (parts.length === 2 && parts[0].trim() === 'Fazal Mahmud Hassan') {
-        const shortRole = p.roleTitle ? p.roleTitle.split('·')[0].trim() : 'Portfolio';
-        document.title = `${p.name || 'Fazal Mahmud Hassan'} — ${shortRole}`;
-      }
+    if (p.name) {
+      const shortRole = p.roleTitle ? p.roleTitle.split('·')[0].trim() : 'Portfolio';
+      document.title = `${p.name} — ${shortRole}`;
     }
   }
 
@@ -73,9 +52,9 @@
       const nameParts = (p.name || '').trim().split(' ');
       if (nameParts.length > 1) {
         const lastWord = nameParts.pop();
-        heroTitle.innerHTML = `${escapeHtml(nameParts.join(' '))}<br>${escapeHtml(lastWord)}.`;
+        heroTitle.innerHTML = `${PortfolioUtils.escapeHtml(nameParts.join(' '))}<br>${PortfolioUtils.escapeHtml(lastWord)}.`;
       } else {
-        heroTitle.innerHTML = `${escapeHtml(p.name || '')}.`;
+        heroTitle.innerHTML = `${PortfolioUtils.escapeHtml(p.name || '')}.`;
       }
     }
 
@@ -96,12 +75,12 @@
     container.innerHTML = metrics.map(m => `
       <div class="metric-card fade-up visible">
         <div class="metric-number-wrap">
-          <span class="metric-val" data-target="${escapeHtml(m.number || '0')}">${escapeHtml(m.number || '0')}</span>
-          <span class="metric-suffix">${escapeHtml(m.suffix || '')}</span>
+          <span class="metric-val" data-target="${PortfolioUtils.escapeHtml(m.number || '0')}">${PortfolioUtils.escapeHtml(m.number || '0')}</span>
+          <span class="metric-suffix">${PortfolioUtils.escapeHtml(m.suffix || '')}</span>
         </div>
         <div class="metric-text-group">
-          <p class="metric-label">${escapeHtml(m.label || '')}</p>
-          <p class="metric-subtext">${escapeHtml(m.subtext || '')}</p>
+          <p class="metric-label">${PortfolioUtils.escapeHtml(m.label || '')}</p>
+          <p class="metric-subtext">${PortfolioUtils.escapeHtml(m.subtext || '')}</p>
         </div>
       </div>
     `).join('');
@@ -114,9 +93,9 @@
     container.innerHTML = expertise.map(exp => `
       <div class="expertise-card fade-up visible">
         <div>
-          <p class="card-category">${escapeHtml(exp.category || '')}</p>
-          <h3>${escapeHtml(exp.title || '')}</h3>
-          <p>${escapeHtml(exp.description || '')}</p>
+          <p class="card-category">${PortfolioUtils.escapeHtml(exp.category || '')}</p>
+          <h3>${PortfolioUtils.escapeHtml(exp.title || '')}</h3>
+          <p>${PortfolioUtils.escapeHtml(exp.description || '')}</p>
         </div>
       </div>
     `).join('');
@@ -130,8 +109,8 @@
       <div class="award-card fade-up visible">
         <div class="award-icon-box">🏆</div>
         <div class="award-content">
-          <h3 class="award-title">${escapeHtml(awd.title || '')}</h3>
-          <p class="award-org">${escapeHtml(awd.organization || '')} · <span class="award-year-inline">${escapeHtml(awd.year || '')}</span></p>
+          <h3 class="award-title">${PortfolioUtils.escapeHtml(awd.title || '')}</h3>
+          <p class="award-org">${PortfolioUtils.escapeHtml(awd.organization || '')} · <span class="award-year-inline">${PortfolioUtils.escapeHtml(awd.year || '')}</span></p>
         </div>
       </div>
     `).join('');
@@ -142,16 +121,16 @@
     if (!container || !Array.isArray(articles)) return;
 
     container.innerHTML = articles.map(art => {
-      const tagsHtml = (art.tags || []).slice(0, 2).map(t => `<span class="article-tag">${escapeHtml(t)}</span>`).join('');
+      const tagsHtml = (art.tags || []).slice(0, 2).map(t => `<span class="article-tag">${PortfolioUtils.escapeHtml(t)}</span>`).join('');
       return `
-        <div class="article-card fade-up visible" onclick="window.PortfolioApp.openArticleModal('${escapeHtml(art.id)}')" role="button" tabindex="0" aria-label="Read article: ${escapeHtml(art.title)}">
+        <div class="article-card fade-up visible" onclick="window.PortfolioApp.openArticleModal('${PortfolioUtils.escapeHtml(art.id)}')" role="button" tabindex="0" aria-label="Read article: ${PortfolioUtils.escapeHtml(art.title)}">
           <div class="article-card-content">
             <div class="article-meta">
-              <span class="article-category">${escapeHtml(art.category || 'Article')}</span>
-              <span class="article-date">${escapeHtml(art.date || '')} · ${escapeHtml(art.readTime || '5 min read')}</span>
+              <span class="article-category">${PortfolioUtils.escapeHtml(art.category || 'Article')}</span>
+              <span class="article-date">${PortfolioUtils.escapeHtml(art.date || '')} · ${PortfolioUtils.escapeHtml(art.readTime || '5 min read')}</span>
             </div>
-            <h3 class="article-title">${escapeHtml(art.title || '')}</h3>
-            <p class="article-summary">${escapeHtml(art.summary || '')}</p>
+            <h3 class="article-title">${PortfolioUtils.escapeHtml(art.title || '')}</h3>
+            <p class="article-summary">${PortfolioUtils.escapeHtml(art.summary || '')}</p>
           </div>
           <div class="article-card-right">
             <div class="article-tags">${tagsHtml}</div>
@@ -207,7 +186,7 @@
 
     function getAvatarHtml(r) {
       if (r.avatar && r.avatar.trim()) {
-        return `<img src="${escapeHtml(r.avatar)}" alt="${escapeHtml(r.author)}" class="rec-avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" /><div class="rec-avatar-initials" style="display:none;"></div>`;
+        return `<img src="${PortfolioUtils.escapeHtml(r.avatar)}" alt="${PortfolioUtils.escapeHtml(r.author)}" class="rec-avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" /><div class="rec-avatar-initials" style="display:none;"></div>`;
       }
       const initials = (r.author || '')
         .split(' ')
@@ -215,53 +194,53 @@
         .slice(0, 2)
         .join('')
         .toUpperCase();
-      return `<div class="rec-avatar-initials">${escapeHtml(initials)}</div>`;
+      return `<div class="rec-avatar-initials">${PortfolioUtils.escapeHtml(initials)}</div>`;
     }
 
     function createCardHtml(r) {
       // Determine the data source icon (defaulting to LinkedIn)
       const sourceIconHtml = `
-        <svg viewBox="0 0 24 24" width="24" height="24" style="fill: var(--text-muted); opacity: 0.5;">
-          <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.8v8h2.8v-4.87c0-.26.05-.5.14-.68a1 1 0 0 1 .93-.68c.72 0 .88.61.88 1.5v4.73zm-11.25-9H10.1v-8H7.25zM8.65 4.25a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+        <svg viewBox="0 0 24 24" width="24" height="24" class="rec-source-icon">
+          <path d="${PortfolioUtils.LINKEDIN_SVG_PATH}"/>
         </svg>
       `;
 
       // Hide generic LinkedIn relationship text
       const relationshipHtml = (r.relationship && !r.relationship.toLowerCase().includes('linkedin recommendation received')) 
-        ? `<span class="rec-relationship">${escapeHtml(r.relationship)}</span>` 
+        ? `<span class="rec-relationship">${PortfolioUtils.escapeHtml(r.relationship)}</span>` 
         : '';
 
       return `
         <div class="recommendation-card fade-up visible">
-          <div class="rec-quote-mark" style="font-family: inherit; font-size: inherit; line-height: 0; color: inherit; top: 1.5rem; right: 1.5rem;">${sourceIconHtml}</div>
+          <div class="rec-quote-mark" class="rec-quote-mark rec-quote-mark-icon">${sourceIconHtml}</div>
           <div class="rec-header">
             <div class="rec-avatar-wrap">
               ${getAvatarHtml(r)}
             </div>
             <div class="rec-author-info">
               <div class="rec-author-name">
-                ${escapeHtml(r.author)}
+                ${PortfolioUtils.escapeHtml(r.author)}
                 ${r.linkedinUrl ? `
-                  <a href="${escapeHtml(r.linkedinUrl)}" target="_blank" rel="noopener noreferrer" class="rec-linkedin-link" title="View LinkedIn Profile">
-                    <svg class="rec-linkedin-icon" viewBox="0 0 24 24" width="16" height="16" style="vertical-align: middle; margin-left: 4px; fill: var(--accent);"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.8v8h2.8v-4.87c0-.26.05-.5.14-.68a1 1 0 0 1 .93-.68c.72 0 .88.61.88 1.5v4.73zm-11.25-9H10.1v-8H7.25zM8.65 4.25a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
+                  <a href="${PortfolioUtils.escapeHtml(r.linkedinUrl)}" target="_blank" rel="noopener noreferrer" class="rec-linkedin-link" title="View LinkedIn Profile">
+                    <svg class="rec-linkedin-icon" viewBox="0 0 24 24" width="16" height="16" class="rec-linkedin-icon"><path d="${PortfolioUtils.LINKEDIN_SVG_PATH}"/></svg>
                   </a>
                 ` : ''}
               </div>
-              <div class="rec-author-headline">${escapeHtml(r.headline || '')}</div>
-              ${r.company ? `<div class="rec-author-company">${escapeHtml(r.company)}</div>` : ''}
+              <div class="rec-author-headline">${PortfolioUtils.escapeHtml(r.headline || '')}</div>
+              ${r.company ? `<div class="rec-author-company">${PortfolioUtils.escapeHtml(r.company)}</div>` : ''}
             </div>
           </div>
           <div class="rec-meta">
             ${relationshipHtml}
-            <span class="rec-date">${escapeHtml(r.date || '')}</span>
+            <span class="rec-date">${PortfolioUtils.escapeHtml(r.date || '')}</span>
           </div>
           <div class="rec-text">
             ${r.text.length > 250 ? `
-              <span class="rec-text-preview">${escapeHtml(r.text.slice(0, 250))}...</span>
-              <span class="rec-text-full hidden">${escapeHtml(r.text)}</span>
-              <button type="button" class="btn-rec-toggle" onclick="this.previousElementSibling.classList.toggle('hidden'); this.previousElementSibling.previousElementSibling.classList.toggle('hidden'); this.textContent = this.textContent === 'Read more' ? 'Read less' : 'Read more';">Read more</button>
+              <span class="rec-text-preview">${PortfolioUtils.escapeHtml(r.text.slice(0, 250))}...</span>
+              <span class="rec-text-full hidden">${PortfolioUtils.escapeHtml(r.text)}</span>
+              <button type="button" class="btn-rec-toggle" data-action="toggle-rec">Read more</button>
             ` : `
-              <span>${escapeHtml(r.text)}</span>
+              <span>${PortfolioUtils.escapeHtml(r.text)}</span>
             `}
           </div>
         </div>
@@ -318,7 +297,7 @@
       aboutParagraphs.innerHTML = p.aboutBodyParagraphs.map(text => {
         if (!text) return '';
         if (/<\/?[a-z][\s\S]*>/i.test(text)) return text;
-        return `<p>${escapeHtml(text)}</p>`;
+        return `<p>${PortfolioUtils.escapeHtml(text)}</p>`;
       }).join('');
     }
 
@@ -328,11 +307,11 @@
       eduContainer.innerHTML = data.education.map(edu => `
         <div class="edu-item fade-up visible">
           <div>
-            <p class="edu-degree">${escapeHtml(edu.degree || '')}</p>
-            <p class="edu-institution">${escapeHtml(edu.institution || '')}</p>
-            <p class="edu-meta">${escapeHtml(edu.field ? `${edu.field} · ` : '')}${escapeHtml(edu.year || '')}</p>
+            <p class="edu-degree">${PortfolioUtils.escapeHtml(edu.degree || '')}</p>
+            <p class="edu-institution">${PortfolioUtils.escapeHtml(edu.institution || '')}</p>
+            <p class="edu-meta">${PortfolioUtils.escapeHtml(edu.field ? `${edu.field} · ` : '')}${PortfolioUtils.escapeHtml(edu.year || '')}</p>
           </div>
-          <p class="edu-gpa">${escapeHtml(edu.grade || '')}</p>
+          <p class="edu-gpa">${PortfolioUtils.escapeHtml(edu.grade || '')}</p>
         </div>
       `).join('');
     }
@@ -354,7 +333,7 @@
           <div class="skill-group fade-up visible">
             <p class="skill-group-label">${cat.label}</p>
             <div class="skill-tags">
-              ${items.map(skill => `<span class="skill-tag">${escapeHtml(skill)}</span>`).join('')}
+              ${items.map(skill => `<span class="skill-tag">${PortfolioUtils.escapeHtml(skill)}</span>`).join('')}
             </div>
           </div>
         `;
@@ -366,11 +345,11 @@
     if (extrasContainer && Array.isArray(data.extraCurriculars)) {
       extrasContainer.innerHTML = data.extraCurriculars.map(extra => `
         <div class="expertise-card fade-up visible">
-          <div class="card-icon">${escapeHtml(extra.icon || '✨')}</div>
+          <div class="card-icon">${PortfolioUtils.escapeHtml(extra.icon || '✨')}</div>
           <div>
-            <p class="card-category">${escapeHtml(extra.category || '')}</p>
-            <h3>${escapeHtml(extra.title || '')}</h3>
-            <p>${escapeHtml(extra.description || '')}</p>
+            <p class="card-category">${PortfolioUtils.escapeHtml(extra.category || '')}</p>
+            <h3>${PortfolioUtils.escapeHtml(extra.title || '')}</h3>
+            <p>${PortfolioUtils.escapeHtml(extra.description || '')}</p>
           </div>
         </div>
       `).join('');
@@ -383,7 +362,7 @@
     logoElements.forEach(logo => {
       if (nav.logoLink) logo.setAttribute('href', nav.logoLink);
       const dotHtml = nav.logoDot !== false ? '<span class="dot">.</span>' : '';
-      logo.innerHTML = `<span data-cms="firstName">${escapeHtml(nav.logoText || p.firstName || 'Fazal')}</span>${dotHtml}`;
+      logo.innerHTML = `<span data-cms="firstName">${PortfolioUtils.escapeHtml(nav.logoText || p.firstName || 'Fazal')}</span>${dotHtml}`;
     });
 
     const navLinksList = document.getElementById('nav-links');
@@ -395,7 +374,7 @@
           const isExternal = item.isExternal || /^https?:\/\//i.test(item.url);
           const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
           const isActive = item.url === currentPage || (currentPage === 'index.html' && item.url === 'index.html') ? ' class="active"' : '';
-          return `<li><a href="${escapeHtml(item.url)}"${targetAttr}${isActive}>${escapeHtml(item.label)}</a></li>`;
+          return `<li><a href="${PortfolioUtils.escapeHtml(item.url)}"${targetAttr}${isActive}>${PortfolioUtils.escapeHtml(item.label)}</a></li>`;
         }).join('');
     }
   }
@@ -462,7 +441,7 @@
       if (subtext && s.experience.subtext) subtext.textContent = s.experience.subtext;
       const cta = document.getElementById('experience-section-cta');
       if (cta && s.experience.ctaText) {
-        cta.innerHTML = `${escapeHtml(s.experience.ctaText)} <span class="arrow">→</span>`;
+        cta.innerHTML = `${PortfolioUtils.escapeHtml(s.experience.ctaText)} <span class="arrow">→</span>`;
         if (s.experience.ctaUrl) cta.setAttribute('href', s.experience.ctaUrl);
       }
     }
@@ -477,7 +456,7 @@
       if (subtext && s.work.subtext) subtext.textContent = s.work.subtext;
       const cta = document.getElementById('work-section-cta');
       if (cta && s.work.ctaText) {
-        cta.innerHTML = `${escapeHtml(s.work.ctaText)} <span class="arrow">→</span>`;
+        cta.innerHTML = `${PortfolioUtils.escapeHtml(s.work.ctaText)} <span class="arrow">→</span>`;
         if (s.work.ctaUrl) cta.setAttribute('href', s.work.ctaUrl);
       }
     }
@@ -737,7 +716,7 @@
     const footerNavLinks = document.getElementById('footer-nav-links');
     if (footerNavLinks && Array.isArray(f.links) && f.links.length > 0) {
       footerNavLinks.innerHTML = f.links.map(link => `
-        <li><a href="${escapeHtml(link.url)}">${escapeHtml(link.label)}</a></li>
+        <li><a href="${PortfolioUtils.escapeHtml(link.url)}">${PortfolioUtils.escapeHtml(link.label)}</a></li>
       `).join('');
     }
 
@@ -749,7 +728,7 @@
       footerSocialLinks.innerHTML = f.socialLinks.map(link => {
         const isExternal = /^https?:\/\//i.test(link.url);
         const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
-        return `<li><a href="${escapeHtml(link.url)}"${targetAttr}>${escapeHtml(link.label)}</a></li>`;
+        return `<li><a href="${PortfolioUtils.escapeHtml(link.url)}"${targetAttr}>${PortfolioUtils.escapeHtml(link.label)}</a></li>`;
       }).join('');
     }
   }
@@ -777,20 +756,20 @@
   /* ── Helper Renderers ──────────────────────────────────── */
 
   function renderTimelineItem(job) {
-    const bulletsHtml = (job.bullets || []).map(b => `<li>${escapeHtml(b)}</li>`).join('');
+    const bulletsHtml = (job.bullets || []).map(b => `<li>${PortfolioUtils.escapeHtml(b)}</li>`).join('');
     const badgeHtml = job.isCurrent ? `<span class="timeline-badge">Current</span>` : '';
     const companyHtml = job.companyUrl
-      ? `<a href="${escapeHtml(job.companyUrl)}" target="_blank" rel="noopener noreferrer" class="timeline-company">${escapeHtml(job.company)}</a>`
-      : `<span class="timeline-company">${escapeHtml(job.company)}</span>`;
+      ? `<a href="${PortfolioUtils.escapeHtml(job.companyUrl)}" target="_blank" rel="noopener noreferrer" class="timeline-company">${PortfolioUtils.escapeHtml(job.company)}</a>`
+      : `<span class="timeline-company">${PortfolioUtils.escapeHtml(job.company)}</span>`;
 
     return `
       <div class="timeline-item fade-up visible">
         <div class="timeline-dot" aria-hidden="true"></div>
         <div class="timeline-meta">
-          <span class="timeline-date">${escapeHtml(job.period || '')}</span>
+          <span class="timeline-date">${PortfolioUtils.escapeHtml(job.period || '')}</span>
           ${badgeHtml}
         </div>
-        <h3>${escapeHtml(job.role || '')}</h3>
+        <h3>${PortfolioUtils.escapeHtml(job.role || '')}</h3>
         ${companyHtml}
         <ul class="timeline-bullets">
           ${bulletsHtml}
@@ -800,21 +779,21 @@
   }
 
   function renderProjectCard(proj) {
-    const tagsHtml = (proj.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
-    const linkAttr = proj.link ? `href="${escapeHtml(proj.link)}" target="_blank" rel="noopener noreferrer"` : '';
+    const tagsHtml = (proj.tags || []).map(t => `<span class="tag">${PortfolioUtils.escapeHtml(t)}</span>`).join('');
+    const linkAttr = proj.link ? `href="${PortfolioUtils.escapeHtml(proj.link)}" target="_blank" rel="noopener noreferrer"` : '';
     const tagType = proj.link ? 'a' : 'div';
 
     return `
       <${tagType} ${linkAttr} class="project-card fade-up visible">
         <div class="project-card-content">
-          <h3>${escapeHtml(proj.title || '')}</h3>
-          <p>${escapeHtml(proj.description || '')}</p>
+          <h3>${PortfolioUtils.escapeHtml(proj.title || '')}</h3>
+          <p>${PortfolioUtils.escapeHtml(proj.description || '')}</p>
         </div>
         <div class="project-card-right">
-          <span class="project-year">${escapeHtml(proj.year || '')}</span>
+          <span class="project-year">${PortfolioUtils.escapeHtml(proj.year || '')}</span>
           <div class="tags">
             ${tagsHtml}
-            ${proj.badge ? `<span class="tag" style="background:var(--gold-light); color:var(--gold); border:1px solid var(--gold-border);">${escapeHtml(proj.badge)}</span>` : ''}
+            ${proj.badge ? `<span class="tag" style="background:var(--gold-light); color:var(--gold); border:1px solid var(--gold-border);">${PortfolioUtils.escapeHtml(proj.badge)}</span>` : ''}
           </div>
         </div>
       </${tagType}>
@@ -887,7 +866,7 @@
           <div class="modal-header">
             <div>
               <span class="article-category" id="modal-art-category"></span>
-              <span class="article-date" style="margin-left:0.6rem" id="modal-art-meta"></span>
+              <span class="article-date" class="modal-art-meta-date" id="modal-art-meta"></span>
             </div>
             <button class="modal-close" id="btn-modal-close" aria-label="Close article modal">&times;</button>
           </div>
@@ -895,7 +874,7 @@
           <div class="modal-body" id="modal-art-body"></div>
           <div class="modal-footer">
             <div id="modal-art-tags" class="article-tags"></div>
-            <button class="btn btn-outline" id="btn-modal-footer-close" style="padding:0.4rem 0.9rem; font-size:0.875rem;">Close</button>
+            <button class="btn btn-outline" id="btn-modal-footer-close" class="btn-outline modal-close-btn-sm">Close</button>
           </div>
         </div>
       `;
@@ -926,13 +905,13 @@
     } else {
       document.getElementById('modal-art-body').innerHTML = rawContent
         .split('\n\n')
-        .map(para => `<p>${escapeHtml(para)}</p>`)
+        .map(para => `<p>${PortfolioUtils.escapeHtml(para)}</p>`)
         .join('');
     }
 
     const tagsContainer = document.getElementById('modal-art-tags');
     if (tagsContainer) {
-      tagsContainer.innerHTML = (art.tags || []).map(t => `<span class="article-tag">${escapeHtml(t)}</span>`).join('');
+      tagsContainer.innerHTML = (art.tags || []).map(t => `<span class="article-tag">${PortfolioUtils.escapeHtml(t)}</span>`).join('');
     }
 
     overlay.classList.add('open');
@@ -947,7 +926,7 @@
     }
   }
 
-  function printCV() {
+  function openAboutPage() {
     window.open('about.html', '_blank');
   }
 
@@ -982,11 +961,11 @@
     renderAll,
     openArticleModal,
     closeArticleModal,
-    printCV
+    openAboutPage
   };
   window.openArticleModal = openArticleModal;
   window.closeArticleModal = closeArticleModal;
-  window.printCV = printCV;
+  window.openAboutPage = openAboutPage;
 
   // Initialize
   if (document.readyState === 'loading') {
@@ -994,5 +973,21 @@
   } else {
     renderAll();
   }
-  window.addEventListener('portfolioDataChanged', renderAll);
+  let renderTimer = null;
+  window.addEventListener('portfolioDataChanged', () => {
+    clearTimeout(renderTimer);
+    renderTimer = setTimeout(renderAll, 150);
+  });
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action="toggle-rec"]');
+    if (!btn) return;
+    const full = btn.previousElementSibling;
+    const preview = full.previousElementSibling;
+    if (full && preview) {
+      full.classList.toggle('hidden');
+      preview.classList.toggle('hidden');
+      btn.textContent = btn.textContent === 'Read more' ? 'Read less' : 'Read more';
+    }
+  });
 })();
