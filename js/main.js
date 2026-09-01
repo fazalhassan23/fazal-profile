@@ -160,6 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
     metricObserver.observe(metricsGrid);
   }
 
+  // FIX 2: Expose animateMetrics globally so render.js can re-trigger
+  // counter animation after a CMS save re-renders the metrics container.
+  window.triggerMetricAnimation = animateMetrics;
+
   /* ── 6. Contact Form Submission Handler ─────────────────── */
   const contactForm = document.getElementById('portfolio-contact-form');
   if (contactForm) {

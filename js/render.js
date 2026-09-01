@@ -103,6 +103,12 @@
         </div>
       </div>
     `).join('');
+
+    // FIX 2: Re-trigger counter animation after CMS re-renders the container.
+    // The IntersectionObserver fires only once, so subsequent renders need this.
+    if (typeof window.triggerMetricAnimation === 'function') {
+      window.triggerMetricAnimation();
+    }
   }
 
   function renderExpertise(expertise) {
@@ -319,11 +325,14 @@
 
     const aboutParagraphs = document.getElementById('about-paragraphs');
     if (aboutParagraphs && p.aboutBodyParagraphs) {
-      aboutParagraphs.innerHTML = p.aboutBodyParagraphs.map(text => {
-        if (!text) return '';
-        if (/<\/?[a-z][\s\S]*>/i.test(text)) return text;
-        return `<p>${escapeHtml(text)}</p>`;
-      }).join('');
+      // FIX 6: Filter out empty strings before rendering to avoid blank <p> tags
+      aboutParagraphs.innerHTML = p.aboutBodyParagraphs
+        .filter(text => text && text.trim())
+        .map(text => {
+          if (!text) return '';
+          if (/<\/?[a-z][\s\S]*>/i.test(text)) return text;
+          return `<p>${escapeHtml(text)}</p>`;
+        }).join('');
     }
 
     // Education
@@ -392,6 +401,8 @@
 
     const navLinksList = document.getElementById('nav-links');
     if (navLinksList && Array.isArray(nav.items) && nav.items.length > 0) {
+      // FIX 4: Only overwrite nav links when the CMS has items configured.
+      // If nav.items is empty, leave the hardcoded HTML fallback intact.
       const currentPage = window.location.pathname.split('/').pop() || 'index.html';
       navLinksList.innerHTML = nav.items
         .filter(item => item.visible !== false)
@@ -402,6 +413,7 @@
           return `<li><a href="${escapeHtml(item.url)}"${targetAttr}${isActive}>${escapeHtml(item.label)}</a></li>`;
         }).join('');
     }
+    // If nav.items is empty/missing, leave hardcoded HTML intact — do nothing.
   }
 
   function renderSectionHeadersAndVisibility(sectionsData, data) {

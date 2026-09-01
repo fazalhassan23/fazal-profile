@@ -1870,17 +1870,18 @@ function initAdminApp() {
       if (!data.sections.homeHero.cta1) data.sections.homeHero.cta1 = {};
       data.sections.homeHero.cta1.text = getVal('input-sec-hero-cta1-text');
       data.sections.homeHero.cta1.url = getVal('input-sec-hero-cta1-url');
-      data.sections.homeHero.cta1.visible = true;
+      // FIX 7: Preserve existing visibility instead of hardcoding true
+      data.sections.homeHero.cta1.visible = data.sections.homeHero.cta1.visible !== false;
 
       if (!data.sections.homeHero.cta2) data.sections.homeHero.cta2 = {};
       data.sections.homeHero.cta2.text = getVal('input-sec-hero-cta2-text');
       data.sections.homeHero.cta2.url = getVal('input-sec-hero-cta2-url');
-      data.sections.homeHero.cta2.visible = true;
+      data.sections.homeHero.cta2.visible = data.sections.homeHero.cta2.visible !== false;
 
       if (!data.sections.homeHero.cta3) data.sections.homeHero.cta3 = {};
       data.sections.homeHero.cta3.text = getVal('input-sec-hero-cta3-text');
       data.sections.homeHero.cta3.url = getVal('input-sec-hero-cta3-url');
-      data.sections.homeHero.cta3.visible = true;
+      data.sections.homeHero.cta3.visible = data.sections.homeHero.cta3.visible !== false;
 
       // Expertise
       if (!data.sections.expertise) data.sections.expertise = {};
@@ -1999,8 +2000,12 @@ function initAdminApp() {
       data.seo.keywords = getVal('textarea-seo-keywords');
       data.seo.ogImage = getVal('input-seo-og-image');
 
-      // Save to storage & server
+      // FIX 3: Guard against portfolioDataChanged listener re-reading data
+      // mid-save and clobbering in-memory edits not yet flushed to localStorage.
+      window._adminSaveInProgress = true;
       const res = await window.PortfolioStore.saveData(data);
+      window._adminSaveInProgress = false;
+
       if (res.success) {
         if (res.serverSynced) {
           showToast('🎉 All portfolio changes saved and synced to live server!');
@@ -2008,6 +2013,7 @@ function initAdminApp() {
           showToast('🎉 Changes saved locally to your browser.');
         }
       } else {
+        window._adminSaveInProgress = false;
         alert('Failed to save changes: ' + res.error);
       }
     });
@@ -2138,12 +2144,17 @@ function initAdminApp() {
     init: initAdminApp
   };
 
-  // BUG-14 FIX: Refresh stale `data` variable whenever the store is updated by server sync
+  // FIX 3: Only refresh in-memory data from store when it's safe to do so.
+  // During an active save (_adminSaveInProgress), we skip the refresh to prevent
+  // the event fired by our own saveData() from clobbering unsaved in-memory edits.
   window.addEventListener('portfolioDataChanged', () => {
+    if (window._adminSaveInProgress) return;
     data = window.PortfolioStore.getData();
-    // If admin is already unlocked, refresh the form fields with new data
+    // Only call populateAll if the dashboard is already unlocked (server-sync scenario)
     if (window.PortfolioStore.isAuthenticated() && mainContent && mainContent.style.display !== 'none') {
-      try { populateAll(); } catch(e) {}
+      try { populateAll(); } catch(e) {
+        console.warn('[Admin] populateAll skipped on data change:', e);
+      }
     }
   });
 

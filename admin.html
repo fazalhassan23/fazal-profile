@@ -692,6 +692,24 @@
               </label>
             </div>
           </div>
+
+          <!-- FIX 8: Recommendations section config was missing — save handler was overwriting with blanks -->
+          <div class="form-grid" style="border-top: 1px solid var(--adm-border); padding-top: 1rem; margin-top: 0.5rem;">
+            <div class="form-group">
+              <label class="form-label" for="input-rec-section-label">Endorsements / Recommendations Label</label>
+              <input type="text" id="input-rec-section-label" class="form-input" placeholder="endorsements" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-rec-section-subtext">Recommendations Subtext</label>
+              <input type="text" id="input-rec-section-subtext" class="form-input" placeholder="What colleagues, clients, and partners say..." />
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-checkbox-label">
+                <input type="checkbox" id="checkbox-sec-rec-vis" checked />
+                <span>Show Recommendations &amp; Endorsements Section</span>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 
