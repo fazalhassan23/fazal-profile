@@ -112,7 +112,6 @@
 
     const html = awards.map(awd => `
       <div class="award-card fade-up visible">
-        <div class="award-icon-box">🏆</div>
         <div class="award-content">
           <h3 class="award-title">${PortfolioUtils.escapeHtml(awd.title || '')}</h3>
           <p class="award-org">${PortfolioUtils.escapeHtml(awd.organization || '')} · <span class="award-year-inline">${PortfolioUtils.escapeHtml(awd.year || '')}</span></p>

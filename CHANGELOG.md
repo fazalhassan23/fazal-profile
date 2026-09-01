@@ -3,6 +3,19 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.2.1] — 2026-09-02
+
+> Branch: `Worked-from-office` — Cleaned up Recognition / Award card design system.
+
+### Changed
+
+#### `js/render.js` + `css/style.css` — Removed Trophy Icon & Yellow Accent Border
+- **Removed**: Trophy emoji (`🏆`) icon container (`.award-icon-box`) from `renderAwards()` HTML generator.
+- **Removed**: Yellow gold left border accent (`border-left: 2px solid var(--gold)`) from `.award-card` and `.award-card:hover`.
+- **Layout**: Updated `.award-card` to a clean single-column flex layout for a sleek, minimal obsidian presentation matching the site design system.
+
+---
+
 ## [2.2.0] — 2026-09-02
 
 > Branch: `Worked-from-office` — Transitioned production CI/CD deployment pipeline to GitHub Pages.
