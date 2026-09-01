@@ -55,7 +55,7 @@ function initAdminApp() {
         <button type="button" class="rte-btn rte-btn-html" data-action="toggle-html" title="Toggle HTML Source Code">&lt;/&gt; HTML</button>
       </div>
 
-      <div class="rte-content" contenteditable="true" data-placeholder="${escapeHtml(placeholder)}"></div>
+      <div class="rte-content" contenteditable="true" data-placeholder="${PortfolioUtils.escapeHtml(placeholder)}"></div>
       <textarea class="rte-html-textarea" placeholder="Raw HTML code..."></textarea>
     `;
 
@@ -75,7 +75,7 @@ function initAdminApp() {
       } else {
         const formatted = initialContent
           .split('\n\n')
-          .map(p => `<p>${escapeHtml(p)}</p>`)
+          .map(p => `<p>${PortfolioUtils.escapeHtml(p)}</p>`)
           .join('');
         contentArea.innerHTML = formatted;
         htmlArea.value = formatted;
@@ -114,6 +114,7 @@ function initAdminApp() {
       if (action === 'link') {
         const url = prompt('Enter web link URL (e.g. https://...):');
         if (url) {
+          // @deprecated � execCommand is deprecated, see MDN
           document.execCommand('createLink', false, url);
           contentArea.querySelectorAll('a').forEach(a => a.setAttribute('target', '_blank'));
         }
@@ -121,6 +122,7 @@ function initAdminApp() {
       }
 
       if (cmd) {
+        // @deprecated � execCommand is deprecated, see MDN
         document.execCommand(cmd, false, val);
         updateActiveStates();
         contentArea.focus();
@@ -353,6 +355,7 @@ function initAdminApp() {
     populateContact();
     populateFooter();
     populateSEO();
+    populateGitHubTokenSection();
   }
 
   function setVal(id, val) {
@@ -403,17 +406,17 @@ function initAdminApp() {
     container.innerHTML = items.map((item, idx) => `
       <div class="admin-item-card">
         <div class="admin-item-content">
-          <h4 class="admin-item-title">${escapeHtml(item.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${escapeHtml(item.url)})</span></h4>
+          <h4 class="admin-item-title">${PortfolioUtils.escapeHtml(item.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${PortfolioUtils.escapeHtml(item.url)})</span></h4>
           <p class="admin-item-sub">
             <span class="badge ${item.visible !== false ? 'badge-success' : 'badge-muted'}">${item.visible !== false ? 'Visible' : 'Hidden'}</span>
             ${item.isExternal ? '<span class="badge badge-info" style="margin-left:0.3rem;">External</span>' : ''}
           </p>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.moveNavItem(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Move Up">↑</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.moveNavItem(${idx}, 1)" ${idx === items.length - 1 ? 'disabled' : ''} title="Move Down">↓</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editNavItem(${idx})">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteNavItem(${idx})">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveNavItem" data-arg0="arg" data-arg1="-1" ${idx === 0 ? 'disabled' : ''} title="Move Up">↑</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveNavItem" data-arg0="arg" data-arg1="1" ${idx === items.length - 1 ? 'disabled' : ''} title="Move Down">↓</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editNavItem" data-arg0="arg">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteNavItem" data-arg0="arg">Delete</button>
         </div>
       </div>
     `).join('');
@@ -446,11 +449,11 @@ function initAdminApp() {
     const html = `
       <div class="form-group">
         <label class="form-label">Menu Item Label *</label>
-        <input type="text" id="modal-nav-label" class="form-input" value="${escapeHtml(item.label || '')}" placeholder="e.g. Articles" required />
+        <input type="text" id="modal-nav-label" class="form-input" value="${PortfolioUtils.escapeHtml(item.label || '')}" placeholder="e.g. Articles" required />
       </div>
       <div class="form-group">
         <label class="form-label">Destination URL *</label>
-        <input type="text" id="modal-nav-url" class="form-input" value="${escapeHtml(item.url || '')}" placeholder="index.html#articles or https://..." required />
+        <input type="text" id="modal-nav-url" class="form-input" value="${PortfolioUtils.escapeHtml(item.url || '')}" placeholder="index.html#articles or https://..." required />
       </div>
       <div class="form-group">
         <label class="form-checkbox-label">
@@ -654,11 +657,11 @@ function initAdminApp() {
     container.innerHTML = links.map((link, idx) => `
       <div class="admin-item-card">
         <div class="admin-item-content">
-          <h4 class="admin-item-title">${escapeHtml(link.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${escapeHtml(link.url)})</span></h4>
+          <h4 class="admin-item-title">${PortfolioUtils.escapeHtml(link.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${PortfolioUtils.escapeHtml(link.url)})</span></h4>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editFooterLink(${idx})">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteFooterLink(${idx})">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editFooterLink" data-arg0="arg">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteFooterLink" data-arg0="arg">Delete</button>
         </div>
       </div>
     `).join('');
@@ -682,11 +685,11 @@ function initAdminApp() {
     const html = `
       <div class="form-group">
         <label class="form-label">Link Label *</label>
-        <input type="text" id="modal-fl-label" class="form-input" value="${escapeHtml(link.label || '')}" placeholder="e.g. About" required />
+        <input type="text" id="modal-fl-label" class="form-input" value="${PortfolioUtils.escapeHtml(link.label || '')}" placeholder="e.g. About" required />
       </div>
       <div class="form-group">
         <label class="form-label">Destination URL *</label>
-        <input type="text" id="modal-fl-url" class="form-input" value="${escapeHtml(link.url || '')}" placeholder="about.html" required />
+        <input type="text" id="modal-fl-url" class="form-input" value="${PortfolioUtils.escapeHtml(link.url || '')}" placeholder="about.html" required />
       </div>
     `;
 
@@ -733,11 +736,11 @@ function initAdminApp() {
     container.innerHTML = links.map((link, idx) => `
       <div class="admin-item-card">
         <div class="admin-item-content">
-          <h4 class="admin-item-title">${escapeHtml(link.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${escapeHtml(link.url)})</span></h4>
+          <h4 class="admin-item-title">${PortfolioUtils.escapeHtml(link.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${PortfolioUtils.escapeHtml(link.url)})</span></h4>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editFooterSocial(${idx})">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteFooterSocial(${idx})">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editFooterSocial" data-arg0="arg">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteFooterSocial" data-arg0="arg">Delete</button>
         </div>
       </div>
     `).join('');
@@ -761,11 +764,11 @@ function initAdminApp() {
     const html = `
       <div class="form-group">
         <label class="form-label">Link Label *</label>
-        <input type="text" id="modal-sl-label" class="form-input" value="${escapeHtml(link.label || '')}" placeholder="e.g. LinkedIn ↗" required />
+        <input type="text" id="modal-sl-label" class="form-input" value="${PortfolioUtils.escapeHtml(link.label || '')}" placeholder="e.g. LinkedIn ↗" required />
       </div>
       <div class="form-group">
         <label class="form-label">Destination URL *</label>
-        <input type="text" id="modal-sl-url" class="form-input" value="${escapeHtml(link.url || '')}" placeholder="https://linkedin.com/..." required />
+        <input type="text" id="modal-sl-url" class="form-input" value="${PortfolioUtils.escapeHtml(link.url || '')}" placeholder="https://linkedin.com/..." required />
       </div>
     `;
 
@@ -807,6 +810,69 @@ function initAdminApp() {
     setVal('input-seo-og-image', s.ogImage || '');
   }
 
+  function populateGitHubTokenSection() {
+    const statusEl = document.getElementById('github-token-status');
+    const inputEl = document.getElementById('input-github-token');
+    const saveBtn = document.getElementById('btn-save-github-token');
+    const testBtn = document.getElementById('btn-test-github-token');
+    const clearBtn = document.getElementById('btn-clear-github-token');
+
+    if (!statusEl || !inputEl) return;
+
+    const status = window.PortfolioStore.getGitHubTokenStatus();
+    if (status.configured) {
+      statusEl.innerHTML = `<span class="badge badge-success">✓ Token configured: ${PortfolioUtils.escapeHtml(status.preview)}</span>`;
+    } else {
+      statusEl.innerHTML = `<span class="badge badge-muted">✗ No token configured — changes will save locally only</span>`;
+    }
+
+    if (saveBtn && !saveBtn.dataset.bound) {
+      saveBtn.dataset.bound = 'true';
+      saveBtn.addEventListener('click', () => {
+        const token = inputEl.value.trim();
+        const result = window.PortfolioStore.saveGitHubToken(token);
+        if (result.success) {
+          showToast('✅ GitHub token saved. CMS will now sync to GitHub on save.');
+          inputEl.value = '';
+          populateGitHubTokenSection();
+        } else {
+          showToast('⚠️ ' + result.error, 'error');
+        }
+      });
+    }
+
+    if (testBtn && !testBtn.dataset.bound) {
+      testBtn.dataset.bound = 'true';
+      testBtn.addEventListener('click', async () => {
+        const btnText = testBtn.innerText;
+        testBtn.innerText = 'Testing...';
+        testBtn.disabled = true;
+        
+        const result = await window.PortfolioStore.testGitHubToken();
+        
+        testBtn.innerText = btnText;
+        testBtn.disabled = false;
+
+        if (result.success) {
+          showToast('✅ Success! The GitHub token is valid and has repository access.');
+        } else {
+          showToast('⚠️ Test Failed: ' + result.error, 'error');
+        }
+      });
+    }
+
+    if (clearBtn && !clearBtn.dataset.bound) {
+      clearBtn.dataset.bound = 'true';
+      clearBtn.addEventListener('click', () => {
+        if (confirm('Remove the GitHub token? CMS saves will only be stored locally.')) {
+          window.PortfolioStore.clearGitHubToken();
+          showToast('GitHub token cleared.', 'info');
+          populateGitHubTokenSection();
+        }
+      });
+    }
+  }
+
   /* ── 4. Metrics Editor ──────────────────────────────────── */
   function renderMetricsEditor() {
     const container = document.getElementById('metrics-editor-grid');
@@ -817,11 +883,11 @@ function initAdminApp() {
       <div class="form-group" style="background: var(--adm-input-bg); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--adm-border);">
         <label class="form-label" style="color: var(--adm-accent); font-weight: 600; margin-bottom: 0.25rem;">Metric #${idx + 1}</label>
         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
-          <input type="text" class="form-input" id="metric-num-${idx}" value="${escapeHtml(m.number)}" placeholder="Number (e.g. 21)" />
-          <input type="text" class="form-input" id="metric-suffix-${idx}" value="${escapeHtml(m.suffix)}" placeholder="Suffix (+)" />
+          <input type="text" class="form-input" id="metric-num-${idx}" value="${PortfolioUtils.escapeHtml(m.number)}" placeholder="Number (e.g. 21)" />
+          <input type="text" class="form-input" id="metric-suffix-${idx}" value="${PortfolioUtils.escapeHtml(m.suffix)}" placeholder="Suffix (+)" />
         </div>
-        <input type="text" class="form-input" id="metric-label-${idx}" value="${escapeHtml(m.label)}" placeholder="Label (e.g. Projects Managed)" style="margin-bottom: 0.5rem;" />
-        <input type="text" class="form-input" id="metric-subtext-${idx}" value="${escapeHtml(m.subtext)}" placeholder="Subtext description" />
+        <input type="text" class="form-input" id="metric-label-${idx}" value="${PortfolioUtils.escapeHtml(m.label)}" placeholder="Label (e.g. Projects Managed)" style="margin-bottom: 0.5rem;" />
+        <input type="text" class="form-input" id="metric-subtext-${idx}" value="${PortfolioUtils.escapeHtml(m.subtext)}" placeholder="Subtext description" />
       </div>
     `).join('');
   }
@@ -840,12 +906,12 @@ function initAdminApp() {
     list.innerHTML = awards.map((awd, index) => `
       <div class="item-row">
         <div class="item-info">
-          <h4>${escapeHtml(awd.title)} ${awd.badge ? `<span style="font-size:0.85rem; background:rgba(245,158,11,0.15); color:#FBBF24; padding:3px 8px; border-radius:4px; margin-left:6px;">${escapeHtml(awd.badge)}</span>` : ''}</h4>
-          <p>${escapeHtml(awd.organization)} · <span style="color:var(--adm-accent)">${escapeHtml(awd.year)}</span></p>
+          <h4>${PortfolioUtils.escapeHtml(awd.title)} ${awd.badge ? `<span style="font-size:0.85rem; background:rgba(245,158,11,0.15); color:#FBBF24; padding:3px 8px; border-radius:4px; margin-left:6px;">${PortfolioUtils.escapeHtml(awd.badge)}</span>` : ''}</h4>
+          <p>${PortfolioUtils.escapeHtml(awd.organization)} · <span style="color:var(--adm-accent)">${PortfolioUtils.escapeHtml(awd.year)}</span></p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editAward(${index})">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteAward(${index})">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editAward" data-arg0="arg">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteAward" data-arg0="arg">Delete</button>
         </div>
       </div>
     `).join('');
@@ -866,23 +932,23 @@ function initAdminApp() {
       <div class="form-grid">
         <div class="form-group full-width">
           <label class="form-label">Award Title *</label>
-          <input type="text" id="modal-awd-title" class="form-input" value="${escapeHtml(awd.title)}" placeholder="e.g. Best Presentation Award" />
+          <input type="text" id="modal-awd-title" class="form-input" value="${PortfolioUtils.escapeHtml(awd.title)}" placeholder="e.g. Best Presentation Award" />
         </div>
         <div class="form-group">
           <label class="form-label">Organization / Conference *</label>
-          <input type="text" id="modal-awd-org" class="form-input" value="${escapeHtml(awd.organization)}" placeholder="e.g. Springer CNC-2018" />
+          <input type="text" id="modal-awd-org" class="form-input" value="${PortfolioUtils.escapeHtml(awd.organization)}" placeholder="e.g. Springer CNC-2018" />
         </div>
         <div class="form-group">
           <label class="form-label">Year / Date</label>
-          <input type="text" id="modal-awd-year" class="form-input" value="${escapeHtml(awd.year)}" placeholder="e.g. 2018" />
+          <input type="text" id="modal-awd-year" class="form-input" value="${PortfolioUtils.escapeHtml(awd.year)}" placeholder="e.g. 2018" />
         </div>
         <div class="form-group full-width">
           <label class="form-label">Ribbon Badge Text (Optional)</label>
-          <input type="text" id="modal-awd-badge" class="form-input" value="${escapeHtml(awd.badge || '')}" placeholder="e.g. Springer Award" />
+          <input type="text" id="modal-awd-badge" class="form-input" value="${PortfolioUtils.escapeHtml(awd.badge || '')}" placeholder="e.g. Springer Award" />
         </div>
         <div class="form-group full-width">
           <label class="form-label">Description</label>
-          <textarea id="modal-awd-desc" class="form-textarea" style="min-height:90px;" placeholder="Details about this award...">${escapeHtml(awd.description || '')}</textarea>
+          <textarea id="modal-awd-desc" class="form-textarea" style="min-height:90px;" placeholder="Details about this award...">${PortfolioUtils.escapeHtml(awd.description || '')}</textarea>
         </div>
       </div>
     `, () => {
@@ -936,12 +1002,12 @@ function initAdminApp() {
     list.innerHTML = articles.map((art, index) => `
       <div class="item-row">
         <div class="item-info">
-          <h4>${escapeHtml(art.title)} <span style="font-size:0.85rem; background:rgba(59,130,246,0.15); color:var(--adm-accent-hover); padding:3px 8px; border-radius:4px; margin-left:6px;">${escapeHtml(art.category || 'Article')}</span></h4>
-          <p>${escapeHtml(art.date)} · <span style="color:var(--adm-muted)">${escapeHtml(art.readTime || '5 min read')}</span></p>
+          <h4>${PortfolioUtils.escapeHtml(art.title)} <span style="font-size:0.85rem; background:rgba(59,130,246,0.15); color:var(--adm-accent-hover); padding:3px 8px; border-radius:4px; margin-left:6px;">${PortfolioUtils.escapeHtml(art.category || 'Article')}</span></h4>
+          <p>${PortfolioUtils.escapeHtml(art.date)} · <span style="color:var(--adm-muted)">${PortfolioUtils.escapeHtml(art.readTime || '5 min read')}</span></p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editArticle(${index})">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteArticle(${index})">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editArticle" data-arg0="arg">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteArticle" data-arg0="arg">Delete</button>
         </div>
       </div>
     `).join('');
@@ -966,26 +1032,26 @@ function initAdminApp() {
       <div class="form-grid">
         <div class="form-group full-width">
           <label class="form-label">Article Title *</label>
-          <input type="text" id="modal-art-title" class="form-input" value="${escapeHtml(art.title)}" placeholder="e.g. Bridging the Gap: CS + MBA Thinking" />
+          <input type="text" id="modal-art-title" class="form-input" value="${PortfolioUtils.escapeHtml(art.title)}" placeholder="e.g. Bridging the Gap: CS + MBA Thinking" />
         </div>
         <div class="form-group">
           <label class="form-label">Category</label>
-          <input type="text" id="modal-art-category" class="form-input" value="${escapeHtml(art.category)}" placeholder="e.g. Leadership / Operations" />
+          <input type="text" id="modal-art-category" class="form-input" value="${PortfolioUtils.escapeHtml(art.category)}" placeholder="e.g. Leadership / Operations" />
         </div>
         <div class="form-group">
           <label class="form-label">Publish Date &amp; Reading Time</label>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
-            <input type="text" id="modal-art-date" class="form-input" value="${escapeHtml(art.date)}" placeholder="e.g. Aug 2024" />
-            <input type="text" id="modal-art-readTime" class="form-input" value="${escapeHtml(art.readTime)}" placeholder="e.g. 5 min read" />
+            <input type="text" id="modal-art-date" class="form-input" value="${PortfolioUtils.escapeHtml(art.date)}" placeholder="e.g. Aug 2024" />
+            <input type="text" id="modal-art-readTime" class="form-input" value="${PortfolioUtils.escapeHtml(art.readTime)}" placeholder="e.g. 5 min read" />
           </div>
         </div>
         <div class="form-group full-width">
           <label class="form-label">Summary / Excerpt (Displayed on homepage preview) *</label>
-          <textarea id="modal-art-summary" class="form-textarea" style="min-height:75px;">${escapeHtml(art.summary)}</textarea>
+          <textarea id="modal-art-summary" class="form-textarea" style="min-height:75px;">${PortfolioUtils.escapeHtml(art.summary)}</textarea>
         </div>
         <div class="form-group full-width">
           <label class="form-label">Tags (Comma-separated)</label>
-          <input type="text" id="modal-art-tags" class="form-input" value="${escapeHtml((art.tags || []).join(', '))}" placeholder="Agile, SaaS, Leadership" />
+          <input type="text" id="modal-art-tags" class="form-input" value="${PortfolioUtils.escapeHtml((art.tags || []).join(', '))}" placeholder="Agile, SaaS, Leadership" />
         </div>
         <div class="form-group full-width">
           <label class="form-label">Full Article / Case Study Content (Rich Text Editor)</label>
@@ -1045,12 +1111,12 @@ function initAdminApp() {
     list.innerHTML = (data.experience || []).map((job, index) => `
       <div class="item-row">
         <div class="item-info">
-          <h4>${escapeHtml(job.role)} <span style="color:var(--adm-muted)">at</span> ${escapeHtml(job.company)} ${job.isCurrent ? '<span style="font-size:0.85rem; background:rgba(16,185,129,0.2); color:#34D399; padding:3px 7px; border-radius:4px;">Current</span>' : ''}</h4>
-          <p>${escapeHtml(job.period)}</p>
+          <h4>${PortfolioUtils.escapeHtml(job.role)} <span style="color:var(--adm-muted)">at</span> ${PortfolioUtils.escapeHtml(job.company)} ${job.isCurrent ? '<span style="font-size:0.85rem; background:rgba(16,185,129,0.2); color:#34D399; padding:3px 7px; border-radius:4px;">Current</span>' : ''}</h4>
+          <p>${PortfolioUtils.escapeHtml(job.period)}</p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editExperience(${index})">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteExperience(${index})">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editExperience" data-arg0="arg">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteExperience" data-arg0="arg">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1072,19 +1138,19 @@ function initAdminApp() {
       <div class="form-grid">
         <div class="form-group">
           <label class="form-label">Job Title / Role *</label>
-          <input type="text" id="modal-exp-role" class="form-input" value="${escapeHtml(job.role)}" />
+          <input type="text" id="modal-exp-role" class="form-input" value="${PortfolioUtils.escapeHtml(job.role)}" />
         </div>
         <div class="form-group">
           <label class="form-label">Company Name *</label>
-          <input type="text" id="modal-exp-company" class="form-input" value="${escapeHtml(job.company)}" />
+          <input type="text" id="modal-exp-company" class="form-input" value="${PortfolioUtils.escapeHtml(job.company)}" />
         </div>
         <div class="form-group">
           <label class="form-label">Company Website URL</label>
-          <input type="url" id="modal-exp-companyUrl" class="form-input" value="${escapeHtml(job.companyUrl || '')}" />
+          <input type="url" id="modal-exp-companyUrl" class="form-input" value="${PortfolioUtils.escapeHtml(job.companyUrl || '')}" />
         </div>
         <div class="form-group">
           <label class="form-label">Period (e.g. Aug 2024 — Present) *</label>
-          <input type="text" id="modal-exp-period" class="form-input" value="${escapeHtml(job.period)}" />
+          <input type="text" id="modal-exp-period" class="form-input" value="${PortfolioUtils.escapeHtml(job.period)}" />
         </div>
         <div class="form-group full-width">
           <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
@@ -1143,12 +1209,12 @@ function initAdminApp() {
     list.innerHTML = (data.projects || []).map((proj, index) => `
       <div class="item-row">
         <div class="item-info">
-          <h4>${escapeHtml(proj.title)} <span style="font-size:0.8rem; background:rgba(255,255,255,0.06); color:var(--adm-muted); padding:2px 6px; border-radius:4px;">${escapeHtml(proj.category)}</span></h4>
-          <p>${escapeHtml(proj.year)}</p>
+          <h4>${PortfolioUtils.escapeHtml(proj.title)} <span style="font-size:0.8rem; background:rgba(255,255,255,0.06); color:var(--adm-muted); padding:2px 6px; border-radius:4px;">${PortfolioUtils.escapeHtml(proj.category)}</span></h4>
+          <p>${PortfolioUtils.escapeHtml(proj.year)}</p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editProject(${index})">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteProject(${index})">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editProject" data-arg0="arg">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteProject" data-arg0="arg">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1171,7 +1237,7 @@ function initAdminApp() {
       <div class="form-grid">
         <div class="form-group full-width">
           <label class="form-label">Project Title *</label>
-          <input type="text" id="modal-proj-title" class="form-input" value="${escapeHtml(proj.title)}" />
+          <input type="text" id="modal-proj-title" class="form-input" value="${PortfolioUtils.escapeHtml(proj.title)}" />
         </div>
         <div class="form-group">
           <label class="form-label">Category</label>
@@ -1184,23 +1250,23 @@ function initAdminApp() {
         </div>
         <div class="form-group">
           <label class="form-label">Year / Timeline *</label>
-          <input type="text" id="modal-proj-year" class="form-input" value="${escapeHtml(proj.year)}" />
+          <input type="text" id="modal-proj-year" class="form-input" value="${PortfolioUtils.escapeHtml(proj.year)}" />
         </div>
         <div class="form-group">
           <label class="form-label">External Project Link (Optional)</label>
-          <input type="url" id="modal-proj-link" class="form-input" value="${escapeHtml(proj.link || '')}" placeholder="https://..." />
+          <input type="url" id="modal-proj-link" class="form-input" value="${PortfolioUtils.escapeHtml(proj.link || '')}" placeholder="https://..." />
         </div>
         <div class="form-group">
           <label class="form-label">Honor Badge (e.g. Best Presentation)</label>
-          <input type="text" id="modal-proj-badge" class="form-input" value="${escapeHtml(proj.badge || '')}" />
+          <input type="text" id="modal-proj-badge" class="form-input" value="${PortfolioUtils.escapeHtml(proj.badge || '')}" />
         </div>
         <div class="form-group full-width">
           <label class="form-label">Tags (Comma-separated)</label>
-          <input type="text" id="modal-proj-tags" class="form-input" value="${escapeHtml((proj.tags || []).join(', '))}" />
+          <input type="text" id="modal-proj-tags" class="form-input" value="${PortfolioUtils.escapeHtml((proj.tags || []).join(', '))}" />
         </div>
         <div class="form-group full-width">
           <label class="form-label">Project Description</label>
-          <textarea id="modal-proj-desc" class="form-textarea" style="min-height:95px;">${escapeHtml(proj.description || '')}</textarea>
+          <textarea id="modal-proj-desc" class="form-textarea" style="min-height:95px;">${PortfolioUtils.escapeHtml(proj.description || '')}</textarea>
         </div>
       </div>
     `, () => {
@@ -1250,12 +1316,12 @@ function initAdminApp() {
     list.innerHTML = (data.education || []).map((edu, index) => `
       <div class="item-row">
         <div class="item-info">
-          <h4>${escapeHtml(edu.degree)}</h4>
-          <p>${escapeHtml(edu.institution)} · <span style="color:var(--adm-accent)">${escapeHtml(edu.year)}</span></p>
+          <h4>${PortfolioUtils.escapeHtml(edu.degree)}</h4>
+          <p>${PortfolioUtils.escapeHtml(edu.institution)} · <span style="color:var(--adm-accent)">${PortfolioUtils.escapeHtml(edu.year)}</span></p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editEducation(${index})">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteEducation(${index})">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editEducation" data-arg0="arg">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteEducation" data-arg0="arg">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1276,23 +1342,23 @@ function initAdminApp() {
       <div class="form-grid">
         <div class="form-group full-width">
           <label class="form-label">Degree Title *</label>
-          <input type="text" id="modal-edu-degree" class="form-input" value="${escapeHtml(edu.degree)}" />
+          <input type="text" id="modal-edu-degree" class="form-input" value="${PortfolioUtils.escapeHtml(edu.degree)}" />
         </div>
         <div class="form-group">
           <label class="form-label">Field of Study</label>
-          <input type="text" id="modal-edu-field" class="form-input" value="${escapeHtml(edu.field)}" />
+          <input type="text" id="modal-edu-field" class="form-input" value="${PortfolioUtils.escapeHtml(edu.field)}" />
         </div>
         <div class="form-group">
           <label class="form-label">Institution Name *</label>
-          <input type="text" id="modal-edu-institution" class="form-input" value="${escapeHtml(edu.institution)}" />
+          <input type="text" id="modal-edu-institution" class="form-input" value="${PortfolioUtils.escapeHtml(edu.institution)}" />
         </div>
         <div class="form-group">
           <label class="form-label">Year of Completion</label>
-          <input type="text" id="modal-edu-year" class="form-input" value="${escapeHtml(edu.year)}" />
+          <input type="text" id="modal-edu-year" class="form-input" value="${PortfolioUtils.escapeHtml(edu.year)}" />
         </div>
         <div class="form-group">
           <label class="form-label">Grade / GPA / CGPA</label>
-          <input type="text" id="modal-edu-grade" class="form-input" value="${escapeHtml(edu.grade)}" />
+          <input type="text" id="modal-edu-grade" class="form-input" value="${PortfolioUtils.escapeHtml(edu.grade)}" />
         </div>
       </div>
     `, () => {
@@ -1343,8 +1409,8 @@ function initAdminApp() {
       const items = data.skills[cat] || [];
       container.innerHTML = items.map((skill, idx) => `
         <span class="tag-pill">
-          ${escapeHtml(skill)}
-          <button type="button" onclick="window.removeSkillTag('${cat}', ${idx})" title="Remove skill">&times;</button>
+          ${PortfolioUtils.escapeHtml(skill)}
+          <button type="button" data-action="removeSkillTag" data-arg0="arg" data-arg1="arg" title="Remove skill">&times;</button>
         </span>
       `).join('');
     });
@@ -1389,20 +1455,20 @@ function initAdminApp() {
       <div class="admin-item-card">
         <div class="admin-item-content">
           <div style="display:flex; align-items:center; gap:0.5rem;">
-            <h4 class="admin-item-title">${escapeHtml(rec.author)}</h4>
+            <h4 class="admin-item-title">${PortfolioUtils.escapeHtml(rec.author)}</h4>
             ${rec.featured ? '<span class="admin-tag admin-tag-success" style="background:#e6f4ea; color:#137333; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem;">★ Featured</span>' : ''}
             ${rec.visible === false ? '<span class="admin-tag admin-tag-danger" style="background:#fce8e6; color:#c5221f; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem;">👁 Hidden</span>' : ''}
           </div>
-          <p class="admin-item-subtitle" style="margin: 0.15rem 0;">${escapeHtml(rec.headline || '')} at ${escapeHtml(rec.company || '')}</p>
-          <p class="admin-item-excerpt" style="font-size:0.85rem; color:var(--adm-muted); margin-top:0.25rem;">"${escapeHtml(rec.text.slice(0, 120))}${rec.text.length > 120 ? '...' : ''}"</p>
+          <p class="admin-item-subtitle" style="margin: 0.15rem 0;">${PortfolioUtils.escapeHtml(rec.headline || '')} at ${PortfolioUtils.escapeHtml(rec.company || '')}</p>
+          <p class="admin-item-excerpt" style="font-size:0.85rem; color:var(--adm-muted); margin-top:0.25rem;">"${PortfolioUtils.escapeHtml(rec.text.slice(0, 120))}${rec.text.length > 120 ? '...' : ''}"</p>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.moveRecommendation(${idx}, -1)" ${idx === 0 ? 'disabled' : ''}>▲</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.moveRecommendation(${idx}, 1)" ${idx === list.length - 1 ? 'disabled' : ''}>▼</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.toggleRecommendationFeatured(${idx})">${rec.featured ? 'Unstar' : 'Star'}</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.toggleRecommendationVisible(${idx})">${rec.visible !== false ? 'Hide' : 'Show'}</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" onclick="window.editRecommendation(${idx})">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" onclick="window.deleteRecommendation(${idx})">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveRecommendation" data-arg0="arg" data-arg1="-1" ${idx === 0 ? 'disabled' : ''}>▲</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveRecommendation" data-arg0="arg" data-arg1="1" ${idx === list.length - 1 ? 'disabled' : ''}>▼</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="toggleRecommendationFeatured" data-arg0="arg">${rec.featured ? 'Unstar' : 'Star'}</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="toggleRecommendationVisible" data-arg0="arg">${rec.visible !== false ? 'Hide' : 'Show'}</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editRecommendation" data-arg0="arg">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteRecommendation" data-arg0="arg">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1683,35 +1749,35 @@ function initAdminApp() {
       <div class="form-grid">
         <div class="form-group">
           <label class="form-label">Author Full Name *</label>
-          <input type="text" id="modal-rec-author" class="form-input" value="${escapeHtml(rec.author)}" required />
+          <input type="text" id="modal-rec-author" class="form-input" value="${PortfolioUtils.escapeHtml(rec.author)}" required />
         </div>
         <div class="form-group">
           <label class="form-label">Job Title / Headline</label>
-          <input type="text" id="modal-rec-headline" class="form-input" value="${escapeHtml(rec.headline || '')}" placeholder="e.g. Senior Project Manager" />
+          <input type="text" id="modal-rec-headline" class="form-input" value="${PortfolioUtils.escapeHtml(rec.headline || '')}" placeholder="e.g. Senior Project Manager" />
         </div>
         <div class="form-group">
           <label class="form-label">Company Name</label>
-          <input type="text" id="modal-rec-company" class="form-input" value="${escapeHtml(rec.company || '')}" placeholder="e.g. Mediusware Limited" />
+          <input type="text" id="modal-rec-company" class="form-input" value="${PortfolioUtils.escapeHtml(rec.company || '')}" placeholder="e.g. Mediusware Limited" />
         </div>
         <div class="form-group">
           <label class="form-label">LinkedIn Profile URL</label>
-          <input type="url" id="modal-rec-url" class="form-input" value="${escapeHtml(rec.linkedinUrl || '')}" placeholder="https://linkedin.com/in/username" />
+          <input type="url" id="modal-rec-url" class="form-input" value="${PortfolioUtils.escapeHtml(rec.linkedinUrl || '')}" placeholder="https://linkedin.com/in/username" />
         </div>
         <div class="form-group">
           <label class="form-label">Relationship Badge</label>
-          <input type="text" id="modal-rec-relationship" class="form-input" value="${escapeHtml(rec.relationship || '')}" placeholder="e.g. Managed Fazal directly" />
+          <input type="text" id="modal-rec-relationship" class="form-input" value="${PortfolioUtils.escapeHtml(rec.relationship || '')}" placeholder="e.g. Managed Fazal directly" />
         </div>
         <div class="form-group">
           <label class="form-label">Date</label>
-          <input type="text" id="modal-rec-date" class="form-input" value="${escapeHtml(rec.date || '')}" placeholder="e.g. July 2026" />
+          <input type="text" id="modal-rec-date" class="form-input" value="${PortfolioUtils.escapeHtml(rec.date || '')}" placeholder="e.g. July 2026" />
         </div>
         <div class="form-group">
           <label class="form-label">Avatar Image URL (Optional)</label>
-          <input type="text" id="modal-rec-avatar" class="form-input" value="${escapeHtml(rec.avatar || '')}" placeholder="assets/testimonials/avatar.jpg" />
+          <input type="text" id="modal-rec-avatar" class="form-input" value="${PortfolioUtils.escapeHtml(rec.avatar || '')}" placeholder="assets/testimonials/avatar.jpg" />
         </div>
         <div class="form-group full-width">
           <label class="form-label">Recommendation Text *</label>
-          <textarea id="modal-rec-text" class="form-textarea" style="min-height: 120px;" required>${escapeHtml(rec.text || '')}</textarea>
+          <textarea id="modal-rec-text" class="form-textarea" style="min-height: 120px;" required>${PortfolioUtils.escapeHtml(rec.text || '')}</textarea>
         </div>
       </div>
     `;
@@ -2008,9 +2074,10 @@ function initAdminApp() {
 
       if (res.success) {
         if (res.serverSynced) {
-          showToast('🎉 All portfolio changes saved and synced to live server!');
+          showToast('🚀 All changes saved and committed to GitHub! Live in ~30s.');
         } else {
-          showToast('🎉 Changes saved locally to your browser.');
+          const errMsg = res.error ? `Sync failed: ${res.error}` : 'Configure a GitHub token in Settings to sync live.';
+          showToast(`💾 Changes saved locally. (${errMsg})`, 'error');
         }
       } else {
         window._adminSaveInProgress = false;
@@ -2113,16 +2180,6 @@ function initAdminApp() {
     }, 3200);
   }
 
-  function escapeHtml(str) {
-    if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
-
   // Expose global PortfolioAdmin namespace
   window.PortfolioAdmin = {
     handleLogin,
@@ -2160,6 +2217,26 @@ function initAdminApp() {
 
   // Initialize Auth Check
   checkAuth();
+  // Global event delegation for list actions
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const action = btn.getAttribute('data-action');
+    if (action && typeof window[action] === 'function') {
+      const arg0Str = btn.getAttribute('data-arg0');
+      const arg1Str = btn.getAttribute('data-arg1');
+      const arg0 = arg0Str ? (isNaN(arg0Str) ? arg0Str : parseInt(arg0Str, 10)) : undefined;
+      const arg1 = arg1Str ? (isNaN(arg1Str) ? arg1Str : parseInt(arg1Str, 10)) : undefined;
+      if (arg1 !== undefined) {
+        window[action](arg0, arg1);
+      } else if (arg0 !== undefined) {
+        window[action](arg0);
+      } else {
+        window[action]();
+      }
+    }
+  });
+
 }
 
 // Resilient auto-initialization

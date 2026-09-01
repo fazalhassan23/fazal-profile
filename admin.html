@@ -1133,6 +1133,45 @@
 
     <!-- ── PANEL: SECURITY & SETTINGS ────────────── -->
     <section id="panel-settings" class="admin-panel">
+      <!-- GitHub API Token -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h2 class="admin-card-title">GitHub Sync Token</h2>
+          <p style="font-size:0.85rem; color:var(--adm-muted); margin-top:0.25rem;">
+            Required for saving CMS changes to the live GitHub Pages site. Generate a
+            <strong>Fine-grained Personal Access Token</strong> on GitHub with
+            <code>Contents: Write</code> permission on this repository only.
+          </p>
+        </div>
+
+        <div id="github-token-status" style="margin-bottom: 1rem;"></div>
+
+        <form id="form-github-token" onsubmit="return false;" style="max-width: 460px; display: flex; flex-direction: column; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label" for="input-github-token">Personal Access Token (PAT)</label>
+            <input
+              type="password"
+              id="input-github-token"
+              class="form-input"
+              placeholder="github_pat_..."
+              autocomplete="off"
+            />
+          </div>
+
+          <div style="display: flex; gap: 0.5rem;">
+            <button type="button" id="btn-save-github-token" class="btn-adm btn-adm-primary">
+              Save Token
+            </button>
+            <button type="button" id="btn-test-github-token" class="btn-adm" style="background-color: var(--adm-surface-hover); color: var(--adm-text);">
+              Test Token
+            </button>
+            <button type="button" id="btn-clear-github-token" class="btn-adm btn-adm-danger">
+              Clear Token
+            </button>
+          </div>
+        </form>
+      </div>
+
       <!-- Change Password -->
       <div class="admin-card">
         <div class="admin-card-header">
@@ -1205,7 +1244,7 @@
 
   <!-- Scripts -->
   <script src="data/default-data.js"></script>
-  <script src="js/store.js"></script>
+  <script src="js/utils.js"></script>`n  <script src="js/store.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-﻿$li_at = "YOUR_LI_AT_COOKIE_HERE"
+$li_at = "YOUR_LI_AT_COOKIE_HERE"
 $csrfToken = "ajax:12345678901234567"
 $cookie = "li_at=$li_at; JSESSIONID=`"$csrfToken`";"
 

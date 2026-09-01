@@ -61,6 +61,45 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.11.0] — 2026-09-01
+
+### Added
+- **GitHub Pages Deployment**: Added `.github/workflows/deploy.yml` for automated deployment to GitHub Pages.
+- **GitHub Contents API Integration**: CMS now saves data directly to the GitHub repository using the GitHub REST API (`PUT /repos/{owner}/{repo}/contents/{path}`), replacing the old PHP/FTP backend.
+- **Admin Panel Enhancements**:
+  - Added a "GitHub Sync Token" configuration card in `admin.html` allowing the user to input a fine-grained Personal Access Token.
+  - Added a "Test Token" button to verify GitHub API connectivity and permissions directly from the CMS.
+- **Custom Domain Setup**: Added `CNAME` file for `fazalmahmudhassan.com` redirection on GitHub Pages.
+
+### Security
+- **Data Sanitization**: Scrubbed all sensitive data (LinkedIn API cookies, default password hashes) from the repository.
+- **History Wipe**: Rewrote Git commit history via `git-filter-repo` to permanently remove old sensitive credentials before transitioning the repository to public.
+- **Default Credentials**: Changed the baseline default CMS password to `admin`.
+
+### Removed
+- **PHP Backend (`api/save.php`)**: Removed the legacy FTP/PHP server-side saving mechanism as Namecheap hosting is no longer used.
+
+---
+
+## [1.10.0] — 2026-09-01
+
+### Added
+- **CMS Section Visibility Toggles**: Added the ability to toggle the visibility of the "Recommendations / Endorsements" section directly from the admin panel (`admin.html`), syncing with the frontend renderer.
+
+### Changed
+- **Recommendation Cards UI**:
+  - Replaced the generic large quotation mark icon with a LinkedIn logo to clearly indicate the source of the endorsements.
+  - Aligned the recommendation date to the right side of the card.
+  - Removed redundant generic text ("LinkedIn recommendation received") to clean up the card UI.
+
+### Refactored & Enhanced
+- **Codebase Audit & Technical Debt Cleanup**:
+  - **Deduplication**: Extracted `escapeHtml` and LinkedIn SVG paths into a new shared `js/utils.js` file to eliminate duplicated code in `render.js` and `admin.js`.
+  - **Event Delegation**: Replaced inline `onclick` handlers across all CMS CRUD lists (Awards, Articles, Experience, etc.) in `admin.js` with a secure `data-action` event delegation pattern.
+  - **Data-Driven Logic**: The contact form's `mailto:` success link and handler in `main.js` now dynamically read the owner's email from the CMS (`data.profile.email`) instead of being hardcoded.
+  - **Separation of Concerns**: Extracted inline CSS strings (`style="..."`) inside `render.js` HTML templates to dedicated classes in `css/style.css`.
+  - **Code Hygiene**: Removed magic numbers in `main.js`, fixed silent `catch` blocks in `store.js`, and renamed the misleading `printCV()` function to `openAboutPage()`.
+
 ## [1.9.0] — 2026-08-28
 
 > Branch: `feature/recommendations-fix-and-linkedin-scripts` (based on `Worked-from-office`)

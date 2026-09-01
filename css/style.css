@@ -2160,3 +2160,11 @@ a {
     transform: none !important;
   }
 }
+
+/* Classes for refactored inline styles */
+.rec-quote-mark-icon { font-family: inherit; font-size: inherit; line-height: 0; color: inherit; top: 1.5rem; right: 1.5rem; }
+.rec-source-icon { fill: var(--text-muted); opacity: 0.5; }
+.rec-linkedin-icon { vertical-align: middle; margin-left: 4px; fill: var(--accent); }
+.modal-art-meta-date { margin-left: 0.6rem; }
+.modal-close-btn-sm { padding: 0.4rem 0.9rem; font-size: 0.875rem; }
+
