@@ -9,6 +9,10 @@
 
   const STORAGE_KEY = 'fazal_portfolio_cms_data';
   const SESSION_AUTH_KEY = 'fazal_portfolio_auth_session';
+  const GITHUB_TOKEN_KEY = 'fazal_portfolio_github_token';
+  const GITHUB_REPO = 'fazalhassan23/fazal-profile';
+  const GITHUB_BRANCH = 'main';
+  const GITHUB_FILE = 'data/portfolio-data.json';
 
   /**
    * Pure JavaScript SHA-256 implementation (Works in all environments including file:// and non-HTTPS IP addresses)
@@ -263,6 +267,28 @@
     },
 
     /**
+     * Get GitHub file SHA required by Contents API for updating
+     * @param {string} token
+     * @returns {Promise<string|null>}
+     */
+    getFileSha: async function (token) {
+      const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}?ref=${GITHUB_BRANCH}`;
+      try {
+        const res = await fetch(url, {
+          headers: {
+            'Authorization': 'token ' + token,
+            'Accept': 'application/vnd.github+json'
+          }
+        });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data.sha || null;
+      } catch (e) {
+        return null;
+      }
+    },
+
+    /**
      * Save updated portfolio data to localStorage and sync with server API
      * @param {Object} data
      * @returns {Promise<{ success: boolean, serverSynced?: boolean, error?: string }>}
@@ -280,25 +306,40 @@
         return { success: false, error: e.message || 'LocalStorage write error.' };
       }
 
-      // Sync to PHP flat-file backend if reachable
+      // Sync to GitHub repo via Contents API
       let serverSynced = false;
-      if (window.location.protocol !== 'file:') {
+      const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+
+      if (token && window.location.protocol !== 'file:') {
         try {
-          const sessionHash = sessionStorage.getItem(SESSION_AUTH_KEY) || '';
-          const res = await fetch('api/save.php', {
-            method: 'POST',
+          const sha = await this.getFileSha(token);
+          const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+
+          const body = {
+            message: 'chore: CMS update via admin panel',
+            content: contentBase64,
+            branch: GITHUB_BRANCH
+          };
+          if (sha) body.sha = sha;
+
+          const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
+          const res = await fetch(url, {
+            method: 'PUT',
             headers: {
+              'Authorization': 'token ' + token,
               'Content-Type': 'application/json',
-              'Authorization': sessionHash ? 'Bearer ' + sessionHash : ''
+              'Accept': 'application/vnd.github+json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(body)
           });
           const result = await res.json();
-          if (result && result.success) {
+          if (res.ok && result.content) {
             serverSynced = true;
+          } else {
+            console.warn('[PortfolioStore] GitHub API save failed:', result.message);
           }
         } catch (err) {
-          console.warn('[PortfolioStore] Server persistence skipped (static or local environment):', err);
+          console.warn('[PortfolioStore] GitHub API sync skipped:', err);
         }
       }
 
@@ -442,6 +483,38 @@
       } catch (e) {
         return { success: false, error: 'Failed to encrypt new password: ' + e.message };
       }
+    },
+
+    /**
+     * Save GitHub Personal Access Token for API sync
+     * @param {string} token
+     * @returns {{ success: boolean, error?: string }}
+     */
+    saveGitHubToken: function (token) {
+      if (!token || typeof token !== 'string' || !token.trim().startsWith('github_pat_')) {
+        return { success: false, error: 'Invalid token format. Must be a fine-grained PAT starting with github_pat_' };
+      }
+      localStorage.setItem(GITHUB_TOKEN_KEY, token.trim());
+      return { success: true };
+    },
+
+    /**
+     * Check if GitHub PAT is configured
+     * @returns {{ configured: boolean, preview: string | null }}
+     */
+    getGitHubTokenStatus: function () {
+      const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+      return {
+        configured: !!token,
+        preview: token ? token.slice(0, 18) + '...' : null
+      };
+    },
+
+    /**
+     * Clear saved GitHub PAT
+     */
+    clearGitHubToken: function () {
+      localStorage.removeItem(GITHUB_TOKEN_KEY);
     }
   };
 

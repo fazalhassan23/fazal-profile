@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    PORTFOLIO CMS ADMIN LOGIC & AUTH (js/admin.js)
    With Built-in Rich Text WYSIWYG Editor Support
    ============================================================ */
@@ -114,7 +114,7 @@ function initAdminApp() {
       if (action === 'link') {
         const url = prompt('Enter web link URL (e.g. https://...):');
         if (url) {
-          // @deprecated � execCommand is deprecated, see MDN
+          // @deprecated � execCommand is deprecated, see MDN
           document.execCommand('createLink', false, url);
           contentArea.querySelectorAll('a').forEach(a => a.setAttribute('target', '_blank'));
         }
@@ -122,7 +122,7 @@ function initAdminApp() {
       }
 
       if (cmd) {
-        // @deprecated � execCommand is deprecated, see MDN
+        // @deprecated � execCommand is deprecated, see MDN
         document.execCommand(cmd, false, val);
         updateActiveStates();
         contentArea.focus();
@@ -352,6 +352,7 @@ function initAdminApp() {
     populateContact();
     populateFooter();
     populateSEO();
+    populateGitHubTokenSection();
   }
 
   function setVal(id, val) {
@@ -1996,9 +1997,9 @@ function initAdminApp() {
       const res = await window.PortfolioStore.saveData(data);
       if (res.success) {
         if (res.serverSynced) {
-          showToast('🎉 All portfolio changes saved and synced to live server!');
+          showToast('🚀 All changes saved and committed to GitHub! Live in ~30s.');
         } else {
-          showToast('🎉 Changes saved locally to your browser.');
+          showToast('💾 Changes saved locally. Configure a GitHub token in Settings to sync live.');
         }
       } else {
         alert('Failed to save changes: ' + res.error);
