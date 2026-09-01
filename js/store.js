@@ -512,6 +512,39 @@
     },
 
     /**
+     * Test if the currently saved GitHub PAT is valid and has access
+     * @returns {Promise<{ success: boolean, error?: string }>}
+     */
+    testGitHubToken: async function () {
+      const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+      if (!token) {
+        return { success: false, error: 'No token configured.' };
+      }
+      try {
+        const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}?ref=${GITHUB_BRANCH}`;
+        const res = await fetch(url, {
+          headers: {
+            'Authorization': 'token ' + token,
+            'Accept': 'application/vnd.github+json'
+          }
+        });
+        
+        if (res.ok) {
+          return { success: true };
+        } else if (res.status === 404) {
+          return { success: false, error: 'Repository or file not found. Ensure the token has access to this repository.' };
+        } else if (res.status === 401) {
+          return { success: false, error: 'Unauthorized. The token is invalid or expired.' };
+        } else {
+          const data = await res.json();
+          return { success: false, error: data.message || `API Error: ${res.status}` };
+        }
+      } catch (e) {
+        return { success: false, error: 'Network error connecting to GitHub API.' };
+      }
+    },
+
+    /**
      * Clear saved GitHub PAT
      */
     clearGitHubToken: function () {

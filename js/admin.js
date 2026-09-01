@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    PORTFOLIO CMS ADMIN LOGIC & AUTH (js/admin.js)
    With Built-in Rich Text WYSIWYG Editor Support
    ============================================================ */
@@ -805,6 +805,69 @@ function initAdminApp() {
     setVal('textarea-seo-desc', s.metaDescription || '');
     setVal('textarea-seo-keywords', s.keywords || '');
     setVal('input-seo-og-image', s.ogImage || '');
+  }
+
+  function populateGitHubTokenSection() {
+    const statusEl = document.getElementById('github-token-status');
+    const inputEl = document.getElementById('input-github-token');
+    const saveBtn = document.getElementById('btn-save-github-token');
+    const testBtn = document.getElementById('btn-test-github-token');
+    const clearBtn = document.getElementById('btn-clear-github-token');
+
+    if (!statusEl || !inputEl) return;
+
+    const status = window.PortfolioStore.getGitHubTokenStatus();
+    if (status.configured) {
+      statusEl.innerHTML = `<span class="badge badge-success">✓ Token configured: ${PortfolioUtils.escapeHtml(status.preview)}</span>`;
+    } else {
+      statusEl.innerHTML = `<span class="badge badge-muted">✗ No token configured — changes will save locally only</span>`;
+    }
+
+    if (saveBtn && !saveBtn.dataset.bound) {
+      saveBtn.dataset.bound = 'true';
+      saveBtn.addEventListener('click', () => {
+        const token = inputEl.value.trim();
+        const result = window.PortfolioStore.saveGitHubToken(token);
+        if (result.success) {
+          showToast('✅ GitHub token saved. CMS will now sync to GitHub on save.');
+          inputEl.value = '';
+          populateGitHubTokenSection();
+        } else {
+          showToast('⚠️ ' + result.error, 'error');
+        }
+      });
+    }
+
+    if (testBtn && !testBtn.dataset.bound) {
+      testBtn.dataset.bound = 'true';
+      testBtn.addEventListener('click', async () => {
+        const btnText = testBtn.innerText;
+        testBtn.innerText = 'Testing...';
+        testBtn.disabled = true;
+        
+        const result = await window.PortfolioStore.testGitHubToken();
+        
+        testBtn.innerText = btnText;
+        testBtn.disabled = false;
+
+        if (result.success) {
+          showToast('✅ Success! The GitHub token is valid and has repository access.');
+        } else {
+          showToast('⚠️ Test Failed: ' + result.error, 'error');
+        }
+      });
+    }
+
+    if (clearBtn && !clearBtn.dataset.bound) {
+      clearBtn.dataset.bound = 'true';
+      clearBtn.addEventListener('click', () => {
+        if (confirm('Remove the GitHub token? CMS saves will only be stored locally.')) {
+          window.PortfolioStore.clearGitHubToken();
+          showToast('GitHub token cleared.', 'info');
+          populateGitHubTokenSection();
+        }
+      });
+    }
   }
 
   /* ── 4. Metrics Editor ──────────────────────────────────── */
