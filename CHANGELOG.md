@@ -3,6 +3,24 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.1.1] — 2026-09-02
+
+> Branch: `Worked-from-office` — Mobile responsiveness audit and card layout fixes.
+
+### Fixed
+
+#### `css/style.css` — Mobile Card Layout & Text Overflow Fixes (Major)
+- **`recommendation-card`**: Reduced mobile padding (`1.25rem 1rem 1rem`), added `min-width: 0` and `overflow-wrap: anywhere` to author info, wrapped author name with LinkedIn badge, and stacked metadata vertically on small screens (`<480px`).
+- **`article-card`**: Applied column flex layout on mobile screens (`<640px`) with fluid spacing, responsive meta tag alignment, and text wrapping protection on title & summary blocks.
+- **`project-card`**: Converted two-column grid into a fluid column layout on mobile (`<640px`) and reversed tag/year row layout on extra-small devices (`<480px`).
+- **`metric-card`**: Switched 2-column metrics grid into vertical flex items (`<640px`) to prevent side-by-side number/label clipping on landscape phones and phablets.
+- **`award-card`**, **`expertise-card`**, **`edu-item`**: Added `min-width: 0` containment and overflow handling to prevent long organization names, degrees, or titles from pushing cards out of screen boundaries.
+
+#### `css/admin.css` — Admin Mobile Responsiveness Overrides (Minor)
+- Added mobile layout flex rules for `.admin-topbar`, `.admin-item-card`, `.admin-item-actions`, and `.admin-modal` to ensure full usability on mobile viewports (`<680px`).
+
+---
+
 ## [2.1.0] — 2026-09-02
 
 > Branch: `Worked-from-office` — CMS-to-frontend data sync deep-dive and root cause resolution.
