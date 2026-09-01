@@ -3,6 +3,19 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.2.0] — 2026-09-02
+
+> Branch: `Worked-from-office` — Transitioned production CI/CD deployment pipeline to GitHub Pages.
+
+### Changed
+
+#### `.github/workflows/deploy.yml` — Automated GitHub Pages CI/CD Pipeline
+- **Removed**: Legacy Namecheap cPanel FTP upload deployment action.
+- **Added**: Official GitHub Pages CI/CD deployment workflow (`actions/checkout@v4`, `actions/configure-pages@v5`, `actions/upload-pages-artifact@v3`, `actions/deploy-pages@v4`) with `pages: write` and `id-token: write` permissions.
+- **Documentation**: Updated `DEPLOYMENT.md` with step-by-step setup instructions for setting repository Pages source to **GitHub Actions**.
+
+---
+
 ## [2.1.2] — 2026-09-02
 
 > Branch: `Worked-from-office` — Expertise card layout & mobile text cramping resolution.
