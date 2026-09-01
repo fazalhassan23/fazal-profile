@@ -2062,7 +2062,8 @@ function initAdminApp() {
         if (res.serverSynced) {
           showToast('🚀 All changes saved and committed to GitHub! Live in ~30s.');
         } else {
-          showToast('💾 Changes saved locally. Configure a GitHub token in Settings to sync live.');
+          const errMsg = res.error ? `Sync failed: ${res.error}` : 'Configure a GitHub token in Settings to sync live.';
+          showToast(`💾 Changes saved locally. (${errMsg})`, 'error');
         }
       } else {
         alert('Failed to save changes: ' + res.error);

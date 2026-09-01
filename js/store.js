@@ -220,9 +220,8 @@
           const serverData = await res.json();
           if (serverData && typeof serverData === 'object') {
             const defaults = window.DEFAULT_PORTFOLIO_DATA ? deepClone(window.DEFAULT_PORTFOLIO_DATA) : {};
+            const serverMerged = mergeSchema(defaults, serverData);
 
-            // Merge server data with existing localStorage — localStorage wins for
-            // CMS-managed arrays (recommendations etc.) if it has more entries.
             let localData = null;
             try {
               const saved = localStorage.getItem(STORAGE_KEY);
@@ -231,32 +230,21 @@
               console.warn('[PortfolioStore] Failed to parse localStorage in fetchServerData:', e);
             }
 
-            const serverMerged = mergeSchema(defaults, serverData);
+            // Timestamp comparison: if server data is newer or equal (or local has no _savedAt), server wins!
+            const serverTime = serverMerged._savedAt ? new Date(serverMerged._savedAt).getTime() : 0;
+            const localTime = (localData && localData._savedAt) ? new Date(localData._savedAt).getTime() : 0;
 
-            if (localData && typeof localData === 'object') {
-              // For arrays managed via CMS, keep whichever has more items
-              const cmsArrayKeys = ['recommendations', 'metrics', 'expertise', 'awards',
-                                    'articles', 'experience', 'projects', 'education', 'skills'];
-              const combined = { ...serverMerged };
-              for (const key of cmsArrayKeys) {
-                const localArr = localData[key];
-                const serverArr = serverMerged[key];
-                if (Array.isArray(localArr) && Array.isArray(serverArr) && localArr.length > serverArr.length) {
-                  combined[key] = localArr;
-                }
-              }
-              // Also preserve nested skills from localStorage if richer
-              if (localData.skills && typeof localData.skills === 'object' && !Array.isArray(localData.skills)) {
-                combined.skills = localData.skills;
-              }
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(combined));
-              window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: combined }));
-              return combined;
+            let finalData;
+            if (!localData || serverTime >= localTime) {
+              finalData = serverMerged;
+            } else {
+              // Local is strictly newer (uncommitted local draft in active CMS session)
+              finalData = mergeSchema(defaults, localData);
             }
 
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(serverMerged));
-            window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: serverMerged }));
-            return serverMerged;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(finalData));
+            window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: finalData }));
+            return finalData;
           }
         }
       } catch (e) {
@@ -269,7 +257,7 @@
     /**
      * Get GitHub file SHA required by Contents API for updating
      * @param {string} token
-     * @returns {Promise<string|null>}
+     * @returns {Promise<{ sha: string|null, error?: string }>}
      */
     getFileSha: async function (token) {
       const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}?ref=${GITHUB_BRANCH}`;
@@ -281,11 +269,14 @@
             'Accept': 'application/vnd.github+json'
           }
         });
-        if (!res.ok) return null;
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          return { sha: null, error: errData.message || `HTTP ${res.status}` };
+        }
         const data = await res.json();
-        return data.sha || null;
+        return { sha: data.sha || null };
       } catch (e) {
-        return null;
+        return { sha: null, error: e.message || 'Network error fetching SHA' };
       }
     },
 
@@ -299,6 +290,9 @@
         return { success: false, error: 'Invalid data payload provided.' };
       }
 
+      // Stamp timestamp
+      data._savedAt = new Date().toISOString();
+
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
         window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: data }));
@@ -309,11 +303,21 @@
 
       // Sync to GitHub repo via Contents API
       let serverSynced = false;
+      let syncError = null;
       const token = localStorage.getItem(GITHUB_TOKEN_KEY);
 
-      if (token && window.location.protocol !== 'file:') {
+      if (!token) {
+        syncError = 'No GitHub token configured in Settings.';
+      } else if (window.location.protocol === 'file:') {
+        syncError = 'File:// protocol detected. Server sync requires running on HTTP/HTTPS.';
+      } else {
         try {
-          const sha = await this.getFileSha(token);
+          const shaResult = await this.getFileSha(token);
+          const sha = shaResult.sha;
+          if (!sha && shaResult.error) {
+            console.warn('[PortfolioStore] Failed to get SHA:', shaResult.error);
+          }
+
           const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
 
           const body = {
@@ -337,14 +341,16 @@
           if (res.ok && result.content) {
             serverSynced = true;
           } else {
-            console.warn('[PortfolioStore] GitHub API save failed:', result.message);
+            syncError = result.message || `GitHub API returned HTTP ${res.status}`;
+            console.warn('[PortfolioStore] GitHub API save failed:', syncError);
           }
         } catch (err) {
-          console.warn('[PortfolioStore] GitHub API sync skipped:', err);
+          syncError = err.message || 'Network exception syncing with GitHub API.';
+          console.warn('[PortfolioStore] GitHub API sync exception:', err);
         }
       }
 
-      return { success: true, serverSynced: serverSynced };
+      return { success: true, serverSynced: serverSynced, error: syncError };
     },
 
     /**
