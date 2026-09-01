@@ -711,11 +711,10 @@ a {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--card-radius);
-  padding: 1.25rem;
-  display: grid;
-  grid-template-columns: 2.5rem 1fr;
-  align-items: start;
-  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
   transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
 }
 
@@ -1910,10 +1909,65 @@ a {
    ──────────────────────────────────────────────────────────── */
 .recommendations-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .recommendations-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rec-paginated-wrapper {
+  position: relative;
+  margin-top: 1rem;
+}
+
+/* Pagination Bar */
+.rec-pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
   margin-top: 2rem;
 }
+
+.rec-nav-btn {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease), opacity 0.2s var(--ease);
+}
+
+.rec-nav-btn:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.rec-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.rec-page-indicator {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 
 .recommendation-card {
   position: relative;
@@ -2042,6 +2096,10 @@ a {
 
 .rec-relationship {
   font-style: italic;
+}
+
+.rec-date {
+  margin-left: auto;
 }
 
 .rec-text {
