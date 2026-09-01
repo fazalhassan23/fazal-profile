@@ -3,6 +3,62 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.1.0] — 2026-09-02
+
+> Branch: `Worked-from-office` — CMS-to-frontend data sync deep-dive and root cause resolution.
+
+### Fixed
+
+#### `index.html` — Hardcoded Metric Cards Bypassed CMS Renderer (Critical)
+- **Root cause**: `#hero-metrics-container` had 4 static metric card blocks hardcoded in HTML. `renderMetrics()` uses `container.innerHTML = ...` to replace contents, but the `IntersectionObserver` in `main.js` fires on static cards on initial load and unobserves. After CMS saves, new cards render but the observer never re-fires.
+- **Fix**: Removed all hardcoded metric card HTML from `index.html`. Container is now populated dynamically by `render.js`.
+
+#### `js/main.js` + `js/render.js` — Metric Counter Animation Did Not Re-trigger After CMS Save (Major)
+- **Root cause**: `animateMetrics()` was only wired via a one-shot `IntersectionObserver`. Subsequent CMS re-renders left counters displaying raw static numbers.
+- **Fix**: Exposed `window.triggerMetricAnimation = animateMetrics` in `main.js` and called it at the end of `renderMetrics()` in `render.js`.
+
+#### `js/admin.js` — `portfolioDataChanged` Listener Clobbered Unsaved In-Memory Edits (Critical)
+- **Root cause**: The `portfolioDataChanged` listener called `populateAll()` on every event — including during active saving, resetting form inputs from localStorage before async saves finished.
+- **Fix**: Added `window._adminSaveInProgress` flag around `saveData()` calls to skip data re-fetching during active save cycles.
+
+#### `js/render.js` — `renderNavigation()` Left Nav Blank When `nav.items` Was Empty (Major)
+- **Root cause**: If `nav.items` was empty, `renderNavigation()` skipped DOM updates, leaving the nav blank if a previous render had cleared it.
+- **Fix**: Preserved DOM when `nav.items` is empty so fallback static HTML remains intact.
+
+#### `js/render.js` — `renderAboutPage()` Rendered Blank `<p>` Tags (Medium)
+- **Root cause**: When the rich text editor was empty, `aboutBodyParagraphs` contained `[""]`, rendering `<p></p>` tags.
+- **Fix**: Added `.filter(text => text && text.trim())` before mapping paragraphs.
+
+#### `js/admin.js` — Hero CTA `visible` Property Hardcoded to `true` on Save (Medium)
+- **Root cause**: `btn-save-all` handler set `cta.visible = true` unconditionally.
+- **Fix**: Updated to preserve existing boolean state (`cta.visible !== false`).
+
+#### `admin.html` — Recommendations Section Inputs Missing from Sections Panel (Major)
+- **Root cause**: Save handler called `getVal()` on non-existent recommendation input IDs, overwriting saved section configs with empty strings.
+- **Fix**: Added Recommendations section inputs (`input-rec-section-label`, `input-rec-section-subtext`, `checkbox-sec-rec-vis`) to `admin.html`.
+
+---
+
+## [2.0.0] — 2026-09-02
+
+> Branch: `Worked-from-office` — Full end-to-end QA audit and bug-fix pass.
+
+### Fixed
+
+- **BUG-01**: Fixed inverted `toggleRecommendationVisible()` logic in `js/admin.js`.
+- **BUG-02**: Renamed `#awards-container` to `#about-awards-container` on `about.html` and updated `renderAwards()` in `js/render.js` to render to both containers.
+- **BUG-03**: Added null guards to `openModal()` in `js/admin.js` to prevent `TypeError` crashes.
+- **BUG-05**: Added missing "Articles" navigation link to `about.html`.
+- **BUG-06**: Added `id="home-section-label"` to `index.html` hero section label span for CMS dynamic binding.
+- **BUG-09**: Replaced `window.location.href = mailto:` with temporary anchor click in `js/main.js` to prevent page navigation.
+- **BUG-10**: Updated `<title>` binding logic in `js/render.js` to work with any CMS profile name.
+- **BUG-11**: Fixed no-op `renderSEO()` title logic to properly update `document.title`.
+- **BUG-14**: Added `portfolioDataChanged` listener in `admin.js` to refresh stale `data` reference.
+- **BUG-15**: Added `<meta name="robots" content="noindex, nofollow" />` to `admin.html`.
+- **BUG-17**: Reset admin password input type to `password` on logout in `js/admin.js`.
+- **BUG-18**: Removed broken inline `onsubmit` from `admin.html` login form.
+- **BUG-20**: Replaced deprecated `unescape()` with `TextEncoder` in `js/store.js` SHA-256 fallback.
+
 ---
 
 ## [1.9.0] — 2026-08-28
