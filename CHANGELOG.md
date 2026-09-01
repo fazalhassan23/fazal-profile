@@ -3,6 +3,18 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.1.2] — 2026-09-02
+
+> Branch: `Worked-from-office` — Expertise card layout & mobile text cramping resolution.
+
+### Fixed
+
+#### `css/style.css` + `js/render.js` — Expertise Card Mobile Cramping Fix (Major)
+- **Root cause**: `renderExpertise()` rendered an unclassed `<div>` child inside `.expertise-card` without a `.card-icon` or body wrapper. In flexbox row containers without explicit `flex: 1` and `min-width: 0` rules, the child container collapsed down to min-content width on mobile devices, causing title and body text to cramp vertically on the left edge.
+- **Fix**: Wrapped expertise card content in `.expertise-card-body` (`flex: 1; min-width: 0; width: 100%`) in `render.js`, re-added the category icon badge (`.card-icon`), and converted `.expertise-grid` into a responsive 3-column desktop / 1-column mobile grid system.
+
+---
+
 ## [2.1.1] — 2026-09-02
 
 > Branch: `Worked-from-office` — Mobile responsiveness audit and card layout fixes.
