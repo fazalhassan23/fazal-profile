@@ -189,6 +189,9 @@ function initAdminApp() {
     if (mainContent) mainContent.style.display = 'none';
     if (inputAdminPassword) {
       inputAdminPassword.value = '';
+      // BUG-17 FIX: Always reset to password type so it's never shown as plain text after logout
+      inputAdminPassword.setAttribute('type', 'password');
+      if (btnTogglePwd) btnTogglePwd.textContent = '👁️';
       inputAdminPassword.focus();
     }
     if (lockErrorMsg) lockErrorMsg.classList.remove('visible');
@@ -1425,7 +1428,8 @@ function initAdminApp() {
 
   window.toggleRecommendationVisible = function(idx) {
     const list = data.recommendations || [];
-    list[idx].visible = list[idx].visible !== false;
+    // BUG-01 FIX: Was `!== false` which always evaluated to true — flipping correctly now
+    list[idx].visible = list[idx].visible === false; // false→true, true→false
     renderRecommendationsList();
     showToast(list[idx].visible !== false ? 'Recommendation visible.' : 'Recommendation hidden.');
   };
@@ -1761,6 +1765,11 @@ function initAdminApp() {
   let modalSaveCallback = null;
 
   function openModal(title, htmlContent, onSave, onOpen) {
+    // BUG-03 FIX: Guard against null modal DOM elements to prevent TypeError crashes
+    if (!modalTitle || !modalBody || !modalBackdrop) {
+      console.error('[Admin] openModal(): Modal DOM elements not found. Check admin.html for #modal-title, #modal-body, #admin-modal-backdrop.');
+      return;
+    }
     modalTitle.textContent = title;
     modalBody.innerHTML = htmlContent;
     modalSaveCallback = onSave;
@@ -2051,13 +2060,14 @@ function initAdminApp() {
   const inputImportJson = document.getElementById('input-import-json');
   if (btnImportTrigger && inputImportJson) {
     btnImportTrigger.addEventListener('click', () => inputImportJson.click());
-    inputImportJson.addEventListener('change', (e) => {
+    inputImportJson.addEventListener('change', async (e) => {
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = (event) => {
-        const res = window.PortfolioStore.importJSON(event.target.result);
+      reader.onload = async (event) => {
+        const res = await window.PortfolioStore.importJSON(event.target.result);
         if (res.success) {
+          data = res.data;
           populateAll();
           showToast('Backup restored successfully!');
         } else {
@@ -2127,6 +2137,15 @@ function initAdminApp() {
     populateAll,
     init: initAdminApp
   };
+
+  // BUG-14 FIX: Refresh stale `data` variable whenever the store is updated by server sync
+  window.addEventListener('portfolioDataChanged', () => {
+    data = window.PortfolioStore.getData();
+    // If admin is already unlocked, refresh the form fields with new data
+    if (window.PortfolioStore.isAuthenticated() && mainContent && mainContent.style.display !== 'none') {
+      try { populateAll(); } catch(e) {}
+    }
+  });
 
   // Initialize Auth Check
   checkAuth();

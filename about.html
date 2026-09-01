@@ -85,6 +85,8 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="projects.html">Projects</a></li>
+        <!-- BUG-05 FIX: Added missing Articles link that was present on index.html but missing here -->
+        <li><a href="index.html#articles">Articles</a></li>
         <li><a href="index.html#contact">Contact</a></li>
       </ul>
       <div class="nav-actions">
@@ -140,8 +142,8 @@
     <!-- ── AWARDS & HONORS ────────────────────────────── -->
     <section class="section" id="about-awards" aria-label="Awards & Honors">
       <span class="section-label" id="about-awards-label">recognition</span>
-
-      <div class="awards-grid" id="awards-container">
+      <!-- BUG-02 FIX: Renamed from awards-container to about-awards-container to avoid duplicate ID conflict with index.html -->
+      <div class="awards-grid" id="about-awards-container">
         <!-- Rendered dynamically by js/render.js -->
       </div>
     </section>

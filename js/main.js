@@ -192,8 +192,15 @@ document.addEventListener('DOMContentLoaded', () => {
           statusEl.innerHTML = `✅ Thank you, <strong>${escapeContactStr(name)}</strong>! Preparing your email client. If it does not open automatically, email me directly at <a href="mailto:fazal.mahmud.hassan@gmail.com" style="color:#34D399;text-decoration:underline;">fazal.mahmud.hassan@gmail.com</a>.`;
         }
 
+        // BUG-09 FIX: Use a temporary <a> click instead of window.location.href to avoid
+        // navigating away from the page on browsers without a mail client configured.
         const mailtoUri = `mailto:fazal.mahmud.hassan@gmail.com?subject=${encodeURIComponent(subject || `Portfolio Inquiry from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
-        window.location.href = mailtoUri;
+        const tempLink = document.createElement('a');
+        tempLink.href = mailtoUri;
+        tempLink.style.display = 'none';
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
 
         contactForm.reset();
         if (submitBtn) {

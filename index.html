@@ -171,7 +171,8 @@
 
     <!-- ── HERO ─────────────────────────────────────── -->
     <section class="hero" id="home" aria-label="Introduction">
-      <span class="section-label">home</span>
+      <!-- BUG-06 FIX: Added id so CMS can update the hero section label via renderSectionHeadersAndVisibility() -->
+      <span class="section-label" id="home-section-label">home</span>
 
       <!-- Live Availability Badge (Wrapped in block-level div to force line break) -->
       <div>

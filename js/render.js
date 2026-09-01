@@ -45,13 +45,11 @@
       el.textContent = p.name || 'Fazal Mahmud Hassan';
     });
 
-    // Dynamic Title tag
-    if (document.title.includes('—')) {
-      const parts = document.title.split('—');
-      if (parts.length === 2 && parts[0].trim() === 'Fazal Mahmud Hassan') {
-        const shortRole = p.roleTitle ? p.roleTitle.split('·')[0].trim() : 'Portfolio';
-        document.title = `${p.name || 'Fazal Mahmud Hassan'} — ${shortRole}`;
-      }
+    // BUG-10 FIX: Update <title> for any CMS name — not just the hardcoded original.
+    // Replaces everything before the — separator with the new name + role.
+    if (document.title.includes('—') && p.name && p.roleTitle) {
+      const shortRole = p.roleTitle.split('·')[0].trim();
+      document.title = `${p.name} — ${shortRole}`;
     }
   }
 
@@ -123,10 +121,9 @@
   }
 
   function renderAwards(awards) {
-    const container = document.getElementById('awards-container');
-    if (!container || !Array.isArray(awards)) return;
+    if (!Array.isArray(awards)) return;
 
-    container.innerHTML = awards.map(awd => `
+    const html = awards.map(awd => `
       <div class="award-card fade-up visible">
         <div class="award-icon-box">🏆</div>
         <div class="award-content">
@@ -135,6 +132,13 @@
         </div>
       </div>
     `).join('');
+
+    // BUG-02 FIX: Populate both the home awards container AND the about-page awards container
+    const homeContainer = document.getElementById('awards-container');
+    if (homeContainer) homeContainer.innerHTML = html;
+
+    const aboutContainer = document.getElementById('about-awards-container');
+    if (aboutContainer) aboutContainer.innerHTML = html;
   }
 
   function renderArticles(articles) {
@@ -756,10 +760,15 @@
 
   function renderSEO(seoData, p) {
     const seo = seoData || {};
-    if (seo.siteTitle && document.title.includes('—')) {
-      const pagePrefix = document.title.split('—')[0].trim();
-      if (pagePrefix === 'Fazal Mahmud Hassan' || pagePrefix === 'About' || pagePrefix === 'Projects' || pagePrefix === 'Page Not Found') {
-        // Keep page prefix intact
+
+    // BUG-11 FIX: Was a no-op block that never applied siteTitle. Now properly updates the page title.
+    if (seo.siteTitle) {
+      // Append the SEO-configured site title as the suffix after a page prefix (e.g. "About — New Site Title")
+      if (document.title.includes('\u2014')) {
+        const pagePrefix = document.title.split('\u2014')[0].trim();
+        document.title = `${pagePrefix} \u2014 ${seo.siteTitle}`;
+      } else {
+        document.title = seo.siteTitle;
       }
     }
 

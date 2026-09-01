@@ -31,13 +31,15 @@
       0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
     ];
 
-    const utf8 = unescape(encodeURIComponent(str));
+    // BUG-20 FIX: Replaced deprecated unescape(encodeURIComponent()) with modern Uint8Array UTF-8 encoding
+    const utf8Bytes = new TextEncoder().encode(str);
     const words = [];
-    for (let i = 0; i < utf8.length; i++) {
-      words[i >> 2] |= utf8.charCodeAt(i) << (24 - (i % 4) * 8);
+    for (let i = 0; i < utf8Bytes.length; i++) {
+      words[i >> 2] |= utf8Bytes[i] << (24 - (i % 4) * 8);
     }
-    words[utf8.length >> 2] |= 0x80 << (24 - (utf8.length % 4) * 8);
-    words[(((utf8.length + 8) >> 6) + 1) * 16 - 1] = utf8.length * 8;
+    const byteLen = utf8Bytes.length;
+    words[byteLen >> 2] |= 0x80 << (24 - (byteLen % 4) * 8);
+    words[(((byteLen + 8) >> 6) + 1) * 16 - 1] = byteLen * 8;
 
     for (let i = 0; i < words.length; i += 16) {
       const W = new Array(64);

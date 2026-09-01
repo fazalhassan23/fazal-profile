@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CMS Admin Panel — Fazal Mahmud Hassan</title>
+  <!-- BUG-15 FIX: Prevent search engines from indexing this private admin panel -->
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Private CMS Admin Panel" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
@@ -44,7 +47,9 @@
       <h2 class="lock-title">CMS Admin Access</h2>
       <p class="lock-subtitle">Enter your admin password to manage and edit your portfolio content.</p>
 
-      <form id="lock-form" class="lock-form" onsubmit="event.preventDefault(); window.PortfolioAdmin?.handleLogin(); return false;">
+      <!-- BUG-18 FIX: Removed broken inline onsubmit that called undefined window.PortfolioAdmin?.handleLogin().
+           The JS event listeners in admin.js (lockForm submit + btnUnlockCms click) handle this correctly. -->
+      <form id="lock-form" class="lock-form">
         <div class="password-input-wrap">
           <input type="password" id="input-admin-password" class="form-input" placeholder="Enter password..." autocomplete="current-password" autofocus />
           <button type="button" id="btn-toggle-pwd" class="btn-toggle-pwd" title="Show / Hide Password" aria-label="Toggle password visibility">👁️</button>
