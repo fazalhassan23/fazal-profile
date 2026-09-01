@@ -119,7 +119,8 @@
 
     container.innerHTML = expertise.map(exp => `
       <div class="expertise-card fade-up visible">
-        <div>
+        <div class="card-icon">${escapeHtml(exp.icon || '🗂️')}</div>
+        <div class="expertise-card-body">
           <p class="card-category">${escapeHtml(exp.category || '')}</p>
           <h3>${escapeHtml(exp.title || '')}</h3>
           <p>${escapeHtml(exp.description || '')}</p>
@@ -382,7 +383,7 @@
       extrasContainer.innerHTML = data.extraCurriculars.map(extra => `
         <div class="expertise-card fade-up visible">
           <div class="card-icon">${escapeHtml(extra.icon || '✨')}</div>
-          <div>
+          <div class="expertise-card-body">
             <p class="card-category">${escapeHtml(extra.category || '')}</p>
             <h3>${escapeHtml(extra.title || '')}</h3>
             <p>${escapeHtml(extra.description || '')}</p>
