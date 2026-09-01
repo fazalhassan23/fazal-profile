@@ -275,6 +275,7 @@
       const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}?ref=${GITHUB_BRANCH}`;
       try {
         const res = await fetch(url, {
+          cache: 'no-store',
           headers: {
             'Authorization': 'token ' + token,
             'Accept': 'application/vnd.github+json'
