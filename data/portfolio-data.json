@@ -1,7 +1,7 @@
 {
   "profile": {
     "name": "Fazal Mahmud Hassan",
-    "firstName": "FMH11",
+    "firstName": "FMH",
     "roleTitle": "Technical Project Manager Â· Systems Engineer",
     "heroBio": "Result-driven professional bridging technology and people management. Currently leading 21+ projects at Mediusware Limited â€” overseeing SaaS and CRM delivery across cross-functional teams. I hold an MBA in HR & Management from the University of Dhaka and a B.Sc in Computer Science from BRAC University.",
     "aboutLead": "I'm a Technical Project Manager at Mediusware Limited, where I lead delivery across 21+ concurrent software projects â€” spanning SaaS platforms, CRM systems, and enterprise solutions from concept to launch.",
@@ -1138,5 +1138,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-  "_savedAt": "2026-09-01T18:47:49.681Z"
+  "_savedAt": "2026-09-01T18:49:37.941Z"
 }
