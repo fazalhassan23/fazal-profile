@@ -655,6 +655,7 @@ a {
   flex-direction: row;
   align-items: center;
   gap: 0.85rem;
+  min-width: 0;
 }
 
 .metric-number-wrap {
@@ -715,6 +716,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  min-width: 0;
   transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
 }
 
@@ -799,6 +801,8 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .award-title {
@@ -850,6 +854,8 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .article-meta {
@@ -971,6 +977,8 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .project-card h3 {
@@ -1747,16 +1755,26 @@ a {
     display: flex;
   }
 
-  /* Metrics Grid (2x2) */
+  /* Metrics Grid (2x2 Column vertical cards) */
   .metrics-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
 
+  .metric-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding: 1rem;
+  }
+
   /* Articles Grid (Stacked) */
   .article-card {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     gap: 0.75rem;
+    padding: 1.15rem 1rem;
   }
 
   .article-card-right {
@@ -1765,7 +1783,8 @@ a {
     align-items: center;
     width: 100%;
     border-top: 1px solid var(--border);
-    padding-top: 0.75rem;
+    padding-top: 0.65rem;
+    min-width: 0;
   }
 
   .article-tags {
@@ -1774,8 +1793,11 @@ a {
 
   /* Project Cards (Stacked) */
   .project-card {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    padding: 1.15rem 1rem;
   }
 
   .project-card-right {
@@ -1784,7 +1806,8 @@ a {
     align-items: center;
     width: 100%;
     border-top: 1px solid var(--border);
-    padding-top: 0.75rem;
+    padding-top: 0.65rem;
+    min-width: 0;
   }
 
   /* Contact Section */
@@ -1867,7 +1890,10 @@ a {
   }
 
   .metric-card {
-    padding: 1rem;
+    padding: 0.85rem 1rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
   }
 
   .metric-val {
@@ -1893,14 +1919,42 @@ a {
   .article-card,
   .project-card,
   .edu-item {
-    padding: 1rem;
+    padding: 0.85rem 1rem;
   }
 
-  .article-card-right,
-  .project-card-right {
+  .article-card-right {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+  }
+
+  .project-card-right {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .recommendation-card {
+    padding: 1.25rem 1rem 1rem 1rem;
+  }
+
+  .rec-header {
+    gap: 0.75rem;
+  }
+
+  .rec-author-name {
+    flex-wrap: wrap;
+    word-break: break-word;
+  }
+
+  .rec-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .rec-date {
+    margin-left: 0;
   }
 }
 
@@ -2042,6 +2096,8 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .rec-author-name {
