@@ -5,6 +5,26 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.11.0] — 2026-09-01
+
+### Added
+- **GitHub Pages Deployment**: Added `.github/workflows/deploy.yml` for automated deployment to GitHub Pages.
+- **GitHub Contents API Integration**: CMS now saves data directly to the GitHub repository using the GitHub REST API (`PUT /repos/{owner}/{repo}/contents/{path}`), replacing the old PHP/FTP backend.
+- **Admin Panel Enhancements**:
+  - Added a "GitHub Sync Token" configuration card in `admin.html` allowing the user to input a fine-grained Personal Access Token.
+  - Added a "Test Token" button to verify GitHub API connectivity and permissions directly from the CMS.
+- **Custom Domain Setup**: Added `CNAME` file for `fazalmahmudhassan.com` redirection on GitHub Pages.
+
+### Security
+- **Data Sanitization**: Scrubbed all sensitive data (LinkedIn API cookies, default password hashes) from the repository.
+- **History Wipe**: Rewrote Git commit history via `git-filter-repo` to permanently remove old sensitive credentials before transitioning the repository to public.
+- **Default Credentials**: Changed the baseline default CMS password to `admin`.
+
+### Removed
+- **PHP Backend (`api/save.php`)**: Removed the legacy FTP/PHP server-side saving mechanism as Namecheap hosting is no longer used.
+
+---
+
 ## [1.10.0] — 2026-09-01
 
 ### Added
