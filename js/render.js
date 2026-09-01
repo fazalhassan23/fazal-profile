@@ -28,7 +28,7 @@
      COMPONENT RENDERERS
      ──────────────────────────────────────────────────────────── */
 
-  function renderIdentityAndTheme(p) {
+  function renderIdentityAndTheme(p, navData) {
     // Dynamic Font Theme
     if (p.fontPair) {
       document.documentElement.setAttribute('data-font-pair', p.fontPair);
@@ -37,8 +37,10 @@
     }
 
     // Nav Brand & Full Name
-    document.querySelectorAll('[data-cms="firstName"]').forEach(el => {
-      el.textContent = p.firstName || 'Fazal';
+    const effectiveLogoText = (navData && navData.logoText) || (p && p.firstName) || 'Fazal';
+
+    document.querySelectorAll('[data-cms="firstName"], [data-cms="logoText"]').forEach(el => {
+      el.textContent = effectiveLogoText;
     });
 
     document.querySelectorAll('[data-cms="fullName"]').forEach(el => {
@@ -392,11 +394,13 @@
 
   function renderNavigation(navData, p) {
     const nav = navData || {};
-    const logoElements = document.querySelectorAll('.nav-logo');
+    const effectiveLogoText = nav.logoText || (p && p.firstName) || 'Fazal';
+
+    const logoElements = document.querySelectorAll('.nav-logo, .nav-brand');
     logoElements.forEach(logo => {
       if (nav.logoLink) logo.setAttribute('href', nav.logoLink);
       const dotHtml = nav.logoDot !== false ? '<span class="dot">.</span>' : '';
-      logo.innerHTML = `<span data-cms="firstName">${escapeHtml(nav.logoText || p.firstName || 'Fazal')}</span>${dotHtml}`;
+      logo.innerHTML = `<span data-cms="logoText">${escapeHtml(effectiveLogoText)}</span>${dotHtml}`;
     });
 
     const navLinksList = document.getElementById('nav-links');
@@ -982,7 +986,7 @@
     const p = data.profile;
     const avail = data.availability || {};
 
-    renderIdentityAndTheme(p);
+    renderIdentityAndTheme(p, data.navigation);
     renderNavigation(data.navigation, p);
     renderHero(p, avail);
     renderMetrics(data.metrics);
