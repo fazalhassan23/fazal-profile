@@ -113,7 +113,6 @@
 
     container.innerHTML = expertise.map(exp => `
       <div class="expertise-card fade-up visible">
-        <div class="card-icon">${escapeHtml(exp.icon || '⚡')}</div>
         <div>
           <p class="card-category">${escapeHtml(exp.category || '')}</p>
           <h3>${escapeHtml(exp.title || '')}</h3>
@@ -219,14 +218,22 @@
       return `<div class="rec-avatar-initials">${escapeHtml(initials)}</div>`;
     }
 
-    const homeContainer = document.getElementById('recommendations-container');
-    if (homeContainer) {
-      let featured = visibleRecs.filter(r => r.featured === true);
-      if (featured.length === 0) featured = visibleRecs;
+    function createCardHtml(r) {
+      // Determine the data source icon (defaulting to LinkedIn)
+      const sourceIconHtml = `
+        <svg viewBox="0 0 24 24" width="24" height="24" style="fill: var(--text-muted); opacity: 0.5;">
+          <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.8v8h2.8v-4.87c0-.26.05-.5.14-.68a1 1 0 0 1 .93-.68c.72 0 .88.61.88 1.5v4.73zm-11.25-9H10.1v-8H7.25zM8.65 4.25a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+        </svg>
+      `;
 
-      homeContainer.innerHTML = featured.map(r => `
+      // Hide generic LinkedIn relationship text
+      const relationshipHtml = (r.relationship && !r.relationship.toLowerCase().includes('linkedin recommendation received')) 
+        ? `<span class="rec-relationship">${escapeHtml(r.relationship)}</span>` 
+        : '';
+
+      return `
         <div class="recommendation-card fade-up visible">
-          <div class="rec-quote-mark">“</div>
+          <div class="rec-quote-mark" style="font-family: inherit; font-size: inherit; line-height: 0; color: inherit; top: 1.5rem; right: 1.5rem;">${sourceIconHtml}</div>
           <div class="rec-header">
             <div class="rec-avatar-wrap">
               ${getAvatarHtml(r)}
@@ -245,7 +252,7 @@
             </div>
           </div>
           <div class="rec-meta">
-            <span class="rec-relationship">${escapeHtml(r.relationship || '')}</span>
+            ${relationshipHtml}
             <span class="rec-date">${escapeHtml(r.date || '')}</span>
           </div>
           <div class="rec-text">
@@ -258,47 +265,48 @@
             `}
           </div>
         </div>
-      `).join('');
+      `;
+    }
+
+    const homeContainer = document.getElementById('recommendations-container');
+    if (homeContainer) {
+      initRecommendationsPagination(visibleRecs, createCardHtml);
     }
 
     const aboutContainer = document.getElementById('about-recommendations-container');
     if (aboutContainer) {
-      aboutContainer.innerHTML = visibleRecs.map(r => `
-        <div class="recommendation-card fade-up visible">
-          <div class="rec-quote-mark">“</div>
-          <div class="rec-header">
-            <div class="rec-avatar-wrap">
-              ${getAvatarHtml(r)}
-            </div>
-            <div class="rec-author-info">
-              <div class="rec-author-name">
-                ${escapeHtml(r.author)}
-                ${r.linkedinUrl ? `
-                  <a href="${escapeHtml(r.linkedinUrl)}" target="_blank" rel="noopener noreferrer" class="rec-linkedin-link" title="View LinkedIn Profile">
-                    <svg class="rec-linkedin-icon" viewBox="0 0 24 24" width="16" height="16" style="vertical-align: middle; margin-left: 4px; fill: var(--accent);"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.8v8h2.8v-4.87c0-.26.05-.5.14-.68a1 1 0 0 1 .93-.68c.72 0 .88.61.88 1.5v4.73zm-11.25-9H10.1v-8H7.25zM8.65 4.25a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
-                  </a>
-                ` : ''}
-              </div>
-              <div class="rec-author-headline">${escapeHtml(r.headline || '')}</div>
-              ${r.company ? `<div class="rec-author-company">${escapeHtml(r.company)}</div>` : ''}
-            </div>
-          </div>
-          <div class="rec-meta">
-            <span class="rec-relationship">${escapeHtml(r.relationship || '')}</span>
-            <span class="rec-date">${escapeHtml(r.date || '')}</span>
-          </div>
-          <div class="rec-text">
-            ${r.text.length > 300 ? `
-              <span class="rec-text-preview">${escapeHtml(r.text.slice(0, 300))}...</span>
-              <span class="rec-text-full hidden">${escapeHtml(r.text)}</span>
-              <button type="button" class="btn-rec-toggle" onclick="this.previousElementSibling.classList.toggle('hidden'); this.previousElementSibling.previousElementSibling.classList.toggle('hidden'); this.textContent = this.textContent === 'Read more' ? 'Read less' : 'Read more';">Read more</button>
-            ` : `
-              <span>${escapeHtml(r.text)}</span>
-            `}
-          </div>
-        </div>
-      `).join('');
+      aboutContainer.innerHTML = visibleRecs.map(r => createCardHtml(r)).join('');
     }
+  }
+
+  function initRecommendationsPagination(recs, createCardHtml) {
+    const container = document.getElementById('recommendations-container');
+    const indicator = document.getElementById('rec-page-indicator');
+    const prevBtn = document.getElementById('rec-prev');
+    const nextBtn = document.getElementById('rec-next');
+    if (!container || recs.length === 0) return;
+
+    const pageSize = 4;
+    const totalPages = Math.ceil(recs.length / pageSize);
+    let currentPage = 0;
+
+    function renderPage(page) {
+      currentPage = (page + totalPages) % totalPages;
+      const start = currentPage * pageSize;
+      const pageItems = recs.slice(start, start + pageSize);
+
+      container.innerHTML = pageItems.map(r => createCardHtml(r)).join('');
+      if (indicator) {
+        indicator.textContent = `Page ${currentPage + 1} of ${totalPages}`;
+      }
+      if (prevBtn) prevBtn.disabled = totalPages <= 1;
+      if (nextBtn) nextBtn.disabled = totalPages <= 1;
+    }
+
+    renderPage(0);
+
+    if (prevBtn) prevBtn.onclick = () => renderPage(currentPage - 1);
+    if (nextBtn) nextBtn.onclick = () => renderPage(currentPage + 1);
   }
 
   function renderAboutPage(p, data) {

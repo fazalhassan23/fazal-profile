@@ -333,8 +333,15 @@
         </div>
       </div>
 
-      <div class="recommendations-grid" id="recommendations-container">
-        <!-- Rendered dynamically by js/render.js -->
+      <div class="rec-paginated-wrapper" id="recommendations-container-outer">
+        <div class="recommendations-grid" id="recommendations-container">
+          <!-- 4 cards per page rendered dynamically by js/render.js -->
+        </div>
+        <div class="rec-pagination-bar">
+          <button type="button" class="rec-nav-btn" id="rec-prev" aria-label="Previous Page">&#8592;</button>
+          <span class="rec-page-indicator" id="rec-page-indicator">Page 1 of 1</span>
+          <button type="button" class="rec-nav-btn" id="rec-next" aria-label="Next Page">&#8594;</button>
+        </div>
       </div>
     </section>
 

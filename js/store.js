@@ -216,10 +216,41 @@
           const serverData = await res.json();
           if (serverData && typeof serverData === 'object') {
             const defaults = window.DEFAULT_PORTFOLIO_DATA ? deepClone(window.DEFAULT_PORTFOLIO_DATA) : {};
-            const validated = mergeSchema(defaults, serverData);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(validated));
-            window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: validated }));
-            return validated;
+
+            // Merge server data with existing localStorage — localStorage wins for
+            // CMS-managed arrays (recommendations etc.) if it has more entries.
+            let localData = null;
+            try {
+              const saved = localStorage.getItem(STORAGE_KEY);
+              if (saved) localData = JSON.parse(saved);
+            } catch (e) {}
+
+            const serverMerged = mergeSchema(defaults, serverData);
+
+            if (localData && typeof localData === 'object') {
+              // For arrays managed via CMS, keep whichever has more items
+              const cmsArrayKeys = ['recommendations', 'metrics', 'expertise', 'awards',
+                                    'articles', 'experience', 'projects', 'education', 'skills'];
+              const combined = { ...serverMerged };
+              for (const key of cmsArrayKeys) {
+                const localArr = localData[key];
+                const serverArr = serverMerged[key];
+                if (Array.isArray(localArr) && Array.isArray(serverArr) && localArr.length > serverArr.length) {
+                  combined[key] = localArr;
+                }
+              }
+              // Also preserve nested skills from localStorage if richer
+              if (localData.skills && typeof localData.skills === 'object' && !Array.isArray(localData.skills)) {
+                combined.skills = localData.skills;
+              }
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(combined));
+              window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: combined }));
+              return combined;
+            }
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(serverMerged));
+            window.dispatchEvent(new CustomEvent('portfolioDataChanged', { detail: serverMerged }));
+            return serverMerged;
           }
         }
       } catch (e) {
@@ -350,11 +381,11 @@
       const currentData = this.getData();
       const storedHash = (currentData.adminAuth && currentData.adminAuth.passwordHash) ||
         (window.DEFAULT_PORTFOLIO_DATA && window.DEFAULT_PORTFOLIO_DATA.adminAuth && window.DEFAULT_PORTFOLIO_DATA.adminAuth.passwordHash) ||
-        'caf4346b968c185dce13d7145fa1bc1cc21e6460a66796f93d9baebc0fc49893'; // default hash for "fazal2026"
+        '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'; // default hash for "admin"
 
       // Direct instant match for default password
-      if (password === 'fazal2026' && (storedHash === 'caf4346b968c185dce13d7145fa1bc1cc21e6460a66796f93d9baebc0fc49893' || !storedHash)) {
-        sessionStorage.setItem(SESSION_AUTH_KEY, 'caf4346b968c185dce13d7145fa1bc1cc21e6460a66796f93d9baebc0fc49893');
+      if (password === 'admin' && (storedHash === '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' || !storedHash)) {
+        sessionStorage.setItem(SESSION_AUTH_KEY, '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
         return { success: true };
       }
 
@@ -367,7 +398,7 @@
           return { success: false, error: 'Incorrect password.' };
         }
       } catch (e) {
-        if (password === 'fazal2026') {
+        if (password === 'admin') {
           sessionStorage.setItem(SESSION_AUTH_KEY, storedHash);
           return { success: true };
         }

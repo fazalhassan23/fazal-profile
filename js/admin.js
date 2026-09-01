@@ -559,6 +559,7 @@ function initAdminApp() {
     const rec = s.recommendations || {};
     setVal('input-rec-section-label', rec.label || 'endorsements');
     setVal('input-rec-section-subtext', rec.subtext || 'What colleagues, clients, and partners say about working with me.');
+    setChecked('checkbox-sec-rec-vis', rec.visible !== false);
 
     // About Page
     const ab = s.aboutPage || {};
@@ -1555,7 +1556,11 @@ function initAdminApp() {
       }
 
       renderRecommendationsList();
-      showToast(`Imported ${importedCount} recommendations. (${duplicateCount} duplicates skipped)`);
+      window.PortfolioStore.saveData(data).then(() => {
+        showToast(`Imported ${importedCount} recommendations. (${duplicateCount} duplicates skipped) — Saved!`);
+      }).catch(() => {
+        showToast(`Imported ${importedCount} recommendations. (${duplicateCount} duplicates skipped) — Saved locally.`);
+      });
     };
     reader.readAsText(file);
   }
@@ -1905,6 +1910,7 @@ function initAdminApp() {
       if (!data.sections.recommendations) data.sections.recommendations = {};
       data.sections.recommendations.label = getVal('input-rec-section-label');
       data.sections.recommendations.subtext = getVal('input-rec-section-subtext');
+      data.sections.recommendations.visible = getChecked('checkbox-sec-rec-vis');
 
       // About Page
       if (!data.sections.aboutPage) data.sections.aboutPage = {};
