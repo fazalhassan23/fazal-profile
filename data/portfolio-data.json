@@ -2,11 +2,11 @@
   "profile": {
     "name": "Fazal Mahmud Hassan",
     "firstName": "FMH11",
-    "roleTitle": "Technical Project Manager Â· Systems Engineer",
-    "heroBio": "Result-driven professional bridging technology and people management. Currently leading 21+ projects at Mediusware Limited â€” overseeing SaaS and CRM delivery across cross-functional teams. I hold an MBA in HR & Management from the University of Dhaka and a B.Sc in Computer Science from BRAC University.",
-    "aboutLead": "I'm a Technical Project Manager at Mediusware Limited, where I lead delivery across 21+ concurrent software projects â€” spanning SaaS platforms, CRM systems, and enterprise solutions from concept to launch.",
+    "roleTitle": "Technical Project Manager · Systems Engineer",
+    "heroBio": "Result-driven professional bridging technology and people management. Currently leading 21+ projects at Mediusware Limited — overseeing SaaS and CRM delivery across cross-functional teams. I hold an MBA in HR & Management from the University of Dhaka and a B.Sc in Computer Science from BRAC University.",
+    "aboutLead": "I'm a Technical Project Manager at Mediusware Limited, where I lead delivery across 21+ concurrent software projects — spanning SaaS platforms, CRM systems, and enterprise solutions from concept to launch.",
     "aboutBodyParagraphs": [
-      "<p>My background sits at a rare intersection: a B.Sc in Computer Science &amp; Engineering from BRAC University gives me the technical depth to speak the language of developers and architects, while an MBA in HR &amp; Management from the University of Dhaka equips me to manage people, process, and organizational dynamics with equal fluency.</p><p>Before project management, I built experience in technical support (Augmedix), content and training (Therap BD), and systems engineering (Innovation Soft) â€” a progression that shaped my ability to communicate clearly across technical and non-technical stakeholders.</p><p>Outside work, I'm an active photographer, a former university debater, and an enthusiastic tech columnist. I believe great technology is built at the intersection of clarity, collaboration, and curiosity.</p>"
+      "<p>My background sits at a rare intersection: a B.Sc in Computer Science &amp; Engineering from BRAC University gives me the technical depth to speak the language of developers and architects, while an MBA in HR &amp; Management from the University of Dhaka equips me to manage people, process, and organizational dynamics with equal fluency.</p><p>Before project management, I built experience in technical support (Augmedix), content and training (Therap BD), and systems engineering (Innovation Soft) — a progression that shaped my ability to communicate clearly across technical and non-technical stakeholders.</p><p>Outside work, I'm an active photographer, a former university debater, and an enthusiastic tech columnist. I believe great technology is built at the intersection of clarity, collaboration, and curiosity.</p>"
     ],
     "contactIntro": "Have an interesting project, collaboration, or leadership role in mind? Send me a message below or connect with me directly.",
     "email": "fazal.mahmud.hassan@gmail.com",
@@ -73,7 +73,7 @@
       "id": "awd-2",
       "title": "Top-Ranked Technical Support Engineer",
       "organization": "Augmedix Bangladesh",
-      "year": "2020 â€” 2021",
+      "year": "2020 — 2021",
       "description": "Ranked #1 on the US healthcare technical support leaderboard for 4 consecutive months with exemplary SLA compliance and clinician satisfaction.",
       "badge": "Leaderboard #1 (4 Mo.)"
     },
@@ -99,7 +99,7 @@
         "Leadership",
         "Engineering Culture"
       ],
-      "content": "In modern software engineering organizations, the biggest bottleneck is rarely writing code â€” it is translating strategic intent into unambiguous architectural milestones.\n\nHaving an engineering background gives project managers the ability to dissect architectural roadblocks and appreciate developer friction points. Paired with management frameworks from an MBA, you transition from simply tracking tasks to actively orchestrating team velocity, mitigating organizational friction, and communicating commercial impact directly to executive stakeholders."
+      "content": "In modern software engineering organizations, the biggest bottleneck is rarely writing code — it is translating strategic intent into unambiguous architectural milestones.\n\nHaving an engineering background gives project managers the ability to dissect architectural roadblocks and appreciate developer friction points. Paired with management frameworks from an MBA, you transition from simply tracking tasks to actively orchestrating team velocity, mitigating organizational friction, and communicating commercial impact directly to executive stakeholders."
     },
     {
       "id": "art-2",
@@ -161,7 +161,7 @@
       "company": "Mediusware Limited",
       "companyUrl": "https://mediusware.com",
       "role": "Technical Project Manager",
-      "period": "Aug 2024 â€” Present",
+      "period": "Aug 2024 — Present",
       "isCurrent": true,
       "bullets": [
         "Managing ~21 projects; completed 15+ medium-to-large-scale deliveries with 95%+ client satisfaction.",
@@ -177,7 +177,7 @@
       "company": "Therap BD Limited",
       "companyUrl": "https://therapservices.net",
       "role": "Training and Content Specialist",
-      "period": "Apr 2022 â€” May 2024",
+      "period": "Apr 2022 — May 2024",
       "isCurrent": false,
       "bullets": [
         "Achieved personal CSAT score of 96% while resolving complex technical support tickets under tight SLAs.",
@@ -192,7 +192,7 @@
       "company": "Therap BD Limited",
       "companyUrl": "https://therapservices.net",
       "role": "Associate Training and Content Specialist",
-      "period": "Apr 2021 â€” Mar 2022",
+      "period": "Apr 2021 — Mar 2022",
       "isCurrent": false,
       "bullets": [
         "Prepared user guides, release notes, and comprehensive reference documentation.",
@@ -206,7 +206,7 @@
       "company": "Augmedix Bangladesh",
       "companyUrl": "https://augmedix.com",
       "role": "Technical Support Engineer",
-      "period": "Oct 2020 â€” Mar 2021",
+      "period": "Oct 2020 — Mar 2021",
       "isCurrent": false,
       "bullets": [
         "Provided real-time technical support to US-based healthcare providers (top-ranked on support leaderboard for 4 consecutive months).",
@@ -220,7 +220,7 @@
       "company": "DIVI Hosting, Netherlands",
       "companyUrl": "",
       "role": "Administrative Manager, Finance and IT",
-      "period": "Apr 2020 â€” Feb 2021",
+      "period": "Apr 2020 — Feb 2021",
       "isCurrent": false,
       "bullets": [
         "Maintained company documentation, bookkeeping, and project milestones.",
@@ -233,7 +233,7 @@
       "company": "Innovation Soft",
       "companyUrl": "",
       "role": "System Engineer (Part Time)",
-      "period": "Sep 2015 â€” Dec 2017",
+      "period": "Sep 2015 — Dec 2017",
       "isCurrent": false,
       "bullets": [
         "Designed and optimized custom system configurations based on client specifications.",
@@ -290,7 +290,7 @@
     {
       "id": "proj-4",
       "category": "software",
-      "title": "DroidBot â€” Android-Controlled Wheel Robot",
+      "title": "DroidBot — Android-Controlled Wheel Robot",
       "year": "2018",
       "description": "A wheel-based robot controllable via a custom Android application. Uses Bluetooth communication between the mobile app and the embedded Arduino controller.",
       "tags": [
@@ -304,7 +304,7 @@
     {
       "id": "proj-5",
       "category": "software",
-      "title": "Shech Jontro â€” Automated Field Watering System",
+      "title": "Shech Jontro — Automated Field Watering System",
       "year": "2018",
       "description": "An IoT-based automated irrigation system designed to water agricultural fields based on soil moisture sensor readings. Reduces water waste and manual intervention.",
       "tags": [
@@ -318,7 +318,7 @@
     {
       "id": "proj-6",
       "category": "software",
-      "title": "Parking Koi â€” Smart Guided Parking System",
+      "title": "Parking Koi — Smart Guided Parking System",
       "year": "2018",
       "description": "A guided parking management system for large-scale public parking lots. Uses real-time slot availability data to guide drivers to the nearest available space.",
       "tags": [
@@ -331,7 +331,7 @@
     {
       "id": "proj-7",
       "category": "software",
-      "title": "MovieDB â€” Offline Movie Database",
+      "title": "MovieDB — Offline Movie Database",
       "year": "2017",
       "description": "An IMDB-inspired offline movie database application. Allows users to browse, search, and manage a local movie library with cast, genre, ratings, and synopsis metadata.",
       "tags": [
@@ -344,7 +344,7 @@
     {
       "id": "proj-8",
       "category": "software",
-      "title": "Budget Ninja â€” Android Expense Tracker",
+      "title": "Budget Ninja — Android Expense Tracker",
       "year": "2017",
       "description": "A personal budgeting and expense tracking Android application enabling users to set monthly limits, log daily spending, and visualize category charts.",
       "tags": [
@@ -358,7 +358,7 @@
     {
       "id": "proj-9",
       "category": "software",
-      "title": "FactoCalc â€” Assembly Language Calculator",
+      "title": "FactoCalc — Assembly Language Calculator",
       "year": "2016",
       "description": "A low-level calculator application coded in x86 Assembly language supporting arithmetic and factorial computation.",
       "tags": [
@@ -371,7 +371,7 @@
     {
       "id": "proj-10",
       "category": "volunteer",
-      "title": "Volunteer Referee â€” Regional eSports Tournament",
+      "title": "Volunteer Referee — Regional eSports Tournament",
       "year": "University",
       "description": "Managed regional event operations for a major telecom-sponsored eSports tournament, enforcing tournament rules and fair play.",
       "tags": [
@@ -384,7 +384,7 @@
     {
       "id": "proj-11",
       "category": "volunteer",
-      "title": "Social Media Manager & Content Creator â€” Rantages",
+      "title": "Social Media Manager & Content Creator — Rantages",
       "year": "University",
       "description": "Handled social media accounts and content creation for a humor-based model. Collaborated with iflix and Pathao on marketing campaigns and tracked metrics via Excel.",
       "tags": [
@@ -397,7 +397,7 @@
     {
       "id": "proj-12",
       "category": "volunteer",
-      "title": "Organizer & Creative Planner â€” Poromporai Amra",
+      "title": "Organizer & Creative Planner — Poromporai Amra",
       "year": "University",
       "description": "Core organizing committee member for non-profit Poromporai Amra. Spearheaded thematic planning and creative direction for a university festival.",
       "tags": [
@@ -495,7 +495,7 @@
       "icon": "ðŸŽ¤",
       "category": "Academic",
       "title": "Debating & Public Speaking",
-      "description": "Active university debater â€” sharpening critical thinking, argumentation, and public speaking skills across competitive forums."
+      "description": "Active university debater — sharpening critical thinking, argumentation, and public speaking skills across competitive forums."
     },
     {
       "id": "extra-3",
@@ -963,7 +963,7 @@
     "homeHero": {
       "label": "home",
       "cta1": {
-        "text": "View My Work â†—",
+        "text": "View My Work ↗",
         "url": "projects.html",
         "visible": true
       },
@@ -991,14 +991,14 @@
     "experience": {
       "label": "experience",
       "subtext": "Selected professional background and key career milestones.",
-      "ctaText": "Full history â†’",
+      "ctaText": "Full history →",
       "ctaUrl": "about.html#experience",
       "visible": true
     },
     "work": {
       "label": "work",
       "subtext": "Selected academic research and engineering projects.",
-      "ctaText": "All projects â†’",
+      "ctaText": "All projects →",
       "ctaUrl": "projects.html",
       "visible": true
     },
@@ -1025,7 +1025,7 @@
         "subjectPlaceholder": "Project collaboration / Inquiry",
         "messageLabel": "Message *",
         "messagePlaceholder": "Tell me a bit about what you have in mind...",
-        "submitText": "Send Message â†—"
+        "submitText": "Send Message ↗"
       },
       "details": {
         "emailLabel": "Direct Email",
@@ -1039,7 +1039,7 @@
       "heroLabel": "about",
       "heroSubtitle": "Technical Project Manager. Systems thinker. Lifelong learner. Based in Dhaka, Bangladesh.",
       "bioLabel": "biography",
-      "bioCta1Text": "View Projects â†—",
+      "bioCta1Text": "View Projects ↗",
       "bioCta1Url": "projects.html",
       "bioCta2Text": "Download Resume",
       "bioCta2Url": "about.html",
@@ -1059,7 +1059,7 @@
     "projectsPage": {
       "heroLabel": "work",
       "heroTitle": "Projects & Research.",
-      "heroSubtitle": "Academic research, engineering projects, and publications â€” spanning data science, robotics, and organizational studies.",
+      "heroSubtitle": "Academic research, engineering projects, and publications — spanning data science, robotics, and organizational studies.",
       "researchLabel": "research",
       "researchVisible": true,
       "publicationLabel": "publication",
@@ -1073,7 +1073,7 @@
       "code": "404",
       "heading": "Page Not Found",
       "description": "The requested URL was not found on this server. You might have clicked an outdated link or typed the URL incorrectly.",
-      "cta1Text": "Return to Homepage â†—",
+      "cta1Text": "Return to Homepage ↗",
       "cta1Url": "index.html",
       "cta2Text": "Explore Projects",
       "cta2Url": "projects.html"
@@ -1083,7 +1083,7 @@
     "tagline": "Technical Project Manager & Systems Engineer based in Dhaka, Bangladesh.",
     "navTitle": "Navigation",
     "connectTitle": "Connect",
-    "copyright": "Â© 2026 Fazal Mahmud Hassan. All rights reserved.",
+    "copyright": "© 2026 Fazal Mahmud Hassan. All rights reserved.",
     "links": [
       {
         "id": "fl-1",
@@ -1114,24 +1114,24 @@
     "socialLinks": [
       {
         "id": "sl-1",
-        "label": "LinkedIn â†—",
+        "label": "LinkedIn ↗",
         "url": "https://linkedin.com/in/fazalmahmudhassan"
       },
       {
         "id": "sl-2",
-        "label": "GitHub â†—",
+        "label": "GitHub ↗",
         "url": "https://github.com/fazalhassan23"
       },
       {
         "id": "sl-3",
-        "label": "Email â†—",
+        "label": "Email ↗",
         "url": "mailto:fazal.mahmud.hassan@gmail.com"
       }
     ]
   },
   "seo": {
-    "siteTitle": "Fazal Mahmud Hassan â€” Technical Project Manager",
-    "metaDescription": "Personal portfolio of Fazal Mahmud Hassan â€” Technical Project Manager with Computer Science background & MBA in HR & Management. Leading 21+ SaaS & CRM deliverables.",
+    "siteTitle": "Fazal Mahmud Hassan — Technical Project Manager",
+    "metaDescription": "Personal portfolio of Fazal Mahmud Hassan — Technical Project Manager with Computer Science background & MBA in HR & Management. Leading 21+ SaaS & CRM deliverables.",
     "keywords": "Fazal Mahmud Hassan, Fazal Hassan, Faal Mahmud Hassan, Fazal Mahmud, Technical Project Manager, Systems Engineer, Mediusware Limited, BRAC University, University of Dhaka, Springer CNC-2018, Dhaka Bangladesh, SaaS Project Manager, Agile Scrum",
     "ogImage": "https://fazalmahmudhassan.com/assets/og-image.svg"
   },
