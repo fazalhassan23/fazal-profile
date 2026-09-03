@@ -383,7 +383,7 @@ function initAdminApp() {
   /* ── 3B. Site Layout & Sections Managers ───────────────── */
   function populateNavigation() {
     if (!data.navigation) data.navigation = {};
-    setVal('input-nav-logo-text', data.navigation.logoText || data.profile?.firstName || 'Fazal');
+
     setVal('input-nav-logo-link', data.navigation.logoLink || 'index.html');
     setChecked('checkbox-nav-logo-dot', data.navigation.logoDot !== false);
 
@@ -2121,7 +2121,7 @@ function initAdminApp() {
 
       // 4. Gather Navigation & Header
       if (!data.navigation) data.navigation = {};
-      data.navigation.logoText = getVal('input-nav-logo-text') || data.profile.firstName || 'Fazal';
+      delete data.navigation.logoText; // Ensure it falls back to profile.firstName
       data.navigation.logoLink = getVal('input-nav-logo-link');
       data.navigation.logoDot = getChecked('checkbox-nav-logo-dot');
       if (!data.navigation.cta) data.navigation.cta = {};
