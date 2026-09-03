@@ -5,8 +5,6 @@
 window.DEFAULT_PORTFOLIO_DATA = {
   profile: {
     name: "Fazal Mahmud Hassan",
-    firstName: "Fazal",
-    roleTitle: "Technical Project Manager · Systems Engineer",
     heroBio: "Result-driven professional bridging technology and people management. Currently leading 21+ projects at Mediusware Limited — overseeing SaaS and CRM delivery across cross-functional teams. I hold an MBA in HR & Management from the University of Dhaka and a B.Sc in Computer Science from BRAC University.",
     aboutLead: "I'm a Technical Project Manager at Mediusware Limited, where I lead delivery across 21+ concurrent software projects — spanning SaaS platforms, CRM systems, and enterprise solutions from concept to launch.",
     aboutBodyParagraphs: [

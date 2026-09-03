@@ -307,8 +307,6 @@ function initAdminApp() {
 
     // Profile & Bio
     setVal('input-name', p.name);
-    setVal('input-firstName', p.firstName);
-    setVal('input-roleTitle', p.roleTitle);
     setVal('input-heroBio', p.heroBio);
     setVal('input-aboutLead', p.aboutLead);
     setVal('input-fontPair', p.fontPair || 'geometric');
@@ -384,6 +382,7 @@ function initAdminApp() {
   function populateNavigation() {
     if (!data.navigation) data.navigation = {};
 
+    setVal('input-nav-logo-text', data.navigation.logoText || (data.profile && data.profile.firstName) || 'FMH11');
     setVal('input-nav-logo-link', data.navigation.logoLink || 'index.html');
     setChecked('checkbox-nav-logo-dot', data.navigation.logoDot !== false);
 
@@ -2069,8 +2068,8 @@ function initAdminApp() {
     btnSaveAll.addEventListener('click', async () => {
       // 1. Gather Profile
       data.profile.name = getVal('input-name');
-      data.profile.firstName = getVal('input-firstName');
-      data.profile.roleTitle = getVal('input-roleTitle');
+      delete data.profile.firstName;
+      delete data.profile.roleTitle;
       data.profile.heroBio = getVal('input-heroBio');
       data.profile.aboutLead = getVal('input-aboutLead');
       data.profile.fontPair = getVal('input-fontPair');
@@ -2115,7 +2114,7 @@ function initAdminApp() {
 
       // 4. Gather Navigation & Header
       if (!data.navigation) data.navigation = {};
-      delete data.navigation.logoText; // Ensure it falls back to profile.firstName
+      data.navigation.logoText = getVal('input-nav-logo-text');
       data.navigation.logoLink = getVal('input-nav-logo-link');
       data.navigation.logoDot = getChecked('checkbox-nav-logo-dot');
       if (!data.navigation.cta) data.navigation.cta = {};

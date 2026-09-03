@@ -18,20 +18,11 @@
       document.documentElement.removeAttribute('data-font-pair');
     }
 
-    // Nav Brand & Full Name
-    document.querySelectorAll('[data-cms="firstName"]').forEach(el => {
-      el.textContent = p.firstName || 'Fazal'; // fallback default
-    });
+    // Full Name
 
     document.querySelectorAll('[data-cms="fullName"]').forEach(el => {
       el.textContent = p.name || 'Fazal Mahmud Hassan'; // fallback default
     });
-
-    // Dynamic Title tag
-    if (p.name) {
-      const shortRole = p.roleTitle ? p.roleTitle.split('·')[0].trim() : 'Portfolio';
-      document.title = `${p.name} — ${shortRole}`;
-    }
   }
 
   function renderHero(p, avail) {
@@ -65,7 +56,10 @@
     }
 
     // Typewriter
-    initTypewriter(avail.typewriterRoles || [p.roleTitle || 'Technical Project Manager']);
+    const roles = Array.isArray(avail.typewriterRoles) && avail.typewriterRoles.length > 0
+      ? avail.typewriterRoles
+      : ['Technical Project Manager'];
+    initTypewriter(roles);
   }
 
   function renderMetrics(metrics) {
@@ -373,7 +367,7 @@
     logoElements.forEach(logo => {
       if (nav.logoLink) logo.setAttribute('href', nav.logoLink);
       const dotHtml = nav.logoDot !== false ? '<span class="dot">.</span>' : '';
-      logo.innerHTML = `<span data-cms="firstName">${PortfolioUtils.escapeHtml(nav.logoText || p.firstName || 'Fazal')}</span>${dotHtml}`;
+      logo.innerHTML = `<span data-cms="logoText">${PortfolioUtils.escapeHtml(nav.logoText || 'FMH11')}</span>${dotHtml}`;
     });
 
     const navLinksList = document.getElementById('nav-links');
