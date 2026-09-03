@@ -98,8 +98,7 @@
 
     container.innerHTML = expertise.map(exp => `
       <div class="expertise-card fade-up visible">
-        <div class="card-icon">${PortfolioUtils.escapeHtml(exp.icon || '💼')}</div>
-        <div>
+        <div class="expertise-card-body">
           <p class="card-category">${PortfolioUtils.escapeHtml(exp.category || '')}</p>
           <h3>${PortfolioUtils.escapeHtml(exp.title || '')}</h3>
           <p>${PortfolioUtils.escapeHtml(exp.description || '')}</p>
