@@ -135,21 +135,21 @@
   "expertise": [
     {
       "id": "exp-1",
-      "icon": "ðŸ—‚ï¸",
+      "icon": "🗂️",
       "category": "Delivery & Strategy",
       "title": "Technical Project Management",
       "description": "Managing 21+ concurrent projects across SaaS, CRM, and enterprise software. Proficient in requirements analysis, feasibility studies, timeline estimations, and stakeholder coordination."
     },
     {
       "id": "exp-2",
-      "icon": "ðŸ–¥ï¸",
+      "icon": "🖥️",
       "category": "Infrastructure & Systems",
       "title": "Systems & Infrastructure",
       "description": "Hands-on with TrueNAS, VMware, pfSense, Git, and Linux-based environments. Experienced in hardware procurement, SOHO networks, and server deployment."
     },
     {
       "id": "exp-3",
-      "icon": "âœï¸",
+      "icon": "✍️",
       "category": "Content & Communication",
       "title": "Technical Writing & Training",
       "description": "Authored user guides, release notes, RFP responses, and tutorial content. Led cross-team training sessions and coordinated knowledge transfer across US and BD sites."
