@@ -501,8 +501,8 @@
      * @returns {{ success: boolean, error?: string }}
      */
     saveGitHubToken: function (token) {
-      if (!token || typeof token !== 'string' || !token.trim().startsWith('github_pat_')) {
-        return { success: false, error: 'Invalid token format. Must be a fine-grained PAT starting with github_pat_' };
+      if (!token || typeof token !== 'string' || (!token.trim().startsWith('github_pat_') && !token.trim().startsWith('ghp_'))) {
+        return { success: false, error: 'Invalid token format. Must be a PAT starting with github_pat_ or ghp_' };
       }
       localStorage.setItem(GITHUB_TOKEN_KEY, token.trim());
       return { success: true };

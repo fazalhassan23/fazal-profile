@@ -144,8 +144,18 @@
         </button>
       </li>
       <li class="admin-nav-item">
+        <button type="button" data-tab="expertise">
+          <span class="icon">💡</span> Expertise Cards
+        </button>
+      </li>
+      <li class="admin-nav-item">
         <button type="button" data-tab="skills">
           <span class="icon">🛠️</span> Skills &amp; Languages
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button type="button" data-tab="extras">
+          <span class="icon">✨</span> Beyond Work
         </button>
       </li>
 
@@ -468,6 +478,38 @@
       </div>
     </section>
 
+    <!-- ── PANEL: EXPERTISE ─────────────── -->
+    <section id="panel-expertise" class="admin-panel">
+      <div class="admin-card">
+        <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h2 class="admin-card-title">Expertise Cards</h2>
+          <button id="btn-add-expertise" class="btn-adm btn-adm-primary btn-adm-sm">
+            <span class="icon" style="margin-right:0.25rem;">+</span> Add Expertise Card
+          </button>
+        </div>
+        <p class="admin-help-text">Manage the expertise cards shown on the home page.</p>
+        <div id="expertise-list" class="admin-items-list">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PANEL: EXTRAS ─────────────── -->
+    <section id="panel-extras" class="admin-panel">
+      <div class="admin-card">
+        <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h2 class="admin-card-title">Beyond Work</h2>
+          <button id="btn-add-extras" class="btn-adm btn-adm-primary btn-adm-sm">
+            <span class="icon" style="margin-right:0.25rem;">+</span> Add Extra Activity
+          </button>
+        </div>
+        <p class="admin-help-text">Manage extracurricular activities shown on the about page.</p>
+        <div id="extras-list" class="admin-items-list">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+    </section>
+
     <!-- ── PANEL: NAVIGATION & HEADER ─────────────── -->
     <section id="panel-navigation" class="admin-panel">
       <!-- Logo & Brand Settings -->
@@ -727,6 +769,30 @@
             <label class="form-label" for="input-sec-ab-bio-label">Bio Section Label</label>
             <input type="text" id="input-sec-ab-bio-label" class="form-input" placeholder="biography" />
           </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-cta1-text">CTA 1 Text</label>
+            <input type="text" id="input-sec-ab-cta1-text" class="form-input" placeholder="View Projects" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-cta1-url">CTA 1 URL</label>
+            <input type="text" id="input-sec-ab-cta1-url" class="form-input" placeholder="projects.html" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-cta2-text">CTA 2 Text</label>
+            <input type="text" id="input-sec-ab-cta2-text" class="form-input" placeholder="Download Resume" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-cta2-url">CTA 2 URL</label>
+            <input type="text" id="input-sec-ab-cta2-url" class="form-input" placeholder="about.html" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-cta3-text">CTA 3 Text</label>
+            <input type="text" id="input-sec-ab-cta3-text" class="form-input" placeholder="Get in Touch" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-sec-ab-cta3-url">CTA 3 URL</label>
+            <input type="text" id="input-sec-ab-cta3-url" class="form-input" placeholder="mailto:..." />
+          </div>
           <div class="form-group" style="grid-column: 1 / -1;">
             <label class="form-label" for="input-sec-ab-hero-sub">Page Hero Subtitle Copy</label>
             <input type="text" id="input-sec-ab-hero-sub" class="form-input" placeholder="Technical Project Manager. Systems thinker..." />
@@ -779,6 +845,15 @@
             <label class="form-checkbox-label" style="margin-top: 1.8rem;">
               <input type="checkbox" id="checkbox-sec-ab-extras-vis" />
               <span>Show Beyond Work on About Page</span>
+            </label>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label class="form-checkbox-label">
+              <input type="checkbox" id="checkbox-sec-ab-rec-vis" />
+              <span>Show Recommendations on About Page</span>
             </label>
           </div>
         </div>
@@ -1244,7 +1319,8 @@
 
   <!-- Scripts -->
   <script src="data/default-data.js"></script>
-  <script src="js/utils.js"></script>`n  <script src="js/store.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/store.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>
