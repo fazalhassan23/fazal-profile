@@ -135,21 +135,21 @@
   "expertise": [
     {
       "id": "exp-1",
-      "icon": "ðŸ—‚ï¸",
+      "icon": "🗂️",
       "category": "Delivery & Strategy",
       "title": "Technical Project Management",
       "description": "Managing 21+ concurrent projects across SaaS, CRM, and enterprise software. Proficient in requirements analysis, feasibility studies, timeline estimations, and stakeholder coordination."
     },
     {
       "id": "exp-2",
-      "icon": "ðŸ–¥ï¸",
+      "icon": "🖥️",
       "category": "Infrastructure & Systems",
       "title": "Systems & Infrastructure",
       "description": "Hands-on with TrueNAS, VMware, pfSense, Git, and Linux-based environments. Experienced in hardware procurement, SOHO networks, and server deployment."
     },
     {
       "id": "exp-3",
-      "icon": "âœï¸",
+      "icon": "✍️",
       "category": "Content & Communication",
       "title": "Technical Writing & Training",
       "description": "Authored user guides, release notes, RFP responses, and tutorial content. Led cross-team training sessions and coordinated knowledge transfer across US and BD sites."
@@ -1053,7 +1053,8 @@
       "skillsLabel": "skills",
       "skillsVisible": true,
       "extrasLabel": "beyond work",
-      "extrasVisible": true
+      "extrasVisible": true,
+      "recommendationsVisible": true
     },
     "projectsPage": {
       "heroLabel": "work",
@@ -1137,5 +1138,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-  "_savedAt": "2026-09-01T19:39:13.754Z"
+  "_savedAt": "2026-09-03T09:35:22.171Z"
 }
