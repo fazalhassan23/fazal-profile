@@ -218,8 +218,8 @@
       `;
 
       // Hide generic LinkedIn relationship text
-      const relationshipHtml = (r.relationship && !r.relationship.toLowerCase().includes('linkedin recommendation received')) 
-        ? `<span class="rec-relationship">${PortfolioUtils.escapeHtml(r.relationship)}</span>` 
+      const relationshipHtml = (r.relationship && !r.relationship.toLowerCase().includes('linkedin recommendation received'))
+        ? `<span class="rec-relationship">${PortfolioUtils.escapeHtml(r.relationship)}</span>`
         : '';
 
       return `

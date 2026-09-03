@@ -1015,7 +1015,7 @@ function initAdminApp() {
     list.innerHTML = expertise.map((exp, index) => `
       <div class="item-row">
         <div class="item-info">
-          <h4>${PortfolioUtils.escapeHtml(exp.title)} <span style="font-size:0.85rem; background:rgba(245,158,11,0.15); color:#FBBF24; padding:3px 8px; border-radius:4px; margin-left:6px;">${PortfolioUtils.escapeHtml(exp.icon)}</span></h4>
+          <h4>${PortfolioUtils.escapeHtml(exp.title)}</h4>
           <p>${PortfolioUtils.escapeHtml(exp.category)}</p>
         </div>
         <div class="item-actions">
@@ -1032,7 +1032,6 @@ function initAdminApp() {
       id: `exp-${Date.now()}`,
       title: '',
       category: '',
-      icon: '',
       description: ''
     };
 
@@ -1042,13 +1041,9 @@ function initAdminApp() {
           <label class="form-label">Expertise Title *</label>
           <input type="text" id="modal-exp-title" class="form-input" value="${PortfolioUtils.escapeHtml(exp.title)}" placeholder="e.g. Technical Project Management" />
         </div>
-        <div class="form-group">
+        <div class="form-group full-width">
           <label class="form-label">Category *</label>
           <input type="text" id="modal-exp-cat" class="form-input" value="${PortfolioUtils.escapeHtml(exp.category)}" placeholder="e.g. Delivery & Strategy" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Icon (Emoji or Text)</label>
-          <input type="text" id="modal-exp-icon" class="form-input" value="${PortfolioUtils.escapeHtml(exp.icon)}" placeholder="e.g. 💼" />
         </div>
         <div class="form-group full-width">
           <label class="form-label">Description</label>
@@ -1068,7 +1063,6 @@ function initAdminApp() {
         id: exp.id,
         title: title,
         category: cat,
-        icon: getVal('modal-exp-icon'),
         description: getVal('modal-exp-desc')
       };
 
