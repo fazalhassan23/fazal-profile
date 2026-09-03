@@ -98,6 +98,7 @@
 
     container.innerHTML = expertise.map(exp => `
       <div class="expertise-card fade-up visible">
+        <div class="card-icon">${PortfolioUtils.escapeHtml(exp.icon || '💼')}</div>
         <div>
           <p class="card-category">${PortfolioUtils.escapeHtml(exp.category || '')}</p>
           <h3>${PortfolioUtils.escapeHtml(exp.title || '')}</h3>
@@ -680,6 +681,9 @@
 
   function renderContactAndFooter(p, footerData) {
     const f = footerData || {};
+
+    const contactIntro = document.getElementById('contact-intro');
+    if (contactIntro && p.contactIntro) contactIntro.textContent = p.contactIntro;
 
     // Dynamic Contact Links
     document.querySelectorAll('[data-cms-link="email"]').forEach(el => {

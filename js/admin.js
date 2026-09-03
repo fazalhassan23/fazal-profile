@@ -338,6 +338,8 @@ function initAdminApp() {
 
     // Awards
     renderAwardsList();
+    renderExpertiseList();
+    renderExtrasList();
 
     // Articles
     renderArticlesList();
@@ -571,6 +573,12 @@ function initAdminApp() {
     const ab = s.aboutPage || {};
     setVal('input-sec-ab-hero-label', ab.heroLabel || 'about');
     setVal('input-sec-ab-bio-label', ab.bioLabel || 'biography');
+    setVal('input-sec-ab-cta1-text', ab.bioCta1Text || '');
+    setVal('input-sec-ab-cta1-url', ab.bioCta1Url || '');
+    setVal('input-sec-ab-cta2-text', ab.bioCta2Text || '');
+    setVal('input-sec-ab-cta2-url', ab.bioCta2Url || '');
+    setVal('input-sec-ab-cta3-text', ab.bioCta3Text || '');
+    setVal('input-sec-ab-cta3-url', ab.bioCta3Url || '');
     setVal('input-sec-ab-hero-sub', ab.heroSubtitle || '');
     setVal('input-sec-ab-awards-label', ab.awardsLabel || 'recognition');
     setChecked('checkbox-sec-ab-awards-vis', ab.awardsVisible !== false);
@@ -582,6 +590,7 @@ function initAdminApp() {
     setChecked('checkbox-sec-ab-skills-vis', ab.skillsVisible !== false);
     setVal('input-sec-ab-extras-label', ab.extrasLabel || 'beyond work');
     setChecked('checkbox-sec-ab-extras-vis', ab.extrasVisible !== false);
+    setChecked('checkbox-sec-ab-rec-vis', ab.recommendationsVisible !== false);
 
     // Projects Page
     const pr = s.projectsPage || {};
@@ -822,8 +831,12 @@ function initAdminApp() {
     const status = window.PortfolioStore.getGitHubTokenStatus();
     if (status.configured) {
       statusEl.innerHTML = `<span class="badge badge-success">✓ Token configured: ${PortfolioUtils.escapeHtml(status.preview)}</span>`;
+      inputEl.value = '************************';
+      inputEl.placeholder = 'Token configured. Enter new token to change.';
     } else {
       statusEl.innerHTML = `<span class="badge badge-muted">✗ No token configured — changes will save locally only</span>`;
+      inputEl.value = '';
+      inputEl.placeholder = 'github_pat_...';
     }
 
     if (saveBtn && !saveBtn.dataset.bound) {
@@ -988,7 +1001,197 @@ function initAdminApp() {
   const btnAddAward = document.getElementById('btn-add-award');
   if (btnAddAward) btnAddAward.addEventListener('click', () => window.editAward(-1));
 
+  /* ── 5.5 Expertise Cards Management ─── */
+  function renderExpertiseList() {
+    const list = document.getElementById('expertise-list');
+    if (!list) return;
+    const expertise = data.expertise || [];
+
+    if (!expertise.length) {
+      list.innerHTML = `<div class="empty-state">No expertise cards added yet. Click "Add Expertise Card" to create one.</div>`;
+      return;
+    }
+
+    list.innerHTML = expertise.map((exp, index) => `
+      <div class="item-row">
+        <div class="item-info">
+          <h4>${PortfolioUtils.escapeHtml(exp.title)} <span style="font-size:0.85rem; background:rgba(245,158,11,0.15); color:#FBBF24; padding:3px 8px; border-radius:4px; margin-left:6px;">${PortfolioUtils.escapeHtml(exp.icon)}</span></h4>
+          <p>${PortfolioUtils.escapeHtml(exp.category)}</p>
+        </div>
+        <div class="item-actions">
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editExpertise" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteExpertise" data-arg0="${index}">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.editExpertise = function (index) {
+    const isNew = index === -1;
+    const exp = !isNew ? data.expertise[index] : {
+      id: `exp-${Date.now()}`,
+      title: '',
+      category: '',
+      icon: '',
+      description: ''
+    };
+
+    openModal(isNew ? 'Add Expertise Card' : 'Edit Expertise', `
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label class="form-label">Expertise Title *</label>
+          <input type="text" id="modal-exp-title" class="form-input" value="${PortfolioUtils.escapeHtml(exp.title)}" placeholder="e.g. Technical Project Management" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <input type="text" id="modal-exp-cat" class="form-input" value="${PortfolioUtils.escapeHtml(exp.category)}" placeholder="e.g. Delivery & Strategy" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Icon (Emoji or Text)</label>
+          <input type="text" id="modal-exp-icon" class="form-input" value="${PortfolioUtils.escapeHtml(exp.icon)}" placeholder="e.g. 💼" />
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Description</label>
+          <textarea id="modal-exp-desc" class="form-textarea" style="height: 100px;">${PortfolioUtils.escapeHtml(exp.description)}</textarea>
+        </div>
+      </div>
+    `, () => {
+      const title = getVal('modal-exp-title');
+      const cat = getVal('modal-exp-cat');
+      
+      if (!title || !cat) {
+        showToast('Title and Category are required.', 'error');
+        return false;
+      }
+
+      const updated = {
+        id: exp.id,
+        title: title,
+        category: cat,
+        icon: getVal('modal-exp-icon'),
+        description: getVal('modal-exp-desc')
+      };
+
+      if (!data.expertise) data.expertise = [];
+      if (isNew) {
+        data.expertise.push(updated);
+      } else {
+        data.expertise[index] = updated;
+      }
+
+      renderExpertiseList();
+      return true;
+    });
+  };
+
+  window.deleteExpertise = function (index) {
+    if (confirm(`Are you sure you want to delete "${data.expertise[index].title}"?`)) {
+      data.expertise.splice(index, 1);
+      renderExpertiseList();
+      showToast('Expertise card removed.');
+    }
+  };
+
+  const btnAddExpertise = document.getElementById('btn-add-expertise');
+  if (btnAddExpertise) btnAddExpertise.addEventListener('click', () => window.editExpertise(-1));
+
+
+  /* ── 5.6 Extras Management ─── */
+  function renderExtrasList() {
+    const list = document.getElementById('extras-list');
+    if (!list) return;
+    const extras = data.extraCurriculars || [];
+
+    if (!extras.length) {
+      list.innerHTML = `<div class="empty-state">No extracurricular activities added yet. Click "Add Extra Activity" to create one.</div>`;
+      return;
+    }
+
+    list.innerHTML = extras.map((ext, index) => `
+      <div class="item-row">
+        <div class="item-info">
+          <h4>${PortfolioUtils.escapeHtml(ext.title)} <span style="font-size:0.85rem; background:rgba(245,158,11,0.15); color:#FBBF24; padding:3px 8px; border-radius:4px; margin-left:6px;">${PortfolioUtils.escapeHtml(ext.icon)}</span></h4>
+          <p>${PortfolioUtils.escapeHtml(ext.category)}</p>
+        </div>
+        <div class="item-actions">
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editExtras" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteExtras" data-arg0="${index}">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.editExtras = function (index) {
+    const isNew = index === -1;
+    const ext = !isNew ? data.extraCurriculars[index] : {
+      id: `ext-${Date.now()}`,
+      title: '',
+      category: '',
+      icon: '',
+      description: ''
+    };
+
+    openModal(isNew ? 'Add Extra Activity' : 'Edit Extra Activity', `
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label class="form-label">Activity Title *</label>
+          <input type="text" id="modal-ext-title" class="form-input" value="${PortfolioUtils.escapeHtml(ext.title)}" placeholder="e.g. Open Source Contributor" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <input type="text" id="modal-ext-cat" class="form-input" value="${PortfolioUtils.escapeHtml(ext.category)}" placeholder="e.g. Community" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Icon (Emoji or Text)</label>
+          <input type="text" id="modal-ext-icon" class="form-input" value="${PortfolioUtils.escapeHtml(ext.icon)}" placeholder="e.g. 🌟" />
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Description</label>
+          <textarea id="modal-ext-desc" class="form-textarea" style="height: 100px;">${PortfolioUtils.escapeHtml(ext.description)}</textarea>
+        </div>
+      </div>
+    `, () => {
+      const title = getVal('modal-ext-title');
+      const cat = getVal('modal-ext-cat');
+      
+      if (!title || !cat) {
+        showToast('Title and Category are required.', 'error');
+        return false;
+      }
+
+      const updated = {
+        id: ext.id,
+        title: title,
+        category: cat,
+        icon: getVal('modal-ext-icon'),
+        description: getVal('modal-ext-desc')
+      };
+
+      if (!data.extraCurriculars) data.extraCurriculars = [];
+      if (isNew) {
+        data.extraCurriculars.push(updated);
+      } else {
+        data.extraCurriculars[index] = updated;
+      }
+
+      renderExtrasList();
+      return true;
+    });
+  };
+
+  window.deleteExtras = function (index) {
+    if (confirm(`Are you sure you want to delete "${data.extraCurriculars[index].title}"?`)) {
+      data.extraCurriculars.splice(index, 1);
+      renderExtrasList();
+      showToast('Activity removed.');
+    }
+  };
+
+  const btnAddExtras = document.getElementById('btn-add-extras');
+  if (btnAddExtras) btnAddExtras.addEventListener('click', () => window.editExtras(-1));
+
   /* ── 6. Articles & Insights Management (With Rich Text) ─── */
+
   function renderArticlesList() {
     const list = document.getElementById('articles-list');
     if (!list) return;
@@ -1992,6 +2195,12 @@ function initAdminApp() {
       if (!data.sections.aboutPage) data.sections.aboutPage = {};
       data.sections.aboutPage.heroLabel = getVal('input-sec-ab-hero-label');
       data.sections.aboutPage.bioLabel = getVal('input-sec-ab-bio-label');
+      data.sections.aboutPage.bioCta1Text = getVal('input-sec-ab-cta1-text');
+      data.sections.aboutPage.bioCta1Url  = getVal('input-sec-ab-cta1-url');
+      data.sections.aboutPage.bioCta2Text = getVal('input-sec-ab-cta2-text');
+      data.sections.aboutPage.bioCta2Url  = getVal('input-sec-ab-cta2-url');
+      data.sections.aboutPage.bioCta3Text = getVal('input-sec-ab-cta3-text');
+      data.sections.aboutPage.bioCta3Url  = getVal('input-sec-ab-cta3-url');
       data.sections.aboutPage.heroSubtitle = getVal('input-sec-ab-hero-sub');
       data.sections.aboutPage.awardsLabel = getVal('input-sec-ab-awards-label');
       data.sections.aboutPage.awardsVisible = getChecked('checkbox-sec-ab-awards-vis');
@@ -2003,6 +2212,7 @@ function initAdminApp() {
       data.sections.aboutPage.skillsVisible = getChecked('checkbox-sec-ab-skills-vis');
       data.sections.aboutPage.extrasLabel = getVal('input-sec-ab-extras-label');
       data.sections.aboutPage.extrasVisible = getChecked('checkbox-sec-ab-extras-vis');
+      data.sections.aboutPage.recommendationsVisible = getChecked('checkbox-sec-ab-rec-vis');
 
       // Projects Page
       if (!data.sections.projectsPage) data.sections.projectsPage = {};
