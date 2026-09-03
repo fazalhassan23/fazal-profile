@@ -2276,6 +2276,15 @@ function initAdminApp() {
       data.seo.keywords = getVal('textarea-seo-keywords');
       data.seo.ogImage = getVal('input-seo-og-image');
 
+      // 9. Opportunistically save GitHub token if user entered one before clicking global Save
+      const tokenInput = document.getElementById('input-github-token');
+      if (tokenInput) {
+        const tokenVal = tokenInput.value.trim();
+        if (tokenVal && tokenVal !== '************************') {
+          window.PortfolioStore.saveGitHubToken(tokenVal);
+        }
+      }
+
       // FIX 3: Guard against portfolioDataChanged listener re-reading data
       // mid-save and clobbering in-memory edits not yet flushed to localStorage.
       window._adminSaveInProgress = true;
