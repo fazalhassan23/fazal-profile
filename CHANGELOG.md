@@ -3,6 +3,19 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.2.2] — 2026-09-03
+
+> Branch: `Staging` — Comprehensive CMS synchronization and UX fixes.
+
+### Fixed
+
+#### CMS Data Synchronization & Rendering
+- **Single Source of Truth**: Fixed an issue where the "First Name" field did not update the frontend logo by removing the redundant "Logo Brand Text" input from `admin.html` and updating the fallback logic in `js/render.js`.
+- **GitHub PAT Saving UX**: Added an opportunistic save check to the global "Save & Publish Changes" button so the GitHub Personal Access Token is saved even if the user forgets to click the inner "Save Token" button.
+- **Missing DOM Bindings**: Restored several missing DOM element IDs across `admin.html` and `index.html` that were preventing the CMS (`js/admin.js`) from binding correctly to the frontend (`js/render.js`).
+
+---
+
 ## [2.2.1] — 2026-09-02
 
 > Branch: `Worked-from-office` — Cleaned up Recognition / Award card design system.
