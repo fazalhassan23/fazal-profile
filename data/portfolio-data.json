@@ -1014,7 +1014,7 @@
         "messageLabel": "Message *",
         "messagePlaceholder": "Tell me a bit about what you have in mind...",
         "submitText": "Send Message ↗",
-        "accessKey": ""
+        "accessKey": "24bc9261-af85-40be-b33c-af52391f8d36"
       },
       "details": {
         "emailLabel": "Direct Email",
@@ -1128,5 +1128,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-  "_savedAt": "2026-09-07T00:05:00.000Z"
+  "_savedAt": "2026-09-07T00:45:00.000Z"
 }

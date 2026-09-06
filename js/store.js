@@ -154,7 +154,13 @@
         contact: {
           ...(defaults.sections?.contact || {}),
           ...(saved.sections?.contact || {}),
-          form: { ...(defaults.sections?.contact?.form || {}), ...(saved.sections?.contact?.form || {}) },
+          form: {
+            ...(defaults.sections?.contact?.form || {}),
+            ...(saved.sections?.contact?.form || {}),
+            accessKey: (saved.sections?.contact?.form?.accessKey && saved.sections.contact.form.accessKey.trim() !== '')
+              ? saved.sections.contact.form.accessKey
+              : (defaults.sections?.contact?.form?.accessKey || '')
+          },
           details: { ...(defaults.sections?.contact?.details || {}), ...(saved.sections?.contact?.details || {}) }
         },
         aboutPage: { ...(defaults.sections?.aboutPage || {}), ...(saved.sections?.aboutPage || {}) },
@@ -209,6 +215,12 @@
             merged.skills = defaults.skills || {};
             merged.extraCurriculars = defaults.extraCurriculars || [];
             merged.profile = { ...(merged.profile || {}), ...(defaults.profile || {}) };
+            if (defaults.sections?.contact?.form?.accessKey) {
+              if (!merged.sections) merged.sections = {};
+              if (!merged.sections.contact) merged.sections.contact = {};
+              if (!merged.sections.contact.form) merged.sections.contact.form = {};
+              merged.sections.contact.form.accessKey = defaults.sections.contact.form.accessKey;
+            }
             merged._savedAt = defaults._savedAt;
             localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
             return merged;
