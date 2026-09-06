@@ -198,6 +198,21 @@
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
           const parsed = JSON.parse(saved);
+          const defaultTime = defaults._savedAt ? new Date(defaults._savedAt).getTime() : 0;
+          const savedTime = parsed._savedAt ? new Date(parsed._savedAt).getTime() : 0;
+          if (defaultTime >= savedTime) {
+            const merged = mergeSchema(defaults, parsed);
+            // If default is newer, ensure experience, education, projects, skills come from newer defaults
+            merged.experience = defaults.experience || [];
+            merged.education = defaults.education || [];
+            merged.projects = defaults.projects || [];
+            merged.skills = defaults.skills || {};
+            merged.extraCurriculars = defaults.extraCurriculars || [];
+            merged.profile = { ...(merged.profile || {}), ...(defaults.profile || {}) };
+            merged._savedAt = defaults._savedAt;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+            return merged;
+          }
           return mergeSchema(defaults, parsed);
         }
       } catch (e) {
