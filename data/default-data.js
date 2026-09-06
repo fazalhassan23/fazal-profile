@@ -1,1022 +1,1136 @@
-/* ============================================================
+﻿/* ============================================================
    DEFAULT PORTFOLIO DATA (Fazal Mahmud Hassan)
    ============================================================ */
 
 window.DEFAULT_PORTFOLIO_DATA = {
-  profile: {
-    name: "Fazal Mahmud Hassan",
-    firstName: "Fazal",
-    roleTitle: "Technical Project Manager · Systems Engineer",
-    heroBio: "Result-driven professional bridging technology and people management. Currently leading 21+ projects at Mediusware Limited — overseeing SaaS and CRM delivery across cross-functional teams. I hold an MBA in HR & Management from the University of Dhaka and a B.Sc in Computer Science from BRAC University.",
-    aboutLead: "I'm a Technical Project Manager at Mediusware Limited, where I lead delivery across 21+ concurrent software projects — spanning SaaS platforms, CRM systems, and enterprise solutions from concept to launch.",
-    aboutBodyParagraphs: [
-      "My background sits at a rare intersection: a B.Sc in Computer Science & Engineering from BRAC University gives me the technical depth to speak the language of developers and architects, while an MBA in HR & Management from the University of Dhaka equips me to manage people, process, and organizational dynamics with equal fluency.",
-      "Before project management, I built experience in technical support (Augmedix), content and training (Therap BD), and systems engineering (Innovation Soft) — a progression that shaped my ability to communicate clearly across technical and non-technical stakeholders.",
-      "Outside work, I'm an active photographer, a former university debater, and an enthusiastic tech columnist. I believe great technology is built at the intersection of clarity, collaboration, and curiosity."
+  "profile": {
+    "name": "Fazal Mahmud Hassan",
+    "firstName": "Fazal",
+    "roleTitle": "Technical Project Manager",
+    "heroBio": "Seeking a position in an innovative organization where I can leverage my skills and experience to drive growth and contribute to the development of cutting-edge solutions.",
+    "aboutLead": "Seeking a position in an innovative organization where I can leverage my skills and experience to drive growth and contribute to the development of cutting-edge solutions.",
+    "aboutBodyParagraphs": [
+      "<p>Seeking a position in an innovative organization where I can leverage my skills and experience to drive growth and contribute to the development of cutting-edge solutions.</p><p>Holds a Masters of Business Administration (HR and Management) from the University of Dhaka (CGPA: 3.73/4.00) and a B.Sc in Computer Science &amp; Engineering from BRAC University (CGPA: 3.25/4.00).</p><p>Experience spans Technical Project Manager at Mediusware Limited, Training and Content Specialist and Associate Training and Content Specialist at Therap BD Limited, Technical Support Engineer at Augmedix Bangladesh, Administrative Manager, Finance and IT at DIVI Hosting (Netherlands), and System Engineer at Innovation Soft.</p>"
     ],
-    contactIntro: "Have an interesting project, collaboration, or leadership role in mind? Send me a message below or connect with me directly.",
-    email: "fazal.mahmud.hassan@gmail.com",
-    phone: "+880 1712 772123",
-    linkedinUrl: "https://linkedin.com/in/fazalmahmudhassan",
-    githubUrl: "https://github.com/fazalhassan23",
-    location: "Dhaka, Bangladesh",
-    footerTagline: "Technical Project Manager & Systems Engineer based in Dhaka, Bangladesh.",
-    copyrightYear: 2026,
-    resumeUrl: "",
-    fontPair: "geometric"
+    "contactIntro": "Have an interesting project, collaboration, or leadership role in mind? Send me a message below or connect with me directly.",
+    "email": "fazal.mahmud.hassan@gmail.com",
+    "phone": "+8801712772123",
+    "linkedinUrl": "https://linkedin.com/in/fazalmahmudhassan",
+    "githubUrl": "https://github.com/fazalhassan23",
+    "location": "Dhaka, Bangladesh",
+    "footerTagline": "Technical Project Manager based in Dhaka, Bangladesh.",
+    "copyrightYear": 2026,
+    "resumeUrl": "",
+    "fontPair": "geometric"
   },
-
-  availability: {
-    status: "available", // 'available' | 'consulting' | 'busy'
-    badgeText: "Open to Research & Advisory",
-    typewriterRoles: [
+  "availability": {
+    "status": "available",
+    "badgeText": "Open to Opportunities",
+    "typewriterRoles": [
       "Technical Project Manager",
-      "Systems & Infrastructure Engineer",
-      "Researcher & Springer Author",
-      "Cross-Functional Team Leader",
-      "Creative Technologist & Photographer"
+      "Training and Content Specialist",
+      "Technical Support Engineer",
+      "System Engineer"
     ]
   },
-
-  metrics: [
+  "metrics": [
     {
-      id: "m-1",
-      number: "21",
-      suffix: "+",
-      label: "Projects Managed",
-      subtext: "SaaS, CRM & enterprise deliveries"
+      "id": "m-1",
+      "number": "21",
+      "suffix": "",
+      "label": "Projects Managed",
+      "subtext": "Around 21 projects, over 15 completed"
     },
     {
-      id: "m-2",
-      number: "95",
-      suffix: "%+",
-      label: "Client Satisfaction",
-      subtext: "Consistent top CSAT scores"
+      "id": "m-2",
+      "number": "95",
+      "suffix": "%+",
+      "label": "Client Satisfaction",
+      "subtext": "Achieved client satisfaction of over 95%"
     },
     {
-      id: "m-3",
-      number: "25",
-      suffix: "+",
-      label: "Team Members Led",
-      subtext: "Engineers, designers & QA"
+      "id": "m-3",
+      "number": "25",
+      "suffix": "+",
+      "label": "Team Members Led",
+      "subtext": "Cross-functional teams of over 25 members"
     },
     {
-      id: "m-4",
-      number: "7",
-      suffix: "+",
-      label: "Years in Tech",
-      subtext: "Support, Systems & PM"
+      "id": "m-4",
+      "number": "4",
+      "suffix": " Mo.",
+      "label": "Support Leaderboard",
+      "subtext": "Top-ranked on support leaderboard"
     }
   ],
-
-  awards: [
+  "awards": [
     {
-      id: "awd-1",
-      title: "Best Presentation Award",
-      organization: "Springer International Conference CNC-2018",
-      year: "2018",
-      description: "Conferred for presenting research on 'Prototype of Arduino-Based Robot Controlled via Android' published in Springer Advances in Intelligent Systems and Computing.",
-      badge: "Springer Conference CNC"
+      "id": "awd-1",
+      "title": "Best Presentation Award",
+      "organization": "Conference titled 'CNC-2018' arranged by Springer",
+      "year": "2018",
+      "description": "Recognized as the best presentation for research on 'Prototype of Arduino based robot controlled using Android based remote controller software on smartphone' published in CNC-2018 arranged by Springer.",
+      "badge": "Springer CNC-2018"
     },
     {
-      id: "awd-2",
-      title: "Top-Ranked Technical Support Engineer",
-      organization: "Augmedix Bangladesh",
-      year: "2020 — 2021",
-      description: "Ranked #1 on the US healthcare technical support leaderboard for 4 consecutive months with exemplary SLA compliance and clinician satisfaction.",
-      badge: "Leaderboard #1 (4 Mo.)"
+      "id": "awd-2",
+      "title": "Top-Ranked Technical Support Engineer",
+      "organization": "Augmedix Bangladesh",
+      "year": "2020 — 2021",
+      "description": "Top-ranked on support leaderboard for 4 months, managing tickets across platforms and ensuring SLA compliance.",
+      "badge": "Leaderboard (4 Months)"
     },
     {
-      id: "awd-3",
-      title: "Academic Excellence & Merit",
-      organization: "Govt. Shaheed BulBul College & Pabna Zilla School",
-      year: "2011 & 2013",
-      description: "Achieved Perfect GPA 5.00/5.00 in both Secondary School Certificate (SSC) and Higher Secondary Certificate (HSC) board examinations.",
-      badge: "GPA 5.00 / 5.00"
+      "id": "awd-3",
+      "title": "Academic Excellence",
+      "organization": "Govt. Shaheed BulBul College, Pabna & Pabna Zilla School, Pabna",
+      "year": "2011 & 2013",
+      "description": "Achieved GPA 5.00/5.00 in Higher Secondary School Certificate (2013) and Secondary School Certificate (2011).",
+      "badge": "GPA 5.00 / 5.00"
     }
   ],
-
-  articles: [
+  "articles": [
     {
-      id: "art-1",
-      title: "Bridging the Gap: How CS + MBA Thinking Transforms Project Delivery",
-      date: "Aug 2024",
-      readTime: "4 min read",
-      category: "Leadership",
-      summary: "Why technical fluency and business psychology are a superpower for Technical Project Managers navigating tight deadlines and stakeholder expectations.",
-      tags: ["Project Management", "Leadership", "Engineering Culture"],
-      content: "In modern software engineering organizations, the biggest bottleneck is rarely writing code — it is translating strategic intent into unambiguous architectural milestones.\n\nHaving an engineering background gives project managers the ability to dissect architectural roadblocks and appreciate developer friction points. Paired with management frameworks from an MBA, you transition from simply tracking tasks to actively orchestrating team velocity, mitigating organizational friction, and communicating commercial impact directly to executive stakeholders."
+      "id": "art-1",
+      "title": "Bridging the Gap: How CS + MBA Thinking Transforms Project Delivery",
+      "date": "Aug 2024",
+      "readTime": "4 min read",
+      "category": "Leadership",
+      "summary": "Why technical fluency and business psychology are a superpower for Technical Project Managers navigating tight deadlines and stakeholder expectations.",
+      "tags": [
+        "Project Management",
+        "Leadership",
+        "Engineering Culture"
+      ],
+      "content": "In modern software engineering organizations, the biggest bottleneck is rarely writing code — it is translating strategic intent into unambiguous architectural milestones.\n\nHaving an engineering background gives project managers the ability to dissect architectural roadblocks and appreciate developer friction points. Paired with management frameworks from an MBA, you transition from simply tracking tasks to actively orchestrating team velocity, mitigating organizational friction, and communicating commercial impact directly to executive stakeholders."
     },
     {
-      id: "art-2",
-      title: "Managing 20+ Concurrent SaaS Workflows Without Sacrificing Code Quality",
-      date: "Nov 2024",
-      readTime: "6 min read",
-      category: "Operations",
-      summary: "A practical framework for balancing rapid client iterations, resource allocation, and continuous integration across multiple enterprise software accounts.",
-      tags: ["SaaS", "Agile", "Resource Allocation", "Quality Assurance"],
-      content: "When scaling across 20+ active project deliverables, relying on memory or ad-hoc status meetings is a recipe for missed deadlines. \n\nStandardizing discovery templates, building modular component libraries, and establishing strict definition-of-done criteria across QA and development enables teams to operate with predictability even under aggressive delivery timelines."
+      "id": "art-2",
+      "title": "Managing 20+ Concurrent SaaS Workflows Without Sacrificing Code Quality",
+      "date": "Nov 2024",
+      "readTime": "6 min read",
+      "category": "Operations",
+      "summary": "A practical framework for balancing rapid client iterations, resource allocation, and continuous integration across multiple enterprise software accounts.",
+      "tags": [
+        "SaaS",
+        "Agile",
+        "Resource Allocation",
+        "Quality Assurance"
+      ],
+      "content": "When scaling across 20+ active project deliverables, relying on memory or ad-hoc status meetings is a recipe for missed deadlines. \n\nStandardizing discovery templates, building modular component libraries, and establishing strict definition-of-done criteria across QA and development enables teams to operate with predictability even under aggressive delivery timelines."
     },
     {
-      id: "art-3",
-      title: "From Breadboard to Springer Publication: Lessons from Building Bluetooth Robotics",
-      date: "Research Retrospective",
-      readTime: "5 min read",
-      category: "Research",
-      summary: "Reflections on designing Arduino-based Android-controlled robotic prototypes and presenting peer-reviewed engineering findings on an international stage.",
-      tags: ["Robotics", "Arduino", "Embedded Systems", "Academic Research"],
-      content: "Developing our Android-controlled Arduino robotics prototype taught me the essential discipline of hardware-software boundary testing. When communication latency can cause motor stall or packet loss, designing resilient serial packet validation is as critical as writing clean UI code."
+      "id": "art-3",
+      "title": "From Breadboard to Springer Publication: Lessons from Building Bluetooth Robotics",
+      "date": "Research Retrospective",
+      "readTime": "5 min read",
+      "category": "Research",
+      "summary": "Reflections on designing Arduino-based Android-controlled robotic prototypes and presenting peer-reviewed engineering findings on an international stage.",
+      "tags": [
+        "Robotics",
+        "Arduino",
+        "Embedded Systems",
+        "Academic Research"
+      ],
+      "content": "Developing our Android-controlled Arduino robotics prototype taught me the essential discipline of hardware-software boundary testing. When communication latency can cause motor stall or packet loss, designing resilient serial packet validation is as critical as writing clean UI code."
     }
   ],
-
-  expertise: [
+  "expertise": [
     {
-      id: "exp-1",
-      icon: "🗂️",
-      category: "Delivery & Strategy",
-      title: "Technical Project Management",
-      description: "Managing 21+ concurrent projects across SaaS, CRM, and enterprise software. Proficient in requirements analysis, feasibility studies, timeline estimations, and stakeholder coordination."
+      "id": "exp-1",
+      "category": "Project Management",
+      "title": "Technical Project Management",
+      "description": "Oversee phases of software development, including SaaS and CRM systems, from concept to delivery. Managed around 21 projects, lead cross-functional teams of over 25 members, and achieved client satisfaction of over 95%."
     },
     {
-      id: "exp-2",
-      icon: "🖥️",
-      category: "Infrastructure & Systems",
-      title: "Systems & Infrastructure",
-      description: "Hands-on with TrueNAS, VMware, pfSense, Git, and Linux-based environments. Experienced in hardware procurement, SOHO networks, and server deployment."
+      "id": "exp-2",
+      "category": "Systems & Infrastructure",
+      "title": "Systems Engineering",
+      "description": "Designing and optimizing system configurations, computer hardware procurement and assembly, office computer network design, and deploying SOHO servers and routine maintenance."
     },
     {
-      id: "exp-3",
-      icon: "✍️",
-      category: "Content & Communication",
-      title: "Technical Writing & Training",
-      description: "Authored user guides, release notes, RFP responses, and tutorial content. Led cross-team training sessions and coordinated knowledge transfer across US and BD sites."
+      "id": "exp-3",
+      "category": "Training & Documentation",
+      "title": "Training & Content",
+      "description": "Prepare user guides, release notes, reference documentation, website tutorials, and responses to RFPs and business proposals. Train team members and manage cross-timezone communication."
     }
   ],
-
-  experience: [
+  "experience": [
     {
-      id: "job-1",
-      company: "Mediusware Limited",
-      companyUrl: "https://mediusware.com",
-      role: "Technical Project Manager",
-      period: "Aug 2024 — Present",
-      isCurrent: true,
-      bullets: [
-        "Managing ~21 projects; completed 15+ medium-to-large-scale deliveries with 95%+ client satisfaction.",
-        "Leading cross-functional teams of 25+ across SaaS, CRM, and enterprise software lifecycles.",
-        "Analysing requirements, developing technical solutions, and conducting feasibility studies with cross-team collaboration.",
-        "Preparing technical proposals, timeline estimations, and managing resource allocations.",
-        "Standardizing application development practices and frameworks within the organization.",
-        "Identifying and implementing reuse opportunities and developing prototypes to streamline project work."
+      "id": "job-1",
+      "company": "Mediusware Limited",
+      "companyUrl": "https://mediusware.com",
+      "role": "Technical Project Manager",
+      "period": "August 2024 - Present",
+      "isCurrent": true,
+      "bullets": [
+        "Managed around 21 projects and have completed over 15 medium to large scale projects, rests are still ongoing.",
+        "Achieved client satisfaction of over 95%.",
+        "Oversee phases of software development, including SaaS and CRM systems, from concept to delivery.",
+        "Lead and manage cross-functional teams of over 25 members.",
+        "Analyse requirements, develop technical solutions, and conduct feasibility studies with collaboration from different teams.",
+        "Prepare technical proposals and timeline estimations.",
+        "Standardize application development practices and frameworks within the organization.",
+        "Identify and implement reuse opportunities and develop prototypes to streamline project work."
       ]
     },
     {
-      id: "job-2",
-      company: "Therap BD Limited",
-      companyUrl: "https://therapservices.net",
-      role: "Training and Content Specialist",
-      period: "Apr 2022 — May 2024",
-      isCurrent: false,
-      bullets: [
-        "Achieved personal CSAT score of 96% while resolving complex technical support tickets under tight SLAs.",
-        "Forwarded user feedback and suggestions to Product, development, and QA teams.",
-        "Coordinated and managed various projects with the US team; led multiple weekly cross-timezone syncs.",
-        "Trained newly hired team members and performed manual testing of newly introduced features.",
-        "Prepared responses to 'Request for Proposal' (RFP) for securing new contracts."
+      "id": "job-2",
+      "company": "Therap BD Limited",
+      "companyUrl": "https://therapservices.net",
+      "role": "Training and Content Specialist",
+      "period": "April 2022 - May 2024",
+      "isCurrent": false,
+      "bullets": [
+        "Respond to Support Tickets as per SLA. For time zone differences, minimum response time from the BD site would be around 6 hours",
+        "Achieved personal CSAT score of 96%",
+        "Forward user feedback and suggestions to the Product team, developers, and testers.",
+        "Coordinate and manage various projects with the US team",
+        "Lead multiple weekly calls with the US team",
+        "Train newly hired team members",
+        "Manual testing of newly introduced features",
+        "Prepare responses to ‘Request for Proposal’ for gaining new contracts"
       ]
     },
     {
-      id: "job-3",
-      company: "Therap BD Limited",
-      companyUrl: "https://therapservices.net",
-      role: "Associate Training and Content Specialist",
-      period: "Apr 2021 — Mar 2022",
-      isCurrent: false,
-      bullets: [
-        "Prepared user guides, release notes, and comprehensive reference documentation.",
-        "Developed innovative tutorials and written content for the official platform knowledge base.",
-        "Interacted with users to explain complex technical issues and communicated feedback to developers.",
-        "Prepared responses to RFPs and business proposals."
+      "id": "job-3",
+      "company": "Therap BD Limited",
+      "companyUrl": "https://therapservices.net",
+      "role": "Associate Training and Content Specialist",
+      "period": "April 2021 to March 2022",
+      "isCurrent": false,
+      "bullets": [
+        "Prepare user guides, release notes, and reference documentation",
+        "Develop innovative tutorials and written content for the website",
+        "Interact with users to explain complex technical issues",
+        "Communicate user feedback to developers to help design a better product",
+        "Prepare responses to RFPs and other business proposals"
       ]
     },
     {
-      id: "job-4",
-      company: "Augmedix Bangladesh",
-      companyUrl: "https://augmedix.com",
-      role: "Technical Support Engineer",
-      period: "Oct 2020 — Mar 2021",
-      isCurrent: false,
-      bullets: [
-        "Provided real-time technical support to US-based healthcare providers (top-ranked on support leaderboard for 4 consecutive months).",
-        "Documented technical specifications for internal products and services.",
-        "Monitored and troubleshot Augmedix device network performance, diagnosing root causes.",
-        "Coordinated with local and global IT teams, EHR IT, and hospital stakeholders."
+      "id": "job-4",
+      "company": "Augmedix Bangladesh",
+      "companyUrl": "https://augmedix.com",
+      "role": "Technical Support Engineer",
+      "period": "October 2020 to March 2021",
+      "isCurrent": false,
+      "bullets": [
+        "Provide real-time technical support to US-based healthcare providers, managing tickets across platforms and ensuring SLA compliance (top-ranked on support leaderboard for 4 months).",
+        "Document technical specifications for products and services.",
+        "Lead and manage multiple projects concurrently.",
+        "Monitor and troubleshoot Augmedix device network performance, analyzing root causes.",
+        "Coordinate with local and global IT teams, EHR IT, and other stakeholders.",
+        "Conduct regular coordination calls with various teams.",
+        "Relay user feedback to the product and development teams."
       ]
     },
     {
-      id: "job-5",
-      company: "DIVI Hosting, Netherlands",
-      companyUrl: "",
-      role: "Administrative Manager, Finance and IT",
-      period: "Apr 2020 — Feb 2021",
-      isCurrent: false,
-      bullets: [
-        "Maintained company documentation, bookkeeping, and project milestones.",
-        "Tracked expenses and invoices; streamlined client and developer communications.",
-        "Negotiated with prospective clients and coordinated with IT and infrastructure vendors."
+      "id": "job-5",
+      "company": "DIVI Hosting, Netherlands",
+      "companyUrl": "",
+      "role": "Administrative Manager, Finance and IT",
+      "period": "April 2020 to February 2021",
+      "isCurrent": false,
+      "bullets": [
+        "Maintain different documentation",
+        "Company bookkeeping",
+        "Project management",
+        "Expenses and invoice tracking",
+        "Communication with clients and developer teams",
+        "Communication with potential clients for negotiation",
+        "Communication with different vendors for IT and operational support"
       ]
     },
     {
-      id: "job-6",
-      company: "Innovation Soft",
-      companyUrl: "",
-      role: "System Engineer (Part Time)",
-      period: "Sep 2015 — Dec 2017",
-      isCurrent: false,
-      bullets: [
-        "Designed and optimized custom system configurations based on client specifications.",
-        "Procured and assembled computer systems; designed small-scale office local networks.",
-        "Deployed SOHO servers and executed routine network maintenance."
+      "id": "job-6",
+      "company": "Innovation Soft",
+      "companyUrl": "",
+      "role": "System Engineer [Part Time]",
+      "period": "September 2015 to December 2017",
+      "isCurrent": false,
+      "bullets": [
+        "Designing and optimizing system configurations as per requirements",
+        "Procuring and assembling computers",
+        "Designing small scale office computer network",
+        "Deploying SOHO servers and run routine maintenance"
       ]
     }
   ],
-
-  projects: [
+  "projects": [
     {
-      id: "proj-1",
-      category: "research",
-      title: "Effects of COVID-19 on Organizational Workflow and Employee Hiring Policies",
-      year: "2021",
-      description: "MBA final report examining how the pandemic reshaped employee hiring policies and organizational workflows, with case-study analysis and strategic HR framework recommendations.",
-      tags: ["HR Management", "Organizational Behavior", "COVID-19", "Research"],
-      link: ""
+      "id": "proj-1",
+      "category": "research",
+      "title": "Effects of COVID-19 on Organizational Workflow and Employee Hiring Policies",
+      "year": "2021",
+      "description": "Final Report for Masters of Business Administration at University of Dhaka.",
+      "tags": [
+        "MBA",
+        "HR and Management",
+        "University of Dhaka"
+      ],
+      "link": ""
     },
     {
-      id: "proj-2",
-      category: "research",
-      title: "Agricultural Yield Prediction Using Data Analysis Techniques",
-      year: "2019",
-      description: "Undergraduate thesis at BRAC University exploring machine learning and statistical data analysis techniques for predicting crop yields from environmental parameters.",
-      tags: ["Data Analysis", "Machine Learning", "Agriculture", "Python"],
-      link: ""
+      "id": "proj-2",
+      "category": "research",
+      "title": "Agricultural yield prediction using Data Analysis techniques.",
+      "year": "2019",
+      "description": "Thesis for B.Sc in Computer Science and Engineering at BRAC University.",
+      "tags": [
+        "Data Analysis",
+        "Computer Science",
+        "BRAC University"
+      ],
+      "link": ""
     },
     {
-      id: "proj-3",
-      category: "publication",
-      title: "Prototype of Arduino-Based Robot Controlled via Android",
-      year: "CNC-2018",
-      description: "Published in Springer conference CNC-2018. Demonstrates a wheel-based robot controlled using a custom Android application over Bluetooth. Awarded Best Presentation.",
-      tags: ["Arduino", "Android", "Bluetooth", "Robotics", "Springer"],
-      badge: "Best Presentation",
-      link: ""
+      "id": "proj-3",
+      "category": "publication",
+      "title": "Prototype of Arduino based robot controlled using Android based remote controller software on smartphone.",
+      "year": "CNC-2018",
+      "description": "Published in a conference titled ‘CNC-2018’ arranged by Springer. Recognized as the best presentation.",
+      "tags": [
+        "Arduino",
+        "Android",
+        "Springer",
+        "CNC-2018",
+        "Robotics"
+      ],
+      "badge": "Best Presentation",
+      "link": ""
     },
     {
-      id: "proj-4",
-      category: "software",
-      title: "DroidBot — Android-Controlled Wheel Robot",
-      year: "2018",
-      description: "A wheel-based robot controllable via a custom Android application. Uses Bluetooth communication between the mobile app and the embedded Arduino controller.",
-      tags: ["Arduino", "Android", "Bluetooth", "Robotics"],
-      link: ""
+      "id": "proj-4",
+      "category": "software",
+      "title": "MovieDB: An IMDB like offline movie database.",
+      "year": "University Project",
+      "description": "An IMDB like offline movie database.",
+      "tags": [
+        "Database",
+        "University Project"
+      ],
+      "link": ""
     },
     {
-      id: "proj-5",
-      category: "software",
-      title: "Shech Jontro — Automated Field Watering System",
-      year: "2018",
-      description: "An IoT-based automated irrigation system designed to water agricultural fields based on soil moisture sensor readings. Reduces water waste and manual intervention.",
-      tags: ["IoT", "Arduino", "Sensors", "Agriculture"],
-      link: ""
+      "id": "proj-5",
+      "category": "software",
+      "title": "FactoCalc: A calculator coded using the Assembly language.",
+      "year": "University Project",
+      "description": "A calculator coded using the Assembly language.",
+      "tags": [
+        "Assembly Language",
+        "University Project"
+      ],
+      "link": ""
     },
     {
-      id: "proj-6",
-      category: "software",
-      title: "Parking Koi — Smart Guided Parking System",
-      year: "2018",
-      description: "A guided parking management system for large-scale public parking lots. Uses real-time slot availability data to guide drivers to the nearest available space.",
-      tags: ["Embedded Systems", "Sensors", "Smart Infrastructure"],
-      link: ""
+      "id": "proj-6",
+      "category": "software",
+      "title": "DroidBot: A wheel-based robot controllable via Android based devices.",
+      "year": "University Project",
+      "description": "A wheel-based robot controllable via Android based devices.",
+      "tags": [
+        "Android",
+        "Robotics",
+        "University Project"
+      ],
+      "link": ""
     },
     {
-      id: "proj-7",
-      category: "software",
-      title: "MovieDB — Offline Movie Database",
-      year: "2017",
-      description: "An IMDB-inspired offline movie database application. Allows users to browse, search, and manage a local movie library with cast, genre, ratings, and synopsis metadata.",
-      tags: ["Java", "MySQL", "Desktop App"],
-      link: ""
+      "id": "proj-7",
+      "category": "software",
+      "title": "Shech Jontro: An automated field watering system.",
+      "year": "University Project",
+      "description": "An automated field watering system.",
+      "tags": [
+        "Automation",
+        "Hardware",
+        "University Project"
+      ],
+      "link": ""
     },
     {
-      id: "proj-8",
-      category: "software",
-      title: "Budget Ninja — Android Expense Tracker",
-      year: "2017",
-      description: "A personal budgeting and expense tracking Android application enabling users to set monthly limits, log daily spending, and visualize category charts.",
-      tags: ["Android", "Java", "SQLite", "Finance"],
-      link: ""
+      "id": "proj-8",
+      "category": "software",
+      "title": "Parking Koi: A guided parking system for large scale public parking lots.",
+      "year": "University Project",
+      "description": "A guided parking system for large scale public parking lots.",
+      "tags": [
+        "Guided Parking",
+        "University Project"
+      ],
+      "link": ""
     },
     {
-      id: "proj-9",
-      category: "software",
-      title: "FactoCalc — Assembly Language Calculator",
-      year: "2016",
-      description: "A low-level calculator application coded in x86 Assembly language supporting arithmetic and factorial computation.",
-      tags: ["Assembly", "x86", "Low-Level Programming"],
-      link: ""
-    },
-    {
-      id: "proj-10",
-      category: "volunteer",
-      title: "Volunteer Referee — Regional eSports Tournament",
-      year: "University",
-      description: "Managed regional event operations for a major telecom-sponsored eSports tournament, enforcing tournament rules and fair play.",
-      tags: ["eSports", "Event Management", "Operations"],
-      link: ""
-    },
-    {
-      id: "proj-11",
-      category: "volunteer",
-      title: "Social Media Manager & Content Creator — Rantages",
-      year: "University",
-      description: "Handled social media accounts and content creation for a humor-based model. Collaborated with iflix and Pathao on marketing campaigns and tracked metrics via Excel.",
-      tags: ["Social Media", "Content Creation", "Campaign Analytics"],
-      link: ""
-    },
-    {
-      id: "proj-12",
-      category: "volunteer",
-      title: "Organizer & Creative Planner — Poromporai Amra",
-      year: "University",
-      description: "Core organizing committee member for non-profit Poromporai Amra. Spearheaded thematic planning and creative direction for a university festival.",
-      tags: ["Non-Profit", "Event Planning", "Creative Direction"],
-      link: ""
+      "id": "proj-9",
+      "category": "software",
+      "title": "Budget Ninja: An android application for budgeting and tracking expenses.",
+      "year": "University Project",
+      "description": "An android application for budgeting and tracking expenses.",
+      "tags": [
+        "Android",
+        "Budgeting",
+        "University Project"
+      ],
+      "link": ""
     }
   ],
-
-  education: [
+  "education": [
     {
-      id: "edu-1",
-      degree: "Masters of Business Administration",
-      field: "HR and Management",
-      institution: "University of Dhaka",
-      year: "2021",
-      grade: "CGPA 3.73 / 4.00"
+      "id": "edu-1",
+      "degree": "Masters of Business Administration",
+      "field": "(HR and Management)",
+      "institution": "University of Dhaka",
+      "year": "2021",
+      "grade": "CGPA: 3.73/4.00"
     },
     {
-      id: "edu-2",
-      degree: "B.Sc in Computer Science & Engineering",
-      field: "Computer Science",
-      institution: "BRAC University",
-      year: "2019",
-      grade: "CGPA 3.25 / 4.00"
+      "id": "edu-2",
+      "degree": "B.Sc in Computer Science & Engineering",
+      "field": "Computer Science & Engineering",
+      "institution": "BRAC University",
+      "year": "2019",
+      "grade": "CGPA: 3.25/4.00"
     },
     {
-      id: "edu-3",
-      degree: "Higher Secondary School Certificate",
-      field: "Science",
-      institution: "Govt. Shaheed BulBul College, Pabna",
-      year: "2013",
-      grade: "GPA 5.00 / 5.00"
+      "id": "edu-3",
+      "degree": "Higher Secondary School Certificate",
+      "field": "Higher Secondary",
+      "institution": "Govt. Shaheed BulBul College, Pabna",
+      "year": "2013",
+      "grade": "GPA: 5.00/5.00"
     },
     {
-      id: "edu-4",
-      degree: "Secondary School Certificate",
-      field: "General",
-      institution: "Pabna Zilla School, Pabna",
-      year: "2011",
-      grade: "GPA 5.00 / 5.00"
+      "id": "edu-4",
+      "degree": "Secondary School Certificate",
+      "field": "Secondary",
+      "institution": "Pabna Zilla School, Pabna",
+      "year": "2011",
+      "grade": "GPA: 5.00/5.00"
     }
   ],
-
-  skills: {
-    technical: [
+  "skills": {
+    "technical": [
       "Microsoft Office Suite",
       "Google Workspace",
-      "HTML",
-      "LaTeX",
-      "Java",
-      "C",
-      "MySQL",
-      "Git",
-      "TrueNAS",
-      "VMware",
-      "pfSense",
-      "Windows Server",
-      "Ubuntu / Debian Linux",
-      "macOS",
-      "Computer Hardware",
-      "Computer Networking"
+      "Windows, Windows Server, Ubuntu, MAC, and other Debian based distros",
+      "HTML, LaTex",
+      "Java, C, MySql",
+      "TrueNas, Vmware, PFSense. Git",
+      "Computer hardware",
+      "Computer networking",
+      "Technical writing"
     ],
-    professional: [
-      "Technical Writing",
-      "Team Leadership",
-      "Time Management",
-      "Goal-Driven",
-      "Detail-Oriented",
-      "Problem Solving",
-      "Multi-Tasking",
-      "Works Under Pressure",
-      "Quick Learner"
+    "professional": [
+      "Team player",
+      "Time management",
+      "Goal driven",
+      "Detail oriented",
+      "Ability to meet deadlines",
+      "Ability to work under pressure",
+      "Multi-tasking",
+      "Problem solver",
+      "Quick learner"
     ],
-    creative: [
+    "creative": [
       "Photography",
-      "Adobe Lightroom",
-      "Adobe Photoshop"
+      "Adobe Lightroom and Adobe Photoshop"
     ],
-    languages: [
-      "Bengali — Native",
-      "English — Fluent"
+    "languages": [
+      "Bengali: Native",
+      "English: Fluent"
     ]
   },
-
-  extraCurriculars: [
+  "extraCurriculars": [
     {
-      id: "extra-1",
-      icon: "📸",
-      category: "Creative",
-      title: "Photography & Visual Arts",
-      description: "Capturing moments and stories through the lens. Proficient in digital post-processing with Adobe Lightroom and Photoshop."
+      "id": "extra-1",
+      "icon": "🏛️",
+      "category": "Activities",
+      "title": "University Clubbing",
+      "description": "University Clubbing"
     },
     {
-      id: "extra-2",
-      icon: "🎤",
-      category: "Academic",
-      title: "Debating & Public Speaking",
-      description: "Active university debater — sharpening critical thinking, argumentation, and public speaking skills across competitive forums."
+      "id": "extra-2",
+      "icon": "📸",
+      "category": "Creative",
+      "title": "Photography",
+      "description": "Photography"
     },
     {
-      id: "extra-3",
-      icon: "📝",
-      category: "Writing",
-      title: "Tech Columnist & Writing",
-      description: "Writing about technology, culture, and organizational leadership. Active community contributor and technical translator."
+      "id": "extra-3",
+      "icon": "🎙️",
+      "category": "Speech",
+      "title": "Debating",
+      "description": "Debating"
+    },
+    {
+      "id": "extra-4",
+      "icon": "🤝",
+      "category": "Community",
+      "title": "Volunteer works",
+      "description": "Volunteer works"
+    },
+    {
+      "id": "extra-5",
+      "icon": "✍️",
+      "category": "Writing",
+      "title": "Tech columnist",
+      "description": "Tech columnist"
     }
   ],
-
-  recommendations: [
-  {
-    "id": "rec-1",
-    "author": "Pabon Saha",
-    "firstName": "Pabon",
-    "lastName": "Saha",
-    "headline": "Senior Software Engineer",
-    "company": "Mediusware Limited",
-    "avatar": "",
-    "linkedinUrl": "https://linkedin.com/in/fazalmahmudhassan",
-    "relationship": "Worked with Fazal on several enterprise deliverables",
-    "date": "August 2026",
-    "text": "Fazal brings an exceptional combination of technical systems knowledge and project coordination. He excels at keeping cross-functional development teams aligned and delivering SaaS projects on schedule.",
-    "featured": true,
-    "visible": true
-  },
-  {
-    "id": "rec-sharfuzzaman-hridoy",
-    "author": "Sharfuzzaman Hridoy",
-    "firstName": "Sharfuzzaman",
-    "lastName": "Hridoy",
-    "headline": "UI/UX Designer",
-    "company": "Mediusware",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "August 2026",
-    "text": "Working with Fazal Mahmud Hassan has been an excellent experience. As a Technical Project Manager, he brings a strong combination of technical understanding, ownership, leadership and exceptional people skills to his work.  What I value most about working with Fazal is how supportive and approachable he is. He creates a collaborative environment where everyone feels heard and comfortable sharing ideas, raising concerns or discussing challenges. His ability to bring different teams together, communicate clearly and keep projects moving in a structured and practical way makes a real difference.  Beyond his professional strengths, Fazal is genuinely fun to work with. His positive attitude, responsiveness, and willingness to support the team make even challenging projects feel more manageable and enjoyable.  I’m genuinely glad to have had the opportunity to work with Fazal and would confidently recommend him based on the experience we’ve shared.",
-    "featured": true,
-    "visible": true
-  },
-  {
-    "id": "rec-abu-taher-molla",
-    "author": "Abu Taher Molla",
-    "firstName": "Abu Taher",
-    "lastName": "Molla",
-    "headline": "User Experience Designer",
-    "company": "Mediusware Ltd.",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "August 2026",
-    "text": "I have had the opportunity to work with Fazal as a colleague, and I’ve always found him to be a responsible, supportive, and professional person. He has strong technical knowledge, communicates clearly, and approaches his work with dedication and attention to detail.  Fazal is also a great team player who is always willing to support his colleagues and contribute to achieving project goals. I truly appreciate his professionalism, positive attitude, and commitment to his work.  I would be happy to recommend Fazal as a reliable and capable professional.",
-    "featured": true,
-    "visible": true
-  },
-  {
-    "id": "rec-zahid-uddin",
-    "author": "Zahid Uddin",
-    "firstName": "Zahid",
-    "lastName": "Uddin",
-    "headline": "Senior Software Engineer (Team Lead)",
-    "company": "Mediusware Ltd.",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "August 2026",
-    "text": "Fazal is an outstanding TPM who consistently translates complex requirements into smooth, on-time project delivery. As a Senior Developer on his team, I appreciated his clear communication, proactive blocker removal, and ability to keep engineering focused.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-md-fozle-rabbi",
-    "author": "Md Fozle Rabbi",
-    "firstName": "Md Fozle",
-    "lastName": "Rabbi",
-    "headline": "Software Engineer",
-    "company": "Programisty",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "August 2026",
-    "text": "I had the pleasure of working with Fazal Mahmud as a Technical Project Manager at Mediusware, and it was truly a great experience.  What stood out to me most was his ability to lead the team with a positive attitude, a friendly smile, and constant encouragement. He knows how to get things done without creating unnecessary pressure, which made working under his leadership both productive and enjoyable.  He has strong technical knowledge as well as an excellent understanding of business domains. This combination allows him to quickly understand a client's business, identify their actual needs, and translate those requirements into practical solutions. His business understanding played an important role in helping the team build projects that genuinely met client expectations and requirements.  His communication, supportive nature, and ability to keep the team motivated made a real difference in our day-to-day work. I genuinely enjoyed working with him and learned a lot from his leadership.  I would highly recommend Fazal Mahmud to any organization looking for a technically strong, business-minded, supportive, and effective project manager.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-shuyaib-mohammad-sajib",
-    "author": "Shuyaib Mohammad Sajib",
-    "firstName": "Shuyaib Mohammad",
-    "lastName": "Sajib",
-    "headline": "Human Resources Manager",
-    "company": "Mediusware Ltd.",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "August 2026",
-    "text": "I've had the pleasure of working closely with Fazal for over two years at Mediusware, and few people take ownership of a project the way he does. As a Technical Project Manager, he consistently keeps deliverables on track without losing sight of the bigger picture — balancing client expectations, team bandwidth, and technical realities with a calm, methodical approach.  What truly sets him apart, though, is that he's not just a typical manager — he's a genuine leader. He motivates his team with clarity and empathy, communicates with a transparency that builds real trust, and brings people together around a shared goal rather than simply assigning tasks. Whether it's guiding a junior developer through a tough problem or navigating a difficult client conversation, he shows up as someone people genuinely want to work with.  Combined with his strong sense of accountability, Fazal doesn't just manage timelines, he owns outcomes and inspires the people around him to do the same. Any team would be fortunate to have him leading their projects.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-md.-maruf-bin-salim-bhuiyan",
-    "author": "Md. Maruf Bin Salim Bhuiyan",
-    "firstName": "Md. Maruf Bin Salim",
-    "lastName": "Bhuiyan",
-    "headline": "Software Engineer",
-    "company": "Mediusware",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "August 2026",
-    "text": "I’ve had the pleasure of working under Fazal Mahmud Hassan, and he has been an exceptional technical project manager. His strong guidance, teaching mindset, management skills, and clear communication make a real difference to the team. He takes ownership of his responsibilities, keeps everyone aligned, and consistently helps the team move forward with confidence. I truly appreciate his leadership and the support he provides, and I highly recommend him to any team/organization.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-asadullah-tuhin",
-    "author": "Asadullah Tuhin",
-    "firstName": "Asadullah",
-    "lastName": "Tuhin",
-    "headline": "UI/UX Designer ll",
-    "company": "Mediusware",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "August 2026",
-    "text": "I’ve had the opportunity to work closely with Fazal as our Technical Project Manager. He has a structured and detail-oriented approach to managing projects, with a strong focus on keeping the team aligned, maintaining visibility, and ensuring smooth delivery.  On one of our projects, we faced changing requirements and a tight delivery timeline. Fazal helped bring clarity by coordinating with stakeholders, organizing priorities, and making sure the team had the information needed to keep moving forward.  What I appreciate most is his approachable and supportive way of working. He communicates clearly, listens to the team, and helps solve challenges without adding unnecessary pressure. He’s a reliable teammate and someone I’m genuinely happy to recommend.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-md.-imrul-kayes",
-    "author": "Md. Imrul Kayes",
-    "firstName": "Md. Imrul",
-    "lastName": "Kayes",
-    "headline": "Software Engineer – Level II",
-    "company": "Mediusware",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "July 2026",
-    "text": "I had the opportunity to work with Fazal Mahmud Hassan as my technical project manager (TPM) on projects, and it was honestly a great experience.  Fazal is the kind of manager who is there when the team requires him. He is personable, friendly and easy to talk to, so he is comfortable to work with during stressful times. He had good technical knowledge and knew the work well. He doesn't just hand out tasks; he gets in there, helps sort out problems and points the team in the direction.  What I like about him is that he really values work. He looks to see if you work hard. That’s why it’s more meaningful that he walks the talk. He works just as hard as he expects from the team, and that earns him everyone's respect.  I have seen him stay calm in situations and come up with practical solutions rather than make things too complicated. He is very tech-savvy, loves learning, and always tries to make the team and the project better.  To me, Fazal is more than a project manager. He’s a leader who backs his team, trusts people and creates the environment where everyone can do their work. I really enjoyed working under his leadership.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-sakib-rahman",
-    "author": "Sakib Rahman",
-    "firstName": "Sakib",
-    "lastName": "Rahman",
-    "headline": "Senior Software Engineer",
-    "company": "Mediusware",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "July 2026",
-    "text": "I had the opportunity to work with Fazal Mahmud Hassan on multiple Python-based and cloud-based software development projects, where he served as the Technical Project Manager and I worked as the Project Lead. Throughout our collaboration, he consistently demonstrated exceptional leadership, technical expertise, and a results-driven approach to project delivery.  Fazal has a strong command of Agile, Scrum, and the Software Development Life Cycle (SDLC). He excels at project planning, sprint management, resource coordination, and delivery execution while ensuring alignment between business objectives and technical requirements. His structured approach keeps projects on schedule without compromising quality.  His technical understanding of Python applications, cloud platforms, and SaaS solutions enables him to collaborate effectively with engineering teams and make informed decisions. He communicates clearly with developers, QA engineers, DevOps teams, product owners, and stakeholders, creating a collaborative environment that drives productivity and successful outcomes.  One of Fazal's greatest strengths is stakeholder management. He maintains transparent communication with clients, provides regular project updates, manages expectations effectively, and builds strong professional relationships through trust and accountability.  He is also highly skilled in risk management, proactively identifying potential technical and operational challenges before they affect project timelines. His ability to anticipate issues and implement practical mitigation strategies has been instrumental in delivering complex projects successfully.  During critical releases and demanding deadlines, Fazal remains calm, decisive, and solution-oriented. His leadership inspires confidence, keeps teams motivated, and ensures a smooth delivery process even under pressure.  It has been a pleasure working with Fazal Mahmud Hassan. He is an accomplished Technical Project Manager with proven expertise in Agile Project Management, Scrum, Python, Cloud Computing, SaaS, SDLC, Stakeholder Management, Risk Management, and Cross-functional Team Leadership. I highly recommend him for Technical Project Manager, Senior Technical Project Manager, or Program Manager roles.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-solaiman-islam",
-    "author": "Solaiman Islam",
-    "firstName": "Solaiman",
-    "lastName": "Islam",
-    "headline": "Billing & Remittance Coordinator, Corporate Business",
-    "company": "MetLife Bangladesh",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "May 2026",
-    "text": "I had the pleasure of working with Fazal Mahmud Hassan at Mediusware, where we often dealt with demanding clients and tight deadlines side by side. Fazal always impressed me with his ability to chase hard timelines, adapt to tricky change management, and commit to client calls across challenging time zones a level of dedication that’s rare to find.  Beyond his technical and managerial skills, Fazal is the kind of colleague who keeps the team’s spirit alive. Even when projects were “burning all over,” his humor and positivity lifted everyone up. His passion for exploring AI and new tech stacks is equally admirable, showing how he’s always looking ahead to bring innovation into his work.  Fazal is not just a capable project manager he’s a dependable teammate, a motivator, and someone who makes the workplace better. Any team would be lucky to have him.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-tarif-haque,-registered-scrum-master™",
-    "author": "Tarif Haque, Registered Scrum Master™",
-    "firstName": "Tarif",
-    "lastName": "Haque, Registered Scrum Master™",
-    "headline": "Technical Project Manager",
-    "company": "Mediusware",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "April 2026",
-    "text": "Fazal is one of the most genuinely helpful and knowledgeable Technical Project Managers I've come across in the software industry. We work in the same role, but he joined earlier and never hesitated to guide me whenever I needed it — whether it was strategic input, shared resources, or just a push in the right direction. What makes him stand out is his real passion for technology and how it can solve actual problems. Add to that his excellent communication skills and his natural ability to make people feel supported, and you have someone who truly makes the team better. I'm grateful to have worked alongside him and wish him nothing but the best in his career ahead.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-md.-kawsar-ahmad",
-    "author": "MD. Kawsar Ahmad",
-    "firstName": "MD. Kawsar",
-    "lastName": "Ahmad",
-    "headline": "Software Engineer II (AI/ML)",
-    "company": "Mediusware",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "April 2026",
-    "text": "I had the pleasure of working with Fazal Mahmud Hassan, and I can confidently say he is an exceptional Technical Project Manager.  Fazal bhai is not only highly skilled but also incredibly friendly and approachable, which makes collaboration smooth and enjoyable. He has a remarkable ability to understand complex technical challenges and turn them into clear, actionable plans for the team.  What truly sets him apart is his deep knowledge of peripherals and a wide range of tech devices,  it honestly feels like he’s a living cyborg when it comes to troubleshooting and problem-solving. No matter the issue, he always seems to have the right solution ready.  He consistently keeps projects on track, supports team members, and maintains a positive working environment. Anyone would be lucky to have him as a leader and teammate.  Highly recommended!",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-md.-ariful-islam",
-    "author": "Md. Ariful Islam",
-    "firstName": "Md. Ariful",
-    "lastName": "Islam",
-    "headline": "Software Engineer",
-    "company": "JatraTech",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "December 2025",
-    "text": "I have had the opportunity to work closely with Fazal Mahmud Hassan at Mediusware, and he is an outstanding Technical Project Manager with strong technical and organizational skills. He manages complex projects with confidence, ensuring smooth coordination between cross-functional teams and timely delivery of high-quality solutions.  Fazal has a clear understanding of the full software development lifecycle and consistently translates business requirements into practical, scalable technical solutions. His communication with both clients and internal teams is transparent and effective, which greatly contributes to maintaining trust and alignment.  He is proactive, detail-oriented, and highly dependable someone who takes full ownership of his projects. Working with Fazal has been a positive and professional experience, and I highly recommend him to any organization seeking a capable and reliable Technical Project Manager.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-bir-ballav-roy",
-    "author": "Bir Ballav Roy",
-    "firstName": "Bir Ballav",
-    "lastName": "Roy",
-    "headline": "Software Quality Assurance Engineer",
-    "company": "ReliSource",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "November 2025",
-    "text": "I had the opportunity to study and work on a project with Fazal Mahmud Hasan, and I was consistently impressed by his professionalism, technical depth, and strong sense of responsibility. Fazal has an excellent understanding of project management, always keeping tasks organized, deadlines on track, and the team aligned toward clear objectives.  His domain knowledge, especially in hardware and software -related systems, stands out. He not only understands complex technical concepts but can also translate them into practical, efficient solutions. During our project, he demonstrated a strong ability to troubleshoot, design, and optimize hardware components with confidence and precision.  Fazal is proactive, disciplined, and highly dependable — someone who takes ownership of his work and consistently delivers quality results. I’m confident he will be a great asset to any team or organization looking for a technically strong and well-organized professional.  I highly recommend him.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-sajal-mozumder",
-    "author": "Sajal Mozumder",
-    "firstName": "Sajal",
-    "lastName": "Mozumder",
-    "headline": "UX/UI Designer ll",
-    "company": "Mediusware",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "November 2025",
-    "text": "I’ve worked with Fazal Mahmud Hassan on several projects at Mediusware Ltd, and it’s always a pleasure collaborating with him. Fazal is an amazing Technical Project Manager — super organized, supportive, and always ready to help the team when needed.  He makes complex projects feel easy to handle with his calm attitude and clear communication. I’ve learned a lot from working with him, and I really enjoy his positive and friendly approach to teamwork.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-ahammad-ullah,-sfpc™",
-    "author": "Ahammad Ullah, SFPC™",
-    "firstName": "Ahammad",
-    "lastName": "Ullah, SFPC™",
-    "headline": "Software Quality Assurance Engineer",
-    "company": "Mediusware",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "October 2025",
-    "text": "I had the opportunity to work with Fazal Mahmud Hassan on a project — though not directly — and found him to be an exceptionally talented, active, and knowledgeable Technical Project Manager. He’s also very approachable and humble, always willing to help others. Working with him feels like working with an experienced big brother — supportive, wise, and genuinely inspiring.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-riyad-ahamed",
-    "author": "Riyad Ahamed",
-    "firstName": "Riyad",
-    "lastName": "Ahamed",
-    "headline": "Software Enginner I",
-    "company": "Brain Station 23",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "October 2025",
-    "text": "I had the pleasure of working under Fazal for a year at Mediusware. He is a technically strong and highly responsible project manager who always leads by example. I learned a lot from his leadership, problem-solving, and calm approach to challenges. He creates a supportive and positive team environment that motivates everyone. I truly recommend Fazal as a dedicated and inspiring professional.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-shakhawat-hossain",
-    "author": "Shakhawat Hossain",
-    "firstName": "Shakhawat",
-    "lastName": "Hossain",
-    "headline": "SQA Engineer I",
-    "company": "Brain Station 23",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "October 2025",
-    "text": "I had the privilege of working as an SQA under  Fazal Mahmud Hassan bhai at Mediusware Ltd, where his leadership as a Technical Project Manager truly stood out. He excels at managing multiple projects effortlessly while maintaining clear communication and driving teams toward shared goals. His calm approach to conflict resolution, deep understanding of project management best practices, and strong stakeholder management skills make him an exceptional professional. His strategic mindset and ability to transform challenges into meaningful results truly set him apart from others. Fazal bhai is a true leader who brings value, structure, and inspiration wherever he goes. I’m confident he will continue to pursue excellence in his management skills wherever he goes.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-s.-m.-rafid",
-    "author": "S. M. Rafid",
-    "firstName": "S. M.",
-    "lastName": "Rafid",
-    "headline": "Officer",
-    "company": "AB Bank PLC.",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "October 2025",
-    "text": "I am pleased to recommend Fazal, an exceptional Software Engineer who consistently delivers high-quality solutions with precision and creativity. He has strong technical expertise, a sharp problem-solving mindset, and a genuine passion for building scalable, efficient systems. Beyond his technical skills, Fazal is a great collaborator—reliable, proactive, and always eager to help the team succeed. I highly recommend him for any engineering role.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-al-zadid-hasan-arnak",
-    "author": "Al Zadid Hasan Arnak",
-    "firstName": "Al Zadid Hasan",
-    "lastName": "Arnak",
-    "headline": "Executive | Product Development | Strategy & Performance Division",
-    "company": "CarryBee",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "October 2025",
-    "text": "I've had the pleasure of working with Fazal Mahmud Hassan bhai as a business analyst at Mediusware Ltd. He is an exceptional TPM in his field and possesses excellent communication skills. He constantly juggles multiple projects with ease and consistently delivers visible results. I'm impressed by his impeccable conflict resolution strategy and his drive toward aligning each team leader with project goals. I learn new things from him on a daily basis, especially project management best practices, stakeholder management techniques, and many other aspects. Wherever he goes, I'm confident he will be a valuable addition to any organization and bring real impact.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-shuvro-dev-saha",
-    "author": "Shuvro Dev Saha",
-    "firstName": "Shuvro Dev",
-    "lastName": "Saha",
-    "headline": "Officer",
-    "company": "Sonali Bank Limited",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "October 2025",
-    "text": "have strong knowledge of computer systems hardware and software",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-habibur-rahman-bhuyan",
-    "author": "Habibur Rahman Bhuyan",
-    "firstName": "Habibur",
-    "lastName": "Rahman Bhuyan",
-    "headline": "Client Success Manager",
-    "company": "Mediusware",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "October 2025",
-    "text": "I’ve been working with Fazal at Mediusware, and honestly, he’s one of the easiest people to collaborate with. As a Technical Project Manager, he knows exactly how to keep things moving smoothly, no unnecessary complications, no confusion. He just makes things easier for everyone.  What I really like about working with Fazal is how approachable and supportive he is. Whether it’s handling client communication or coordinating between business and technical sides, he always stays calm and ensures everything is well-aligned.  He’s super friendly, reliable, and genuinely cares about the success of the project and the people he works with. It’s always a great experience working with him, and I’m glad to have him as a Technical Project Manager.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-sadia-afrin-meghla",
-    "author": "Sadia Afrin Meghla",
-    "firstName": "Sadia Afrin",
-    "lastName": "Meghla",
-    "headline": "Software Test Engineer level 2",
-    "company": "Astha.IT",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "October 2025",
-    "text": "I had the opportunity to work with Fazal bhaiya at Mediusware, where I was part of the SQA team and he served as the Technical Project Manager.  Although we didn’t get to work together from the very beginning, toward the end of my time there I had the chance to collaborate with him more closely — and it was a truly positive experience.  Even within that short period, I admired how effectively he managed both projects and people. His calm and structured way of leading, along with clear communication, made it easy for the whole team to stay aligned and productive. Working with him gave me valuable insights into project coordination and thoughtful leadership — qualities that truly make a difference in any team.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-protiva-ahamed",
-    "author": "Protiva Ahamed",
-    "firstName": "Protiva",
-    "lastName": "Ahamed",
-    "headline": "Software Engineer",
-    "company": "MetLife",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "October 2025",
-    "text": "I had the pleasure of studying alongside Fazal at BRAC University, where we also worked together on our Database course project. It was a group assignment, and Fazal took the lead with impressive clarity and responsibility. He handled the project work with exceptional technical skill and coordination, ensuring the entire team stayed on track. His ability to manage tasks efficiently while maintaining a collaborative environment truly stood out. Fazal is reliable, proactive, and a great team player — someone you’d want on any project team.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-sheikh-mohammad-haser",
-    "author": "Sheikh Mohammad Haser",
-    "firstName": "Sheikh Mohammad",
-    "lastName": "Haser",
-    "headline": "Business Analyst",
-    "company": "Dynamic Solution Innovators (DSi)",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "October 2025",
-    "text": "I’ve had the privilege of working under Fazal Mahmud Hasan for over a year as a Business Analyst, and I continue to do so. Throughout this time, I’ve learned a great deal from him about project management — especially when it comes to handling multiple SaaS, ERP, and AI-based projects with precision and clarity.  He brings an exceptional balance of technical expertise and leadership to every project. He has a unique ability to keep complex workflows organized while maintaining a collaborative environment where every team member feels valued and guided.  Working with him has been an inspiring experience that’s helped me grow both professionally and personally. His mentorship has had a lasting impact on how I approach project management.",
-    "featured": false,
-    "visible": true
-  },
-  {
-    "id": "rec-mushfiqur-rahman",
-    "author": "Mushfiqur Rahman",
-    "firstName": "Mushfiqur",
-    "lastName": "Rahman",
-    "headline": "Software Engineer III (AI/ML)",
-    "company": "Mediusware",
-    "avatar": "",
-    "linkedinUrl": "",
-    "relationship": "LinkedIn recommendation received",
-    "date": "October 2025",
-    "text": "I’ve had the pleasure of working closely with Fazal Mahmud Hassan, and I can confidently say he is one of the most well-rounded Technical Project Managers I have met. He leads with empathy and always shows genuine care for his team, creating a supportive and motivating work environment that brings out the best in everyone.  Fazal bhai’s technical expertise is exceptional. His deep knowledge of computers, hardware, and automation makes him the go-to person whenever something complex comes up. He has a rare ability to simplify technical challenges and guide the team toward effective solutions.  In meetings, Fazal bhai is the one who steps up when alignment is needed. He takes charge with clarity and confidence, ensuring that discussions are productive and clients are always on the same page. His positive attitude and great sense of humor make every interaction enjoyable and energizing.  Beyond work, Fazal bhai’s values truly stand out. He maintains strong family ties and approaches both personal and professional life with optimism and forward thinking. His passion for personal projects, especially in automation, shows how deeply he loves technology and how eager he is to share that enthusiasm with others.  Working with Fazal bhai is both inspiring and rewarding. He brings technical depth, leadership, and positivity to every situation, and I feel lucky to have had the opportunity to collaborate with him.",
-    "featured": false,
-    "visible": true
-  }
-],
-
-
-  navigation: {
-    logoText: "Fazal",
-    logoDot: true,
-    logoLink: "index.html",
-    items: [
-      { id: "nav-1", label: "Home", url: "index.html", isExternal: false, visible: true },
-      { id: "nav-2", label: "About", url: "about.html", isExternal: false, visible: true },
-      { id: "nav-3", label: "Projects", url: "projects.html", isExternal: false, visible: true },
-      { id: "nav-4", label: "Articles", url: "index.html#articles", isExternal: false, visible: true },
-      { id: "nav-5", label: "Contact", url: "index.html#contact", isExternal: false, visible: true }
+  "references": [
+    {
+      "id": "ref-1",
+      "name": "Sayed Foisal Ahmed",
+      "title": "Sr. Technical Support Engineer",
+      "company": "Torpedo Labs",
+      "email": "sayed@torpedolabs.com",
+      "secondaryEmail": "sayedfoisal@yahoo.com",
+      "phone": "+8801709219600"
+    },
+    {
+      "id": "ref-2",
+      "name": "Shameer Azmi",
+      "title": "Technical Artist",
+      "company": "TorpedoLabs Inc.",
+      "location": "Las Vegas, NV 89138, USA",
+      "email": "shameer@torpedolabs.com",
+      "phone": "(437) 667 3578"
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "rec-1",
+      "author": "Pabon Saha",
+      "firstName": "Pabon",
+      "lastName": "Saha",
+      "headline": "Senior Software Engineer",
+      "company": "Mediusware Limited",
+      "avatar": "",
+      "linkedinUrl": "https://linkedin.com/in/fazalmahmudhassan",
+      "relationship": "Worked with Fazal on several enterprise deliverables",
+      "date": "August 2026",
+      "text": "Fazal brings an exceptional combination of technical systems knowledge and project coordination. He excels at keeping cross-functional development teams aligned and delivering SaaS projects on schedule.",
+      "featured": true,
+      "visible": true
+    },
+    {
+      "id": "rec-sharfuzzaman-hridoy",
+      "author": "Sharfuzzaman Hridoy",
+      "firstName": "Sharfuzzaman",
+      "lastName": "Hridoy",
+      "headline": "UI/UX Designer",
+      "company": "Mediusware",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "August 2026",
+      "text": "Working with Fazal Mahmud Hassan has been an excellent experience. As a Technical Project Manager, he brings a strong combination of technical understanding, ownership, leadership and exceptional people skills to his work.  What I value most about working with Fazal is how supportive and approachable he is. He creates a collaborative environment where everyone feels heard and comfortable sharing ideas, raising concerns or discussing challenges. His ability to bring different teams together, communicate clearly and keep projects moving in a structured and practical way makes a real difference.  Beyond his professional strengths, Fazal is genuinely fun to work with. His positive attitude, responsiveness, and willingness to support the team make even challenging projects feel more manageable and enjoyable.  I’m genuinely glad to have had the opportunity to work with Fazal and would confidently recommend him based on the experience we’ve shared.",
+      "featured": true,
+      "visible": true
+    },
+    {
+      "id": "rec-abu-taher-molla",
+      "author": "Abu Taher Molla",
+      "firstName": "Abu Taher",
+      "lastName": "Molla",
+      "headline": "User Experience Designer",
+      "company": "Mediusware Ltd.",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "August 2026",
+      "text": "I have had the opportunity to work with Fazal as a colleague, and I’ve always found him to be a responsible, supportive, and professional person. He has strong technical knowledge, communicates clearly, and approaches his work with dedication and attention to detail.  Fazal is also a great team player who is always willing to support his colleagues and contribute to achieving project goals. I truly appreciate his professionalism, positive attitude, and commitment to his work.  I would be happy to recommend Fazal as a reliable and capable professional.",
+      "featured": true,
+      "visible": true
+    },
+    {
+      "id": "rec-zahid-uddin",
+      "author": "Zahid Uddin",
+      "firstName": "Zahid",
+      "lastName": "Uddin",
+      "headline": "Senior Software Engineer (Team Lead)",
+      "company": "Mediusware Ltd.",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "August 2026",
+      "text": "Fazal is an outstanding TPM who consistently translates complex requirements into smooth, on-time project delivery. As a Senior Developer on his team, I appreciated his clear communication, proactive blocker removal, and ability to keep engineering focused.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-md-fozle-rabbi",
+      "author": "Md Fozle Rabbi",
+      "firstName": "Md Fozle",
+      "lastName": "Rabbi",
+      "headline": "Software Engineer",
+      "company": "Programisty",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "August 2026",
+      "text": "I had the pleasure of working with Fazal Mahmud as a Technical Project Manager at Mediusware, and it was truly a great experience.  What stood out to me most was his ability to lead the team with a positive attitude, a friendly smile, and constant encouragement. He knows how to get things done without creating unnecessary pressure, which made working under his leadership both productive and enjoyable.  He has strong technical knowledge as well as an excellent understanding of business domains. This combination allows him to quickly understand a client's business, identify their actual needs, and translate those requirements into practical solutions. His business understanding played an important role in helping the team build projects that genuinely met client expectations and requirements.  His communication, supportive nature, and ability to keep the team motivated made a real difference in our day-to-day work. I genuinely enjoyed working with him and learned a lot from his leadership.  I would highly recommend Fazal Mahmud to any organization looking for a technically strong, business-minded, supportive, and effective project manager.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-shuyaib-mohammad-sajib",
+      "author": "Shuyaib Mohammad Sajib",
+      "firstName": "Shuyaib Mohammad",
+      "lastName": "Sajib",
+      "headline": "Human Resources Manager",
+      "company": "Mediusware Ltd.",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "August 2026",
+      "text": "I've had the pleasure of working closely with Fazal for over two years at Mediusware, and few people take ownership of a project the way he does. As a Technical Project Manager, he consistently keeps deliverables on track without losing sight of the bigger picture — balancing client expectations, team bandwidth, and technical realities with a calm, methodical approach.  What truly sets him apart, though, is that he's not just a typical manager — he's a genuine leader. He motivates his team with clarity and empathy, communicates with a transparency that builds real trust, and brings people together around a shared goal rather than simply assigning tasks. Whether it's guiding a junior developer through a tough problem or navigating a difficult client conversation, he shows up as someone people genuinely want to work with.  Combined with his strong sense of accountability, Fazal doesn't just manage timelines, he owns outcomes and inspires the people around him to do the same. Any team would be fortunate to have him leading their projects.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-md.-maruf-bin-salim-bhuiyan",
+      "author": "Md. Maruf Bin Salim Bhuiyan",
+      "firstName": "Md. Maruf Bin Salim",
+      "lastName": "Bhuiyan",
+      "headline": "Software Engineer",
+      "company": "Mediusware",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "August 2026",
+      "text": "I’ve had the pleasure of working under Fazal Mahmud Hassan, and he has been an exceptional technical project manager. His strong guidance, teaching mindset, management skills, and clear communication make a real difference to the team. He takes ownership of his responsibilities, keeps everyone aligned, and consistently helps the team move forward with confidence. I truly appreciate his leadership and the support he provides, and I highly recommend him to any team/organization.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-asadullah-tuhin",
+      "author": "Asadullah Tuhin",
+      "firstName": "Asadullah",
+      "lastName": "Tuhin",
+      "headline": "UI/UX Designer ll",
+      "company": "Mediusware",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "August 2026",
+      "text": "I’ve had the opportunity to work closely with Fazal as our Technical Project Manager. He has a structured and detail-oriented approach to managing projects, with a strong focus on keeping the team aligned, maintaining visibility, and ensuring smooth delivery.  On one of our projects, we faced changing requirements and a tight delivery timeline. Fazal helped bring clarity by coordinating with stakeholders, organizing priorities, and making sure the team had the information needed to keep moving forward.  What I appreciate most is his approachable and supportive way of working. He communicates clearly, listens to the team, and helps solve challenges without adding unnecessary pressure. He’s a reliable teammate and someone I’m genuinely happy to recommend.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-md.-imrul-kayes",
+      "author": "Md. Imrul Kayes",
+      "firstName": "Md. Imrul",
+      "lastName": "Kayes",
+      "headline": "Software Engineer – Level II",
+      "company": "Mediusware",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "July 2026",
+      "text": "I had the opportunity to work with Fazal Mahmud Hassan as my technical project manager (TPM) on projects, and it was honestly a great experience.  Fazal is the kind of manager who is there when the team requires him. He is personable, friendly and easy to talk to, so he is comfortable to work with during stressful times. He had good technical knowledge and knew the work well. He doesn't just hand out tasks; he gets in there, helps sort out problems and points the team in the direction.  What I like about him is that he really values work. He looks to see if you work hard. That’s why it’s more meaningful that he walks the talk. He works just as hard as he expects from the team, and that earns him everyone's respect.  I have seen him stay calm in situations and come up with practical solutions rather than make things too complicated. He is very tech-savvy, loves learning, and always tries to make the team and the project better.  To me, Fazal is more than a project manager. He’s a leader who backs his team, trusts people and creates the environment where everyone can do their work. I really enjoyed working under his leadership.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-sakib-rahman",
+      "author": "Sakib Rahman",
+      "firstName": "Sakib",
+      "lastName": "Rahman",
+      "headline": "Senior Software Engineer",
+      "company": "Mediusware",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "July 2026",
+      "text": "I had the opportunity to work with Fazal Mahmud Hassan on multiple Python-based and cloud-based software development projects, where he served as the Technical Project Manager and I worked as the Project Lead. Throughout our collaboration, he consistently demonstrated exceptional leadership, technical expertise, and a results-driven approach to project delivery.  Fazal has a strong command of Agile, Scrum, and the Software Development Life Cycle (SDLC). He excels at project planning, sprint management, resource coordination, and delivery execution while ensuring alignment between business objectives and technical requirements. His structured approach keeps projects on schedule without compromising quality.  His technical understanding of Python applications, cloud platforms, and SaaS solutions enables him to collaborate effectively with engineering teams and make informed decisions. He communicates clearly with developers, QA engineers, DevOps teams, product owners, and stakeholders, creating a collaborative environment that drives productivity and successful outcomes.  One of Fazal's greatest strengths is stakeholder management. He maintains transparent communication with clients, provides regular project updates, manages expectations effectively, and builds strong professional relationships through trust and accountability.  He is also highly skilled in risk management, proactively identifying potential technical and operational challenges before they affect project timelines. His ability to anticipate issues and implement practical mitigation strategies has been instrumental in delivering complex projects successfully.  During critical releases and demanding deadlines, Fazal remains calm, decisive, and solution-oriented. His leadership inspires confidence, keeps teams motivated, and ensures a smooth delivery process even under pressure.  It has been a pleasure working with Fazal Mahmud Hassan. He is an accomplished Technical Project Manager with proven expertise in Agile Project Management, Scrum, Python, Cloud Computing, SaaS, SDLC, Stakeholder Management, Risk Management, and Cross-functional Team Leadership. I highly recommend him for Technical Project Manager, Senior Technical Project Manager, or Program Manager roles.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-solaiman-islam",
+      "author": "Solaiman Islam",
+      "firstName": "Solaiman",
+      "lastName": "Islam",
+      "headline": "Billing & Remittance Coordinator, Corporate Business",
+      "company": "MetLife Bangladesh",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "May 2026",
+      "text": "I had the pleasure of working with Fazal Mahmud Hassan at Mediusware, where we often dealt with demanding clients and tight deadlines side by side. Fazal always impressed me with his ability to chase hard timelines, adapt to tricky change management, and commit to client calls across challenging time zones a level of dedication that’s rare to find.  Beyond his technical and managerial skills, Fazal is the kind of colleague who keeps the team’s spirit alive. Even when projects were “burning all over,” his humor and positivity lifted everyone up. His passion for exploring AI and new tech stacks is equally admirable, showing how he’s always looking ahead to bring innovation into his work.  Fazal is not just a capable project manager he’s a dependable teammate, a motivator, and someone who makes the workplace better. Any team would be lucky to have him.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-tarif-haque,-registered-scrum-master™",
+      "author": "Tarif Haque, Registered Scrum Master™",
+      "firstName": "Tarif",
+      "lastName": "Haque, Registered Scrum Master™",
+      "headline": "Technical Project Manager",
+      "company": "Mediusware",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "April 2026",
+      "text": "Fazal is one of the most genuinely helpful and knowledgeable Technical Project Managers I've come across in the software industry. We work in the same role, but he joined earlier and never hesitated to guide me whenever I needed it — whether it was strategic input, shared resources, or just a push in the right direction. What makes him stand out is his real passion for technology and how it can solve actual problems. Add to that his excellent communication skills and his natural ability to make people feel supported, and you have someone who truly makes the team better. I'm grateful to have worked alongside him and wish him nothing but the best in his career ahead.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-md.-kawsar-ahmad",
+      "author": "MD. Kawsar Ahmad",
+      "firstName": "MD. Kawsar",
+      "lastName": "Ahmad",
+      "headline": "Software Engineer II (AI/ML)",
+      "company": "Mediusware",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "April 2026",
+      "text": "I had the pleasure of working with Fazal Mahmud Hassan, and I can confidently say he is an exceptional Technical Project Manager.  Fazal bhai is not only highly skilled but also incredibly friendly and approachable, which makes collaboration smooth and enjoyable. He has a remarkable ability to understand complex technical challenges and turn them into clear, actionable plans for the team.  What truly sets him apart is his deep knowledge of peripherals and a wide range of tech devices,  it honestly feels like he’s a living cyborg when it comes to troubleshooting and problem-solving. No matter the issue, he always seems to have the right solution ready.  He consistently keeps projects on track, supports team members, and maintains a positive working environment. Anyone would be lucky to have him as a leader and teammate.  Highly recommended!",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-md.-ariful-islam",
+      "author": "Md. Ariful Islam",
+      "firstName": "Md. Ariful",
+      "lastName": "Islam",
+      "headline": "Software Engineer",
+      "company": "JatraTech",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "December 2025",
+      "text": "I have had the opportunity to work closely with Fazal Mahmud Hassan at Mediusware, and he is an outstanding Technical Project Manager with strong technical and organizational skills. He manages complex projects with confidence, ensuring smooth coordination between cross-functional teams and timely delivery of high-quality solutions.  Fazal has a clear understanding of the full software development lifecycle and consistently translates business requirements into practical, scalable technical solutions. His communication with both clients and internal teams is transparent and effective, which greatly contributes to maintaining trust and alignment.  He is proactive, detail-oriented, and highly dependable someone who takes full ownership of his projects. Working with Fazal has been a positive and professional experience, and I highly recommend him to any organization seeking a capable and reliable Technical Project Manager.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-bir-ballav-roy",
+      "author": "Bir Ballav Roy",
+      "firstName": "Bir Ballav",
+      "lastName": "Roy",
+      "headline": "Software Quality Assurance Engineer",
+      "company": "ReliSource",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "November 2025",
+      "text": "I had the opportunity to study and work on a project with Fazal Mahmud Hasan, and I was consistently impressed by his professionalism, technical depth, and strong sense of responsibility. Fazal has an excellent understanding of project management, always keeping tasks organized, deadlines on track, and the team aligned toward clear objectives.  His domain knowledge, especially in hardware and software -related systems, stands out. He not only understands complex technical concepts but can also translate them into practical, efficient solutions. During our project, he demonstrated a strong ability to troubleshoot, design, and optimize hardware components with confidence and precision.  Fazal is proactive, disciplined, and highly dependable — someone who takes ownership of his work and consistently delivers quality results. I’m confident he will be a great asset to any team or organization looking for a technically strong and well-organized professional.  I highly recommend him.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-sajal-mozumder",
+      "author": "Sajal Mozumder",
+      "firstName": "Sajal",
+      "lastName": "Mozumder",
+      "headline": "UX/UI Designer ll",
+      "company": "Mediusware",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "November 2025",
+      "text": "I’ve worked with Fazal Mahmud Hassan on several projects at Mediusware Ltd, and it’s always a pleasure collaborating with him. Fazal is an amazing Technical Project Manager — super organized, supportive, and always ready to help the team when needed.  He makes complex projects feel easy to handle with his calm attitude and clear communication. I’ve learned a lot from working with him, and I really enjoy his positive and friendly approach to teamwork.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-ahammad-ullah,-sfpc™",
+      "author": "Ahammad Ullah, SFPC™",
+      "firstName": "Ahammad",
+      "lastName": "Ullah, SFPC™",
+      "headline": "Software Quality Assurance Engineer",
+      "company": "Mediusware",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "October 2025",
+      "text": "I had the opportunity to work with Fazal Mahmud Hassan on a project — though not directly — and found him to be an exceptionally talented, active, and knowledgeable Technical Project Manager. He’s also very approachable and humble, always willing to help others. Working with him feels like working with an experienced big brother — supportive, wise, and genuinely inspiring.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-riyad-ahamed",
+      "author": "Riyad Ahamed",
+      "firstName": "Riyad",
+      "lastName": "Ahamed",
+      "headline": "Software Enginner I",
+      "company": "Brain Station 23",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "October 2025",
+      "text": "I had the pleasure of working under Fazal for a year at Mediusware. He is a technically strong and highly responsible project manager who always leads by example. I learned a lot from his leadership, problem-solving, and calm approach to challenges. He creates a supportive and positive team environment that motivates everyone. I truly recommend Fazal as a dedicated and inspiring professional.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-shakhawat-hossain",
+      "author": "Shakhawat Hossain",
+      "firstName": "Shakhawat",
+      "lastName": "Hossain",
+      "headline": "SQA Engineer I",
+      "company": "Brain Station 23",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "October 2025",
+      "text": "I had the privilege of working as an SQA under  Fazal Mahmud Hassan bhai at Mediusware Ltd, where his leadership as a Technical Project Manager truly stood out. He excels at managing multiple projects effortlessly while maintaining clear communication and driving teams toward shared goals. His calm approach to conflict resolution, deep understanding of project management best practices, and strong stakeholder management skills make him an exceptional professional. His strategic mindset and ability to transform challenges into meaningful results truly set him apart from others. Fazal bhai is a true leader who brings value, structure, and inspiration wherever he goes. I’m confident he will continue to pursue excellence in his management skills wherever he goes.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-s.-m.-rafid",
+      "author": "S. M. Rafid",
+      "firstName": "S. M.",
+      "lastName": "Rafid",
+      "headline": "Officer",
+      "company": "AB Bank PLC.",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "October 2025",
+      "text": "I am pleased to recommend Fazal, an exceptional Software Engineer who consistently delivers high-quality solutions with precision and creativity. He has strong technical expertise, a sharp problem-solving mindset, and a genuine passion for building scalable, efficient systems. Beyond his technical skills, Fazal is a great collaborator—reliable, proactive, and always eager to help the team succeed. I highly recommend him for any engineering role.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-al-zadid-hasan-arnak",
+      "author": "Al Zadid Hasan Arnak",
+      "firstName": "Al Zadid Hasan",
+      "lastName": "Arnak",
+      "headline": "Executive | Product Development | Strategy & Performance Division",
+      "company": "CarryBee",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "October 2025",
+      "text": "I've had the pleasure of working with Fazal Mahmud Hassan bhai as a business analyst at Mediusware Ltd. He is an exceptional TPM in his field and possesses excellent communication skills. He constantly juggles multiple projects with ease and consistently delivers visible results. I'm impressed by his impeccable conflict resolution strategy and his drive toward aligning each team leader with project goals. I learn new things from him on a daily basis, especially project management best practices, stakeholder management techniques, and many other aspects. Wherever he goes, I'm confident he will be a valuable addition to any organization and bring real impact.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-shuvro-dev-saha",
+      "author": "Shuvro Dev Saha",
+      "firstName": "Shuvro Dev",
+      "lastName": "Saha",
+      "headline": "Officer",
+      "company": "Sonali Bank Limited",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "October 2025",
+      "text": "have strong knowledge of computer systems hardware and software",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-habibur-rahman-bhuyan",
+      "author": "Habibur Rahman Bhuyan",
+      "firstName": "Habibur",
+      "lastName": "Rahman Bhuyan",
+      "headline": "Client Success Manager",
+      "company": "Mediusware",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "October 2025",
+      "text": "I’ve been working with Fazal at Mediusware, and honestly, he’s one of the easiest people to collaborate with. As a Technical Project Manager, he knows exactly how to keep things moving smoothly, no unnecessary complications, no confusion. He just makes things easier for everyone.  What I really like about working with Fazal is how approachable and supportive he is. Whether it’s handling client communication or coordinating between business and technical sides, he always stays calm and ensures everything is well-aligned.  He’s super friendly, reliable, and genuinely cares about the success of the project and the people he works with. It’s always a great experience working with him, and I’m glad to have him as a Technical Project Manager.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-sadia-afrin-meghla",
+      "author": "Sadia Afrin Meghla",
+      "firstName": "Sadia Afrin",
+      "lastName": "Meghla",
+      "headline": "Software Test Engineer level 2",
+      "company": "Astha.IT",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "October 2025",
+      "text": "I had the opportunity to work with Fazal bhaiya at Mediusware, where I was part of the SQA team and he served as the Technical Project Manager.  Although we didn’t get to work together from the very beginning, toward the end of my time there I had the chance to collaborate with him more closely — and it was a truly positive experience.  Even within that short period, I admired how effectively he managed both projects and people. His calm and structured way of leading, along with clear communication, made it easy for the whole team to stay aligned and productive. Working with him gave me valuable insights into project coordination and thoughtful leadership — qualities that truly make a difference in any team.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-protiva-ahamed",
+      "author": "Protiva Ahamed",
+      "firstName": "Protiva",
+      "lastName": "Ahamed",
+      "headline": "Software Engineer",
+      "company": "MetLife",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "October 2025",
+      "text": "I had the pleasure of studying alongside Fazal at BRAC University, where we also worked together on our Database course project. It was a group assignment, and Fazal took the lead with impressive clarity and responsibility. He handled the project work with exceptional technical skill and coordination, ensuring the entire team stayed on track. His ability to manage tasks efficiently while maintaining a collaborative environment truly stood out. Fazal is reliable, proactive, and a great team player — someone you’d want on any project team.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-sheikh-mohammad-haser",
+      "author": "Sheikh Mohammad Haser",
+      "firstName": "Sheikh Mohammad",
+      "lastName": "Haser",
+      "headline": "Business Analyst",
+      "company": "Dynamic Solution Innovators (DSi)",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "October 2025",
+      "text": "I’ve had the privilege of working under Fazal Mahmud Hasan for over a year as a Business Analyst, and I continue to do so. Throughout this time, I’ve learned a great deal from him about project management — especially when it comes to handling multiple SaaS, ERP, and AI-based projects with precision and clarity.  He brings an exceptional balance of technical expertise and leadership to every project. He has a unique ability to keep complex workflows organized while maintaining a collaborative environment where every team member feels valued and guided.  Working with him has been an inspiring experience that’s helped me grow both professionally and personally. His mentorship has had a lasting impact on how I approach project management.",
+      "featured": false,
+      "visible": true
+    },
+    {
+      "id": "rec-mushfiqur-rahman",
+      "author": "Mushfiqur Rahman",
+      "firstName": "Mushfiqur",
+      "lastName": "Rahman",
+      "headline": "Software Engineer III (AI/ML)",
+      "company": "Mediusware",
+      "avatar": "",
+      "linkedinUrl": "",
+      "relationship": "LinkedIn recommendation received",
+      "date": "October 2025",
+      "text": "I’ve had the pleasure of working closely with Fazal Mahmud Hassan, and I can confidently say he is one of the most well-rounded Technical Project Managers I have met. He leads with empathy and always shows genuine care for his team, creating a supportive and motivating work environment that brings out the best in everyone.  Fazal bhai’s technical expertise is exceptional. His deep knowledge of computers, hardware, and automation makes him the go-to person whenever something complex comes up. He has a rare ability to simplify technical challenges and guide the team toward effective solutions.  In meetings, Fazal bhai is the one who steps up when alignment is needed. He takes charge with clarity and confidence, ensuring that discussions are productive and clients are always on the same page. His positive attitude and great sense of humor make every interaction enjoyable and energizing.  Beyond work, Fazal bhai’s values truly stand out. He maintains strong family ties and approaches both personal and professional life with optimism and forward thinking. His passion for personal projects, especially in automation, shows how deeply he loves technology and how eager he is to share that enthusiasm with others.  Working with Fazal bhai is both inspiring and rewarding. He brings technical depth, leadership, and positivity to every situation, and I feel lucky to have had the opportunity to collaborate with him.",
+      "featured": false,
+      "visible": true
+    }
+  ],
+  "navigation": {
+    "logoDot": true,
+    "logoLink": "index.html",
+    "items": [
+      {
+        "id": "nav-1",
+        "label": "Home",
+        "url": "index.html",
+        "isExternal": false,
+        "visible": true
+      },
+      {
+        "id": "nav-2",
+        "label": "About",
+        "url": "about.html",
+        "isExternal": false,
+        "visible": true
+      },
+      {
+        "id": "nav-3",
+        "label": "Projects",
+        "url": "projects.html",
+        "isExternal": false,
+        "visible": true
+      },
+      {
+        "id": "nav-4",
+        "label": "Articles",
+        "url": "index.html#articles",
+        "isExternal": false,
+        "visible": true
+      },
+      {
+        "id": "nav-5",
+        "label": "Contact",
+        "url": "index.html#contact",
+        "isExternal": false,
+        "visible": true
+      }
     ],
-    cta: {
-      text: "Resume",
-      url: "about.html",
-      visible: false
+    "cta": {
+      "text": "Resume",
+      "url": "about.html",
+      "visible": false
     }
   },
-
-  sections: {
-    homeHero: {
-      label: "home",
-      cta1: { text: "View My Work ↗", url: "projects.html", visible: true },
-      cta2: { text: "About & Experience", url: "about.html", visible: true },
-      cta3: { text: "Download Resume", url: "about.html", visible: true },
-      metricsVisible: true
-    },
-    expertise: {
-      label: "expertise",
-      visible: true
-    },
-    awards: {
-      label: "recognition",
-      subtext: "Selected awards, research accolades, and honors.",
-      visible: true
-    },
-    experience: {
-      label: "experience",
-      subtext: "Selected professional background and key career milestones.",
-      ctaText: "Full history →",
-      ctaUrl: "about.html#experience",
-      visible: true
-    },
-    work: {
-      label: "work",
-      subtext: "Selected academic research and engineering projects.",
-      ctaText: "All projects →",
-      ctaUrl: "projects.html",
-      visible: true
-    },
-    articles: {
-      label: "insights",
-      subtext: "Articles on technical project delivery, leadership, and systems architecture.",
-      visible: true
-    },
-    recommendations: {
-      label: "endorsements",
-      subtext: "What colleagues, clients, and partners say about working with me.",
-      visible: true
-    },
-    contact: {
-      label: "contact",
-      heading: "Let's work together.",
-      subtext: "Have an interesting project, collaboration, or leadership role in mind? Send a message below or connect with me directly.",
-      form: {
-        nameLabel: "Your Name *",
-        namePlaceholder: "e.g. Alex Rahman",
-        emailLabel: "Email Address *",
-        emailPlaceholder: "e.g. alex@company.com",
-        subjectLabel: "Subject",
-        subjectPlaceholder: "Project collaboration / Inquiry",
-        messageLabel: "Message *",
-        messagePlaceholder: "Tell me a bit about what you have in mind...",
-        submitText: "Send Message ↗"
+  "sections": {
+    "homeHero": {
+      "label": "home",
+      "cta1": {
+        "text": "View My Work ↗",
+        "url": "projects.html",
+        "visible": true
       },
-      details: {
-        emailLabel: "Direct Email",
-        phoneLabel: "Phone / WhatsApp",
-        locationLabel: "Location",
-        connectLabel: "Connect"
+      "cta2": {
+        "text": "About & Experience",
+        "url": "about.html",
+        "visible": true
       },
-      visible: true
+      "cta3": {
+        "text": "Download Resume",
+        "url": "about.html",
+        "visible": true
+      },
+      "metricsVisible": true
     },
-    aboutPage: {
-      heroLabel: "about",
-      heroSubtitle: "Technical Project Manager. Systems thinker. Lifelong learner. Based in Dhaka, Bangladesh.",
-      bioLabel: "biography",
-      bioCta1Text: "View Projects ↗",
-      bioCta1Url: "projects.html",
-      bioCta2Text: "Download Resume",
-      bioCta2Url: "about.html",
-      bioCta3Text: "Get in Touch",
-      bioCta3Url: "mailto:fazal.mahmud.hassan@gmail.com",
-      awardsLabel: "recognition",
-      awardsVisible: true,
-      educationLabel: "education",
-      educationVisible: true,
-      experienceLabel: "experience",
-      experienceVisible: true,
-      skillsLabel: "skills",
-      skillsVisible: true,
-      extrasLabel: "beyond work",
-      extrasVisible: true
+    "expertise": {
+      "label": "expertise",
+      "visible": true
     },
-    projectsPage: {
-      heroLabel: "work",
-      heroTitle: "Projects & Research.",
-      heroSubtitle: "Academic research, engineering projects, and publications — spanning data science, robotics, and organizational studies.",
-      researchLabel: "research",
-      researchVisible: true,
-      publicationLabel: "publication",
-      publicationVisible: true,
-      softwareLabel: "software & engineering",
-      softwareVisible: true,
-      volunteerLabel: "volunteer & leadership",
-      volunteerVisible: true
+    "awards": {
+      "label": "recognition",
+      "subtext": "Selected awards, research accolades, and honors.",
+      "visible": true
     },
-    errorPage: {
-      code: "404",
-      heading: "Page Not Found",
-      description: "The requested URL was not found on this server. You might have clicked an outdated link or typed the URL incorrectly.",
-      cta1Text: "Return to Homepage ↗",
-      cta1Url: "index.html",
-      cta2Text: "Explore Projects",
-      cta2Url: "projects.html"
+    "experience": {
+      "label": "experience",
+      "subtext": "Professional background and career milestones.",
+      "ctaText": "",
+      "ctaUrl": "",
+      "visible": true
+    },
+    "work": {
+      "label": "work",
+      "subtext": "Selected academic research and engineering projects.",
+      "ctaText": "All projects →",
+      "ctaUrl": "projects.html",
+      "visible": true
+    },
+    "articles": {
+      "label": "insights",
+      "subtext": "Articles on technical project delivery, leadership, and systems architecture.",
+      "visible": true
+    },
+    "recommendations": {
+      "label": "endorsements",
+      "subtext": "What colleagues, clients, and partners say about working with me.",
+      "visible": true
+    },
+    "contact": {
+      "label": "contact",
+      "heading": "Let's work together.",
+      "subtext": "Have an interesting project, collaboration, or leadership role in mind? Send a message below or connect with me directly.",
+      "form": {
+        "nameLabel": "Your Name *",
+        "namePlaceholder": "e.g. Alex Rahman",
+        "emailLabel": "Email Address *",
+        "emailPlaceholder": "e.g. alex@company.com",
+        "subjectLabel": "Subject",
+        "subjectPlaceholder": "Project collaboration / Inquiry",
+        "messageLabel": "Message *",
+        "messagePlaceholder": "Tell me a bit about what you have in mind...",
+        "submitText": "Send Message ↗",
+        "accessKey": "24bc9261-af85-40be-b33c-af52391f8d36"
+      },
+      "details": {
+        "emailLabel": "Direct Email",
+        "phoneLabel": "Phone / WhatsApp",
+        "locationLabel": "Location",
+        "connectLabel": "Connect"
+      },
+      "visible": true
+    },
+    "aboutPage": {
+      "heroLabel": "about",
+      "heroSubtitle": "Technical Project Manager. Systems thinker. Lifelong learner. Based in Dhaka, Bangladesh.",
+      "bioLabel": "biography",
+      "bioCta1Text": "View Projects ↗",
+      "bioCta1Url": "projects.html",
+      "bioCta2Text": "Download Resume",
+      "bioCta2Url": "about.html",
+      "bioCta3Text": "Get in Touch",
+      "bioCta3Url": "mailto:fazal.mahmud.hassan@gmail.com",
+      "awardsLabel": "recognition",
+      "awardsVisible": true,
+      "educationLabel": "education",
+      "educationVisible": true,
+      "experienceLabel": "experience",
+      "experienceVisible": true,
+      "skillsLabel": "skills",
+      "skillsVisible": true,
+      "extrasLabel": "beyond work",
+      "extrasVisible": true,
+      "recommendationsVisible": true
+    },
+    "projectsPage": {
+      "heroLabel": "work",
+      "heroTitle": "Projects & Research.",
+      "heroSubtitle": "Academic research, engineering projects, and publications — spanning data science, robotics, and organizational studies.",
+      "researchLabel": "research",
+      "researchVisible": true,
+      "publicationLabel": "publication",
+      "publicationVisible": true,
+      "softwareLabel": "software & engineering",
+      "softwareVisible": true,
+      "volunteerLabel": "volunteer & leadership",
+      "volunteerVisible": true
+    },
+    "errorPage": {
+      "code": "404",
+      "heading": "Page Not Found",
+      "description": "The requested URL was not found on this server. You might have clicked an outdated link or typed the URL incorrectly.",
+      "cta1Text": "Return to Homepage ↗",
+      "cta1Url": "index.html",
+      "cta2Text": "Explore Projects",
+      "cta2Url": "projects.html"
     }
   },
-
-  footer: {
-    tagline: "Technical Project Manager & Systems Engineer based in Dhaka, Bangladesh.",
-    navTitle: "Navigation",
-    connectTitle: "Connect",
-    copyright: "© 2026 Fazal Mahmud Hassan. All rights reserved.",
-    links: [
-      { id: "fl-1", label: "Home", url: "index.html" },
-      { id: "fl-2", label: "About", url: "about.html" },
-      { id: "fl-3", label: "Projects", url: "projects.html" },
-      { id: "fl-4", label: "Articles", url: "index.html#articles" },
-      { id: "fl-5", label: "Contact", url: "index.html#contact" }
+  "footer": {
+    "tagline": "Technical Project Manager & Systems Engineer based in Dhaka, Bangladesh.",
+    "navTitle": "Navigation",
+    "connectTitle": "Connect",
+    "copyright": "© 2026 Fazal Mahmud Hassan. All rights reserved.",
+    "links": [
+      {
+        "id": "fl-1",
+        "label": "Home",
+        "url": "index.html"
+      },
+      {
+        "id": "fl-2",
+        "label": "About",
+        "url": "about.html"
+      },
+      {
+        "id": "fl-3",
+        "label": "Projects",
+        "url": "projects.html"
+      },
+      {
+        "id": "fl-4",
+        "label": "Articles",
+        "url": "index.html#articles"
+      },
+      {
+        "id": "fl-5",
+        "label": "Contact",
+        "url": "index.html#contact"
+      }
     ],
-    socialLinks: [
-      { id: "sl-1", label: "LinkedIn ↗", url: "https://linkedin.com/in/fazalmahmudhassan" },
-      { id: "sl-2", label: "GitHub ↗", url: "https://github.com/fazalhassan23" },
-      { id: "sl-3", label: "Email ↗", url: "mailto:fazal.mahmud.hassan@gmail.com" }
+    "socialLinks": [
+      {
+        "id": "sl-1",
+        "label": "LinkedIn ↗",
+        "url": "https://linkedin.com/in/fazalmahmudhassan"
+      },
+      {
+        "id": "sl-2",
+        "label": "GitHub ↗",
+        "url": "https://github.com/fazalhassan23"
+      },
+      {
+        "id": "sl-3",
+        "label": "Email ↗",
+        "url": "mailto:fazal.mahmud.hassan@gmail.com"
+      }
     ]
   },
-
-  seo: {
-    siteTitle: "Fazal Mahmud Hassan — Technical Project Manager",
-    metaDescription: "Personal portfolio of Fazal Mahmud Hassan — Technical Project Manager with Computer Science background & MBA in HR & Management. Leading 21+ SaaS & CRM deliverables.",
-    keywords: "Fazal Mahmud Hassan, Fazal Hassan, Faal Mahmud Hassan, Fazal Mahmud, Technical Project Manager, Systems Engineer, Mediusware Limited, BRAC University, University of Dhaka, Springer CNC-2018, Dhaka Bangladesh, SaaS Project Manager, Agile Scrum",
-    ogImage: "https://fazalmahmudhassan.com/assets/og-image.svg"
+  "seo": {
+    "siteTitle": "Fazal Mahmud Hassan — Technical Project Manager",
+    "metaDescription": "Personal portfolio of Fazal Mahmud Hassan — Technical Project Manager with Computer Science background & MBA in HR & Management. Leading 21+ SaaS & CRM deliverables.",
+    "keywords": "Fazal Mahmud Hassan, Fazal Hassan, Faal Mahmud Hassan, Fazal Mahmud, Technical Project Manager, Systems Engineer, Mediusware Limited, BRAC University, University of Dhaka, Springer CNC-2018, Dhaka Bangladesh, SaaS Project Manager, Agile Scrum",
+    "ogImage": "https://fazalmahmudhassan.com/assets/og-image.svg"
   },
-
-  adminAuth: {
-    // SHA-256 hash for default password: "admin"
-    passwordHash: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
-  }
+  "adminAuth": {
+    "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+  },
+  "_savedAt": "2026-09-07T00:45:00.000Z"
 };

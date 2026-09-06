@@ -153,10 +153,10 @@
   }
 
   function renderExperience(experience) {
-    // Home preview (top 3)
+    // All experience on homepage (latest first)
     const homeContainer = document.getElementById('home-experience-container');
     if (homeContainer && Array.isArray(experience)) {
-      homeContainer.innerHTML = experience.slice(0, 3).map(job => renderTimelineItem(job)).join('');
+      homeContainer.innerHTML = experience.map(job => renderTimelineItem(job)).join('');
     }
 
     // Full timeline (about.html)
@@ -279,12 +279,11 @@
     const pageSize = 4;
     const totalPages = Math.ceil(recs.length / pageSize);
     let currentPage = 0;
+    let isAnimating = false;
 
-    function renderPage(page) {
-      currentPage = (page + totalPages) % totalPages;
+    function applyPageContent() {
       const start = currentPage * pageSize;
       const pageItems = recs.slice(start, start + pageSize);
-
       container.innerHTML = pageItems.map(r => createCardHtml(r)).join('');
       if (indicator) {
         indicator.textContent = `Page ${currentPage + 1} of ${totalPages}`;
@@ -293,10 +292,51 @@
       if (nextBtn) nextBtn.disabled = totalPages <= 1;
     }
 
-    renderPage(0);
+    function goToPage(targetPage, direction) {
+      if (isAnimating) return;
+      const nextPage = (targetPage + totalPages) % totalPages;
+      if (nextPage === currentPage) return;
 
-    if (prevBtn) prevBtn.onclick = () => renderPage(currentPage - 1);
-    if (nextBtn) nextBtn.onclick = () => renderPage(currentPage + 1);
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced || !direction) {
+        currentPage = nextPage;
+        applyPageContent();
+        return;
+      }
+
+      isAnimating = true;
+      const outAnim = direction === 'next' ? 'anim-out-next' : 'anim-out-prev';
+      const inAnim = direction === 'next' ? 'anim-in-next' : 'anim-in-prev';
+
+      container.className = 'recommendations-grid ' + outAnim;
+
+      setTimeout(() => {
+        currentPage = nextPage;
+        applyPageContent();
+
+        container.className = 'recommendations-grid ' + inAnim;
+
+        setTimeout(() => {
+          container.className = 'recommendations-grid';
+          isAnimating = false;
+        }, 320);
+      }, 220);
+    }
+
+    applyPageContent();
+
+    if (prevBtn) {
+      prevBtn.onclick = (e) => {
+        e.preventDefault();
+        goToPage(currentPage - 1, 'prev');
+      };
+    }
+    if (nextBtn) {
+      nextBtn.onclick = (e) => {
+        e.preventDefault();
+        goToPage(currentPage + 1, 'next');
+      };
+    }
   }
 
   function renderAboutPage(p, data) {
@@ -530,6 +570,8 @@
 
       const btnSubmit = document.getElementById('btn-contact-submit');
       if (btnSubmit && f.submitText) btnSubmit.textContent = f.submitText;
+      const inpAccessKey = document.getElementById('contact-access-key');
+      if (inpAccessKey && f.accessKey) inpAccessKey.value = f.accessKey;
 
       // Contact Detail Labels
       const d = s.contact.details || {};

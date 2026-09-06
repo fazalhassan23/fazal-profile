@@ -154,7 +154,13 @@
         contact: {
           ...(defaults.sections?.contact || {}),
           ...(saved.sections?.contact || {}),
-          form: { ...(defaults.sections?.contact?.form || {}), ...(saved.sections?.contact?.form || {}) },
+          form: {
+            ...(defaults.sections?.contact?.form || {}),
+            ...(saved.sections?.contact?.form || {}),
+            accessKey: (saved.sections?.contact?.form?.accessKey && saved.sections.contact.form.accessKey.trim() !== '')
+              ? saved.sections.contact.form.accessKey
+              : (defaults.sections?.contact?.form?.accessKey || '')
+          },
           details: { ...(defaults.sections?.contact?.details || {}), ...(saved.sections?.contact?.details || {}) }
         },
         aboutPage: { ...(defaults.sections?.aboutPage || {}), ...(saved.sections?.aboutPage || {}) },
@@ -173,7 +179,7 @@
     };
 
     // Guarantee essential arrays are strictly arrays
-    const arrayKeys = ['metrics', 'expertise', 'awards', 'articles', 'experience', 'projects', 'education', 'extraCurriculars', 'recommendations'];
+    const arrayKeys = ['metrics', 'expertise', 'awards', 'articles', 'experience', 'projects', 'education', 'extraCurriculars', 'recommendations', 'references'];
     arrayKeys.forEach(key => {
       merged[key] = Array.isArray(saved[key]) ? saved[key] : (defaults[key] || []);
     });
@@ -198,6 +204,27 @@
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
           const parsed = JSON.parse(saved);
+          const defaultTime = defaults._savedAt ? new Date(defaults._savedAt).getTime() : 0;
+          const savedTime = parsed._savedAt ? new Date(parsed._savedAt).getTime() : 0;
+          if (defaultTime >= savedTime) {
+            const merged = mergeSchema(defaults, parsed);
+            // If default is newer, ensure experience, education, projects, skills come from newer defaults
+            merged.experience = defaults.experience || [];
+            merged.education = defaults.education || [];
+            merged.projects = defaults.projects || [];
+            merged.skills = defaults.skills || {};
+            merged.extraCurriculars = defaults.extraCurriculars || [];
+            merged.profile = { ...(merged.profile || {}), ...(defaults.profile || {}) };
+            if (defaults.sections?.contact?.form?.accessKey) {
+              if (!merged.sections) merged.sections = {};
+              if (!merged.sections.contact) merged.sections.contact = {};
+              if (!merged.sections.contact.form) merged.sections.contact.form = {};
+              merged.sections.contact.form.accessKey = defaults.sections.contact.form.accessKey;
+            }
+            merged._savedAt = defaults._savedAt;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+            return merged;
+          }
           return mergeSchema(defaults, parsed);
         }
       } catch (e) {
