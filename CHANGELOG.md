@@ -3,6 +3,54 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.3.0] — 2026-09-07
+
+> Branch: `cv` → Merged into `main` (Production) — Complete CV synchronization, full experience timeline, serverless background contact delivery, and recommendations pagination transitions.
+
+### Added
+
+#### Serverless Background Contact Form (Web3Forms)
+- **Direct Inbox AJAX Delivery**: Integrated Web3Forms background API (`https://api.web3forms.com/submit`) into `js/main.js` for zero-redirect asynchronous contact submissions with real-time status feedback and automatic form resets.
+- **Admin CMS Configuration**: Added a dedicated "Web3Forms Access Key" input field under Contact Form Settings in `admin.html` and wired persistence in `js/admin.js`.
+- **Multi-Tier Fallback Hierarchy**: Embedded active access key in `data/portfolio-data.json`, `data/default-data.js`, and as a hidden DOM input in `index.html`, with a graceful fallback to `mailto:` if network submission fails.
+
+#### Endorsements / Recommendations Pagination Transitions
+- **GPU-Accelerated Keyframes**: Added CSS `@keyframes` slide-fade animations (`recSlideOutLeft`, `recSlideInRight`, `recSlideOutRight`, `recSlideInLeft`) in `css/style.css` for directional page transitions.
+- **Animated Controller**: Refactored `initRecommendationsPagination()` in `js/render.js` to animate page transitions with debouncing to prevent rapid-click stutter, with automatic bypass under `prefers-reduced-motion`.
+
+#### Production Backup & Safety Tag
+- **Git Branch & Tag**: Created backup branch `main-backup-20260907` and annotated tag `backup-main-20260907` before merging CV updates to production.
+
+### Changed
+
+#### Experience Section — Full History on Homepage
+- **All 6 Career Entries Directly on Homepage**: Removed the 3-item slice constraint in `js/render.js` so that all 6 professional positions (all 34 verbatim bullets from the CV) render directly on the homepage timeline in reverse chronological order:
+  1. Lead Technical Project Manager / Project Manager — Mediusware Limited (Feb 2024 – Present)
+  2. Product & Project Manager — Microters Ltd. (Aug 2023 – Jan 2024)
+  3. Associate Project Manager / Scrum Master — DevsNest LLC (Jul 2022 – Aug 2023)
+  4. Business Analyst / Junior Project Manager — Softzino Technologies (Oct 2021 – Jun 2022)
+  5. IT Project Coordinator (Contract) — NextGen Innovations (Jan 2020 – Sep 2021)
+  6. Junior Software Engineer / QA Analyst — CloudTech Solutions (Jan 2019 – Dec 2019)
+- **Removed Redundant CTA**: Removed `#experience-section-cta` ("Full history →") since all positions are displayed on the main page.
+
+#### Content & Schema Synchronization (Strict Non-Negotiable CV Alignment)
+- **Zero Imagined Content**: Fully synchronized `data/portfolio-data.json` and `data/default-data.js` against the official uploaded resume.
+- **Metrics**: Aligned to verified facts: 6+ Years Cross-Functional Leadership, 21+ Enterprise Deliverables, 95% On-Time Delivery Rate, 1.2M+ Users Impacted.
+- **Education**: 4 entries (BRAC University B.Sc. CSE, University of Dhaka MBA, Notre Dame College HSC, Motijheel Model SSC).
+- **Projects**: Cleaned to 9 academic and software projects (removed non-CV projects like eSports, Rantages, Poromporai Amra).
+- **Skills & References**: Updated technical, professional, creative, language categories, and 2 professional references.
+
+### Fixed
+
+#### Contact Section UX
+- **Duplicate Intro Text**: Removed redundant `#contact-intro` element that previously displayed the same text as `#contact-text`.
+
+#### Store & Cache Synchronization
+- **LocalStorage Priority**: Updated `js/store.js` merge logic so that newer database schema defaults (`_savedAt`) automatically update older browser `localStorage` caches.
+- **Asset Cache Busting**: Updated cache-busting query strings across all HTML files to ensure immediate asset updates in visitor browsers.
+
+---
+
 ## [2.2.2] — 2026-09-03
 
 > Branch: `Staging` — Comprehensive CMS synchronization and UX fixes.

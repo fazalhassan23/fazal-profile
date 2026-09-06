@@ -2,7 +2,7 @@
 
 > A zero-dependency, production-grade personal portfolio built entirely on **Vanilla HTML5, modern CSS, and plain JavaScript** — no frameworks, no bundlers, no build steps. Includes a fully client-side Content Management System (CMS) with SHA-256 authentication, a custom WYSIWYG rich-text editor, a dual-mode animated canvas background, and an optional PHP flat-file persistence API.
 
-**Current Version**: `v1.10.0` | **License**: MIT
+**Current Version**: `v2.3.0` | **License**: MIT
 
 ---
 
@@ -52,11 +52,15 @@ This portfolio was built around three principles:
 | **Visual** | Battery & GPU saver — canvas pauses when tab is hidden (`visibilitychange`) |
 | **Visual** | Scroll-driven `IntersectionObserver` fade-up animations |
 | **Visual** | Animated metric counters (count up on scroll-into-view) |
+| **Animations** | Directional GPU-accelerated CSS `@keyframes` slide-fade transitions for paginated recommendations |
+| **Experience** | Full reverse-chronological career timeline (all 6 positions, 34 verbatim bullets) directly on homepage |
+| **Contact** | Serverless background email delivery via Web3Forms AJAX with inline feedback and mailto fallback |
 | **Theme** | Dark / Light mode toggle with zero-FOUC instant restore |
 | **Theme** | 4 selectable global font pairings via CMS |
 | **CMS** | Password-protected `/admin.html` panel with SHA-256 hashed auth |
 | **CMS** | Custom built-in WYSIWYG Rich Text Editor (RTE) with HTML source toggle |
 | **CMS** | Full CRUD for Profile, Metrics, Expertise, Awards, Articles, Experience, Projects, Education, Skills |
+| **CMS** | Web3Forms Access Key configuration directly manageable in Admin CMS |
 | **CMS** | LinkedIn CSV import for Recommendations with auto-deduplication and immediate persistence |
 | **CMS** | One-click JSON backup export and import with schema validation |
 | **CMS** | Resilient `localStorage` + GitHub Contents API syncing (smart merge: localStorage wins for CMS arrays, server wins for timestamps) |
@@ -242,6 +246,10 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 
 | Version | Date | Summary |
 |---|---|---|
+| v2.3.0 | 2026-09-07 | **CV Synchronization, Full Career Timeline & Web3Forms**: Strict CV sync (zero imagined data), all 6 positions on homepage, serverless background contact delivery via Web3Forms with mailto fallback, GPU keyframe pagination transitions, production backup tag |
+| v2.2.2 | 2026-09-03 | **CMS Data Synchronization**: First Name single source of truth for logo text, opportunistic GitHub PAT save, restored missing DOM bindings |
+| v2.2.1 | 2026-09-02 | **Award Card Styling**: Removed trophy icon and yellow gold border accent for minimal obsidian design |
+| v2.2.0 | 2026-09-02 | **CI/CD Pipeline**: Migrated from legacy cPanel FTP to automated GitHub Actions GitHub Pages deploy |
 | v1.10.0 | 2026-09-01 | **Codebase Audit & Refactoring**: event delegation, deduplication (utils.js), CSS extraction, magic numbers cleaned, data-driven email, recommendations UI updates & CMS visibility toggle |
 | v1.9.0 | 2026-08-28 | Recommendations persistence fix (CSV import now saves), smart store merge (localStorage wins for CMS arrays), LinkedIn Voyager fetch scripts |
 | v1.8.0 | 2026-08-27 | **Bug fix (by @pabonsaha)**: stateful SHA-256 rewrite (store.js), missing brace in admin.js save pipeline, form submit hardening in admin.html |
@@ -265,6 +273,8 @@ This table tracks which features and fixes were developed on which Git branches.
 
 | Branch | Based On | Date | Files Changed | Feature / Fix |
 |---|---|---|---|---|
+| `cv` | `main` | 2026-09-07 | `data/*.{json,js}`, `js/*.js`, `*.html`, `css/style.css` | Strict CV synchronization, all 6 positions on homepage, Web3Forms serverless delivery, recommendation pagination keyframe animations, merged into `main` |
+| `main-backup-20260907` | `main` | 2026-09-07 | Snapshot of `main` at `72317c3` | Safety backup branch and tag `backup-main-20260907` created prior to CV release merge |
 | `main` | `Worked-from-office` | 2026-09-01 | `js/*.js`, `css/style.css`, `CHANGELOG.md` | Extensive codebase audit and refactoring (event delegation, data-driven strings, utilities deduplication, magic numbers, recommendation UI enhancements, and CMS visibility toggles) |
 | `feature/recommendations-fix-and-linkedin-scripts` | `Worked-from-office` | 2026-08-28 | `js/admin.js`, `js/store.js`, `data/portfolio-data.json`, `fetch-linkedin*.ps1` | Fixed CSV import not persisting recommendations; fixed server fetch overwriting CMS localStorage data; added LinkedIn Voyager API PowerShell fetch scripts |
 | `admin-login` | `main` | 2026-08-27 | `js/store.js`, `js/admin.js`, `admin.html` | Stateful SHA-256 bug fix, missing closing brace in admin save pipeline, login form submit hardening |
