@@ -982,9 +982,9 @@ window.DEFAULT_PORTFOLIO_DATA = {
     },
     "experience": {
       "label": "experience",
-      "subtext": "Selected professional background and key career milestones.",
-      "ctaText": "Full history →",
-      "ctaUrl": "about.html#experience",
+      "subtext": "Professional background and career milestones.",
+      "ctaText": "",
+      "ctaUrl": "",
       "visible": true
     },
     "work": {

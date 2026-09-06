@@ -153,10 +153,10 @@
   }
 
   function renderExperience(experience) {
-    // Home preview (top 3)
+    // All experience on homepage (latest first)
     const homeContainer = document.getElementById('home-experience-container');
     if (homeContainer && Array.isArray(experience)) {
-      homeContainer.innerHTML = experience.slice(0, 3).map(job => renderTimelineItem(job)).join('');
+      homeContainer.innerHTML = experience.map(job => renderTimelineItem(job)).join('');
     }
 
     // Full timeline (about.html)
