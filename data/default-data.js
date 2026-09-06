@@ -1017,7 +1017,8 @@ window.DEFAULT_PORTFOLIO_DATA = {
         "subjectPlaceholder": "Project collaboration / Inquiry",
         "messageLabel": "Message *",
         "messagePlaceholder": "Tell me a bit about what you have in mind...",
-        "submitText": "Send Message ↗"
+        "submitText": "Send Message ↗",
+        "accessKey": ""
       },
       "details": {
         "emailLabel": "Direct Email",

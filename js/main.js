@@ -169,10 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // counter animation after a CMS save re-renders the metrics container.
   window.triggerMetricAnimation = animateMetrics;
 
-  /* ── 6. Contact Form Submission Handler ─────────────────── */
+  /* ── 6. Contact Form Submission Handler (Web3Forms AJAX) ─── */
   const contactForm = document.getElementById('portfolio-contact-form');
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const statusEl = document.getElementById('contact-form-status');
       const submitBtn = contactForm.querySelector('button[type="submit"]');
@@ -190,29 +190,81 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      const pData = window.PortfolioStore ? window.PortfolioStore.getData() : {};
+      const formConfig = pData?.sections?.contact?.form || {};
+      const ownerEmail = pData?.profile?.email || 'fazal.mahmud.hassan@gmail.com';
+      const accessKey = formConfig.accessKey || '';
+
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Sending Message...';
       }
+      if (statusEl) {
+        statusEl.className = 'form-status';
+        statusEl.textContent = '';
+      }
 
-      setTimeout(() => {
-        const pData = window.PortfolioStore ? window.PortfolioStore.getData() : {};
-        const ownerEmail = pData?.profile?.email || 'fazal.mahmud.hassan@gmail.com';
+      // If Web3Forms access key is configured, send via background AJAX
+      if (accessKey) {
+        try {
+          const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              access_key: accessKey,
+              name: name,
+              email: email,
+              subject: subject || `New message from ${name} via Portfolio`,
+              message: message,
+              from_name: name
+            })
+          });
 
-        if (statusEl) {
-          statusEl.className = 'form-status success';
-          statusEl.innerHTML = `✅ Thank you, <strong>${escapeContactStr(name)}</strong>! Preparing your email client. If it does not open automatically, email me directly at <a href="mailto:${ownerEmail}" style="color:#34D399;text-decoration:underline;">${ownerEmail}</a>.`;
+          const result = await response.json();
+          if (response.ok && result.success) {
+            if (statusEl) {
+              statusEl.className = 'form-status success';
+              statusEl.innerHTML = `✅ Thank you, <strong>${escapeContactStr(name)}</strong>! Your message has been sent successfully. I'll get back to you soon.`;
+            }
+            contactForm.reset();
+          } else {
+            throw new Error(result.message || 'Submission failed');
+          }
+        } catch (err) {
+          console.error('[ContactForm] Web3Forms submission error:', err);
+          if (statusEl) {
+            statusEl.className = 'form-status error';
+            statusEl.innerHTML = `⚠️ Submission failed (${escapeContactStr(err.message)}). Opening your email client instead...`;
+          }
+          const mailtoUri = `mailto:${ownerEmail}?subject=${encodeURIComponent(subject || `Portfolio Inquiry from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+          setTimeout(() => { window.location.href = mailtoUri; }, 800);
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = formConfig.submitText || 'Send Message ↗';
+          }
         }
+      } else {
+        // Fallback when no accessKey configured: prompt mailto
+        setTimeout(() => {
+          if (statusEl) {
+            statusEl.className = 'form-status success';
+            statusEl.innerHTML = `Preparing your email client. If it does not open automatically, email me directly at <a href="mailto:${ownerEmail}" style="color:#34D399;text-decoration:underline;">${ownerEmail}</a>.<br><small style="color:var(--text-muted); font-size:0.8rem;">(Tip: Add a free Web3Forms access key in the Admin CMS to send directly in the background!)</small>`;
+          }
 
-        const mailtoUri = `mailto:${ownerEmail}?subject=${encodeURIComponent(subject || `Portfolio Inquiry from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
-        window.location.href = mailtoUri;
+          const mailtoUri = `mailto:${ownerEmail}?subject=${encodeURIComponent(subject || `Portfolio Inquiry from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+          window.location.href = mailtoUri;
 
-        contactForm.reset();
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Send Message ↗';
-        }
-      }, 400);
+          contactForm.reset();
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = formConfig.submitText || 'Send Message ↗';
+          }
+        }, 400);
+      }
     });
   }
 

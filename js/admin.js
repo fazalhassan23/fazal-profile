@@ -634,6 +634,7 @@ function initAdminApp() {
     setVal('input-contact-msg-label', f.messageLabel || 'Message *');
     setVal('input-contact-msg-ph', f.messagePlaceholder || 'Tell me a bit about what you have in mind...');
     setVal('input-contact-submit-text', f.submitText || 'Send Message ↗');
+    setVal('input-contact-access-key', f.accessKey || '');
 
     const d = c.details || {};
     setVal('input-contact-lbl-email', d.emailLabel || 'Direct Email');
@@ -2249,6 +2250,7 @@ function initAdminApp() {
       data.sections.contact.form.messageLabel = getVal('input-contact-msg-label');
       data.sections.contact.form.messagePlaceholder = getVal('input-contact-msg-ph');
       data.sections.contact.form.submitText = getVal('input-contact-submit-text');
+      data.sections.contact.form.accessKey = getVal('input-contact-access-key');
 
       if (!data.sections.contact.details) data.sections.contact.details = {};
       data.sections.contact.details.emailLabel = getVal('input-contact-lbl-email');
