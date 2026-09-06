@@ -530,6 +530,8 @@
 
       const btnSubmit = document.getElementById('btn-contact-submit');
       if (btnSubmit && f.submitText) btnSubmit.textContent = f.submitText;
+      const inpAccessKey = document.getElementById('contact-access-key');
+      if (inpAccessKey && f.accessKey) inpAccessKey.value = f.accessKey;
 
       // Contact Detail Labels
       const d = s.contact.details || {};

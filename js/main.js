@@ -193,7 +193,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const pData = window.PortfolioStore ? window.PortfolioStore.getData() : {};
       const formConfig = pData?.sections?.contact?.form || {};
       const ownerEmail = pData?.profile?.email || 'fazal.mahmud.hassan@gmail.com';
-      const accessKey = formConfig.accessKey || '';
+      const keyInput = document.getElementById('contact-access-key');
+      const accessKey = (formConfig.accessKey && formConfig.accessKey.trim())
+        || (keyInput && keyInput.value && keyInput.value.trim())
+        || (window.DEFAULT_PORTFOLIO_DATA?.sections?.contact?.form?.accessKey)
+        || '24bc9261-af85-40be-b33c-af52391f8d36';
 
       if (submitBtn) {
         submitBtn.disabled = true;
