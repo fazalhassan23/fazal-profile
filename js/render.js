@@ -279,7 +279,7 @@
     const pageSize = 4;
     const totalPages = Math.ceil(recs.length / pageSize);
     let currentPage = 0;
-    let isTransitioning = false;
+    let isAnimating = false;
 
     function applyPageContent() {
       const start = currentPage * pageSize;
@@ -292,48 +292,51 @@
       if (nextBtn) nextBtn.disabled = totalPages <= 1;
     }
 
-    function renderPage(page, direction = null) {
-      const nextPage = (page + totalPages) % totalPages;
-      if (nextPage === currentPage && direction !== null) return;
+    function goToPage(targetPage, direction) {
+      if (isAnimating) return;
+      const nextPage = (targetPage + totalPages) % totalPages;
+      if (nextPage === currentPage) return;
 
-      const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (!direction || reducedMotion) {
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced || !direction) {
         currentPage = nextPage;
         applyPageContent();
         return;
       }
 
-      if (isTransitioning) return;
-      isTransitioning = true;
+      isAnimating = true;
+      const outAnim = direction === 'next' ? 'anim-out-next' : 'anim-out-prev';
+      const inAnim = direction === 'next' ? 'anim-in-next' : 'anim-in-prev';
 
-      const outClass = direction === 'next' ? 'rec-fade-out-left' : 'rec-fade-out-right';
-      const inClass = direction === 'next' ? 'rec-fade-in-right' : 'rec-fade-in-left';
-
-      container.classList.add(outClass);
+      container.className = 'recommendations-grid ' + outAnim;
 
       setTimeout(() => {
         currentPage = nextPage;
         applyPageContent();
 
-        container.classList.remove(outClass);
-        container.classList.add(inClass);
-
-        // Trigger reflow
-        void container.offsetWidth;
-
-        container.classList.remove(inClass);
+        container.className = 'recommendations-grid ' + inAnim;
 
         setTimeout(() => {
-          isTransitioning = false;
-        }, 220);
-      }, 190);
+          container.className = 'recommendations-grid';
+          isAnimating = false;
+        }, 320);
+      }, 220);
     }
 
-    renderPage(0);
+    applyPageContent();
 
-    if (prevBtn) prevBtn.onclick = () => renderPage(currentPage - 1, 'prev');
-    if (nextBtn) nextBtn.onclick = () => renderPage(currentPage + 1, 'next');
+    if (prevBtn) {
+      prevBtn.onclick = (e) => {
+        e.preventDefault();
+        goToPage(currentPage - 1, 'prev');
+      };
+    }
+    if (nextBtn) {
+      nextBtn.onclick = (e) => {
+        e.preventDefault();
+        goToPage(currentPage + 1, 'next');
+      };
+    }
   }
 
   function renderAboutPage(p, data) {
