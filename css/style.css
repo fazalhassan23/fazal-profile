@@ -1962,6 +1962,28 @@ a {
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin-top: 1.5rem;
+  transition: opacity 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.recommendations-grid.rec-fade-out-left {
+  opacity: 0;
+  transform: translateX(-14px);
+}
+
+.recommendations-grid.rec-fade-out-right {
+  opacity: 0;
+  transform: translateX(14px);
+}
+
+.recommendations-grid.rec-fade-in-left {
+  opacity: 0;
+  transform: translateX(-14px);
+}
+
+.recommendations-grid.rec-fade-in-right {
+  opacity: 0;
+  transform: translateX(14px);
 }
 
 @media (max-width: 768px) {
@@ -1973,6 +1995,7 @@ a {
 .rec-paginated-wrapper {
   position: relative;
   margin-top: 1rem;
+  overflow: hidden;
 }
 
 /* Pagination Bar */

@@ -279,12 +279,11 @@
     const pageSize = 4;
     const totalPages = Math.ceil(recs.length / pageSize);
     let currentPage = 0;
+    let isTransitioning = false;
 
-    function renderPage(page) {
-      currentPage = (page + totalPages) % totalPages;
+    function applyPageContent() {
       const start = currentPage * pageSize;
       const pageItems = recs.slice(start, start + pageSize);
-
       container.innerHTML = pageItems.map(r => createCardHtml(r)).join('');
       if (indicator) {
         indicator.textContent = `Page ${currentPage + 1} of ${totalPages}`;
@@ -293,10 +292,48 @@
       if (nextBtn) nextBtn.disabled = totalPages <= 1;
     }
 
+    function renderPage(page, direction = null) {
+      const nextPage = (page + totalPages) % totalPages;
+      if (nextPage === currentPage && direction !== null) return;
+
+      const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!direction || reducedMotion) {
+        currentPage = nextPage;
+        applyPageContent();
+        return;
+      }
+
+      if (isTransitioning) return;
+      isTransitioning = true;
+
+      const outClass = direction === 'next' ? 'rec-fade-out-left' : 'rec-fade-out-right';
+      const inClass = direction === 'next' ? 'rec-fade-in-right' : 'rec-fade-in-left';
+
+      container.classList.add(outClass);
+
+      setTimeout(() => {
+        currentPage = nextPage;
+        applyPageContent();
+
+        container.classList.remove(outClass);
+        container.classList.add(inClass);
+
+        // Trigger reflow
+        void container.offsetWidth;
+
+        container.classList.remove(inClass);
+
+        setTimeout(() => {
+          isTransitioning = false;
+        }, 220);
+      }, 190);
+    }
+
     renderPage(0);
 
-    if (prevBtn) prevBtn.onclick = () => renderPage(currentPage - 1);
-    if (nextBtn) nextBtn.onclick = () => renderPage(currentPage + 1);
+    if (prevBtn) prevBtn.onclick = () => renderPage(currentPage - 1, 'prev');
+    if (nextBtn) nextBtn.onclick = () => renderPage(currentPage + 1, 'next');
   }
 
   function renderAboutPage(p, data) {
