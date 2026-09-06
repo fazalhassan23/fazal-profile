@@ -173,7 +173,7 @@
     };
 
     // Guarantee essential arrays are strictly arrays
-    const arrayKeys = ['metrics', 'expertise', 'awards', 'articles', 'experience', 'projects', 'education', 'extraCurriculars', 'recommendations'];
+    const arrayKeys = ['metrics', 'expertise', 'awards', 'articles', 'experience', 'projects', 'education', 'extraCurriculars', 'recommendations', 'references'];
     arrayKeys.forEach(key => {
       merged[key] = Array.isArray(saved[key]) ? saved[key] : (defaults[key] || []);
     });

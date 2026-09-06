@@ -1,88 +1,87 @@
 {
   "profile": {
     "name": "Fazal Mahmud Hassan",
-    "firstName": "FMH11",
-    "roleTitle": "Technical Project Manager · Systems Engineer",
-    "heroBio": "Result-driven professional bridging technology and people management. Currently leading 21+ projects at Mediusware Limited — overseeing SaaS and CRM delivery across cross-functional teams. I hold an MBA in HR & Management from the University of Dhaka and a B.Sc in Computer Science from BRAC University.",
-    "aboutLead": "I'm a Technical Project Manager at Mediusware Limited, where I lead delivery across 21+ concurrent software projects — spanning SaaS platforms, CRM systems, and enterprise solutions from concept to launch.",
+    "firstName": "Fazal",
+    "roleTitle": "Technical Project Manager",
+    "heroBio": "Seeking a position in an innovative organization where I can leverage my skills and experience to drive growth and contribute to the development of cutting-edge solutions.",
+    "aboutLead": "Seeking a position in an innovative organization where I can leverage my skills and experience to drive growth and contribute to the development of cutting-edge solutions.",
     "aboutBodyParagraphs": [
-      "<p>My background sits at a rare intersection: a B.Sc in Computer Science &amp; Engineering from BRAC University gives me the technical depth to speak the language of developers and architects, while an MBA in HR &amp; Management from the University of Dhaka equips me to manage people, process, and organizational dynamics with equal fluency.</p><p>Before project management, I built experience in technical support (Augmedix), content and training (Therap BD), and systems engineering (Innovation Soft) — a progression that shaped my ability to communicate clearly across technical and non-technical stakeholders.</p><p>Outside work, I'm an active photographer, a former university debater, and an enthusiastic tech columnist. I believe great technology is built at the intersection of clarity, collaboration, and curiosity.</p>"
+      "<p>Seeking a position in an innovative organization where I can leverage my skills and experience to drive growth and contribute to the development of cutting-edge solutions.</p><p>Holds a Masters of Business Administration (HR and Management) from the University of Dhaka (CGPA: 3.73/4.00) and a B.Sc in Computer Science &amp; Engineering from BRAC University (CGPA: 3.25/4.00).</p><p>Experience spans Technical Project Manager at Mediusware Limited, Training and Content Specialist and Associate Training and Content Specialist at Therap BD Limited, Technical Support Engineer at Augmedix Bangladesh, Administrative Manager, Finance and IT at DIVI Hosting (Netherlands), and System Engineer at Innovation Soft.</p>"
     ],
     "contactIntro": "Have an interesting project, collaboration, or leadership role in mind? Send me a message below or connect with me directly.",
     "email": "fazal.mahmud.hassan@gmail.com",
-    "phone": "+880 1712 772123",
+    "phone": "+8801712772123",
     "linkedinUrl": "https://linkedin.com/in/fazalmahmudhassan",
     "githubUrl": "https://github.com/fazalhassan23",
     "location": "Dhaka, Bangladesh",
-    "footerTagline": "Technical Project Manager & Systems Engineer based in Dhaka, Bangladesh.",
+    "footerTagline": "Technical Project Manager based in Dhaka, Bangladesh.",
     "copyrightYear": 2026,
     "resumeUrl": "",
     "fontPair": "geometric"
   },
   "availability": {
     "status": "available",
-    "badgeText": "Open to Research & Advisory",
+    "badgeText": "Open to Opportunities",
     "typewriterRoles": [
       "Technical Project Manager",
-      "Systems & Infrastructure Engineer",
-      "Researcher & Springer Author",
-      "Cross-Functional Team Leader",
-      "Creative Technologist & Photographer"
+      "Training and Content Specialist",
+      "Technical Support Engineer",
+      "System Engineer"
     ]
   },
   "metrics": [
     {
       "id": "m-1",
       "number": "21",
-      "suffix": "+",
+      "suffix": "",
       "label": "Projects Managed",
-      "subtext": "SaaS, CRM & enterprise deliveries"
+      "subtext": "Around 21 projects, over 15 completed"
     },
     {
       "id": "m-2",
       "number": "95",
       "suffix": "%+",
       "label": "Client Satisfaction",
-      "subtext": "Consistent top CSAT scores"
+      "subtext": "Achieved client satisfaction of over 95%"
     },
     {
       "id": "m-3",
       "number": "25",
       "suffix": "+",
       "label": "Team Members Led",
-      "subtext": "Engineers, designers & QA"
+      "subtext": "Cross-functional teams of over 25 members"
     },
     {
       "id": "m-4",
-      "number": "7",
-      "suffix": "+",
-      "label": "Years in Tech",
-      "subtext": "Support, Systems & PM"
+      "number": "4",
+      "suffix": " Mo.",
+      "label": "Support Leaderboard",
+      "subtext": "Top-ranked on support leaderboard"
     }
   ],
   "awards": [
     {
       "id": "awd-1",
       "title": "Best Presentation Award",
-      "organization": "Springer International Conference CNC-2018",
+      "organization": "Conference titled 'CNC-2018' arranged by Springer",
       "year": "2018",
-      "description": "Conferred for presenting research on 'Prototype of Arduino-Based Robot Controlled via Android' published in Springer Advances in Intelligent Systems and Computing.",
-      "badge": "Springer Conference CNC"
+      "description": "Recognized as the best presentation for research on 'Prototype of Arduino based robot controlled using Android based remote controller software on smartphone' published in CNC-2018 arranged by Springer.",
+      "badge": "Springer CNC-2018"
     },
     {
       "id": "awd-2",
       "title": "Top-Ranked Technical Support Engineer",
       "organization": "Augmedix Bangladesh",
       "year": "2020 — 2021",
-      "description": "Ranked #1 on the US healthcare technical support leaderboard for 4 consecutive months with exemplary SLA compliance and clinician satisfaction.",
-      "badge": "Leaderboard #1 (4 Mo.)"
+      "description": "Top-ranked on support leaderboard for 4 months, managing tickets across platforms and ensuring SLA compliance.",
+      "badge": "Leaderboard (4 Months)"
     },
     {
       "id": "awd-3",
-      "title": "Academic Excellence & Merit",
-      "organization": "Govt. Shaheed BulBul College & Pabna Zilla School",
+      "title": "Academic Excellence",
+      "organization": "Govt. Shaheed BulBul College, Pabna & Pabna Zilla School, Pabna",
       "year": "2011 & 2013",
-      "description": "Achieved Perfect GPA 5.00/5.00 in both Secondary School Certificate (SSC) and Higher Secondary Certificate (HSC) board examinations.",
+      "description": "Achieved GPA 5.00/5.00 in Higher Secondary School Certificate (2013) and Secondary School Certificate (2011).",
       "badge": "GPA 5.00 / 5.00"
     }
   ],
@@ -135,21 +134,21 @@
   "expertise": [
     {
       "id": "exp-1",
-      "category": "Delivery & Strategy",
+      "category": "Project Management",
       "title": "Technical Project Management",
-      "description": "Managing 21+ concurrent projects across SaaS, CRM, and enterprise software. Proficient in requirements analysis, feasibility studies, timeline estimations, and stakeholder coordination."
+      "description": "Oversee phases of software development, including SaaS and CRM systems, from concept to delivery. Managed around 21 projects, lead cross-functional teams of over 25 members, and achieved client satisfaction of over 95%."
     },
     {
       "id": "exp-2",
-      "category": "Infrastructure & Systems",
-      "title": "Systems & Infrastructure",
-      "description": "Hands-on with TrueNAS, VMware, pfSense, Git, and Linux-based environments. Experienced in hardware procurement, SOHO networks, and server deployment."
+      "category": "Systems & Infrastructure",
+      "title": "Systems Engineering",
+      "description": "Designing and optimizing system configurations, computer hardware procurement and assembly, office computer network design, and deploying SOHO servers and routine maintenance."
     },
     {
       "id": "exp-3",
-      "category": "Content & Communication",
-      "title": "Technical Writing & Training",
-      "description": "Authored user guides, release notes, RFP responses, and tutorial content. Led cross-team training sessions and coordinated knowledge transfer across US and BD sites."
+      "category": "Training & Documentation",
+      "title": "Training & Content",
+      "description": "Prepare user guides, release notes, reference documentation, website tutorials, and responses to RFPs and business proposals. Train team members and manage cross-timezone communication."
     }
   ],
   "experience": [
@@ -158,15 +157,17 @@
       "company": "Mediusware Limited",
       "companyUrl": "https://mediusware.com",
       "role": "Technical Project Manager",
-      "period": "Aug 2024 — Present",
+      "period": "August 2024 - Present",
       "isCurrent": true,
       "bullets": [
-        "Managing ~21 projects; completed 15+ medium-to-large-scale deliveries with 95%+ client satisfaction.",
-        "Leading cross-functional teams of 25+ across SaaS, CRM, and enterprise software lifecycles.",
-        "Analysing requirements, developing technical solutions, and conducting feasibility studies with cross-team collaboration.",
-        "Preparing technical proposals, timeline estimations, and managing resource allocations.",
-        "Standardizing application development practices and frameworks within the organization.",
-        "Identifying and implementing reuse opportunities and developing prototypes to streamline project work."
+        "Managed around 21 projects and have completed over 15 medium to large scale projects, rests are still ongoing.",
+        "Achieved client satisfaction of over 95%.",
+        "Oversee phases of software development, including SaaS and CRM systems, from concept to delivery.",
+        "Lead and manage cross-functional teams of over 25 members.",
+        "Analyse requirements, develop technical solutions, and conduct feasibility studies with collaboration from different teams.",
+        "Prepare technical proposals and timeline estimations.",
+        "Standardize application development practices and frameworks within the organization.",
+        "Identify and implement reuse opportunities and develop prototypes to streamline project work."
       ]
     },
     {
@@ -174,14 +175,17 @@
       "company": "Therap BD Limited",
       "companyUrl": "https://therapservices.net",
       "role": "Training and Content Specialist",
-      "period": "Apr 2022 — May 2024",
+      "period": "April 2022 - May 2024",
       "isCurrent": false,
       "bullets": [
-        "Achieved personal CSAT score of 96% while resolving complex technical support tickets under tight SLAs.",
-        "Forwarded user feedback and suggestions to Product, development, and QA teams.",
-        "Coordinated and managed various projects with the US team; led multiple weekly cross-timezone syncs.",
-        "Trained newly hired team members and performed manual testing of newly introduced features.",
-        "Prepared responses to 'Request for Proposal' (RFP) for securing new contracts."
+        "Respond to Support Tickets as per SLA. For time zone differences, minimum response time from the BD site would be around 6 hours",
+        "Achieved personal CSAT score of 96%",
+        "Forward user feedback and suggestions to the Product team, developers, and testers.",
+        "Coordinate and manage various projects with the US team",
+        "Lead multiple weekly calls with the US team",
+        "Train newly hired team members",
+        "Manual testing of newly introduced features",
+        "Prepare responses to ‘Request for Proposal’ for gaining new contracts"
       ]
     },
     {
@@ -189,13 +193,14 @@
       "company": "Therap BD Limited",
       "companyUrl": "https://therapservices.net",
       "role": "Associate Training and Content Specialist",
-      "period": "Apr 2021 — Mar 2022",
+      "period": "April 2021 to March 2022",
       "isCurrent": false,
       "bullets": [
-        "Prepared user guides, release notes, and comprehensive reference documentation.",
-        "Developed innovative tutorials and written content for the official platform knowledge base.",
-        "Interacted with users to explain complex technical issues and communicated feedback to developers.",
-        "Prepared responses to RFPs and business proposals."
+        "Prepare user guides, release notes, and reference documentation",
+        "Develop innovative tutorials and written content for the website",
+        "Interact with users to explain complex technical issues",
+        "Communicate user feedback to developers to help design a better product",
+        "Prepare responses to RFPs and other business proposals"
       ]
     },
     {
@@ -203,13 +208,16 @@
       "company": "Augmedix Bangladesh",
       "companyUrl": "https://augmedix.com",
       "role": "Technical Support Engineer",
-      "period": "Oct 2020 — Mar 2021",
+      "period": "October 2020 to March 2021",
       "isCurrent": false,
       "bullets": [
-        "Provided real-time technical support to US-based healthcare providers (top-ranked on support leaderboard for 4 consecutive months).",
-        "Documented technical specifications for internal products and services.",
-        "Monitored and troubleshot Augmedix device network performance, diagnosing root causes.",
-        "Coordinated with local and global IT teams, EHR IT, and hospital stakeholders."
+        "Provide real-time technical support to US-based healthcare providers, managing tickets across platforms and ensuring SLA compliance (top-ranked on support leaderboard for 4 months).",
+        "Document technical specifications for products and services.",
+        "Lead and manage multiple projects concurrently.",
+        "Monitor and troubleshoot Augmedix device network performance, analyzing root causes.",
+        "Coordinate with local and global IT teams, EHR IT, and other stakeholders.",
+        "Conduct regular coordination calls with various teams.",
+        "Relay user feedback to the product and development teams."
       ]
     },
     {
@@ -217,25 +225,30 @@
       "company": "DIVI Hosting, Netherlands",
       "companyUrl": "",
       "role": "Administrative Manager, Finance and IT",
-      "period": "Apr 2020 — Feb 2021",
+      "period": "April 2020 to February 2021",
       "isCurrent": false,
       "bullets": [
-        "Maintained company documentation, bookkeeping, and project milestones.",
-        "Tracked expenses and invoices; streamlined client and developer communications.",
-        "Negotiated with prospective clients and coordinated with IT and infrastructure vendors."
+        "Maintain different documentation",
+        "Company bookkeeping",
+        "Project management",
+        "Expenses and invoice tracking",
+        "Communication with clients and developer teams",
+        "Communication with potential clients for negotiation",
+        "Communication with different vendors for IT and operational support"
       ]
     },
     {
       "id": "job-6",
       "company": "Innovation Soft",
       "companyUrl": "",
-      "role": "System Engineer (Part Time)",
-      "period": "Sep 2015 — Dec 2017",
+      "role": "System Engineer [Part Time]",
+      "period": "September 2015 to December 2017",
       "isCurrent": false,
       "bullets": [
-        "Designed and optimized custom system configurations based on client specifications.",
-        "Procured and assembled computer systems; designed small-scale office local networks.",
-        "Deployed SOHO servers and executed routine network maintenance."
+        "Designing and optimizing system configurations as per requirements",
+        "Procuring and assembling computers",
+        "Designing small scale office computer network",
+        "Deploying SOHO servers and run routine maintenance"
       ]
     }
   ],
@@ -245,41 +258,39 @@
       "category": "research",
       "title": "Effects of COVID-19 on Organizational Workflow and Employee Hiring Policies",
       "year": "2021",
-      "description": "MBA final report examining how the pandemic reshaped employee hiring policies and organizational workflows, with case-study analysis and strategic HR framework recommendations.",
+      "description": "Final Report for Masters of Business Administration at University of Dhaka.",
       "tags": [
-        "HR Management",
-        "Organizational Behavior",
-        "COVID-19",
-        "Research"
+        "MBA",
+        "HR and Management",
+        "University of Dhaka"
       ],
       "link": ""
     },
     {
       "id": "proj-2",
       "category": "research",
-      "title": "Agricultural Yield Prediction Using Data Analysis Techniques",
+      "title": "Agricultural yield prediction using Data Analysis techniques.",
       "year": "2019",
-      "description": "Undergraduate thesis at BRAC University exploring machine learning and statistical data analysis techniques for predicting crop yields from environmental parameters.",
+      "description": "Thesis for B.Sc in Computer Science and Engineering at BRAC University.",
       "tags": [
         "Data Analysis",
-        "Machine Learning",
-        "Agriculture",
-        "Python"
+        "Computer Science",
+        "BRAC University"
       ],
       "link": ""
     },
     {
       "id": "proj-3",
       "category": "publication",
-      "title": "Prototype of Arduino-Based Robot Controlled via Android",
+      "title": "Prototype of Arduino based robot controlled using Android based remote controller software on smartphone.",
       "year": "CNC-2018",
-      "description": "Published in Springer conference CNC-2018. Demonstrates a wheel-based robot controlled using a custom Android application over Bluetooth. Awarded Best Presentation.",
+      "description": "Published in a conference titled ‘CNC-2018’ arranged by Springer. Recognized as the best presentation.",
       "tags": [
         "Arduino",
         "Android",
-        "Bluetooth",
-        "Robotics",
-        "Springer"
+        "Springer",
+        "CNC-2018",
+        "Robotics"
       ],
       "badge": "Best Presentation",
       "link": ""
@@ -287,120 +298,75 @@
     {
       "id": "proj-4",
       "category": "software",
-      "title": "DroidBot — Android-Controlled Wheel Robot",
-      "year": "2018",
-      "description": "A wheel-based robot controllable via a custom Android application. Uses Bluetooth communication between the mobile app and the embedded Arduino controller.",
+      "title": "MovieDB: An IMDB like offline movie database.",
+      "year": "University Project",
+      "description": "An IMDB like offline movie database.",
       "tags": [
-        "Arduino",
-        "Android",
-        "Bluetooth",
-        "Robotics"
+        "Database",
+        "University Project"
       ],
       "link": ""
     },
     {
       "id": "proj-5",
       "category": "software",
-      "title": "Shech Jontro — Automated Field Watering System",
-      "year": "2018",
-      "description": "An IoT-based automated irrigation system designed to water agricultural fields based on soil moisture sensor readings. Reduces water waste and manual intervention.",
+      "title": "FactoCalc: A calculator coded using the Assembly language.",
+      "year": "University Project",
+      "description": "A calculator coded using the Assembly language.",
       "tags": [
-        "IoT",
-        "Arduino",
-        "Sensors",
-        "Agriculture"
+        "Assembly Language",
+        "University Project"
       ],
       "link": ""
     },
     {
       "id": "proj-6",
       "category": "software",
-      "title": "Parking Koi — Smart Guided Parking System",
-      "year": "2018",
-      "description": "A guided parking management system for large-scale public parking lots. Uses real-time slot availability data to guide drivers to the nearest available space.",
+      "title": "DroidBot: A wheel-based robot controllable via Android based devices.",
+      "year": "University Project",
+      "description": "A wheel-based robot controllable via Android based devices.",
       "tags": [
-        "Embedded Systems",
-        "Sensors",
-        "Smart Infrastructure"
+        "Android",
+        "Robotics",
+        "University Project"
       ],
       "link": ""
     },
     {
       "id": "proj-7",
       "category": "software",
-      "title": "MovieDB — Offline Movie Database",
-      "year": "2017",
-      "description": "An IMDB-inspired offline movie database application. Allows users to browse, search, and manage a local movie library with cast, genre, ratings, and synopsis metadata.",
+      "title": "Shech Jontro: An automated field watering system.",
+      "year": "University Project",
+      "description": "An automated field watering system.",
       "tags": [
-        "Java",
-        "MySQL",
-        "Desktop App"
+        "Automation",
+        "Hardware",
+        "University Project"
       ],
       "link": ""
     },
     {
       "id": "proj-8",
       "category": "software",
-      "title": "Budget Ninja — Android Expense Tracker",
-      "year": "2017",
-      "description": "A personal budgeting and expense tracking Android application enabling users to set monthly limits, log daily spending, and visualize category charts.",
+      "title": "Parking Koi: A guided parking system for large scale public parking lots.",
+      "year": "University Project",
+      "description": "A guided parking system for large scale public parking lots.",
       "tags": [
-        "Android",
-        "Java",
-        "SQLite",
-        "Finance"
+        "Guided Parking",
+        "University Project"
       ],
       "link": ""
     },
     {
       "id": "proj-9",
       "category": "software",
-      "title": "FactoCalc — Assembly Language Calculator",
-      "year": "2016",
-      "description": "A low-level calculator application coded in x86 Assembly language supporting arithmetic and factorial computation.",
+      "title": "Budget Ninja: An android application for budgeting and tracking expenses.",
+      "year": "University Project",
+      "description": "An android application for budgeting and tracking expenses.",
       "tags": [
-        "Assembly",
-        "x86",
-        "Low-Level Programming"
-      ],
-      "link": ""
-    },
-    {
-      "id": "proj-10",
-      "category": "volunteer",
-      "title": "Volunteer Referee — Regional eSports Tournament",
-      "year": "University",
-      "description": "Managed regional event operations for a major telecom-sponsored eSports tournament, enforcing tournament rules and fair play.",
-      "tags": [
-        "eSports",
-        "Event Management",
-        "Operations"
-      ],
-      "link": ""
-    },
-    {
-      "id": "proj-11",
-      "category": "volunteer",
-      "title": "Social Media Manager & Content Creator — Rantages",
-      "year": "University",
-      "description": "Handled social media accounts and content creation for a humor-based model. Collaborated with iflix and Pathao on marketing campaigns and tracked metrics via Excel.",
-      "tags": [
-        "Social Media",
-        "Content Creation",
-        "Campaign Analytics"
-      ],
-      "link": ""
-    },
-    {
-      "id": "proj-12",
-      "category": "volunteer",
-      "title": "Organizer & Creative Planner — Poromporai Amra",
-      "year": "University",
-      "description": "Core organizing committee member for non-profit Poromporai Amra. Spearheaded thematic planning and creative direction for a university festival.",
-      "tags": [
-        "Non-Profit",
-        "Event Planning",
-        "Creative Direction"
+        "Android",
+        "Budgeting",
+        "University Project"
       ],
       "link": ""
     }
@@ -409,97 +375,123 @@
     {
       "id": "edu-1",
       "degree": "Masters of Business Administration",
-      "field": "HR and Management",
+      "field": "(HR and Management)",
       "institution": "University of Dhaka",
       "year": "2021",
-      "grade": "CGPA 3.73 / 4.00"
+      "grade": "CGPA: 3.73/4.00"
     },
     {
       "id": "edu-2",
       "degree": "B.Sc in Computer Science & Engineering",
-      "field": "Computer Science",
+      "field": "Computer Science & Engineering",
       "institution": "BRAC University",
       "year": "2019",
-      "grade": "CGPA 3.25 / 4.00"
+      "grade": "CGPA: 3.25/4.00"
     },
     {
       "id": "edu-3",
       "degree": "Higher Secondary School Certificate",
-      "field": "Science",
+      "field": "Higher Secondary",
       "institution": "Govt. Shaheed BulBul College, Pabna",
       "year": "2013",
-      "grade": "GPA 5.00 / 5.00"
+      "grade": "GPA: 5.00/5.00"
     },
     {
       "id": "edu-4",
       "degree": "Secondary School Certificate",
-      "field": "General",
+      "field": "Secondary",
       "institution": "Pabna Zilla School, Pabna",
       "year": "2011",
-      "grade": "GPA 5.00 / 5.00"
+      "grade": "GPA: 5.00/5.00"
     }
   ],
   "skills": {
     "technical": [
       "Microsoft Office Suite",
       "Google Workspace",
-      "HTML",
-      "LaTeX",
-      "Java",
-      "C",
-      "MySQL",
-      "Git",
-      "TrueNAS",
-      "VMware",
-      "pfSense",
-      "Windows Server",
-      "Ubuntu / Debian Linux",
-      "macOS",
-      "Computer Hardware",
-      "Computer Networking"
+      "Windows, Windows Server, Ubuntu, MAC, and other Debian based distros",
+      "HTML, LaTex",
+      "Java, C, MySql",
+      "TrueNas, Vmware, PFSense. Git",
+      "Computer hardware",
+      "Computer networking",
+      "Technical writing"
     ],
     "professional": [
-      "Technical Writing",
-      "Team Leadership",
-      "Time Management",
-      "Goal-Driven",
-      "Detail-Oriented",
-      "Problem Solving",
-      "Multi-Tasking",
-      "Works Under Pressure",
-      "Quick Learner"
+      "Team player",
+      "Time management",
+      "Goal driven",
+      "Detail oriented",
+      "Ability to meet deadlines",
+      "Ability to work under pressure",
+      "Multi-tasking",
+      "Problem solver",
+      "Quick learner"
     ],
     "creative": [
       "Photography",
-      "Adobe Lightroom",
-      "Adobe Photoshop"
+      "Adobe Lightroom and Adobe Photoshop"
     ],
     "languages": [
-      "Bengali — Native",
-      "English — Fluent"
+      "Bengali: Native",
+      "English: Fluent"
     ]
   },
   "extraCurriculars": [
     {
       "id": "extra-1",
-      "icon": "ðŸ“¸",
-      "category": "Creative",
-      "title": "Photography & Visual Arts",
-      "description": "Capturing moments and stories through the lens. Proficient in digital post-processing with Adobe Lightroom and Photoshop."
+      "icon": "🏛️",
+      "category": "Activities",
+      "title": "University Clubbing",
+      "description": "University Clubbing"
     },
     {
       "id": "extra-2",
-      "icon": "ðŸŽ¤",
-      "category": "Academic",
-      "title": "Debating & Public Speaking",
-      "description": "Active university debater — sharpening critical thinking, argumentation, and public speaking skills across competitive forums."
+      "icon": "📸",
+      "category": "Creative",
+      "title": "Photography",
+      "description": "Photography"
     },
     {
       "id": "extra-3",
-      "icon": "ðŸ“",
+      "icon": "🎙️",
+      "category": "Speech",
+      "title": "Debating",
+      "description": "Debating"
+    },
+    {
+      "id": "extra-4",
+      "icon": "🤝",
+      "category": "Community",
+      "title": "Volunteer works",
+      "description": "Volunteer works"
+    },
+    {
+      "id": "extra-5",
+      "icon": "✍️",
       "category": "Writing",
-      "title": "Tech Columnist & Writing",
-      "description": "Writing about technology, culture, and organizational leadership. Active community contributor and technical translator."
+      "title": "Tech columnist",
+      "description": "Tech columnist"
+    }
+  ],
+  "references": [
+    {
+      "id": "ref-1",
+      "name": "Sayed Foisal Ahmed",
+      "title": "Sr. Technical Support Engineer",
+      "company": "Torpedo Labs",
+      "email": "sayed@torpedolabs.com",
+      "secondaryEmail": "sayedfoisal@yahoo.com",
+      "phone": "+8801709219600"
+    },
+    {
+      "id": "ref-2",
+      "name": "Shameer Azmi",
+      "title": "Technical Artist",
+      "company": "TorpedoLabs Inc.",
+      "location": "Las Vegas, NV 89138, USA",
+      "email": "shameer@torpedolabs.com",
+      "phone": "(437) 667 3578"
     }
   ],
   "recommendations": [
@@ -1135,5 +1127,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-  "_savedAt": "2026-09-03T09:35:22.171Z"
+  "_savedAt": "2026-09-07T00:05:00.000Z"
 }
