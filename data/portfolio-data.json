@@ -1127,7 +1127,7 @@
         "url": "mailto:fazal.mahmud.hassan@gmail.com"
       }
     ],
-    "brandText": "FMH11"
+    "brandText": "FMH"
   },
   "seo": {
     "siteTitle": "Fazal Mahmud Hassan — Technical Project Manager",
@@ -1138,9 +1138,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-<<<<<<< HEAD
   "_savedAt": "2026-09-07T19:07:00.000Z"
-=======
-  "_savedAt": "2026-09-07T15:56:16.395Z"
->>>>>>> a7d3b4f0daa8992c381fe752228304f4986d39ab
 }
