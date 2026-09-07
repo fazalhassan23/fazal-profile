@@ -204,11 +204,19 @@
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
           const parsed = JSON.parse(saved);
+          const now = Date.now();
           const defaultTime = defaults._savedAt ? new Date(defaults._savedAt).getTime() : 0;
           const savedTime = parsed._savedAt ? new Date(parsed._savedAt).getTime() : 0;
-          if (defaultTime >= savedTime) {
+
+          // If the user has active unsynced local drafts, local edits ALWAYS take precedence!
+          if (parsed._hasLocalChanges) {
+            return mergeSchema(defaults, parsed);
+          }
+
+          // Only if defaults is STRICTLY newer than local cache, AND not a future skewed timestamp,
+          // AND user does not have local changes, do we allow defaults to seed new schema keys.
+          if (defaultTime > savedTime && defaultTime <= now + 60000) {
             const merged = mergeSchema(defaults, parsed);
-            // If default is newer, ensure experience, education, projects, skills come from newer defaults
             merged.experience = defaults.experience || [];
             merged.education = defaults.education || [];
             merged.projects = defaults.projects || [];
@@ -259,15 +267,19 @@
               console.warn('[PortfolioStore] Failed to parse localStorage in fetchServerData:', e);
             }
 
-            // Timestamp comparison: if server data is newer or equal (or local has no _savedAt), server wins!
+            const now = Date.now();
             const serverTime = serverMerged._savedAt ? new Date(serverMerged._savedAt).getTime() : 0;
             const localTime = (localData && localData._savedAt) ? new Date(localData._savedAt).getTime() : 0;
 
             let finalData;
-            if (!localData || serverTime >= localTime) {
+            // If local data exists and has uncommitted local CMS changes, local takes precedence!
+            if (localData && localData._hasLocalChanges) {
+              finalData = mergeSchema(defaults, localData);
+            } else if (!localData || (serverTime > localTime && serverTime <= now + 60000)) {
+              // Server is strictly newer and has a valid (non-future) timestamp
               finalData = serverMerged;
             } else {
-              // Local is strictly newer (uncommitted local draft in active CMS session)
+              // Local is at least as new as server
               finalData = mergeSchema(defaults, localData);
             }
 
@@ -312,15 +324,16 @@
     /**
      * Save updated portfolio data to localStorage and sync with server API
      * @param {Object} data
-     * @returns {Promise<{ success: boolean, serverSynced?: boolean, error?: string }>}
+     * @returns {Promise<{ success: boolean, serverSynced?: boolean, localFileSaved?: boolean, error?: string }>}
      */
     saveData: async function (data) {
       if (!data || typeof data !== 'object') {
         return { success: false, error: 'Invalid data payload provided.' };
       }
 
-      // Stamp timestamp
+      // Stamp timestamp and mark as having local changes
       data._savedAt = new Date().toISOString();
+      data._hasLocalChanges = true;
 
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -330,15 +343,45 @@
         return { success: false, error: e.message || 'LocalStorage write error.' };
       }
 
-      // Sync to GitHub repo via Contents API
       let serverSynced = false;
+      let localFileSaved = false;
       let syncError = null;
+
+      // 1. If running on localhost / 127.0.0.1, attempt local dev server save API to persist directly to data/portfolio-data.json
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        try {
+          const localRes = await fetch('/api/save', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data, null, 2)
+          });
+          if (localRes.ok) {
+            const resJson = await localRes.json().catch(() => ({}));
+            if (resJson.success) {
+              localFileSaved = true;
+              serverSynced = true;
+              data._hasLocalChanges = false;
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            }
+          }
+        } catch (e) {
+          console.info('[PortfolioStore] Local dev server /api/save not available, will try GitHub API.');
+        }
+      }
+
+      // 2. Sync to GitHub repo via Contents API if token is configured
       const token = localStorage.getItem(GITHUB_TOKEN_KEY);
 
       if (!token) {
-        syncError = 'No GitHub token configured in Settings.';
+        if (!serverSynced) {
+          syncError = 'No GitHub token configured in Settings.';
+        }
       } else if (window.location.protocol === 'file:') {
-        syncError = 'File:// protocol detected. Server sync requires running on HTTP/HTTPS.';
+        if (!serverSynced) {
+          syncError = 'File:// protocol detected. Server sync requires running on HTTP/HTTPS.';
+        }
       } else {
         try {
           const shaResult = await this.getFileSha(token);
@@ -369,6 +412,8 @@
           const result = await res.json();
           if (res.ok && result.content) {
             serverSynced = true;
+            data._hasLocalChanges = false;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
           } else {
             syncError = result.message || `GitHub API returned HTTP ${res.status}`;
             console.warn('[PortfolioStore] GitHub API save failed:', syncError);
@@ -379,7 +424,12 @@
         }
       }
 
-      return { success: true, serverSynced: serverSynced, error: syncError };
+      return {
+        success: true,
+        serverSynced: serverSynced,
+        localFileSaved: localFileSaved,
+        error: syncError
+      };
     },
 
     /**

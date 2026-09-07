@@ -2348,11 +2348,13 @@ function initAdminApp() {
       window._adminSaveInProgress = false;
 
       if (res.success) {
-        if (res.serverSynced) {
+        if (res.localFileSaved) {
+          showToast('💾 Saved directly to data/portfolio-data.json on disk!');
+        } else if (res.serverSynced) {
           showToast('🚀 All changes saved and committed to GitHub! Live in ~30s.');
         } else {
-          const errMsg = res.error ? `Sync failed: ${res.error}` : 'Configure a GitHub token in Settings to sync live.';
-          showToast(`💾 Changes saved locally. (${errMsg})`, 'error');
+          const errMsg = res.error ? `(${res.error})` : '';
+          showToast(`💾 Changes saved in browser storage. ${errMsg}`);
         }
       } else {
         window._adminSaveInProgress = false;
