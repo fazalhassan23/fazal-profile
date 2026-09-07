@@ -1420,7 +1420,7 @@ function initAdminApp() {
 
       const updated = { ...job, role, company, companyUrl, period, isCurrent, bullets };
       if (isNew) {
-        data.experience.push(updated);
+        data.experience.unshift(updated);
       } else {
         data.experience[index] = updated;
       }

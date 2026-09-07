@@ -267,20 +267,28 @@
               console.warn('[PortfolioStore] Failed to parse localStorage in fetchServerData:', e);
             }
 
+            const isPublicPage = !window.location.pathname.toLowerCase().includes('admin');
             const now = Date.now();
             const serverTime = serverMerged._savedAt ? new Date(serverMerged._savedAt).getTime() : 0;
             const localTime = (localData && localData._savedAt) ? new Date(localData._savedAt).getTime() : 0;
 
             let finalData;
-            // If local data exists and has uncommitted local CMS changes, local takes precedence!
-            if (localData && localData._hasLocalChanges) {
+            // On public pages, always prioritize fresh server data
+            if (isPublicPage) {
+              finalData = (serverTime >= localTime || !localData) ? serverMerged : mergeSchema(defaults, localData);
+            } else if (localData && localData._hasLocalChanges) {
+              // In CMS admin, local unsaved drafts take precedence during editing
               finalData = mergeSchema(defaults, localData);
-            } else if (!localData || (serverTime > localTime && serverTime <= now + 60000)) {
-              // Server is strictly newer and has a valid (non-future) timestamp
+            } else if (!localData || (serverTime >= localTime && serverTime <= now + 60000)) {
+              // Server is at least as new as local
               finalData = serverMerged;
             } else {
-              // Local is at least as new as server
+              // Local is newer than server
               finalData = mergeSchema(defaults, localData);
+            }
+
+            if (finalData === serverMerged) {
+              finalData._hasLocalChanges = false;
             }
 
             localStorage.setItem(STORAGE_KEY, JSON.stringify(finalData));
@@ -331,7 +339,7 @@
         return { success: false, error: 'Invalid data payload provided.' };
       }
 
-      // Stamp timestamp and mark as having local changes
+      // Stamp timestamp and mark as having local changes in local storage
       data._savedAt = new Date().toISOString();
       data._hasLocalChanges = true;
 
@@ -342,6 +350,10 @@
         console.error('[PortfolioStore] Local save failed:', e);
         return { success: false, error: e.message || 'LocalStorage write error.' };
       }
+
+      // Prepare clean server payload without transient client dirty flag
+      const diskPayload = deepClone(data);
+      delete diskPayload._hasLocalChanges;
 
       let serverSynced = false;
       let localFileSaved = false;
@@ -355,7 +367,7 @@
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data, null, 2)
+            body: JSON.stringify(diskPayload, null, 2)
           });
           if (localRes.ok) {
             const resJson = await localRes.json().catch(() => ({}));
@@ -390,7 +402,7 @@
             console.warn('[PortfolioStore] Failed to get SHA:', shaResult.error);
           }
 
-          const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+          const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(diskPayload, null, 2))));
 
           const body = {
             message: 'chore: CMS update via admin panel',

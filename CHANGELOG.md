@@ -3,6 +3,23 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.3.3] — 2026-09-08
+
+> Branch: `main` — Fix Newly Added Job Experience Not Displaying at Top of Frontend & Cache Priority.
+
+### Fixed
+
+#### Job Experience Chronological Timeline Ordering
+- **Reverse Chronological Placement**: Fixed `js/admin.js` to insert newly added job positions at the top of the `data.experience` array (`unshift`) rather than appending to the end (`push`).
+- **Guaranteed Current Role Prioritization**: Enhanced `renderExperience()` in `js/render.js` to sort items so that positions marked with `isCurrent: true` always appear first at the top of both `#home-experience-container` and `#full-experience-container`.
+- **Top Position Updated**: Positioned `"Senior Technical Project Manager"` at Mediusware Limited (`job-1788807858515`) at index 0 of `data/portfolio-data.json` and `data/default-data.js`.
+
+#### Client Cache & Server Data Synchronization
+- **Sanitized Server Payload**: Refined `saveData()` in `js/store.js` to strip the internal transient `_hasLocalChanges` flag before writing to disk or syncing to GitHub, preventing the production JSON file from permanently locking browser caches into stale states.
+- **Frontend Live Data Priority**: Updated `fetchServerData()` in `js/store.js` so that public visitor pages (`index.html`, `about.html`, `projects.html`) always prioritize fresh server data whenever `serverTime >= localTime`, eliminating stale `localStorage` lockouts.
+
+---
+
 ## [2.3.2] — 2026-09-08
 
 > Branch: `main` — Fix CMS Edit and Delete Action Buttons Across All Content Managers.

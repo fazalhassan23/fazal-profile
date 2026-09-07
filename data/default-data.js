@@ -166,6 +166,22 @@ window.DEFAULT_PORTFOLIO_DATA = {
   ],
   "experience": [
     {
+      "id": "job-1788807858515",
+      "company": "Mediusware Limited",
+      "companyUrl": "https://mediusware.com",
+      "role": "Senior Technical Project Manager",
+      "period": "September 2026",
+      "isCurrent": true,
+      "bullets": [
+        "Initial workflow for client onboarding",
+        "Initial discovery for client projects",
+        "Overseeing project teams and resolving their issues or blockers",
+        "Optimization of Standard Operating Procedures",
+        "Optimization of RFP workflow",
+        "Standardizing SLAs"
+      ]
+    },
+    {
       "id": "job-1",
       "company": "Mediusware Limited",
       "companyUrl": "https://mediusware.com",

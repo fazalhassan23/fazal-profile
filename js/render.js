@@ -153,16 +153,27 @@
   }
 
   function renderExperience(experience) {
+    if (!Array.isArray(experience)) return;
+
+    // Ensure Current roles appear at the top of the timeline
+    const sorted = [...experience].sort((a, b) => {
+      const aCurrent = Boolean(a && a.isCurrent);
+      const bCurrent = Boolean(b && b.isCurrent);
+      if (aCurrent && !bCurrent) return -1;
+      if (!aCurrent && bCurrent) return 1;
+      return 0;
+    });
+
     // All experience on homepage (latest first)
     const homeContainer = document.getElementById('home-experience-container');
-    if (homeContainer && Array.isArray(experience)) {
-      homeContainer.innerHTML = experience.map(job => renderTimelineItem(job)).join('');
+    if (homeContainer) {
+      homeContainer.innerHTML = sorted.map(job => renderTimelineItem(job)).join('');
     }
 
     // Full timeline (about.html)
     const fullContainer = document.getElementById('full-experience-container');
-    if (fullContainer && Array.isArray(experience)) {
-      fullContainer.innerHTML = experience.map(job => renderTimelineItem(job)).join('');
+    if (fullContainer) {
+      fullContainer.innerHTML = sorted.map(job => renderTimelineItem(job)).join('');
     }
   }
 
