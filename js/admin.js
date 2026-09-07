@@ -456,10 +456,10 @@ function initAdminApp() {
           </p>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveNavItem" data-arg0="arg" data-arg1="-1" ${idx === 0 ? 'disabled' : ''} title="Move Up">↑</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveNavItem" data-arg0="arg" data-arg1="1" ${idx === items.length - 1 ? 'disabled' : ''} title="Move Down">↓</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editNavItem" data-arg0="arg">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteNavItem" data-arg0="arg">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveNavItem" data-arg0="${idx}" data-arg1="-1" ${idx === 0 ? 'disabled' : ''} title="Move Up">↑</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveNavItem" data-arg0="${idx}" data-arg1="1" ${idx === items.length - 1 ? 'disabled' : ''} title="Move Down">↓</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editNavItem" data-arg0="${idx}">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteNavItem" data-arg0="${idx}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -712,8 +712,8 @@ function initAdminApp() {
           <h4 class="admin-item-title">${PortfolioUtils.escapeHtml(link.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${PortfolioUtils.escapeHtml(link.url)})</span></h4>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editFooterLink" data-arg0="arg">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteFooterLink" data-arg0="arg">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editFooterLink" data-arg0="${idx}">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteFooterLink" data-arg0="${idx}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -791,8 +791,8 @@ function initAdminApp() {
           <h4 class="admin-item-title">${PortfolioUtils.escapeHtml(link.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${PortfolioUtils.escapeHtml(link.url)})</span></h4>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editFooterSocial" data-arg0="arg">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteFooterSocial" data-arg0="arg">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editFooterSocial" data-arg0="${idx}">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteFooterSocial" data-arg0="${idx}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -966,8 +966,8 @@ function initAdminApp() {
           <p>${PortfolioUtils.escapeHtml(awd.organization)} · <span style="color:var(--adm-accent)">${PortfolioUtils.escapeHtml(awd.year)}</span></p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editAward" data-arg0="arg">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteAward" data-arg0="arg">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editAward" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteAward" data-arg0="${index}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1246,8 +1246,8 @@ function initAdminApp() {
           <p>${PortfolioUtils.escapeHtml(art.date)} · <span style="color:var(--adm-muted)">${PortfolioUtils.escapeHtml(art.readTime || '5 min read')}</span></p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editArticle" data-arg0="arg">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteArticle" data-arg0="arg">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editArticle" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteArticle" data-arg0="${index}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1355,8 +1355,8 @@ function initAdminApp() {
           <p>${PortfolioUtils.escapeHtml(job.period)}</p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editExperience" data-arg0="arg">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteExperience" data-arg0="arg">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editExperience" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteExperience" data-arg0="${index}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1453,8 +1453,8 @@ function initAdminApp() {
           <p>${PortfolioUtils.escapeHtml(proj.year)}</p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editProject" data-arg0="arg">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteProject" data-arg0="arg">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editProject" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteProject" data-arg0="${index}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1560,8 +1560,8 @@ function initAdminApp() {
           <p>${PortfolioUtils.escapeHtml(edu.institution)} · <span style="color:var(--adm-accent)">${PortfolioUtils.escapeHtml(edu.year)}</span></p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editEducation" data-arg0="arg">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteEducation" data-arg0="arg">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editEducation" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteEducation" data-arg0="${index}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1650,7 +1650,7 @@ function initAdminApp() {
       container.innerHTML = items.map((skill, idx) => `
         <span class="tag-pill">
           ${PortfolioUtils.escapeHtml(skill)}
-          <button type="button" data-action="removeSkillTag" data-arg0="arg" data-arg1="arg" title="Remove skill">&times;</button>
+          <button type="button" data-action="removeSkillTag" data-arg0="${cat}" data-arg1="${idx}" title="Remove skill">&times;</button>
         </span>
       `).join('');
     });
@@ -1703,12 +1703,12 @@ function initAdminApp() {
           <p class="admin-item-excerpt" style="font-size:0.85rem; color:var(--adm-muted); margin-top:0.25rem;">"${PortfolioUtils.escapeHtml(rec.text.slice(0, 120))}${rec.text.length > 120 ? '...' : ''}"</p>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveRecommendation" data-arg0="arg" data-arg1="-1" ${idx === 0 ? 'disabled' : ''}>▲</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveRecommendation" data-arg0="arg" data-arg1="1" ${idx === list.length - 1 ? 'disabled' : ''}>▼</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="toggleRecommendationFeatured" data-arg0="arg">${rec.featured ? 'Unstar' : 'Star'}</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="toggleRecommendationVisible" data-arg0="arg">${rec.visible !== false ? 'Hide' : 'Show'}</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editRecommendation" data-arg0="arg">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteRecommendation" data-arg0="arg">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveRecommendation" data-arg0="${idx}" data-arg1="-1" ${idx === 0 ? 'disabled' : ''}>▲</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveRecommendation" data-arg0="${idx}" data-arg1="1" ${idx === list.length - 1 ? 'disabled' : ''}>▼</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="toggleRecommendationFeatured" data-arg0="${idx}">${rec.featured ? 'Unstar' : 'Star'}</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="toggleRecommendationVisible" data-arg0="${idx}">${rec.visible !== false ? 'Hide' : 'Show'}</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editRecommendation" data-arg0="${idx}">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteRecommendation" data-arg0="${idx}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -2500,10 +2500,12 @@ function initAdminApp() {
     if (!btn) return;
     const action = btn.getAttribute('data-action');
     if (action && typeof window[action] === 'function') {
+      const hasArg0 = btn.hasAttribute('data-arg0');
+      const hasArg1 = btn.hasAttribute('data-arg1');
       const arg0Str = btn.getAttribute('data-arg0');
       const arg1Str = btn.getAttribute('data-arg1');
-      const arg0 = arg0Str ? (isNaN(arg0Str) ? arg0Str : parseInt(arg0Str, 10)) : undefined;
-      const arg1 = arg1Str ? (isNaN(arg1Str) ? arg1Str : parseInt(arg1Str, 10)) : undefined;
+      const arg0 = hasArg0 ? (isNaN(arg0Str) ? arg0Str : parseInt(arg0Str, 10)) : undefined;
+      const arg1 = hasArg1 ? (isNaN(arg1Str) ? arg1Str : parseInt(arg1Str, 10)) : undefined;
       if (arg1 !== undefined) {
         window[action](arg0, arg1);
       } else if (arg0 !== undefined) {

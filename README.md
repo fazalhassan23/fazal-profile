@@ -2,7 +2,7 @@
 
 > A zero-dependency, production-grade personal portfolio built entirely on **Vanilla HTML5, modern CSS, and plain JavaScript** — no frameworks, no bundlers, no build steps. Includes a fully client-side Content Management System (CMS) with SHA-256 authentication, a custom WYSIWYG rich-text editor, a dual-mode animated canvas background, and an optional PHP flat-file persistence API.
 
-**Current Version**: `v2.3.1` | **License**: MIT
+**Current Version**: `v2.3.2` | **License**: MIT
 
 ---
 
@@ -260,6 +260,7 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 
 | Version | Date | Summary |
 |---|---|---|
+| v2.3.2 | 2026-09-08 | **CMS Edit & Delete Action Buttons**: Fixed broken `data-arg0` attributes across all 10 CMS list managers in `js/admin.js` to ensure item indexes are passed to modal editors and deletion handlers |
 | v2.3.1 | 2026-09-08 | **CMS Persistence & Local Dev Server**: Fixed admin panel refresh data loss, added `_hasLocalChanges` draft protection, clock-skew guard, and added `server.py` flat-file save API for local development |
 | v2.3.0 | 2026-09-07 | **CV Synchronization, Full Career Timeline & Web3Forms**: Strict CV sync (zero imagined data), all 6 positions on homepage, serverless background contact delivery via Web3Forms with mailto fallback, GPU keyframe pagination transitions, production backup tag |
 | v2.2.2 | 2026-09-03 | **CMS Data Synchronization**: First Name single source of truth for logo text, opportunistic GitHub PAT save, restored missing DOM bindings |
@@ -288,7 +289,7 @@ This table tracks which features and fixes were developed on which Git branches.
 
 | Branch | Based On | Date | Files Changed | Feature / Fix |
 |---|---|---|---|---|
-| `main` | — | 2026-09-08 | `server.py`, `js/store.js`, `js/admin.js`, `data/default-data.js` | Fixed CMS persistence on refresh, added local development flat-file save API (`server.py`), and established production JSON isolation |
+| `main` | — | 2026-09-08 | `js/admin.js`, `server.py`, `js/store.js`, `data/default-data.js` | Fixed CMS list action buttons (Edit/Delete) across all managers, fixed persistence on refresh, added local dev flat-file save API (`server.py`), and established production JSON isolation |
 | `cv` | `main` | 2026-09-07 | `data/*.{json,js}`, `js/*.js`, `*.html`, `css/style.css` | Strict CV synchronization, all 6 positions on homepage, Web3Forms serverless delivery, recommendation pagination keyframe animations, merged into `main` |
 | `main-backup-20260907` | `main` | 2026-09-07 | Snapshot of `main` at `72317c3` | Safety backup branch and tag `backup-main-20260907` created prior to CV release merge |
 | `main` | `Worked-from-office` | 2026-09-01 | `js/*.js`, `css/style.css`, `CHANGELOG.md` | Extensive codebase audit and refactoring (event delegation, data-driven strings, utilities deduplication, magic numbers, recommendation UI enhancements, and CMS visibility toggles) |

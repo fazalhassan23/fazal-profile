@@ -3,6 +3,18 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.3.2] — 2026-09-08
+
+> Branch: `main` — Fix CMS Edit and Delete Action Buttons Across All Content Managers.
+
+### Fixed
+
+#### CMS List Actions & Event Delegation
+- **Dynamic Index Restoration**: Fixed broken `data-arg0` attributes across all 10 CMS list managers in `js/admin.js` (Experience, Projects, Education, Awards, Articles, Navigation, Footer Links, Footer Socials, Recommendations, Skills). An earlier script had replaced template literal indexes with the literal string `"arg"`, causing `undefined` item lookups and unhandled runtime exceptions on click.
+- **Robust Event Delegation**: Enhanced the global click handler in `js/admin.js` using `btn.hasAttribute('data-argX')` so index `0`, negative directional offsets (`-1`, `1`), and string category arguments are reliably parsed and dispatched to modal editor and deletion functions.
+
+---
+
 ## [2.3.1] — 2026-09-08
 
 > Branch: `main` — CMS Admin Panel Persistence, Local Dev Server Flat-File Save API, and Production Data Isolation.
