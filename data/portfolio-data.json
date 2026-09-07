@@ -3,20 +3,29 @@
     "name": "Fazal Mahmud Hassan",
     "firstName": "Fazal",
     "roleTitle": "Technical Project Manager",
-    "heroBio": "Seeking a position in an innovative organization where I can leverage my skills and experience to drive growth and contribute to the development of cutting-edge solutions.",
+    "heroBio": "I turn complex technology into things that work.\n\nI’m Fazal Mahmud Hassan — a Technical Project Manager with a Computer Science foundation and an MBA in HR & Management, experienced in taking projects from idea to delivery, leading cross-functional teams, working with clients, and solving the technical challenges along the way.\n\nFrom software products and healthcare technology to small- and medium-scale system & network design, I bring together technology, people, and execution to turn ambitious ideas into practical, reliable outcomes.",
     "aboutLead": "Seeking a position in an innovative organization where I can leverage my skills and experience to drive growth and contribute to the development of cutting-edge solutions.",
     "aboutBodyParagraphs": [
       "<p>Seeking a position in an innovative organization where I can leverage my skills and experience to drive growth and contribute to the development of cutting-edge solutions.</p><p>Holds a Masters of Business Administration (HR and Management) from the University of Dhaka (CGPA: 3.73/4.00) and a B.Sc in Computer Science &amp; Engineering from BRAC University (CGPA: 3.25/4.00).</p><p>Experience spans Technical Project Manager at Mediusware Limited, Training and Content Specialist and Associate Training and Content Specialist at Therap BD Limited, Technical Support Engineer at Augmedix Bangladesh, Administrative Manager, Finance and IT at DIVI Hosting (Netherlands), and System Engineer at Innovation Soft.</p>"
     ],
     "contactIntro": "Have an interesting project, collaboration, or leadership role in mind? Send me a message below or connect with me directly.",
+    "contactIntroVisible": true,
     "email": "fazal.mahmud.hassan@gmail.com",
-    "phone": "+8801712772123",
+    "emailVisible": true,
+    "phone": "+880 1712 772123",
+    "phoneVisible": false,
     "linkedinUrl": "https://linkedin.com/in/fazalmahmudhassan",
+    "linkedinVisible": true,
     "githubUrl": "https://github.com/fazalhassan23",
+    "githubVisible": false,
     "location": "Dhaka, Bangladesh",
-    "footerTagline": "Technical Project Manager based in Dhaka, Bangladesh.",
+    "locationVisible": true,
+    "footerTagline": "Technical Project Manager & Systems Engineer based in Dhaka, Bangladesh.",
+    "footerTaglineVisible": true,
     "copyrightYear": 2026,
+    "copyrightYearVisible": true,
     "resumeUrl": "",
+    "resumeUrlVisible": true,
     "fontPair": "geometric"
   },
   "availability": {
@@ -54,7 +63,7 @@
     {
       "id": "m-4",
       "number": "4",
-      "suffix": " Mo.",
+      "suffix": "Mo.",
       "label": "Support Leaderboard",
       "subtext": "Top-ranked on support leaderboard"
     }
@@ -979,8 +988,8 @@
     "experience": {
       "label": "experience",
       "subtext": "Professional background and career milestones.",
-      "ctaText": "",
-      "ctaUrl": "",
+      "ctaText": "Full history →",
+      "ctaUrl": "about.html#experience",
       "visible": true
     },
     "work": {
@@ -1117,7 +1126,8 @@
         "label": "Email ↗",
         "url": "mailto:fazal.mahmud.hassan@gmail.com"
       }
-    ]
+    ],
+    "brandText": "FMH11"
   },
   "seo": {
     "siteTitle": "Fazal Mahmud Hassan — Technical Project Manager",
@@ -1128,5 +1138,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-  "_savedAt": "2026-09-07T00:45:00.000Z"
+  "_savedAt": "2026-09-07T15:53:59.408Z"
 }
