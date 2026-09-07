@@ -449,6 +449,38 @@ body.admin-body {
   color: var(--adm-muted);
 }
 
+.form-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.form-toggle-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-family: var(--adm-font-mono);
+  color: var(--adm-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.form-toggle-label input[type="checkbox"] {
+  accent-color: var(--adm-accent);
+  cursor: pointer;
+}
+
+.form-toggle-label span {
+  transition: color 0.15s;
+}
+
+.form-toggle-label input[type="checkbox"]:checked + span {
+  color: var(--adm-accent);
+  font-weight: 600;
+}
+
 .form-input,
 .form-textarea,
 .form-select {

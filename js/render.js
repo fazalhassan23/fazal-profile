@@ -281,62 +281,52 @@
     let currentPage = 0;
     let isAnimating = false;
 
-    function applyPageContent() {
+    function renderPage(page, direction = 'next') {
+      const targetPage = (page + totalPages) % totalPages;
+
+      // Initial render without animation
+      if (container.children.length === 0) {
+        currentPage = targetPage;
+        const start = currentPage * pageSize;
+        const pageItems = recs.slice(start, start + pageSize);
+        container.innerHTML = pageItems.map(r => createCardHtml(r)).join('');
+        if (indicator) indicator.textContent = `Page ${currentPage + 1} of ${totalPages}`;
+        if (prevBtn) prevBtn.disabled = totalPages <= 1;
+        if (nextBtn) nextBtn.disabled = totalPages <= 1;
+        return;
+      }
+
+      if (targetPage === currentPage) return;
+
+      currentPage = targetPage;
       const start = currentPage * pageSize;
       const pageItems = recs.slice(start, start + pageSize);
+
+      // Reset any manual inline transitions
+      container.style.transition = 'none';
+      container.style.opacity = '1';
+      container.style.transform = 'none';
+
+      // Instant DOM swap — zero lag
       container.innerHTML = pageItems.map(r => createCardHtml(r)).join('');
+
       if (indicator) {
         indicator.textContent = `Page ${currentPage + 1} of ${totalPages}`;
       }
       if (prevBtn) prevBtn.disabled = totalPages <= 1;
       if (nextBtn) nextBtn.disabled = totalPages <= 1;
+
+      // Trigger instant GPU keyframe slide animation
+      const animClass = direction === 'next' ? 'rec-slide-from-right' : 'rec-slide-from-left';
+      container.classList.remove('rec-slide-from-right', 'rec-slide-from-left');
+      void container.offsetWidth; // Force reflow
+      container.classList.add(animClass);
     }
 
-    function goToPage(targetPage, direction) {
-      if (isAnimating) return;
-      const nextPage = (targetPage + totalPages) % totalPages;
-      if (nextPage === currentPage) return;
+    renderPage(0);
 
-      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReduced || !direction) {
-        currentPage = nextPage;
-        applyPageContent();
-        return;
-      }
-
-      isAnimating = true;
-      const outAnim = direction === 'next' ? 'anim-out-next' : 'anim-out-prev';
-      const inAnim = direction === 'next' ? 'anim-in-next' : 'anim-in-prev';
-
-      container.className = 'recommendations-grid ' + outAnim;
-
-      setTimeout(() => {
-        currentPage = nextPage;
-        applyPageContent();
-
-        container.className = 'recommendations-grid ' + inAnim;
-
-        setTimeout(() => {
-          container.className = 'recommendations-grid';
-          isAnimating = false;
-        }, 320);
-      }, 220);
-    }
-
-    applyPageContent();
-
-    if (prevBtn) {
-      prevBtn.onclick = (e) => {
-        e.preventDefault();
-        goToPage(currentPage - 1, 'prev');
-      };
-    }
-    if (nextBtn) {
-      nextBtn.onclick = (e) => {
-        e.preventDefault();
-        goToPage(currentPage + 1, 'next');
-      };
-    }
+    if (prevBtn) prevBtn.onclick = () => renderPage(currentPage - 1, 'prev');
+    if (nextBtn) nextBtn.onclick = () => renderPage(currentPage + 1, 'next');
   }
 
   function renderAboutPage(p, data) {
@@ -720,36 +710,96 @@
     }
   }
 
-  function renderContactAndFooter(p, footerData) {
+  function renderContactAndFooter(p, footerData, navData) {
     const f = footerData || {};
+    const nav = navData || {};
 
+    // Footer Brand Logo / Text
+    const footerBrandElements = document.querySelectorAll('.footer-brand');
+    footerBrandElements.forEach(el => {
+      const brandText = f.brandText || nav.logoText || 'FMH11';
+      const showDot = nav.logoDot !== false;
+      const dotHtml = showDot ? '<span class="dot">.</span>' : '';
+      el.innerHTML = `<span data-cms="footerBrandText">${PortfolioUtils.escapeHtml(brandText)}</span>${dotHtml}`;
+    });
+
+    // Contact Intro
     const contactIntro = document.getElementById('contact-intro');
-    if (contactIntro && p.contactIntro) contactIntro.textContent = p.contactIntro;
+    const contactText = document.getElementById('contact-text');
+    const isContactIntroVis = p.contactIntroVisible !== false;
+    if (contactIntro) {
+      contactIntro.textContent = p.contactIntro || '';
+      contactIntro.style.display = isContactIntroVis && p.contactIntro ? '' : 'none';
+    }
+    if (contactText) {
+      contactText.style.display = isContactIntroVis ? '' : 'none';
+    }
 
-    // Dynamic Contact Links
+    // Dynamic Contact Links & Fields Visibility
+    const isEmailVis = p.emailVisible !== false && !!p.email;
+    const isPhoneVis = p.phoneVisible !== false && !!p.phone;
+    const isLinkedinVis = p.linkedinVisible !== false && !!p.linkedinUrl;
+    const isGithubVis = p.githubVisible !== false && !!p.githubUrl;
+    const isResumeVis = p.resumeUrlVisible !== false && !!p.resumeUrl;
+    const isLocVis = p.locationVisible !== false && !!p.location;
+
+    // Email
     document.querySelectorAll('[data-cms-link="email"]').forEach(el => {
       el.setAttribute('href', `mailto:${p.email || ''}`);
       if (el.hasAttribute('data-cms-text')) el.textContent = p.email || '';
+      const parentDiv = el.closest('div');
+      if (parentDiv && el.classList.contains('contact-detail-value')) {
+        parentDiv.style.display = isEmailVis ? '' : 'none';
+      } else {
+        el.style.display = isEmailVis ? '' : 'none';
+      }
     });
+    const emailLabel = document.getElementById('contact-detail-label-email');
+    if (emailLabel && emailLabel.parentElement) {
+      emailLabel.parentElement.style.display = isEmailVis ? '' : 'none';
+    }
 
+    // Phone
+    const phoneLabel = document.getElementById('contact-detail-label-phone');
+    if (phoneLabel && phoneLabel.parentElement) {
+      phoneLabel.parentElement.style.display = isPhoneVis ? '' : 'none';
+    }
     document.querySelectorAll('[data-cms-link="phone"]').forEach(el => {
       el.setAttribute('href', `tel:${(p.phone || '').replace(/\s+/g, '')}`);
       if (el.hasAttribute('data-cms-text')) el.textContent = p.phone || '';
-    });
-
-    document.querySelectorAll('[data-cms-link="linkedin"]').forEach(el => {
-      el.setAttribute('href', p.linkedinUrl || 'https://linkedin.com');
-    });
-
-    document.querySelectorAll('[data-cms-link="github"]').forEach(el => {
-      if (p.githubUrl) {
-        el.setAttribute('href', p.githubUrl);
-        el.style.display = '';
+      const parentDiv = el.closest('div');
+      if (parentDiv && el.classList.contains('contact-detail-value')) {
+        parentDiv.style.display = isPhoneVis ? '' : 'none';
       } else {
-        el.style.display = 'none';
+        el.style.display = isPhoneVis ? '' : 'none';
       }
     });
 
+    // LinkedIn (with official SVG logo)
+    document.querySelectorAll('[data-cms-link="linkedin"]').forEach(el => {
+      el.setAttribute('href', p.linkedinUrl || 'https://linkedin.com');
+      el.style.display = isLinkedinVis ? 'inline-flex' : 'none';
+      const li = el.closest('li');
+      if (li) li.style.display = isLinkedinVis ? '' : 'none';
+      el.innerHTML = `${PortfolioUtils.getLinkedInSvg(16)} <span>LinkedIn ↗</span>`;
+    });
+
+    // GitHub (with official SVG logo)
+    document.querySelectorAll('[data-cms-link="github"]').forEach(el => {
+      if (p.githubUrl) el.setAttribute('href', p.githubUrl);
+      el.style.display = isGithubVis ? 'inline-flex' : 'none';
+      const li = el.closest('li');
+      if (li) li.style.display = isGithubVis ? '' : 'none';
+      el.innerHTML = `${PortfolioUtils.getGitHubSvg(16)} <span>GitHub ↗</span>`;
+    });
+
+    // Connect block visibility in Contact column
+    const connectLabel = document.getElementById('contact-detail-label-connect');
+    if (connectLabel && connectLabel.parentElement) {
+      connectLabel.parentElement.style.display = (isLinkedinVis || isGithubVis) ? '' : 'none';
+    }
+
+    // Resume CTA
     document.querySelectorAll('[data-cms-link="resume"]').forEach(el => {
       if (p.resumeUrl) {
         el.setAttribute('href', p.resumeUrl);
@@ -758,15 +808,27 @@
       } else {
         el.setAttribute('href', 'about.html');
       }
+      el.style.display = isResumeVis ? '' : 'none';
     });
 
+    // Location
+    const locLabel = document.getElementById('contact-detail-label-location');
+    if (locLabel && locLabel.parentElement) {
+      locLabel.parentElement.style.display = isLocVis ? '' : 'none';
+    }
+
     // Footer Tagline & Copy
+    const taglineVal = f.tagline || p.footerTagline || '';
     const footerTagline = document.getElementById('footer-tagline');
-    if (footerTagline) footerTagline.textContent = f.tagline || p.footerTagline || '';
+    if (footerTagline) {
+      footerTagline.textContent = taglineVal;
+      footerTagline.style.display = (p.footerTaglineVisible !== false && taglineVal) ? '' : 'none';
+    }
 
     const footerCopy = document.getElementById('footer-copy');
     if (footerCopy) {
-      footerCopy.textContent = f.copyright || `© ${p.copyrightYear || 2026} ${p.name || 'Fazal Mahmud Hassan'}. All rights reserved.`;
+      const yearStr = p.copyrightYearVisible !== false ? `${p.copyrightYear || 2026} ` : '';
+      footerCopy.textContent = f.copyright || `© ${yearStr}${p.name || 'Fazal Mahmud Hassan'}. All rights reserved.`;
     }
 
     const footerNavTitle = document.getElementById('footer-nav-title');
@@ -779,15 +841,35 @@
       `).join('');
     }
 
+    // Footer Connect Section with Logos & Filtered Visibility
     const footerConnectTitle = document.getElementById('footer-connect-title');
-    if (footerConnectTitle && f.connectTitle) footerConnectTitle.textContent = f.connectTitle;
-
     const footerSocialLinks = document.getElementById('footer-social-links');
     if (footerSocialLinks && Array.isArray(f.socialLinks) && f.socialLinks.length > 0) {
-      footerSocialLinks.innerHTML = f.socialLinks.map(link => {
+      const filteredLinks = f.socialLinks.filter(link => {
+        const u = (link.url || '').toLowerCase();
+        const l = (link.label || '').toLowerCase();
+        if (u.includes('github') || l.includes('github')) return isGithubVis;
+        if (u.includes('linkedin') || l.includes('linkedin')) return isLinkedinVis;
+        if (u.includes('mailto') || l.includes('email')) return isEmailVis;
+        return true;
+      });
+
+      if (footerConnectTitle) {
+        footerConnectTitle.style.display = filteredLinks.length > 0 ? '' : 'none';
+      }
+
+      footerSocialLinks.innerHTML = filteredLinks.map(link => {
         const isExternal = /^https?:\/\//i.test(link.url);
         const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
-        return `<li><a href="${PortfolioUtils.escapeHtml(link.url)}"${targetAttr}>${PortfolioUtils.escapeHtml(link.label)}</a></li>`;
+        const u = (link.url || '').toLowerCase();
+        const l = (link.label || '').toLowerCase();
+        let iconSvg = '';
+        if (u.includes('linkedin') || l.includes('linkedin')) {
+          iconSvg = PortfolioUtils.getLinkedInSvg(15) + ' ';
+        } else if (u.includes('github') || l.includes('github')) {
+          iconSvg = PortfolioUtils.getGitHubSvg(15) + ' ';
+        }
+        return `<li><a href="${PortfolioUtils.escapeHtml(link.url)}"${targetAttr}>${iconSvg}<span>${PortfolioUtils.escapeHtml(link.label)}</span></a></li>`;
       }).join('');
     }
   }
@@ -1016,7 +1098,7 @@
     renderRecommendations(data.recommendations);
     renderAboutPage(p, data);
     renderSectionHeadersAndVisibility(data.sections, data);
-    renderContactAndFooter(p, data.footer);
+    renderContactAndFooter(p, data.footer, data.navigation);
     renderSEO(data.seo, p);
   }
 

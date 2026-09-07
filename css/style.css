@@ -2106,7 +2106,6 @@ a {
 
 .recommendation-card:hover {
   transform: translateY(-2px);
-  border-color: var(--accent);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
@@ -2292,4 +2291,218 @@ a {
 .rec-linkedin-icon { vertical-align: middle; margin-left: 4px; fill: var(--accent); }
 .modal-art-meta-date { margin-left: 0.6rem; }
 .modal-close-btn-sm { padding: 0.4rem 0.9rem; font-size: 0.875rem; }
+
+/* ────────────────────────────────────────────────────────────
+   Animated Card Hover Border System (Subtle Border Beam)
+   ──────────────────────────────────────────────────────────── */
+.metric-card,
+.expertise-card,
+.award-card,
+.article-card,
+.project-card,
+.edu-item,
+.recommendation-card,
+.contact-card-box {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate;
+}
+
+/* Ensure inner contents sit cleanly above the border glow layers */
+.metric-card > *,
+.expertise-card > *,
+.award-card > *,
+.article-card > *,
+.project-card > *,
+.edu-item > *,
+.recommendation-card > *,
+.contact-card-box > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Rotating Gradient Beam Layer */
+.metric-card::before,
+.expertise-card::before,
+.award-card::before,
+.article-card::before,
+.project-card::before,
+.edu-item::before,
+.recommendation-card::before,
+.contact-card-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    transparent 65deg,
+    var(--accent) 120deg,
+    var(--accent-hover) 150deg,
+    transparent 200deg,
+    transparent 360deg
+  );
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  animation: cardBorderBeamRotate 4.5s linear infinite;
+  pointer-events: none;
+}
+
+/* Award Card Gold Accent Beam */
+.award-card::before {
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    transparent 65deg,
+    var(--gold) 120deg,
+    #FFD700 150deg,
+    transparent 200deg,
+    transparent 360deg
+  );
+}
+
+/* Inner Background Mask (leaves 1px edge visible) */
+.metric-card::after,
+.expertise-card::after,
+.award-card::after,
+.article-card::after,
+.project-card::after,
+.edu-item::after,
+.recommendation-card::after,
+.contact-card-box::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  background: var(--surface-hover);
+  border-radius: inherit;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  pointer-events: none;
+}
+
+.recommendation-card::after {
+  background: var(--surface-hover);
+}
+
+.metric-card::after {
+  background: var(--surface-hover);
+}
+
+/* Activate Border Beam & Inner Mask on Hover */
+.metric-card:hover::before,
+.expertise-card:hover::before,
+.award-card:hover::before,
+.article-card:hover::before,
+.project-card:hover::before,
+.edu-item:hover::before,
+.recommendation-card:hover::before,
+.contact-card-box:hover::before {
+  opacity: 1;
+}
+
+.metric-card:hover::after,
+.expertise-card:hover::after,
+.award-card:hover::after,
+.article-card:hover::after,
+.project-card:hover::after,
+.edu-item:hover::after,
+.recommendation-card:hover::after,
+.contact-card-box:hover::after {
+  opacity: 1;
+}
+
+@keyframes cardBorderBeamRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   Recommendations Pagination Instant Slide Animations
+   ──────────────────────────────────────────────────────────── */
+@keyframes recSlideFromRight {
+  0% {
+    opacity: 0.25;
+    transform: translateX(36px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes recSlideFromLeft {
+  0% {
+    opacity: 0.25;
+    transform: translateX(-36px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.rec-slide-from-right {
+  animation: recSlideFromRight 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.rec-slide-from-left {
+  animation: recSlideFromLeft 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ────────────────────────────────────────────────────────────
+   Social Links & Official Brand Icons (LinkedIn & GitHub)
+   ──────────────────────────────────────────────────────────── */
+.contact-social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.contact-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.contact-social-link:hover {
+  opacity: 0.8;
+}
+
+.contact-social-link svg,
+.footer-links-list a svg {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  fill: currentColor;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-links-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.contact-social-link:hover svg,
+.footer-links-list a:hover svg {
+  transform: scale(1.12);
+}
+
+
+
 

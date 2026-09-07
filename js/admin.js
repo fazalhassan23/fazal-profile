@@ -321,14 +321,55 @@ function initAdminApp() {
     }
 
     setVal('input-contactIntro', p.contactIntro);
+    setChecked('checkbox-vis-contactIntro', p.contactIntroVisible !== false);
+
     setVal('input-email', p.email);
+    setChecked('checkbox-vis-email', p.emailVisible !== false);
+
     setVal('input-phone', p.phone);
+    setChecked('checkbox-vis-phone', p.phoneVisible !== false);
+
     setVal('input-linkedin', p.linkedinUrl);
+    setChecked('checkbox-vis-linkedin', p.linkedinVisible !== false);
+
     setVal('input-github', p.githubUrl);
+    setChecked('checkbox-vis-github', p.githubVisible !== false);
+
     setVal('input-resumeUrl', p.resumeUrl || '');
+    setChecked('checkbox-vis-resumeUrl', p.resumeUrlVisible !== false);
+
     setVal('input-location', p.location);
+    setChecked('checkbox-vis-location', p.locationVisible !== false);
+
     setVal('input-copyrightYear', p.copyrightYear || 2026);
+    setChecked('checkbox-vis-copyrightYear', p.copyrightYearVisible !== false);
+
     setVal('input-footerTagline', p.footerTagline);
+    setChecked('checkbox-vis-footerTagline', p.footerTaglineVisible !== false);
+
+    const profileVisMap = [
+      { id: 'checkbox-vis-contactIntro', prop: 'contactIntroVisible' },
+      { id: 'checkbox-vis-email', prop: 'emailVisible' },
+      { id: 'checkbox-vis-phone', prop: 'phoneVisible' },
+      { id: 'checkbox-vis-linkedin', prop: 'linkedinVisible' },
+      { id: 'checkbox-vis-github', prop: 'githubVisible' },
+      { id: 'checkbox-vis-resumeUrl', prop: 'resumeUrlVisible' },
+      { id: 'checkbox-vis-location', prop: 'locationVisible' },
+      { id: 'checkbox-vis-copyrightYear', prop: 'copyrightYearVisible' },
+      { id: 'checkbox-vis-footerTagline', prop: 'footerTaglineVisible' }
+    ];
+    profileVisMap.forEach(({ id, prop }) => {
+      const cb = document.getElementById(id);
+      if (cb && !cb._hasVisListener) {
+        cb._hasVisListener = true;
+        cb.addEventListener('change', async () => {
+          if (!data.profile) data.profile = {};
+          data.profile[prop] = cb.checked;
+          await window.PortfolioStore.saveData(data);
+          showToast(`Visibility updated: ${cb.checked ? 'Visible on site' : 'Hidden on site'}.`);
+        });
+      }
+    });
 
     // Hero & Metrics
     setVal('input-avail-status', avail.status || 'available');
@@ -645,6 +686,7 @@ function initAdminApp() {
 
   function populateFooter() {
     const f = data.footer || {};
+    setVal('input-footer-brand-text', f.brandText || data.navigation?.logoText || 'FMH11');
     setVal('textarea-footer-tagline', f.tagline || data.profile?.footerTagline || '');
     setVal('input-footer-col1-title', f.navTitle || 'Navigation');
     setVal('input-footer-col2-title', f.connectTitle || 'Connect');
@@ -2085,14 +2127,31 @@ function initAdminApp() {
       }
 
       data.profile.contactIntro = getVal('input-contactIntro');
+      data.profile.contactIntroVisible = getChecked('checkbox-vis-contactIntro');
+
       data.profile.email = getVal('input-email');
+      data.profile.emailVisible = getChecked('checkbox-vis-email');
+
       data.profile.phone = getVal('input-phone');
+      data.profile.phoneVisible = getChecked('checkbox-vis-phone');
+
       data.profile.linkedinUrl = getVal('input-linkedin');
+      data.profile.linkedinVisible = getChecked('checkbox-vis-linkedin');
+
       data.profile.githubUrl = getVal('input-github');
+      data.profile.githubVisible = getChecked('checkbox-vis-github');
+
       data.profile.resumeUrl = getVal('input-resumeUrl');
+      data.profile.resumeUrlVisible = getChecked('checkbox-vis-resumeUrl');
+
       data.profile.location = getVal('input-location');
+      data.profile.locationVisible = getChecked('checkbox-vis-location');
+
       data.profile.copyrightYear = parseInt(getVal('input-copyrightYear'), 10) || 2026;
+      data.profile.copyrightYearVisible = getChecked('checkbox-vis-copyrightYear');
+
       data.profile.footerTagline = getVal('input-footerTagline');
+      data.profile.footerTaglineVisible = getChecked('checkbox-vis-footerTagline');
 
       // 2. Gather Availability & Typewriter
       if (!data.availability) data.availability = {};
@@ -2260,6 +2319,7 @@ function initAdminApp() {
 
       // 7. Gather Footer
       if (!data.footer) data.footer = {};
+      data.footer.brandText = getVal('input-footer-brand-text');
       data.footer.tagline = getVal('textarea-footer-tagline');
       data.footer.navTitle = getVal('input-footer-col1-title');
       data.footer.connectTitle = getVal('input-footer-col2-title');
