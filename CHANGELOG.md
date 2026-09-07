@@ -3,6 +3,34 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.3.1] — 2026-09-08
+
+> Branch: `main` — CMS Admin Panel Persistence, Local Dev Server Flat-File Save API, and Production Data Isolation.
+
+### Added
+
+#### Local Development Flat-File Persistence Server (`server.py`)
+- **Zero-Dependency Python Dev Server**: Added `server.py` using standard library `http.server.ThreadingHTTPServer` to serve static assets with no-cache headers and handle atomic `POST /api/save` and `POST /data/portfolio-data.json` requests.
+- **Direct Disk Persistence**: Saves made in `/admin.html` on `localhost` now write directly to `data/portfolio-data.json` on disk, allowing full offline CMS functionality without requiring a GitHub PAT.
+
+#### Local Draft & State Protection (`_hasLocalChanges`)
+- **Unsynced Draft Guard**: Added `_hasLocalChanges` tracking in `js/store.js`. When changes are saved locally in the browser, neither `getData()` nor `fetchServerData()` will overwrite them with stale server or fallback default data.
+- **Clock Skew Sanity Check**: Replaced inclusive `>=` checks with strict `>` comparisons and added sanity validation (`timestamp <= Date.now() + 60000`) so future-dated files cannot clobber local user drafts.
+
+### Fixed
+
+#### Admin Panel Refresh Data Loss
+- **Future Timestamp Resolution**: Fixed `_savedAt` in `data/default-data.js` and `data/portfolio-data.json` from a future timestamp to a valid past timestamp, preventing immediate cache clobbering on page reload.
+- **Admin UI Feedback**: Updated save toasts in `js/admin.js` to accurately indicate whether data was persisted directly to disk, committed to GitHub, or stored in browser storage.
+
+### Governance & Workflow
+
+#### Production Data Isolation Policy
+- **Live JSON Protection**: Established repository rule that live/remote `data/portfolio-data.json` is the sole source of truth for production content. Local development/test JSON must never overwrite live data during merges to `main`.
+- **Mandatory Documentation on Merge**: Established rule that `CHANGELOG.md` and `README.md` must be updated on every merge to `main`.
+
+---
+
 ## [2.3.0] — 2026-09-07
 
 > Branch: `cv` → Merged into `main` (Production) — Complete CV synchronization, full experience timeline, serverless background contact delivery, and recommendations pagination transitions.

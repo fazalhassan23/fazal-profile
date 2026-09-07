@@ -2,7 +2,7 @@
 
 > A zero-dependency, production-grade personal portfolio built entirely on **Vanilla HTML5, modern CSS, and plain JavaScript** — no frameworks, no bundlers, no build steps. Includes a fully client-side Content Management System (CMS) with SHA-256 authentication, a custom WYSIWYG rich-text editor, a dual-mode animated canvas background, and an optional PHP flat-file persistence API.
 
-**Current Version**: `v2.3.0` | **License**: MIT
+**Current Version**: `v2.3.1` | **License**: MIT
 
 ---
 
@@ -156,15 +156,26 @@ The file sets `window.DEFAULT_PORTFOLIO_DATA` — a deeply nested object that se
 
 ---
 
-## 7. Server Persistence API — GitHub API
+## 7. Server Persistence API — Dual Mode (GitHub API & Local Dev Server)
 
-The CMS persists data directly back to the GitHub repository using the GitHub Contents API. This eliminates the need for a backend server or database.
+The CMS supports dual-mode flat-file persistence without requiring an external database:
 
-### How it works:
-1. **Admin Panel**: User provides a Personal Access Token (PAT) with repository write access.
+### Mode 1: Production — GitHub Contents API
+In production (GitHub Pages), the CMS persists data directly back to the GitHub repository using the GitHub Contents API:
+1. **Admin Panel**: User provides a Personal Access Token (PAT) with repository write access in CMS Settings.
 2. **File Check**: Retrieves the current SHA commit hash for `data/portfolio-data.json`.
-3. **Commit**: Issues a PUT request to the GitHub API, creating a new commit with the updated JSON string.
-4. **Deployment**: The new commit automatically triggers the GitHub Actions workflow, rebuilding and deploying the site to GitHub Pages within seconds.
+3. **Commit**: Issues a PUT request to the GitHub API, creating a new commit with the updated JSON payload.
+4. **Deployment**: The commit triggers the GitHub Actions workflow, rebuilding and deploying the site to GitHub Pages within seconds.
+
+### Mode 2: Local Development — Flat-File Save API (`server.py`)
+When running locally on `http://localhost:3000`:
+1. **Zero Configuration**: No GitHub PAT is needed for local development.
+2. **Atomic Disk Save**: Clicking "Save All Changes" sends a `POST /api/save` request to `server.py`, which atomically writes the JSON directly to `data/portfolio-data.json` on disk.
+3. **Unsynced Draft Guard**: Browser `localStorage` tracks `_hasLocalChanges` to guarantee that fresh local edits are never overwritten by stale seed or server files upon page reload.
+
+> [!IMPORTANT]
+> **Production Data Isolation Policy**:
+> The live/remote `data/portfolio-data.json` in GitHub is the single source of truth for production content (managed live by the owner). Local JSON files used during local testing must **NEVER** overwrite the live `portfolio-data.json` when merging code changes into `main`. When merging feature branches, always preserve or verify the remote production JSON data.
 
 ---
 
@@ -219,11 +230,14 @@ Automated deployments are handled by GitHub Actions targeting GitHub Pages. The 
 ## 14. Local Development
 
 ```bash
-# Python simple HTTP server
+# Recommended: Python dev server with flat-file /api/save persistence
+python server.py 3000
+
+# Or standard static server (saves will stay in browser localStorage only)
 python -m http.server 3000
 ```
 
-> **Note**: You must run a local server to avoid CORS issues when fetching local JSON data. You can use any static server (Python, VS Code Live Server, Node `http-server`).
+> **Note**: Running `python server.py 3000` enables live flat-file saving. Whenever you click **Save All Changes** in `/admin.html`, updates are saved directly into `data/portfolio-data.json` on disk, allowing seamless offline development without requiring a GitHub PAT.
 
 ---
 
@@ -246,6 +260,7 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 
 | Version | Date | Summary |
 |---|---|---|
+| v2.3.1 | 2026-09-08 | **CMS Persistence & Local Dev Server**: Fixed admin panel refresh data loss, added `_hasLocalChanges` draft protection, clock-skew guard, and added `server.py` flat-file save API for local development |
 | v2.3.0 | 2026-09-07 | **CV Synchronization, Full Career Timeline & Web3Forms**: Strict CV sync (zero imagined data), all 6 positions on homepage, serverless background contact delivery via Web3Forms with mailto fallback, GPU keyframe pagination transitions, production backup tag |
 | v2.2.2 | 2026-09-03 | **CMS Data Synchronization**: First Name single source of truth for logo text, opportunistic GitHub PAT save, restored missing DOM bindings |
 | v2.2.1 | 2026-09-02 | **Award Card Styling**: Removed trophy icon and yellow gold border accent for minimal obsidian design |
@@ -273,6 +288,7 @@ This table tracks which features and fixes were developed on which Git branches.
 
 | Branch | Based On | Date | Files Changed | Feature / Fix |
 |---|---|---|---|---|
+| `main` | — | 2026-09-08 | `server.py`, `js/store.js`, `js/admin.js`, `data/default-data.js` | Fixed CMS persistence on refresh, added local development flat-file save API (`server.py`), and established production JSON isolation |
 | `cv` | `main` | 2026-09-07 | `data/*.{json,js}`, `js/*.js`, `*.html`, `css/style.css` | Strict CV synchronization, all 6 positions on homepage, Web3Forms serverless delivery, recommendation pagination keyframe animations, merged into `main` |
 | `main-backup-20260907` | `main` | 2026-09-07 | Snapshot of `main` at `72317c3` | Safety backup branch and tag `backup-main-20260907` created prior to CV release merge |
 | `main` | `Worked-from-office` | 2026-09-01 | `js/*.js`, `css/style.css`, `CHANGELOG.md` | Extensive codebase audit and refactoring (event delegation, data-driven strings, utilities deduplication, magic numbers, recommendation UI enhancements, and CMS visibility toggles) |
@@ -281,6 +297,16 @@ This table tracks which features and fixes were developed on which Git branches.
 | `Worked-from-office` | `main` | 2026-08-25 | `admin.html`, `css/admin.css`, `js/admin.js` | Admin dashboard redesign (obsidian palette, categorised sidebar, 2x2 skills grid) |
 | `main` | — | 2026-08-20 → ongoing | All files | Primary production branch. Receives merges from feature branches after review. |
 
-> **Convention**: All new features and bug fixes are developed on dedicated branches named
-> `feature/<description>` or `fix/<description>`, then merged into `main` for deployment.
-> The `Worked-from-office` branch tracks work done during in-office sessions before merge.
+---
+
+## 18. Merging & Production Data Rules (Strict)
+
+Whenever contributing, pairing, or merging branches to `main`:
+
+1. **Production JSON Isolation**:
+   - The live/remote `data/portfolio-data.json` is the sole source of truth for production portfolio content.
+   - Local JSON modifications created during offline testing must **NEVER** overwrite the live `data/portfolio-data.json` on `main`.
+   - When merging, always preserve the live `data/portfolio-data.json`.
+2. **Mandatory Documentation on Merge**:
+   - Whenever merging changes into `main`, **both `CHANGELOG.md` and `README.md` must be updated** to document the new features, bug fixes, or schema changes.
+   - Increment semantic version tags and update release tables in both documents.
