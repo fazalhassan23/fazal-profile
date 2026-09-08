@@ -3,6 +3,28 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.4.0] — 2026-09-09
+
+> Branch: `cv` / `main` — Automated LinkedIn Recommendations Display Photo Sync & Compact Card Redesign.
+
+### Added
+
+#### Automated LinkedIn Avatar Sync & Local Storage
+- **CDP Automated Browser Scraper**: Created [`scripts/cdp_autoscrape_and_download.py`](file:///c:/Users/Fazal%20Mahmud%20Hassan/.gemini/antigravity/scratch/fazal-portfolio/scripts/cdp_autoscrape_and_download.py) using Chrome DevTools Protocol (`port 9222`) to connect directly to the active Brave browser session, scroll lazy-loaded components, and extract public profile links and avatar images for all 27 recommenders.
+- **Local Asset Storage**: Downloaded all 27 high-resolution display photos locally into [`assets/testimonials/`](file:///c:/Users/Fazal%20Mahmud%20Hassan/.gemini/antigravity/scratch/fazal-portfolio/assets/testimonials) (`assets/testimonials/<author-slug>.jpg`), eliminating CDN URL expirations and HTTP 403 hotlinking restrictions.
+- **Database & Fallback Sync**: Updated [`data/portfolio-data.json`](file:///c:/Users/Fazal%20Mahmud%20Hassan/.gemini/antigravity/scratch/fazal-portfolio/data/portfolio-data.json) and [`data/default-data.js`](file:///c:/Users/Fazal%20Mahmud%20Hassan/.gemini/antigravity/scratch/fazal-portfolio/data/default-data.js) to link all 27 entries to their local avatar paths and LinkedIn profile URLs (`https://linkedin.com/in/...`).
+- **Zero Credentials / Tokens**: Implemented in-memory execution and DevTools DOM extraction, ensuring zero cookies, tokens, or sensitive data are ever saved to disk or git history.
+
+### Changed
+
+#### Compact Recommendation Card Redesign
+- **Top Dead Space Elimination**: Fixed CSS cascade conflict where `.recommendation-card > *` set `position: relative; z-index: 2`, overriding `position: absolute` on the quote/source icon and creating a 64px+ dead vertical block at the top of cards.
+- **Absolute Source Badge**: Pinned `.rec-source-badge` to top-right (`position: absolute !important; top: 1.1rem; right: 1.15rem; z-index: 3`), taking 0px of vertical height flow and illuminating in accent color on card hover.
+- **Flex Flow Optimization**: Replaced `justify-content: space-between` with natural vertical flow (`justify-content: flex-start; gap: 0.65rem`) to eliminate vertical stretching between elements when cards have varying text lengths.
+- **Streamlined Padding & Dividers**: Reduced card padding from `2rem 1.75rem` down to `1.35rem 1.4rem 1.25rem` and replaced the empty double-bordered spacer bar with a clean single-line meta divider.
+
+---
+
 ## [2.3.3] — 2026-09-08
 
 > Branch: `main` — Fix Newly Added Job Experience Not Displaying at Top of Frontend & Cache Priority.
