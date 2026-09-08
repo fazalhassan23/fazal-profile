@@ -3,6 +3,19 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.4.1] — 2026-09-09
+
+> Branch: `cv` / `main` — Contact Form Spam & Automated Lorem Ipsum Protection.
+
+### Added
+
+#### Contact Form Anti-Spam & Autofill Protection
+- **Autofill Prevention**: Added `autocomplete="off"`, `data-lpignore="true"`, and `data-1p-ignore="true"` to form inputs in [`index.html`](file:///c:/Users/Fazal%20Mahmud%20Hassan/.gemini/antigravity/scratch/fazal-portfolio/index.html) to prevent browser extensions and password managers from populating test data / autofill strings into form fields.
+- **Web3Forms Honeypot**: Embedded a hidden `botcheck` input field (`style="display: none !important;"`) inside the contact form. Automated bots that fill hidden form fields trigger silent execution dropping.
+- **Lorem Ipsum Filler Filter**: Enhanced submission validation in [`js/main.js`](file:///c:/Users/Fazal%20Mahmud%20Hassan/.gemini/antigravity/scratch/fazal-portfolio/js/main.js) with regex filtering (`/lorem\s+ipsum|dolor\s+sit\s+amet|consectetur\s+adipiscing|sit\s+amet|lipsum/i`). Submissions containing generic placeholder text are blocked before calling the API.
+
+---
+
 ## [2.4.0] — 2026-09-09
 
 > Branch: `cv` / `main` — Automated LinkedIn Recommendations Display Photo Sync & Compact Card Redesign.
