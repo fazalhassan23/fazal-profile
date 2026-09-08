@@ -10,3 +10,8 @@
 - Increment semantic version numbers (e.g. `v2.3.x`).
 - Add comprehensive bullet points under `CHANGELOG.md` following Keep a Changelog conventions.
 - Update the version number, feature descriptions, and Versioning & Changelog table in `README.md`.
+
+## 3. Branch Target Strategy (Strict)
+- Always commit and push changes exclusively to the `cv` branch (`origin/cv`).
+- **NEVER** merge or push to `main` (production) unless the user explicitly requests to push to `main` or deploy to live/production.
+
