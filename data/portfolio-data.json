@@ -43,10 +43,10 @@
   "metrics": [
     {
       "id": "m-1",
-      "number": "21",
+      "number": "27",
       "suffix": "",
       "label": "Projects Managed",
-      "subtext": "Around 21 projects, over 15 completed"
+      "subtext": "Around 27 projects, over 21 completed, rest are in delivery pipeline"
     },
     {
       "id": "m-2",
@@ -1126,5 +1126,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-  "_savedAt": "2026-09-08T18:55:49.166Z"
+  "_savedAt": "2026-09-08T18:56:21.783Z"
 }
