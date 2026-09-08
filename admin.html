@@ -254,39 +254,93 @@
         </div>
         <div class="form-grid">
           <div class="form-group full-width">
-            <label class="form-label">Contact Section Intro</label>
+            <div class="form-label-row">
+              <label class="form-label">Contact Section Intro</label>
+              <label class="form-toggle-label">
+                <input type="checkbox" id="checkbox-vis-contactIntro" checked />
+                <span>Show</span>
+              </label>
+            </div>
             <input type="text" id="input-contactIntro" class="form-input" />
           </div>
           <div class="form-group">
-            <label class="form-label">Email Address</label>
+            <div class="form-label-row">
+              <label class="form-label">Email Address</label>
+              <label class="form-toggle-label">
+                <input type="checkbox" id="checkbox-vis-email" checked />
+                <span>Show</span>
+              </label>
+            </div>
             <input type="email" id="input-email" class="form-input" />
           </div>
           <div class="form-group">
-            <label class="form-label">Phone Number</label>
+            <div class="form-label-row">
+              <label class="form-label">Phone Number</label>
+              <label class="form-toggle-label">
+                <input type="checkbox" id="checkbox-vis-phone" checked />
+                <span>Show</span>
+              </label>
+            </div>
             <input type="text" id="input-phone" class="form-input" />
           </div>
           <div class="form-group">
-            <label class="form-label">LinkedIn URL</label>
+            <div class="form-label-row">
+              <label class="form-label">LinkedIn URL</label>
+              <label class="form-toggle-label">
+                <input type="checkbox" id="checkbox-vis-linkedin" checked />
+                <span>Show</span>
+              </label>
+            </div>
             <input type="url" id="input-linkedin" class="form-input" />
           </div>
           <div class="form-group">
-            <label class="form-label">GitHub URL (Optional)</label>
+            <div class="form-label-row">
+              <label class="form-label">GitHub URL (Optional)</label>
+              <label class="form-toggle-label">
+                <input type="checkbox" id="checkbox-vis-github" checked />
+                <span>Show</span>
+              </label>
+            </div>
             <input type="url" id="input-github" class="form-input" />
           </div>
           <div class="form-group">
-            <label class="form-label">Resume / CV Link (Optional)</label>
+            <div class="form-label-row">
+              <label class="form-label">Resume / CV Link (Optional)</label>
+              <label class="form-toggle-label">
+                <input type="checkbox" id="checkbox-vis-resumeUrl" checked />
+                <span>Show</span>
+              </label>
+            </div>
             <input type="url" id="input-resumeUrl" class="form-input" placeholder="https://..." />
           </div>
           <div class="form-group">
-            <label class="form-label">Location</label>
+            <div class="form-label-row">
+              <label class="form-label">Location</label>
+              <label class="form-toggle-label">
+                <input type="checkbox" id="checkbox-vis-location" checked />
+                <span>Show</span>
+              </label>
+            </div>
             <input type="text" id="input-location" class="form-input" />
           </div>
           <div class="form-group">
-            <label class="form-label">Copyright Year</label>
+            <div class="form-label-row">
+              <label class="form-label">Copyright Year</label>
+              <label class="form-toggle-label">
+                <input type="checkbox" id="checkbox-vis-copyrightYear" checked />
+                <span>Show</span>
+              </label>
+            </div>
             <input type="number" id="input-copyrightYear" class="form-input" />
           </div>
           <div class="form-group full-width">
-            <label class="form-label">Footer Tagline</label>
+            <div class="form-label-row">
+              <label class="form-label">Footer Tagline</label>
+              <label class="form-toggle-label">
+                <input type="checkbox" id="checkbox-vis-footerTagline" checked />
+                <span>Show</span>
+              </label>
+            </div>
             <input type="text" id="input-footerTagline" class="form-input" />
           </div>
         </div>
@@ -1021,6 +1075,13 @@
             <label class="form-label" for="input-contact-submit-text">Submit Button Label</label>
             <input type="text" id="input-contact-submit-text" class="form-input" placeholder="Send Message ↗" />
           </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="input-contact-access-key">Web3Forms Access Key (for direct background email delivery)</label>
+            <input type="text" id="input-contact-access-key" class="form-input" placeholder="e.g. 12345678-abcd-1234-abcd-123456789abc" />
+            <small style="display:block; margin-top:0.4rem; color:var(--text-muted); font-size:0.78rem;">
+              Get your free access key at <a href="https://web3forms.com" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:underline;">web3forms.com</a>. Once entered, submissions are sent silently to your inbox with zero redirects.
+            </small>
+          </div>
         </div>
       </div>
 
@@ -1058,6 +1119,10 @@
           <h2 class="admin-card-title">Footer Brand Copy &amp; Headers</h2>
         </div>
         <div class="form-grid">
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="input-footer-brand-text">Footer Brand Text / Monogram Logo</label>
+            <input type="text" id="input-footer-brand-text" class="form-input" placeholder="e.g. FMH11 or Fazal" />
+          </div>
           <div class="form-group" style="grid-column: 1 / -1;">
             <label class="form-label" for="textarea-footer-tagline">Footer Tagline</label>
             <textarea id="textarea-footer-tagline" class="form-textarea" placeholder="Technical Project Manager & Systems Engineer based in Dhaka..."></textarea>
@@ -1310,9 +1375,9 @@
   </div>
 
   <!-- Scripts -->
-  <script src="data/default-data.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/store.js"></script>
-  <script src="js/admin.js"></script>
+  <script src="data/default-data.js?v=20260907-0052"></script>
+  <script src="js/utils.js?v=20260907-0052"></script>
+  <script src="js/store.js?v=20260907-0052"></script>
+  <script src="js/admin.js?v=20260907-0052"></script>
 </body>
 </html>

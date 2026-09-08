@@ -319,14 +319,55 @@ function initAdminApp() {
     }
 
     setVal('input-contactIntro', p.contactIntro);
+    setChecked('checkbox-vis-contactIntro', p.contactIntroVisible !== false);
+
     setVal('input-email', p.email);
+    setChecked('checkbox-vis-email', p.emailVisible !== false);
+
     setVal('input-phone', p.phone);
+    setChecked('checkbox-vis-phone', p.phoneVisible !== false);
+
     setVal('input-linkedin', p.linkedinUrl);
+    setChecked('checkbox-vis-linkedin', p.linkedinVisible !== false);
+
     setVal('input-github', p.githubUrl);
+    setChecked('checkbox-vis-github', p.githubVisible !== false);
+
     setVal('input-resumeUrl', p.resumeUrl || '');
+    setChecked('checkbox-vis-resumeUrl', p.resumeUrlVisible !== false);
+
     setVal('input-location', p.location);
+    setChecked('checkbox-vis-location', p.locationVisible !== false);
+
     setVal('input-copyrightYear', p.copyrightYear || 2026);
+    setChecked('checkbox-vis-copyrightYear', p.copyrightYearVisible !== false);
+
     setVal('input-footerTagline', p.footerTagline);
+    setChecked('checkbox-vis-footerTagline', p.footerTaglineVisible !== false);
+
+    const profileVisMap = [
+      { id: 'checkbox-vis-contactIntro', prop: 'contactIntroVisible' },
+      { id: 'checkbox-vis-email', prop: 'emailVisible' },
+      { id: 'checkbox-vis-phone', prop: 'phoneVisible' },
+      { id: 'checkbox-vis-linkedin', prop: 'linkedinVisible' },
+      { id: 'checkbox-vis-github', prop: 'githubVisible' },
+      { id: 'checkbox-vis-resumeUrl', prop: 'resumeUrlVisible' },
+      { id: 'checkbox-vis-location', prop: 'locationVisible' },
+      { id: 'checkbox-vis-copyrightYear', prop: 'copyrightYearVisible' },
+      { id: 'checkbox-vis-footerTagline', prop: 'footerTaglineVisible' }
+    ];
+    profileVisMap.forEach(({ id, prop }) => {
+      const cb = document.getElementById(id);
+      if (cb && !cb._hasVisListener) {
+        cb._hasVisListener = true;
+        cb.addEventListener('change', async () => {
+          if (!data.profile) data.profile = {};
+          data.profile[prop] = cb.checked;
+          await window.PortfolioStore.saveData(data);
+          showToast(`Visibility updated: ${cb.checked ? 'Visible on site' : 'Hidden on site'}.`);
+        });
+      }
+    });
 
     // Hero & Metrics
     setVal('input-avail-status', avail.status || 'available');
@@ -414,10 +455,10 @@ function initAdminApp() {
           </p>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveNavItem" data-arg0="arg" data-arg1="-1" ${idx === 0 ? 'disabled' : ''} title="Move Up">↑</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveNavItem" data-arg0="arg" data-arg1="1" ${idx === items.length - 1 ? 'disabled' : ''} title="Move Down">↓</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editNavItem" data-arg0="arg">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteNavItem" data-arg0="arg">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveNavItem" data-arg0="${idx}" data-arg1="-1" ${idx === 0 ? 'disabled' : ''} title="Move Up">↑</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveNavItem" data-arg0="${idx}" data-arg1="1" ${idx === items.length - 1 ? 'disabled' : ''} title="Move Down">↓</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editNavItem" data-arg0="${idx}">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteNavItem" data-arg0="${idx}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -633,6 +674,7 @@ function initAdminApp() {
     setVal('input-contact-msg-label', f.messageLabel || 'Message *');
     setVal('input-contact-msg-ph', f.messagePlaceholder || 'Tell me a bit about what you have in mind...');
     setVal('input-contact-submit-text', f.submitText || 'Send Message ↗');
+    setVal('input-contact-access-key', f.accessKey || '');
 
     const d = c.details || {};
     setVal('input-contact-lbl-email', d.emailLabel || 'Direct Email');
@@ -643,6 +685,7 @@ function initAdminApp() {
 
   function populateFooter() {
     const f = data.footer || {};
+    setVal('input-footer-brand-text', f.brandText || data.navigation?.logoText || 'FMH11');
     setVal('textarea-footer-tagline', f.tagline || data.profile?.footerTagline || '');
     setVal('input-footer-col1-title', f.navTitle || 'Navigation');
     setVal('input-footer-col2-title', f.connectTitle || 'Connect');
@@ -668,8 +711,8 @@ function initAdminApp() {
           <h4 class="admin-item-title">${PortfolioUtils.escapeHtml(link.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${PortfolioUtils.escapeHtml(link.url)})</span></h4>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editFooterLink" data-arg0="arg">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteFooterLink" data-arg0="arg">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editFooterLink" data-arg0="${idx}">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteFooterLink" data-arg0="${idx}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -747,8 +790,8 @@ function initAdminApp() {
           <h4 class="admin-item-title">${PortfolioUtils.escapeHtml(link.label)} <span style="font-size:0.8rem; font-weight:normal; color:var(--adm-muted); font-family:var(--font-mono); margin-left:0.5rem;">(${PortfolioUtils.escapeHtml(link.url)})</span></h4>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editFooterSocial" data-arg0="arg">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteFooterSocial" data-arg0="arg">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editFooterSocial" data-arg0="${idx}">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteFooterSocial" data-arg0="${idx}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -922,8 +965,8 @@ function initAdminApp() {
           <p>${PortfolioUtils.escapeHtml(awd.organization)} · <span style="color:var(--adm-accent)">${PortfolioUtils.escapeHtml(awd.year)}</span></p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editAward" data-arg0="arg">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteAward" data-arg0="arg">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editAward" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteAward" data-arg0="${index}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1202,8 +1245,8 @@ function initAdminApp() {
           <p>${PortfolioUtils.escapeHtml(art.date)} · <span style="color:var(--adm-muted)">${PortfolioUtils.escapeHtml(art.readTime || '5 min read')}</span></p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editArticle" data-arg0="arg">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteArticle" data-arg0="arg">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editArticle" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteArticle" data-arg0="${index}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1311,8 +1354,8 @@ function initAdminApp() {
           <p>${PortfolioUtils.escapeHtml(job.period)}</p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editExperience" data-arg0="arg">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteExperience" data-arg0="arg">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editExperience" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteExperience" data-arg0="${index}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1376,7 +1419,7 @@ function initAdminApp() {
 
       const updated = { ...job, role, company, companyUrl, period, isCurrent, bullets };
       if (isNew) {
-        data.experience.push(updated);
+        data.experience.unshift(updated);
       } else {
         data.experience[index] = updated;
       }
@@ -1409,8 +1452,8 @@ function initAdminApp() {
           <p>${PortfolioUtils.escapeHtml(proj.year)}</p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editProject" data-arg0="arg">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteProject" data-arg0="arg">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editProject" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteProject" data-arg0="${index}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1516,8 +1559,8 @@ function initAdminApp() {
           <p>${PortfolioUtils.escapeHtml(edu.institution)} · <span style="color:var(--adm-accent)">${PortfolioUtils.escapeHtml(edu.year)}</span></p>
         </div>
         <div class="item-actions">
-          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editEducation" data-arg0="arg">Edit</button>
-          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteEducation" data-arg0="arg">Delete</button>
+          <button class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editEducation" data-arg0="${index}">Edit</button>
+          <button class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteEducation" data-arg0="${index}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -1606,7 +1649,7 @@ function initAdminApp() {
       container.innerHTML = items.map((skill, idx) => `
         <span class="tag-pill">
           ${PortfolioUtils.escapeHtml(skill)}
-          <button type="button" data-action="removeSkillTag" data-arg0="arg" data-arg1="arg" title="Remove skill">&times;</button>
+          <button type="button" data-action="removeSkillTag" data-arg0="${cat}" data-arg1="${idx}" title="Remove skill">&times;</button>
         </span>
       `).join('');
     });
@@ -1659,12 +1702,12 @@ function initAdminApp() {
           <p class="admin-item-excerpt" style="font-size:0.85rem; color:var(--adm-muted); margin-top:0.25rem;">"${PortfolioUtils.escapeHtml(rec.text.slice(0, 120))}${rec.text.length > 120 ? '...' : ''}"</p>
         </div>
         <div class="admin-item-actions">
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveRecommendation" data-arg0="arg" data-arg1="-1" ${idx === 0 ? 'disabled' : ''}>▲</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveRecommendation" data-arg0="arg" data-arg1="1" ${idx === list.length - 1 ? 'disabled' : ''}>▼</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="toggleRecommendationFeatured" data-arg0="arg">${rec.featured ? 'Unstar' : 'Star'}</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="toggleRecommendationVisible" data-arg0="arg">${rec.visible !== false ? 'Hide' : 'Show'}</button>
-          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editRecommendation" data-arg0="arg">Edit</button>
-          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteRecommendation" data-arg0="arg">Delete</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveRecommendation" data-arg0="${idx}" data-arg1="-1" ${idx === 0 ? 'disabled' : ''}>▲</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="moveRecommendation" data-arg0="${idx}" data-arg1="1" ${idx === list.length - 1 ? 'disabled' : ''}>▼</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="toggleRecommendationFeatured" data-arg0="${idx}">${rec.featured ? 'Unstar' : 'Star'}</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="toggleRecommendationVisible" data-arg0="${idx}">${rec.visible !== false ? 'Hide' : 'Show'}</button>
+          <button type="button" class="btn-adm btn-adm-secondary btn-adm-sm" data-action="editRecommendation" data-arg0="${idx}">Edit</button>
+          <button type="button" class="btn-adm btn-adm-danger btn-adm-sm" data-action="deleteRecommendation" data-arg0="${idx}">Delete</button>
         </div>
       </div>
     `).join('');
@@ -2083,14 +2126,31 @@ function initAdminApp() {
       }
 
       data.profile.contactIntro = getVal('input-contactIntro');
+      data.profile.contactIntroVisible = getChecked('checkbox-vis-contactIntro');
+
       data.profile.email = getVal('input-email');
+      data.profile.emailVisible = getChecked('checkbox-vis-email');
+
       data.profile.phone = getVal('input-phone');
+      data.profile.phoneVisible = getChecked('checkbox-vis-phone');
+
       data.profile.linkedinUrl = getVal('input-linkedin');
+      data.profile.linkedinVisible = getChecked('checkbox-vis-linkedin');
+
       data.profile.githubUrl = getVal('input-github');
+      data.profile.githubVisible = getChecked('checkbox-vis-github');
+
       data.profile.resumeUrl = getVal('input-resumeUrl');
+      data.profile.resumeUrlVisible = getChecked('checkbox-vis-resumeUrl');
+
       data.profile.location = getVal('input-location');
+      data.profile.locationVisible = getChecked('checkbox-vis-location');
+
       data.profile.copyrightYear = parseInt(getVal('input-copyrightYear'), 10) || 2026;
+      data.profile.copyrightYearVisible = getChecked('checkbox-vis-copyrightYear');
+
       data.profile.footerTagline = getVal('input-footerTagline');
+      data.profile.footerTaglineVisible = getChecked('checkbox-vis-footerTagline');
 
       // 2. Gather Availability & Typewriter
       if (!data.availability) data.availability = {};
@@ -2248,6 +2308,7 @@ function initAdminApp() {
       data.sections.contact.form.messageLabel = getVal('input-contact-msg-label');
       data.sections.contact.form.messagePlaceholder = getVal('input-contact-msg-ph');
       data.sections.contact.form.submitText = getVal('input-contact-submit-text');
+      data.sections.contact.form.accessKey = getVal('input-contact-access-key');
 
       if (!data.sections.contact.details) data.sections.contact.details = {};
       data.sections.contact.details.emailLabel = getVal('input-contact-lbl-email');
@@ -2257,6 +2318,7 @@ function initAdminApp() {
 
       // 7. Gather Footer
       if (!data.footer) data.footer = {};
+      data.footer.brandText = getVal('input-footer-brand-text');
       data.footer.tagline = getVal('textarea-footer-tagline');
       data.footer.navTitle = getVal('input-footer-col1-title');
       data.footer.connectTitle = getVal('input-footer-col2-title');
@@ -2285,11 +2347,13 @@ function initAdminApp() {
       window._adminSaveInProgress = false;
 
       if (res.success) {
-        if (res.serverSynced) {
+        if (res.localFileSaved) {
+          showToast('💾 Saved directly to data/portfolio-data.json on disk!');
+        } else if (res.serverSynced) {
           showToast('🚀 All changes saved and committed to GitHub! Live in ~30s.');
         } else {
-          const errMsg = res.error ? `Sync failed: ${res.error}` : 'Configure a GitHub token in Settings to sync live.';
-          showToast(`💾 Changes saved locally. (${errMsg})`, 'error');
+          const errMsg = res.error ? `(${res.error})` : '';
+          showToast(`💾 Changes saved in browser storage. ${errMsg}`);
         }
       } else {
         window._adminSaveInProgress = false;
@@ -2435,10 +2499,12 @@ function initAdminApp() {
     if (!btn) return;
     const action = btn.getAttribute('data-action');
     if (action && typeof window[action] === 'function') {
+      const hasArg0 = btn.hasAttribute('data-arg0');
+      const hasArg1 = btn.hasAttribute('data-arg1');
       const arg0Str = btn.getAttribute('data-arg0');
       const arg1Str = btn.getAttribute('data-arg1');
-      const arg0 = arg0Str ? (isNaN(arg0Str) ? arg0Str : parseInt(arg0Str, 10)) : undefined;
-      const arg1 = arg1Str ? (isNaN(arg1Str) ? arg1Str : parseInt(arg1Str, 10)) : undefined;
+      const arg0 = hasArg0 ? (isNaN(arg0Str) ? arg0Str : parseInt(arg0Str, 10)) : undefined;
+      const arg1 = hasArg1 ? (isNaN(arg1Str) ? arg1Str : parseInt(arg1Str, 10)) : undefined;
       if (arg1 !== undefined) {
         window[action](arg0, arg1);
       } else if (arg0 !== undefined) {

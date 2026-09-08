@@ -147,16 +147,27 @@
   }
 
   function renderExperience(experience) {
-    // Home preview (top 3)
+    if (!Array.isArray(experience)) return;
+
+    // Ensure Current roles appear at the top of the timeline
+    const sorted = [...experience].sort((a, b) => {
+      const aCurrent = Boolean(a && a.isCurrent);
+      const bCurrent = Boolean(b && b.isCurrent);
+      if (aCurrent && !bCurrent) return -1;
+      if (!aCurrent && bCurrent) return 1;
+      return 0;
+    });
+
+    // All experience on homepage (latest first)
     const homeContainer = document.getElementById('home-experience-container');
-    if (homeContainer && Array.isArray(experience)) {
-      homeContainer.innerHTML = experience.slice(0, 3).map(job => renderTimelineItem(job)).join('');
+    if (homeContainer) {
+      homeContainer.innerHTML = sorted.map(job => renderTimelineItem(job)).join('');
     }
 
     // Full timeline (about.html)
     const fullContainer = document.getElementById('full-experience-container');
-    if (fullContainer && Array.isArray(experience)) {
-      fullContainer.innerHTML = experience.map(job => renderTimelineItem(job)).join('');
+    if (fullContainer) {
+      fullContainer.innerHTML = sorted.map(job => renderTimelineItem(job)).join('');
     }
   }
 
@@ -205,29 +216,31 @@
     function createCardHtml(r) {
       // Determine the data source icon (defaulting to LinkedIn)
       const sourceIconHtml = `
-        <svg viewBox="0 0 24 24" width="24" height="24" class="rec-source-icon">
+        <svg viewBox="0 0 24 24" width="18" height="18" class="rec-source-icon">
           <path d="${PortfolioUtils.LINKEDIN_SVG_PATH}"/>
         </svg>
       `;
 
       // Hide generic LinkedIn relationship text
-      const relationshipHtml = (r.relationship && !r.relationship.toLowerCase().includes('linkedin recommendation received'))
+      const hasCustomRel = r.relationship && !r.relationship.toLowerCase().includes('linkedin recommendation received');
+      const relationshipHtml = hasCustomRel
         ? `<span class="rec-relationship">${PortfolioUtils.escapeHtml(r.relationship)}</span>`
         : '';
+      const dateHtml = r.date ? `<span class="rec-date">${PortfolioUtils.escapeHtml(r.date)}</span>` : '';
 
       return `
         <div class="recommendation-card fade-up visible">
-          <div class="rec-quote-mark" class="rec-quote-mark rec-quote-mark-icon">${sourceIconHtml}</div>
+          <div class="rec-source-badge" title="LinkedIn Recommendation">${sourceIconHtml}</div>
           <div class="rec-header">
             <div class="rec-avatar-wrap">
               ${getAvatarHtml(r)}
             </div>
             <div class="rec-author-info">
               <div class="rec-author-name">
-                ${PortfolioUtils.escapeHtml(r.author)}
+                <span>${PortfolioUtils.escapeHtml(r.author)}</span>
                 ${r.linkedinUrl ? `
                   <a href="${PortfolioUtils.escapeHtml(r.linkedinUrl)}" target="_blank" rel="noopener noreferrer" class="rec-linkedin-link" title="View LinkedIn Profile">
-                    <svg class="rec-linkedin-icon" viewBox="0 0 24 24" width="16" height="16" class="rec-linkedin-icon"><path d="${PortfolioUtils.LINKEDIN_SVG_PATH}"/></svg>
+                    <svg class="rec-linkedin-icon" viewBox="0 0 24 24" width="13" height="13"><path d="${PortfolioUtils.LINKEDIN_SVG_PATH}"/></svg>
                   </a>
                 ` : ''}
               </div>
@@ -235,13 +248,15 @@
               ${r.company ? `<div class="rec-author-company">${PortfolioUtils.escapeHtml(r.company)}</div>` : ''}
             </div>
           </div>
-          <div class="rec-meta">
-            ${relationshipHtml}
-            <span class="rec-date">${PortfolioUtils.escapeHtml(r.date || '')}</span>
-          </div>
+          ${(relationshipHtml || dateHtml) ? `
+            <div class="rec-meta ${!relationshipHtml ? 'rec-meta-date-only' : ''}">
+              ${relationshipHtml}
+              ${dateHtml}
+            </div>
+          ` : ''}
           <div class="rec-text">
-            ${r.text.length > 250 ? `
-              <span class="rec-text-preview">${PortfolioUtils.escapeHtml(r.text.slice(0, 250))}...</span>
+            ${r.text.length > 240 ? `
+              <span class="rec-text-preview">${PortfolioUtils.escapeHtml(r.text.slice(0, 240))}...</span>
               <span class="rec-text-full hidden">${PortfolioUtils.escapeHtml(r.text)}</span>
               <button type="button" class="btn-rec-toggle" data-action="toggle-rec">Read more</button>
             ` : `
@@ -273,24 +288,54 @@
     const pageSize = 4;
     const totalPages = Math.ceil(recs.length / pageSize);
     let currentPage = 0;
+    let isAnimating = false;
 
-    function renderPage(page) {
-      currentPage = (page + totalPages) % totalPages;
+    function renderPage(page, direction = 'next') {
+      const targetPage = (page + totalPages) % totalPages;
+
+      // Initial render without animation
+      if (container.children.length === 0) {
+        currentPage = targetPage;
+        const start = currentPage * pageSize;
+        const pageItems = recs.slice(start, start + pageSize);
+        container.innerHTML = pageItems.map(r => createCardHtml(r)).join('');
+        if (indicator) indicator.textContent = `Page ${currentPage + 1} of ${totalPages}`;
+        if (prevBtn) prevBtn.disabled = totalPages <= 1;
+        if (nextBtn) nextBtn.disabled = totalPages <= 1;
+        return;
+      }
+
+      if (targetPage === currentPage) return;
+
+      currentPage = targetPage;
       const start = currentPage * pageSize;
       const pageItems = recs.slice(start, start + pageSize);
 
+      // Reset any manual inline transitions
+      container.style.transition = 'none';
+      container.style.opacity = '1';
+      container.style.transform = 'none';
+
+      // Instant DOM swap — zero lag
       container.innerHTML = pageItems.map(r => createCardHtml(r)).join('');
+
       if (indicator) {
         indicator.textContent = `Page ${currentPage + 1} of ${totalPages}`;
       }
       if (prevBtn) prevBtn.disabled = totalPages <= 1;
       if (nextBtn) nextBtn.disabled = totalPages <= 1;
+
+      // Trigger instant GPU keyframe slide animation
+      const animClass = direction === 'next' ? 'rec-slide-from-right' : 'rec-slide-from-left';
+      container.classList.remove('rec-slide-from-right', 'rec-slide-from-left');
+      void container.offsetWidth; // Force reflow
+      container.classList.add(animClass);
     }
 
     renderPage(0);
 
-    if (prevBtn) prevBtn.onclick = () => renderPage(currentPage - 1);
-    if (nextBtn) nextBtn.onclick = () => renderPage(currentPage + 1);
+    if (prevBtn) prevBtn.onclick = () => renderPage(currentPage - 1, 'prev');
+    if (nextBtn) nextBtn.onclick = () => renderPage(currentPage + 1, 'next');
   }
 
   function renderAboutPage(p, data) {
@@ -524,6 +569,8 @@
 
       const btnSubmit = document.getElementById('btn-contact-submit');
       if (btnSubmit && f.submitText) btnSubmit.textContent = f.submitText;
+      const inpAccessKey = document.getElementById('contact-access-key');
+      if (inpAccessKey && f.accessKey) inpAccessKey.value = f.accessKey;
 
       // Contact Detail Labels
       const d = s.contact.details || {};
@@ -672,36 +719,96 @@
     }
   }
 
-  function renderContactAndFooter(p, footerData) {
+  function renderContactAndFooter(p, footerData, navData) {
     const f = footerData || {};
+    const nav = navData || {};
 
+    // Footer Brand Logo / Text
+    const footerBrandElements = document.querySelectorAll('.footer-brand');
+    footerBrandElements.forEach(el => {
+      const brandText = f.brandText || nav.logoText || 'FMH11';
+      const showDot = nav.logoDot !== false;
+      const dotHtml = showDot ? '<span class="dot">.</span>' : '';
+      el.innerHTML = `<span data-cms="footerBrandText">${PortfolioUtils.escapeHtml(brandText)}</span>${dotHtml}`;
+    });
+
+    // Contact Intro
     const contactIntro = document.getElementById('contact-intro');
-    if (contactIntro && p.contactIntro) contactIntro.textContent = p.contactIntro;
+    const contactText = document.getElementById('contact-text');
+    const isContactIntroVis = p.contactIntroVisible !== false;
+    if (contactIntro) {
+      contactIntro.textContent = p.contactIntro || '';
+      contactIntro.style.display = isContactIntroVis && p.contactIntro ? '' : 'none';
+    }
+    if (contactText) {
+      contactText.style.display = isContactIntroVis ? '' : 'none';
+    }
 
-    // Dynamic Contact Links
+    // Dynamic Contact Links & Fields Visibility
+    const isEmailVis = p.emailVisible !== false && !!p.email;
+    const isPhoneVis = p.phoneVisible !== false && !!p.phone;
+    const isLinkedinVis = p.linkedinVisible !== false && !!p.linkedinUrl;
+    const isGithubVis = p.githubVisible !== false && !!p.githubUrl;
+    const isResumeVis = p.resumeUrlVisible !== false && !!p.resumeUrl;
+    const isLocVis = p.locationVisible !== false && !!p.location;
+
+    // Email
     document.querySelectorAll('[data-cms-link="email"]').forEach(el => {
       el.setAttribute('href', `mailto:${p.email || ''}`);
       if (el.hasAttribute('data-cms-text')) el.textContent = p.email || '';
+      const parentDiv = el.closest('div');
+      if (parentDiv && el.classList.contains('contact-detail-value')) {
+        parentDiv.style.display = isEmailVis ? '' : 'none';
+      } else {
+        el.style.display = isEmailVis ? '' : 'none';
+      }
     });
+    const emailLabel = document.getElementById('contact-detail-label-email');
+    if (emailLabel && emailLabel.parentElement) {
+      emailLabel.parentElement.style.display = isEmailVis ? '' : 'none';
+    }
 
+    // Phone
+    const phoneLabel = document.getElementById('contact-detail-label-phone');
+    if (phoneLabel && phoneLabel.parentElement) {
+      phoneLabel.parentElement.style.display = isPhoneVis ? '' : 'none';
+    }
     document.querySelectorAll('[data-cms-link="phone"]').forEach(el => {
       el.setAttribute('href', `tel:${(p.phone || '').replace(/\s+/g, '')}`);
       if (el.hasAttribute('data-cms-text')) el.textContent = p.phone || '';
-    });
-
-    document.querySelectorAll('[data-cms-link="linkedin"]').forEach(el => {
-      el.setAttribute('href', p.linkedinUrl || 'https://linkedin.com');
-    });
-
-    document.querySelectorAll('[data-cms-link="github"]').forEach(el => {
-      if (p.githubUrl) {
-        el.setAttribute('href', p.githubUrl);
-        el.style.display = '';
+      const parentDiv = el.closest('div');
+      if (parentDiv && el.classList.contains('contact-detail-value')) {
+        parentDiv.style.display = isPhoneVis ? '' : 'none';
       } else {
-        el.style.display = 'none';
+        el.style.display = isPhoneVis ? '' : 'none';
       }
     });
 
+    // LinkedIn (with official SVG logo)
+    document.querySelectorAll('[data-cms-link="linkedin"]').forEach(el => {
+      el.setAttribute('href', p.linkedinUrl || 'https://linkedin.com');
+      el.style.display = isLinkedinVis ? 'inline-flex' : 'none';
+      const li = el.closest('li');
+      if (li) li.style.display = isLinkedinVis ? '' : 'none';
+      el.innerHTML = `${PortfolioUtils.getLinkedInSvg(16)} <span>LinkedIn ↗</span>`;
+    });
+
+    // GitHub (with official SVG logo)
+    document.querySelectorAll('[data-cms-link="github"]').forEach(el => {
+      if (p.githubUrl) el.setAttribute('href', p.githubUrl);
+      el.style.display = isGithubVis ? 'inline-flex' : 'none';
+      const li = el.closest('li');
+      if (li) li.style.display = isGithubVis ? '' : 'none';
+      el.innerHTML = `${PortfolioUtils.getGitHubSvg(16)} <span>GitHub ↗</span>`;
+    });
+
+    // Connect block visibility in Contact column
+    const connectLabel = document.getElementById('contact-detail-label-connect');
+    if (connectLabel && connectLabel.parentElement) {
+      connectLabel.parentElement.style.display = (isLinkedinVis || isGithubVis) ? '' : 'none';
+    }
+
+    // Resume CTA
     document.querySelectorAll('[data-cms-link="resume"]').forEach(el => {
       if (p.resumeUrl) {
         el.setAttribute('href', p.resumeUrl);
@@ -710,15 +817,27 @@
       } else {
         el.setAttribute('href', 'about.html');
       }
+      el.style.display = isResumeVis ? '' : 'none';
     });
 
+    // Location
+    const locLabel = document.getElementById('contact-detail-label-location');
+    if (locLabel && locLabel.parentElement) {
+      locLabel.parentElement.style.display = isLocVis ? '' : 'none';
+    }
+
     // Footer Tagline & Copy
+    const taglineVal = f.tagline || p.footerTagline || '';
     const footerTagline = document.getElementById('footer-tagline');
-    if (footerTagline) footerTagline.textContent = f.tagline || p.footerTagline || '';
+    if (footerTagline) {
+      footerTagline.textContent = taglineVal;
+      footerTagline.style.display = (p.footerTaglineVisible !== false && taglineVal) ? '' : 'none';
+    }
 
     const footerCopy = document.getElementById('footer-copy');
     if (footerCopy) {
-      footerCopy.textContent = f.copyright || `© ${p.copyrightYear || 2026} ${p.name || 'Fazal Mahmud Hassan'}. All rights reserved.`;
+      const yearStr = p.copyrightYearVisible !== false ? `${p.copyrightYear || 2026} ` : '';
+      footerCopy.textContent = f.copyright || `© ${yearStr}${p.name || 'Fazal Mahmud Hassan'}. All rights reserved.`;
     }
 
     const footerNavTitle = document.getElementById('footer-nav-title');
@@ -731,15 +850,35 @@
       `).join('');
     }
 
+    // Footer Connect Section with Logos & Filtered Visibility
     const footerConnectTitle = document.getElementById('footer-connect-title');
-    if (footerConnectTitle && f.connectTitle) footerConnectTitle.textContent = f.connectTitle;
-
     const footerSocialLinks = document.getElementById('footer-social-links');
     if (footerSocialLinks && Array.isArray(f.socialLinks) && f.socialLinks.length > 0) {
-      footerSocialLinks.innerHTML = f.socialLinks.map(link => {
+      const filteredLinks = f.socialLinks.filter(link => {
+        const u = (link.url || '').toLowerCase();
+        const l = (link.label || '').toLowerCase();
+        if (u.includes('github') || l.includes('github')) return isGithubVis;
+        if (u.includes('linkedin') || l.includes('linkedin')) return isLinkedinVis;
+        if (u.includes('mailto') || l.includes('email')) return isEmailVis;
+        return true;
+      });
+
+      if (footerConnectTitle) {
+        footerConnectTitle.style.display = filteredLinks.length > 0 ? '' : 'none';
+      }
+
+      footerSocialLinks.innerHTML = filteredLinks.map(link => {
         const isExternal = /^https?:\/\//i.test(link.url);
         const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
-        return `<li><a href="${PortfolioUtils.escapeHtml(link.url)}"${targetAttr}>${PortfolioUtils.escapeHtml(link.label)}</a></li>`;
+        const u = (link.url || '').toLowerCase();
+        const l = (link.label || '').toLowerCase();
+        let iconSvg = '';
+        if (u.includes('linkedin') || l.includes('linkedin')) {
+          iconSvg = PortfolioUtils.getLinkedInSvg(15) + ' ';
+        } else if (u.includes('github') || l.includes('github')) {
+          iconSvg = PortfolioUtils.getGitHubSvg(15) + ' ';
+        }
+        return `<li><a href="${PortfolioUtils.escapeHtml(link.url)}"${targetAttr}>${iconSvg}<span>${PortfolioUtils.escapeHtml(link.label)}</span></a></li>`;
       }).join('');
     }
   }
@@ -968,7 +1107,7 @@
     renderRecommendations(data.recommendations);
     renderAboutPage(p, data);
     renderSectionHeadersAndVisibility(data.sections, data);
-    renderContactAndFooter(p, data.footer);
+    renderContactAndFooter(p, data.footer, data.navigation);
     renderSEO(data.seo, p);
   }
 
