@@ -318,28 +318,30 @@
       <div class="contact-container">
         <!-- Interactive Form -->
         <div class="contact-card-box">
-          <form id="portfolio-contact-form" class="contact-form">
+          <form id="portfolio-contact-form" class="contact-form" autocomplete="off">
             <input type="hidden" name="access_key" id="contact-access-key" value="24bc9261-af85-40be-b33c-af52391f8d36" />
+            <!-- Honeypot field for spam prevention -->
+            <input type="checkbox" name="botcheck" class="hidden" style="display: none !important; position: absolute !important; left: -9999px !important;" tabindex="-1" autocomplete="off" />
             <div id="contact-form-status" class="form-status"></div>
 
             <div class="form-group">
               <label class="form-label" id="label-contact-name" for="contact-name">Your Name *</label>
-              <input type="text" id="contact-name" name="name" class="form-input" placeholder="e.g. Alex Rahman" required />
+              <input type="text" id="contact-name" name="name" class="form-input" placeholder="e.g. Alex Rahman" required autocomplete="off" data-lpignore="true" data-1p-ignore="true" />
             </div>
 
             <div class="form-group">
               <label class="form-label" id="label-contact-email" for="contact-email">Email Address *</label>
-              <input type="email" id="contact-email" name="email" class="form-input" placeholder="e.g. alex@company.com" required />
+              <input type="email" id="contact-email" name="email" class="form-input" placeholder="e.g. alex@company.com" required autocomplete="off" data-lpignore="true" data-1p-ignore="true" />
             </div>
 
             <div class="form-group">
               <label class="form-label" id="label-contact-subject" for="contact-subject">Subject</label>
-              <input type="text" id="contact-subject" name="subject" class="form-input" placeholder="Project collaboration / Inquiry" />
+              <input type="text" id="contact-subject" name="subject" class="form-input" placeholder="Project collaboration / Inquiry" autocomplete="off" data-lpignore="true" data-1p-ignore="true" />
             </div>
 
             <div class="form-group">
               <label class="form-label" id="label-contact-msg" for="contact-msg">Message *</label>
-              <textarea id="contact-msg" name="message" class="form-textarea" placeholder="Tell me a bit about what you have in mind..." required></textarea>
+              <textarea id="contact-msg" name="message" class="form-textarea" placeholder="Tell me a bit about what you have in mind..." required autocomplete="off" data-lpignore="true" data-1p-ignore="true"></textarea>
             </div>
 
             <button type="submit" id="btn-contact-submit" class="btn btn-primary" style="align-self: flex-start;">Send Message ↗</button>

@@ -177,6 +177,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const statusEl = document.getElementById('contact-form-status');
       const submitBtn = contactForm.querySelector('button[type="submit"]');
 
+      // 1. Check honeypot field (botcheck)
+      const botcheck = contactForm.querySelector('[name="botcheck"]');
+      if (botcheck && (botcheck.checked || botcheck.value)) {
+        console.warn('[ContactForm] Honeypot triggered. Silent block executed.');
+        if (statusEl) {
+          statusEl.className = 'form-status success';
+          statusEl.innerHTML = `✅ Thank you! Your message has been sent successfully.`;
+        }
+        contactForm.reset();
+        return;
+      }
+
       const name = contactForm.querySelector('[name="name"]')?.value.trim() || '';
       const email = contactForm.querySelector('[name="email"]')?.value.trim() || '';
       const subject = contactForm.querySelector('[name="subject"]')?.value.trim() || '';
@@ -186,6 +198,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (statusEl) {
           statusEl.className = 'form-status error';
           statusEl.textContent = 'Please fill in all required fields.';
+        }
+        return;
+      }
+
+      // 2. Filter out generic Lorem Ipsum / automated filler text
+      const loremPattern = /lorem\s+ipsum|dolor\s+sit\s+amet|consectetur\s+adipiscing|sit\s+amet|lipsum|tempus\s+imperdiet/i;
+      if (loremPattern.test(name) || loremPattern.test(subject) || loremPattern.test(message) || loremPattern.test(email)) {
+        if (statusEl) {
+          statusEl.className = 'form-status error';
+          statusEl.textContent = '⚠️ Submission blocked: Generic placeholder text (Lorem Ipsum) detected. Please enter a legitimate message.';
         }
         return;
       }
