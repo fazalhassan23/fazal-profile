@@ -222,29 +222,31 @@
     function createCardHtml(r) {
       // Determine the data source icon (defaulting to LinkedIn)
       const sourceIconHtml = `
-        <svg viewBox="0 0 24 24" width="24" height="24" class="rec-source-icon">
+        <svg viewBox="0 0 24 24" width="18" height="18" class="rec-source-icon">
           <path d="${PortfolioUtils.LINKEDIN_SVG_PATH}"/>
         </svg>
       `;
 
       // Hide generic LinkedIn relationship text
-      const relationshipHtml = (r.relationship && !r.relationship.toLowerCase().includes('linkedin recommendation received'))
+      const hasCustomRel = r.relationship && !r.relationship.toLowerCase().includes('linkedin recommendation received');
+      const relationshipHtml = hasCustomRel
         ? `<span class="rec-relationship">${PortfolioUtils.escapeHtml(r.relationship)}</span>`
         : '';
+      const dateHtml = r.date ? `<span class="rec-date">${PortfolioUtils.escapeHtml(r.date)}</span>` : '';
 
       return `
         <div class="recommendation-card fade-up visible">
-          <div class="rec-quote-mark" class="rec-quote-mark rec-quote-mark-icon">${sourceIconHtml}</div>
+          <div class="rec-source-badge" title="LinkedIn Recommendation">${sourceIconHtml}</div>
           <div class="rec-header">
             <div class="rec-avatar-wrap">
               ${getAvatarHtml(r)}
             </div>
             <div class="rec-author-info">
               <div class="rec-author-name">
-                ${PortfolioUtils.escapeHtml(r.author)}
+                <span>${PortfolioUtils.escapeHtml(r.author)}</span>
                 ${r.linkedinUrl ? `
                   <a href="${PortfolioUtils.escapeHtml(r.linkedinUrl)}" target="_blank" rel="noopener noreferrer" class="rec-linkedin-link" title="View LinkedIn Profile">
-                    <svg class="rec-linkedin-icon" viewBox="0 0 24 24" width="16" height="16" class="rec-linkedin-icon"><path d="${PortfolioUtils.LINKEDIN_SVG_PATH}"/></svg>
+                    <svg class="rec-linkedin-icon" viewBox="0 0 24 24" width="13" height="13"><path d="${PortfolioUtils.LINKEDIN_SVG_PATH}"/></svg>
                   </a>
                 ` : ''}
               </div>
@@ -252,13 +254,15 @@
               ${r.company ? `<div class="rec-author-company">${PortfolioUtils.escapeHtml(r.company)}</div>` : ''}
             </div>
           </div>
-          <div class="rec-meta">
-            ${relationshipHtml}
-            <span class="rec-date">${PortfolioUtils.escapeHtml(r.date || '')}</span>
-          </div>
+          ${(relationshipHtml || dateHtml) ? `
+            <div class="rec-meta ${!relationshipHtml ? 'rec-meta-date-only' : ''}">
+              ${relationshipHtml}
+              ${dateHtml}
+            </div>
+          ` : ''}
           <div class="rec-text">
-            ${r.text.length > 250 ? `
-              <span class="rec-text-preview">${PortfolioUtils.escapeHtml(r.text.slice(0, 250))}...</span>
+            ${r.text.length > 240 ? `
+              <span class="rec-text-preview">${PortfolioUtils.escapeHtml(r.text.slice(0, 240))}...</span>
               <span class="rec-text-full hidden">${PortfolioUtils.escapeHtml(r.text)}</span>
               <button type="button" class="btn-rec-toggle" data-action="toggle-rec">Read more</button>
             ` : `

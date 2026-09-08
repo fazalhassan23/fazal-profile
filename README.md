@@ -260,7 +260,8 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 
 | Version | Date | Summary |
 |---|---|---|
-| v2.3.2 | 2026-09-08 | **CMS Edit & Delete Action Buttons**: Fixed broken `data-arg0` attributes across all 10 CMS list managers in `js/admin.js` to ensure item indexes are passed to modal editors and deletion handlers |
+| v2.4.0 | 2026-09-09 | **LinkedIn Recommendations Display Photos & Compact Cards**: Automated Chrome DevTools Protocol (CDP) sync for all 27 recommendation display photos saved locally to `assets/testimonials/`, fixed card top dead space, absolutely pinned source badge, streamlined card padding and meta lines |
+| v2.3.3 | 2026-09-08 | **Job Experience Timeline Ordering & Live Cache Priority**: Placed newly added positions at top (`unshift`), ensured current positions (`isCurrent: true`) sort first, sanitized server save payloads, and prioritized fresh live data over stale `localStorage` |
 | v2.3.1 | 2026-09-08 | **CMS Persistence & Local Dev Server**: Fixed admin panel refresh data loss, added `_hasLocalChanges` draft protection, clock-skew guard, and added `server.py` flat-file save API for local development |
 | v2.3.0 | 2026-09-07 | **CV Synchronization, Full Career Timeline & Web3Forms**: Strict CV sync (zero imagined data), all 6 positions on homepage, serverless background contact delivery via Web3Forms with mailto fallback, GPU keyframe pagination transitions, production backup tag |
 | v2.2.2 | 2026-09-03 | **CMS Data Synchronization**: First Name single source of truth for logo text, opportunistic GitHub PAT save, restored missing DOM bindings |
