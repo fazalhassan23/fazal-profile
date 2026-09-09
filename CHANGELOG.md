@@ -3,6 +3,24 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.4.2] — 2026-09-09
+
+> Branch: `cv` — Executive Typography System & Global CMS Font Switcher.
+
+### Added
+
+#### Executive Typography & Human Font Pair System
+- **Modern Executive Default**: Replaced generic AI-style fonts (`Space Grotesk` / `DM Sans`) with **`Plus Jakarta Sans`** (Display headers) + **`Inter`** (Body text) across the portfolio for a crisp, executive leadership aesthetic (Vercel/Stripe design standard).
+- **Expanded Font Themes**: Added 5 premium human typography options accessible directly in CMS:
+  - ✨ `Modern Executive` (`Plus Jakarta Sans` / `Inter`)
+  - ⚡ `Clean Tech Sans` (`Outfit` / `Plus Jakarta Sans`)
+  - 📚 `Academic & Research` (`Lora Serif` / `Inter`)
+  - 🎨 `Distinctive Humanist` (`Bricolage Grotesque` / `Plus Jakarta Sans`)
+  - 🏢 `Precision Minimalist` (`Inter Tight` / `Inter`)
+- **Global CMS Selector**: Updated Admin CMS (`admin.html`) under **Profile & Bio** → **Global Typography Theme** to switch the site-wide font pair instantly on save.
+
+---
+
 ## [2.4.1] — 2026-09-09
 
 > Branch: `cv` / `main` — Contact Form Spam & Automated Lorem Ipsum Protection.

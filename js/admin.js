@@ -311,7 +311,7 @@ function initAdminApp() {
     setVal('input-roleTitle', p.roleTitle);
     setVal('input-heroBio', p.heroBio);
     setVal('input-aboutLead', p.aboutLead);
-    setVal('input-fontPair', p.fontPair || 'geometric');
+    setVal('input-fontPair', p.fontPair || 'executive');
     
     // Initialize About Story Rich Text Editor
     const aboutStoryWrap = document.getElementById('editor-aboutParagraphs-wrap');

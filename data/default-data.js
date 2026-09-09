@@ -26,6 +26,7 @@ window.DEFAULT_PORTFOLIO_DATA = {
     "locationVisible": true,
     "footerTagline": "Technical Project Manager | Systems Engineer | Based in Dhaka, Bangladesh.",
     "footerTaglineVisible": true,
+    "fontPair": "executive",
     "copyrightYear": 2026,
     "copyrightYearVisible": true,
     "resumeUrl": "",
