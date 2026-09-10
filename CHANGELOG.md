@@ -3,6 +3,21 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.5.0] — 2026-09-10
+
+> Branch: `cv` — Contact field visibility toggles and social logos.
+
+### Added
+
+#### Field-level Visibility Toggles & Official Logos
+- **CMS Visibility Controls**: Implemented field-level visibility toggles for the contact section (Phone, GitHub, LinkedIn, etc.) and footer social links, including instant CMS auto-save.
+- **Brand Identity**: Integrated official LinkedIn and GitHub SVG logos with hover animations into the contact info and footer.
+
+### Fixed
+- **Frontend Infrastructure**: Resolved script loading issues caused by newline characters in HTML files and stabilized CSS grid animations for recommendations.
+
+---
+
 ## [2.4.2] — 2026-09-09
 
 > Branch: `cv` — Executive Typography System & Global CMS Font Switcher.

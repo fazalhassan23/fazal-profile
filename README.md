@@ -260,6 +260,7 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 
 | Version | Date | Summary |
 |---|---|---|
+| v2.5.0 | 2026-09-10 | **Contact Visibility & Logos**: Field-level visibility toggles for the contact section and footer social links, including instant CMS auto-save, official LinkedIn and GitHub SVG logos, and frontend infrastructure fixes |
 | v2.4.0 | 2026-09-09 | **LinkedIn Recommendations Display Photos & Compact Cards**: Automated Chrome DevTools Protocol (CDP) sync for all 27 recommendation display photos saved locally to `assets/testimonials/`, fixed card top dead space, absolutely pinned source badge, streamlined card padding and meta lines |
 | v2.3.3 | 2026-09-08 | **Job Experience Timeline Ordering & Live Cache Priority**: Placed newly added positions at top (`unshift`), ensured current positions (`isCurrent: true`) sort first, sanitized server save payloads, and prioritized fresh live data over stale `localStorage` |
 | v2.3.1 | 2026-09-08 | **CMS Persistence & Local Dev Server**: Fixed admin panel refresh data loss, added `_hasLocalChanges` draft protection, clock-skew guard, and added `server.py` flat-file save API for local development |
@@ -290,6 +291,7 @@ This table tracks which features and fixes were developed on which Git branches.
 
 | Branch | Based On | Date | Files Changed | Feature / Fix |
 |---|---|---|---|---|
+| `main` | `cv` | 2026-09-10 | `data/*.{json,js}`, `js/*.js`, `*.html`, `css/style.css` | Merged `cv` branch introducing contact field visibility toggles, SVG social logos, and frontend infrastructure fixes |
 | `main` | — | 2026-09-08 | `js/admin.js`, `server.py`, `js/store.js`, `data/default-data.js` | Fixed CMS list action buttons (Edit/Delete) across all managers, fixed persistence on refresh, added local dev flat-file save API (`server.py`), and established production JSON isolation |
 | `cv` | `main` | 2026-09-07 | `data/*.{json,js}`, `js/*.js`, `*.html`, `css/style.css` | Strict CV synchronization, all 6 positions on homepage, Web3Forms serverless delivery, recommendation pagination keyframe animations, merged into `main` |
 | `main-backup-20260907` | `main` | 2026-09-07 | Snapshot of `main` at `72317c3` | Safety backup branch and tag `backup-main-20260907` created prior to CV release merge |
