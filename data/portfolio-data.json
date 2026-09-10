@@ -31,21 +31,23 @@
   },
   "availability": {
     "status": "available",
-    "badgeText": "Open to Opportunities",
+    "badgeText": "Lets talk about work",
     "typewriterRoles": [
       "Technical Project Manager",
       "Training and Content Specialist",
       "Technical Support Engineer",
-      "System Engineer"
+      "System Engineer",
+      "Tech Enthusiast",
+      "Photographer"
     ]
   },
   "metrics": [
     {
       "id": "m-1",
-      "number": "21",
+      "number": "27",
       "suffix": "",
       "label": "Projects Managed",
-      "subtext": "Around 21 projects, over 15 completed"
+      "subtext": "Around 27 projects, over 21 completed, rest are in delivery pipeline"
     },
     {
       "id": "m-2",
@@ -201,7 +203,7 @@
     },
     {
       "id": "job-4",
-      "company": "Augmedix Bangladesh",
+      "company": "Augmedix",
       "companyUrl": "https://augmedix.com",
       "role": "Technical Support Engineer",
       "period": "October 2020 to March 2021",
@@ -1125,5 +1127,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-  "_savedAt": "2026-09-08T18:42:15.708Z"
+  "_savedAt": "2026-09-08T18:58:36.019Z"
 }
