@@ -528,6 +528,9 @@ function initAdminApp() {
     setVal('input-sec-hero-cta2-url', hh.cta2?.url || 'about.html');
     setVal('input-sec-hero-cta3-text', hh.cta3?.text || 'Download Resume');
     setVal('input-sec-hero-cta3-url', hh.cta3?.url || 'about.html');
+    setVal('input-sec-hero-cta4-text', hh.cta4?.text || 'Book a Call');
+    setVal('input-sec-hero-cta4-url', hh.cta4?.url || '');
+    setVal('input-hero-now', hh.heroNow || '');
 
     // Expertise
     const exp = s.expertise || {};
@@ -2144,6 +2147,13 @@ function initAdminApp() {
       data.sections.homeHero.cta3.text = getVal('input-sec-hero-cta3-text');
       data.sections.homeHero.cta3.url = getVal('input-sec-hero-cta3-url');
       data.sections.homeHero.cta3.visible = data.sections.homeHero.cta3.visible !== false;
+
+      if (!data.sections.homeHero.cta4) data.sections.homeHero.cta4 = {};
+      data.sections.homeHero.cta4.text = getVal('input-sec-hero-cta4-text');
+      data.sections.homeHero.cta4.url = getVal('input-sec-hero-cta4-url');
+      data.sections.homeHero.cta4.visible = data.sections.homeHero.cta4.visible !== false;
+      
+      data.sections.homeHero.heroNow = getVal('input-hero-now');
 
       // Expertise
       if (!data.sections.expertise) data.sections.expertise = {};

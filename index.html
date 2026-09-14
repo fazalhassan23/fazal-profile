@@ -176,10 +176,15 @@
 
       <!-- Live Availability Badge (Wrapped in block-level div to force line break) -->
       <div>
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; margin-bottom: 2rem;">
         <div class="availability-badge available" id="hero-availability">
           <span class="status-pulse"></span>
           <span id="availability-text">Open to Research &amp; Advisory</span>
         </div>
+        <div id="hero-now-wrapper" style="display: none; font-size: 0.85rem; color: var(--text-secondary); background: var(--bg-surface); padding: 0.25rem 0.75rem; border-radius: 4px; border: 1px solid var(--border-color);">
+          <span style="font-weight: 500; color: var(--text-primary);">Currently:</span> <span id="hero-now-text"></span>
+        </div>
+      </div>
       </div>
 
       <h1 id="hero-title">Fazal Mahmud<br>Hassan.</h1>
@@ -205,6 +210,7 @@
         <a href="projects.html" id="hero-cta-1" class="btn btn-primary">View My Work ↗</a>
         <a href="about.html" id="hero-cta-2" class="btn btn-outline">About &amp; Experience</a>
         <a href="about.html" id="hero-cta-3" data-cms-link="resume" class="btn btn-outline">Download Resume</a>
+        <a href="#" id="hero-cta-4" class="btn btn-outline" style="display: none;">Book a Call</a>
       </div>
     </section>
 

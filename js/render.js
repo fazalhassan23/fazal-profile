@@ -421,6 +421,24 @@
       heroCta3.style.display = s.homeHero.cta3.visible !== false ? '' : 'none';
     }
 
+    const heroCta4 = document.getElementById('hero-cta-4');
+    if (heroCta4 && s.homeHero?.cta4) {
+      heroCta4.textContent = s.homeHero.cta4.text || 'Book a Call';
+      heroCta4.setAttribute('href', s.homeHero.cta4.url || '#');
+      heroCta4.style.display = (s.homeHero.cta4.visible !== false && s.homeHero.cta4.url) ? '' : 'none';
+    }
+
+    const heroNowWrapper = document.getElementById('hero-now-wrapper');
+    const heroNowText = document.getElementById('hero-now-text');
+    if (heroNowWrapper && heroNowText && s.homeHero) {
+      if (s.homeHero.heroNow) {
+        heroNowText.textContent = s.homeHero.heroNow;
+        heroNowWrapper.style.display = '';
+      } else {
+        heroNowWrapper.style.display = 'none';
+      }
+    }
+
     // Expertise Section
     const secExpertise = document.getElementById('expertise');
     if (secExpertise && s.expertise) {
