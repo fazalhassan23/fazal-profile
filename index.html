@@ -107,6 +107,9 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
+  <!-- Analytics -->
+  <script defer data-domain="YOUR_DOMAIN_HERE" src="https://plausible.io/js/script.js"></script>
+
   <!-- Fonts (Localized) -->
   <link rel="stylesheet" href="css/fonts.css" />
 
@@ -297,6 +300,13 @@
             What colleagues, clients, and partners say about working with me.
           </p>
         </div>
+      </div>
+
+      <div class="rec-filters" id="rec-filters" style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
+        <button class="btn btn-outline active" data-filter="all">All</button>
+        <button class="btn btn-outline" data-filter="management">Management & Leadership</button>
+        <button class="btn btn-outline" data-filter="technical">Technical & Engineering</button>
+        <button class="btn btn-outline" data-filter="academic">Academic & Research</button>
       </div>
 
       <div class="rec-paginated-wrapper" id="recommendations-container-outer">

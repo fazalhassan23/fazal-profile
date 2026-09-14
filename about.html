@@ -72,6 +72,9 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Analytics -->
+  <script defer data-domain="YOUR_DOMAIN_HERE" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
 
@@ -115,6 +118,15 @@
         Technical Project Manager. Systems thinker. Lifelong learner. 
         Based in Dhaka, Bangladesh.
       </p>
+    </div>
+
+    <div class="persona-selector" id="persona-selector" style="margin-bottom: 2rem; background: var(--bg-surface); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+      <p style="margin-bottom: 1rem; font-weight: 500;">Why are you visiting today?</p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <button class="btn btn-outline" data-persona="recruiter">I'm a recruiter / hiring</button>
+        <button class="btn btn-outline" data-persona="client">I'm a potential client</button>
+        <button class="btn btn-outline" data-persona="collaborator">I'm a collaborator / researcher</button>
+      </div>
     </div>
 
     <!-- ── BIO ────────────────────────────────────────── -->

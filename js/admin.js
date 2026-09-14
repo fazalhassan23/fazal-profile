@@ -1531,6 +1531,10 @@ function initAdminApp() {
           <input type="text" id="modal-proj-tags" class="form-input" value="${PortfolioUtils.escapeHtml((proj.tags || []).join(', '))}" />
         </div>
         <div class="form-group full-width">
+          <label class="form-label">Result / Outcome (e.g. Reduced delivery cycle by 40%)</label>
+          <input type="text" id="modal-proj-result" class="form-input" value="${PortfolioUtils.escapeHtml(proj.result || '')}" placeholder="Optional outcome highlight" />
+        </div>
+        <div class="form-group full-width">
           <label class="form-label">Project Description</label>
           <div id="modal-proj-editor-wrap"></div>
         </div>
@@ -1541,6 +1545,7 @@ function initAdminApp() {
       const year = document.getElementById('modal-proj-year').value.trim();
       const link = document.getElementById('modal-proj-link').value.trim();
       const badge = document.getElementById('modal-proj-badge').value.trim();
+      const result = document.getElementById('modal-proj-result').value.trim();
       const tags = document.getElementById('modal-proj-tags').value.split(',').map(t => t.trim()).filter(Boolean);
       const description = projEditor ? projEditor.getHTML() : '';
 
@@ -1551,7 +1556,7 @@ function initAdminApp() {
 
       if (!data.projects) data.projects = [];
 
-      const updated = { ...proj, title, category, year, link, badge, tags, description };
+      const updated = { ...proj, title, category, year, link, badge, result, tags, description };
       if (isNew) {
         data.projects.push(updated);
       } else {
@@ -2044,6 +2049,15 @@ function initAdminApp() {
           <label class="form-label">Avatar Image URL (Optional)</label>
           <input type="text" id="modal-rec-avatar" class="form-input" value="${PortfolioUtils.escapeHtml(rec.avatar || '')}" placeholder="assets/testimonials/avatar.jpg" />
         </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select id="modal-rec-category" class="form-input">
+            <option value="all" ${rec.category === 'all' || !rec.category ? 'selected' : ''}>All</option>
+            <option value="management" ${rec.category === 'management' ? 'selected' : ''}>Management & Leadership</option>
+            <option value="technical" ${rec.category === 'technical' ? 'selected' : ''}>Technical & Engineering</option>
+            <option value="academic" ${rec.category === 'academic' ? 'selected' : ''}>Academic & Research</option>
+          </select>
+        </div>
         <div class="form-group full-width">
           <label class="form-label">Recommendation Text *</label>
           <div id="modal-rec-editor-wrap"></div>
@@ -2071,6 +2085,7 @@ function initAdminApp() {
         linkedinUrl: document.getElementById('modal-rec-url').value.trim(),
         relationship: document.getElementById('modal-rec-relationship').value.trim(),
         date: document.getElementById('modal-rec-date').value.trim(),
+        category: document.getElementById('modal-rec-category').value,
         text: text,
         featured: rec.featured,
         visible: rec.visible !== false

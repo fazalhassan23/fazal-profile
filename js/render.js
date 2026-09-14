@@ -210,10 +210,30 @@
     });
   }
 
+  let currentRecCategory = 'all';
+
   function renderRecommendations(recommendations) {
     if (!Array.isArray(recommendations)) return;
 
-    const visibleRecs = recommendations.filter(r => r.visible !== false);
+    let visibleRecs = recommendations.filter(r => r.visible !== false);
+
+    const filtersContainer = document.getElementById('rec-filters');
+    if (filtersContainer && !filtersContainer.dataset.bound) {
+      filtersContainer.dataset.bound = "true";
+      filtersContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-filter]');
+        if (btn) {
+          document.querySelectorAll('#rec-filters button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentRecCategory = btn.getAttribute('data-filter');
+          renderRecommendations(recommendations);
+        }
+      });
+    }
+
+    if (currentRecCategory !== 'all') {
+      visibleRecs = visibleRecs.filter(r => r.category === currentRecCategory);
+    }
 
     function getAvatarHtml(r) {
       if (r.avatar && r.avatar.trim()) {
@@ -359,6 +379,37 @@
   }
 
   function renderAboutPage(p, data) {
+    const personaSelector = document.getElementById('persona-selector');
+    if (personaSelector && !personaSelector.dataset.bound) {
+      personaSelector.dataset.bound = "true";
+      personaSelector.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-persona]');
+        if (btn) {
+          document.querySelectorAll('#persona-selector button').forEach(b => b.classList.remove('active', 'btn-primary'));
+          document.querySelectorAll('#persona-selector button').forEach(b => b.classList.add('btn-outline'));
+          
+          btn.classList.remove('btn-outline');
+          btn.classList.add('active', 'btn-primary');
+          
+          const persona = btn.getAttribute('data-persona');
+          let targetId = '';
+          if (persona === 'recruiter') targetId = 'about-experience';
+          if (persona === 'client') targetId = 'about-recommendations';
+          if (persona === 'collaborator') targetId = 'bio';
+          
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            targetEl.style.transition = 'background-color 0.5s ease';
+            targetEl.style.backgroundColor = 'var(--bg-subtle, rgba(255,255,255,0.05))';
+            setTimeout(() => {
+              targetEl.style.backgroundColor = 'transparent';
+            }, 1500);
+          }
+        }
+      });
+    }
+
     const aboutLead = document.getElementById('about-lead');
     if (aboutLead) aboutLead.innerHTML = renderRichText(p.aboutLead || p.heroBio || '');
 
@@ -944,6 +995,28 @@
       const metaKw = document.querySelector('meta[name="keywords"]');
       if (metaKw) metaKw.setAttribute('content', seo.keywords);
     }
+    
+    // JSON-LD Schema
+    let schemaScript = document.getElementById('json-ld-schema');
+    if (!schemaScript) {
+      schemaScript = document.createElement('script');
+      schemaScript.type = 'application/ld+json';
+      schemaScript.id = 'json-ld-schema';
+      document.head.appendChild(schemaScript);
+    }
+    
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": p?.name || "",
+      "url": window.location.href,
+      "jobTitle": p?.roleTitle || "",
+      "sameAs": [
+        p?.linkedinUrl,
+        p?.githubUrl
+      ].filter(Boolean)
+    };
+    schemaScript.textContent = JSON.stringify(schema, null, 2);
   }
 
   /* ── Helper Renderers ──────────────────────────────────── */
@@ -981,6 +1054,7 @@
         <div class="project-card-content">
           <h3>${PortfolioUtils.escapeHtml(proj.title || '')}</h3>
           ${renderRichText(proj.description || '')}
+          ${proj.result ? `<div class="project-result" style="margin-top: 0.75rem; font-weight: 500; color: var(--accent-primary);"><span style="margin-right:0.4rem;">?</span> ${PortfolioUtils.escapeHtml(proj.result)}</div>` : ''}
         </div>
         <div class="project-card-right">
           <span class="project-year">${PortfolioUtils.escapeHtml(proj.year || '')}</span>
