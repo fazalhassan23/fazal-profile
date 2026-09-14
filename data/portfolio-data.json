@@ -14,7 +14,7 @@
     "emailVisible": true,
     "phone": "+880 1712 772123",
     "phoneVisible": false,
-    "linkedinUrl": "https://linkedin.com/in/fazalmahmudhassan",
+    "linkedinUrl": "https://www.linkedin.com/in/fazal-mahmud-hassan-8915b0175/",
     "linkedinVisible": true,
     "githubUrl": "https://github.com/fazalhassan23",
     "githubVisible": false,
@@ -22,12 +22,11 @@
     "locationVisible": true,
     "footerTagline": "Technical Project Manager | Systems Engineer | Based in Dhaka, Bangladesh.",
     "footerTaglineVisible": true,
-    "fontPair": "executive",
+    "fontPair": "geometric",
     "copyrightYear": 2026,
     "copyrightYearVisible": true,
     "resumeUrl": "",
-    "resumeUrlVisible": true,
-    "fontPair": "geometric"
+    "resumeUrlVisible": true
   },
   "availability": {
     "status": "available",
@@ -1127,5 +1126,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-  "_savedAt": "2026-09-08T18:58:36.019Z"
+  "_savedAt": "2026-09-14T09:23:14.112Z"
 }
