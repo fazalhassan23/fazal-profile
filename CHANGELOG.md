@@ -3,24 +3,15 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [2.6.0] — 2026-09-14
+## [2.6.0] - 2026-09-14
 
-> Branch: `rich-text` — Rich Text Editor (WYSIWYG) Expansion across all CMS text fields.
+> Branch: `rich-text` - Added rich text editor support across CMS text fields.
 
 ### Added
 
-#### Global Rich Text Editor Support
-- **Widespread WYSIWYG Editor Integration**: Upgraded plain `textarea` fields across the CMS (`admin.html`, `admin.js`) to use the built-in rich text editor engine. Now supports bold, italics, bullet points, hyperlinks, and paragraph blocks.
-- **Affected Fields**:
-  - Homepage Hero Bio
-  - About Page Lead Paragraph
-  - Expertise Card Descriptions
-  - Project/Research Descriptions
-  - Article Summaries
-  - Extra Activity Descriptions
-  - Recommendation Texts
-- **Dynamic HTML Frontend Rendering**: Updated `render.js` to process rich text HTML gracefully across the live frontend pages (`index.html`, `about.html`, etc.), adding safe backwards compatibility for existing plain text content.
-- **Intelligent Truncation**: Re-wrote the recommendation card snippet truncation logic to accurately strip HTML tags, ensuring clean plain-text previews and correctly formatted full text on expansion.
+- Added rich text editor (WYSIWYG) support to 7 CMS fields: Hero Bio, About Page Lead, Expertise Descriptions, Project Descriptions, Article Summaries, Extra Activity Descriptions, and Recommendation Texts.
+- Updated the frontend renderer (`render.js`) to display the new HTML content while keeping backwards compatibility for existing plain text.
+- Improved the recommendation snippet logic to strip HTML tags so the preview text looks clean before clicking "Read more".
 
 ---
 

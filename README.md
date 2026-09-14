@@ -260,7 +260,7 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 
 | Version | Date | Summary |
 |---|---|---|
-| v2.6.0 | 2026-09-14 | **Rich Text Editor Expansion**: Widespread WYSIWYG editor integration across 7 CMS text fields (Hero Bio, About Lead, Expertise, Projects, Extras, Recommendations, Article Summary) with dynamic frontend HTML rendering and intelligent recommendation snippet truncation |
+| v2.6.0 | 2026-09-14 | **Rich Text Editor**: Added WYSIWYG editor support to 7 CMS text fields with frontend HTML rendering and improved text truncation |
 | v2.5.0 | 2026-09-10 | **Contact Visibility & Logos**: Field-level visibility toggles for the contact section and footer social links, including instant CMS auto-save, official LinkedIn and GitHub SVG logos, and frontend infrastructure fixes |
 | v2.4.0 | 2026-09-09 | **LinkedIn Recommendations Display Photos & Compact Cards**: Automated Chrome DevTools Protocol (CDP) sync for all 27 recommendation display photos saved locally to `assets/testimonials/`, fixed card top dead space, absolutely pinned source badge, streamlined card padding and meta lines |
 | v2.3.3 | 2026-09-08 | **Job Experience Timeline Ordering & Live Cache Priority**: Placed newly added positions at top (`unshift`), ensured current positions (`isCurrent: true`) sort first, sanitized server save payloads, and prioritized fresh live data over stale `localStorage` |
