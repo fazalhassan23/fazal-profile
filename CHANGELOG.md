@@ -1,4 +1,4 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
@@ -15,9 +15,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2.5.0] — 2026-09-10
+## [2.5.0] - 2026-09-10
 
-> Branch: `cv` — Contact field visibility toggles and social logos.
+> Branch: `cv` - Contact field visibility toggles and social logos.
 
 ### Added
 
@@ -30,9 +30,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2.4.2] — 2026-09-09
+## [2.4.2] - 2026-09-09
 
-> Branch: `cv` — Executive Typography System & Global CMS Font Switcher.
+> Branch: `cv` - Executive Typography System & Global CMS Font Switcher.
 
 ### Added
 
@@ -48,9 +48,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2.4.1] — 2026-09-09
+## [2.4.1] - 2026-09-09
 
-> Branch: `cv` / `main` — Contact Form Spam & Automated Lorem Ipsum Protection.
+> Branch: `cv` / `main` - Contact Form Spam & Automated Lorem Ipsum Protection.
 
 ### Added
 
@@ -61,9 +61,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2.4.0] — 2026-09-09
+## [2.4.0] - 2026-09-09
 
-> Branch: `cv` / `main` — Automated LinkedIn Recommendations Display Photo Sync & Compact Card Redesign.
+> Branch: `cv` / `main` - Automated LinkedIn Recommendations Display Photo Sync & Compact Card Redesign.
 
 ### Added
 
@@ -83,9 +83,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2.3.3] — 2026-09-08
+## [2.3.3] - 2026-09-08
 
-> Branch: `main` — Fix Newly Added Job Experience Not Displaying at Top of Frontend & Cache Priority.
+> Branch: `main` - Fix Newly Added Job Experience Not Displaying at Top of Frontend & Cache Priority.
 
 ### Fixed
 
@@ -100,9 +100,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2.3.2] — 2026-09-08
+## [2.3.2] - 2026-09-08
 
-> Branch: `main` — Fix CMS Edit and Delete Action Buttons Across All Content Managers.
+> Branch: `main` - Fix CMS Edit and Delete Action Buttons Across All Content Managers.
 
 ### Fixed
 
@@ -112,9 +112,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2.3.1] — 2026-09-08
+## [2.3.1] - 2026-09-08
 
-> Branch: `main` — CMS Admin Panel Persistence, Local Dev Server Flat-File Save API, and Production Data Isolation.
+> Branch: `main` - CMS Admin Panel Persistence, Local Dev Server Flat-File Save API, and Production Data Isolation.
 
 ### Added
 
@@ -140,9 +140,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2.3.0] — 2026-09-07
+## [2.3.0] - 2026-09-07
 
-> Branch: `cv` → Merged into `main` (Production) — Complete CV synchronization, full experience timeline, serverless background contact delivery, and recommendations pagination transitions.
+> Branch: `cv` → Merged into `main` (Production) - Complete CV synchronization, full experience timeline, serverless background contact delivery, and recommendations pagination transitions.
 
 ### Added
 
@@ -160,14 +160,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-#### Experience Section — Full History on Homepage
+#### Experience Section - Full History on Homepage
 - **All 6 Career Entries Directly on Homepage**: Removed the 3-item slice constraint in `js/render.js` so that all 6 professional positions (all 34 verbatim bullets from the CV) render directly on the homepage timeline in reverse chronological order:
-  1. Lead Technical Project Manager / Project Manager — Mediusware Limited (Feb 2024 – Present)
-  2. Product & Project Manager — Microters Ltd. (Aug 2023 – Jan 2024)
-  3. Associate Project Manager / Scrum Master — DevsNest LLC (Jul 2022 – Aug 2023)
-  4. Business Analyst / Junior Project Manager — Softzino Technologies (Oct 2021 – Jun 2022)
-  5. IT Project Coordinator (Contract) — NextGen Innovations (Jan 2020 – Sep 2021)
-  6. Junior Software Engineer / QA Analyst — CloudTech Solutions (Jan 2019 – Dec 2019)
+  1. Lead Technical Project Manager / Project Manager - Mediusware Limited (Feb 2024 - Present)
+  2. Product & Project Manager - Microters Ltd. (Aug 2023 - Jan 2024)
+  3. Associate Project Manager / Scrum Master - DevsNest LLC (Jul 2022 - Aug 2023)
+  4. Business Analyst / Junior Project Manager - Softzino Technologies (Oct 2021 - Jun 2022)
+  5. IT Project Coordinator (Contract) - NextGen Innovations (Jan 2020 - Sep 2021)
+  6. Junior Software Engineer / QA Analyst - CloudTech Solutions (Jan 2019 - Dec 2019)
 - **Removed Redundant CTA**: Removed `#experience-section-cta` ("Full history →") since all positions are displayed on the main page.
 
 #### Content & Schema Synchronization (Strict Non-Negotiable CV Alignment)
@@ -188,9 +188,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2.2.2] — 2026-09-03
+## [2.2.2] - 2026-09-03
 
-> Branch: `Staging` — Comprehensive CMS synchronization and UX fixes.
+> Branch: `Staging` - Comprehensive CMS synchronization and UX fixes.
 
 ### Fixed
 
@@ -201,101 +201,101 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [2.2.1] — 2026-09-02
+## [2.2.1] - 2026-09-02
 
-> Branch: `Worked-from-office` — Cleaned up Recognition / Award card design system.
+> Branch: `Worked-from-office` - Cleaned up Recognition / Award card design system.
 
 ### Changed
 
-#### `js/render.js` + `css/style.css` — Removed Trophy Icon & Yellow Accent Border
+#### `js/render.js` + `css/style.css` - Removed Trophy Icon & Yellow Accent Border
 - **Removed**: Trophy emoji (`🏆`) icon container (`.award-icon-box`) from `renderAwards()` HTML generator.
 - **Removed**: Yellow gold left border accent (`border-left: 2px solid var(--gold)`) from `.award-card` and `.award-card:hover`.
 - **Layout**: Updated `.award-card` to a clean single-column flex layout for a sleek, minimal obsidian presentation matching the site design system.
 
 ---
 
-## [2.2.0] — 2026-09-02
+## [2.2.0] - 2026-09-02
 
-> Branch: `Worked-from-office` — Transitioned production CI/CD deployment pipeline to GitHub Pages.
+> Branch: `Worked-from-office` - Transitioned production CI/CD deployment pipeline to GitHub Pages.
 
 ### Changed
 
-#### `.github/workflows/deploy.yml` — Automated GitHub Pages CI/CD Pipeline
+#### `.github/workflows/deploy.yml` - Automated GitHub Pages CI/CD Pipeline
 - **Removed**: Legacy Namecheap cPanel FTP upload deployment action.
 - **Added**: Official GitHub Pages CI/CD deployment workflow (`actions/checkout@v4`, `actions/configure-pages@v5`, `actions/upload-pages-artifact@v3`, `actions/deploy-pages@v4`) with `pages: write` and `id-token: write` permissions.
 - **Documentation**: Updated `DEPLOYMENT.md` with step-by-step setup instructions for setting repository Pages source to **GitHub Actions**.
 
 ---
 
-## [2.1.2] — 2026-09-02
+## [2.1.2] - 2026-09-02
 
-> Branch: `Worked-from-office` — Expertise card layout & mobile text cramping resolution.
+> Branch: `Worked-from-office` - Expertise card layout & mobile text cramping resolution.
 
 ### Fixed
 
-#### `css/style.css` + `js/render.js` — Expertise Card Mobile Cramping Fix (Major)
+#### `css/style.css` + `js/render.js` - Expertise Card Mobile Cramping Fix (Major)
 - **Root cause**: `renderExpertise()` rendered an unclassed `<div>` child inside `.expertise-card` without a `.card-icon` or body wrapper. In flexbox row containers without explicit `flex: 1` and `min-width: 0` rules, the child container collapsed down to min-content width on mobile devices, causing title and body text to cramp vertically on the left edge.
 - **Fix**: Wrapped expertise card content in `.expertise-card-body` (`flex: 1; min-width: 0; width: 100%`) in `render.js`, re-added the category icon badge (`.card-icon`), and converted `.expertise-grid` into a responsive 3-column desktop / 1-column mobile grid system.
 
 ---
 
-## [2.1.1] — 2026-09-02
+## [2.1.1] - 2026-09-02
 
-> Branch: `Worked-from-office` — Mobile responsiveness audit and card layout fixes.
+> Branch: `Worked-from-office` - Mobile responsiveness audit and card layout fixes.
 
 ### Fixed
 
-#### `css/style.css` — Mobile Card Layout & Text Overflow Fixes (Major)
+#### `css/style.css` - Mobile Card Layout & Text Overflow Fixes (Major)
 - **`recommendation-card`**: Reduced mobile padding (`1.25rem 1rem 1rem`), added `min-width: 0` and `overflow-wrap: anywhere` to author info, wrapped author name with LinkedIn badge, and stacked metadata vertically on small screens (`<480px`).
 - **`article-card`**: Applied column flex layout on mobile screens (`<640px`) with fluid spacing, responsive meta tag alignment, and text wrapping protection on title & summary blocks.
 - **`project-card`**: Converted two-column grid into a fluid column layout on mobile (`<640px`) and reversed tag/year row layout on extra-small devices (`<480px`).
 - **`metric-card`**: Switched 2-column metrics grid into vertical flex items (`<640px`) to prevent side-by-side number/label clipping on landscape phones and phablets.
 - **`award-card`**, **`expertise-card`**, **`edu-item`**: Added `min-width: 0` containment and overflow handling to prevent long organization names, degrees, or titles from pushing cards out of screen boundaries.
 
-#### `css/admin.css` — Admin Mobile Responsiveness Overrides (Minor)
+#### `css/admin.css` - Admin Mobile Responsiveness Overrides (Minor)
 - Added mobile layout flex rules for `.admin-topbar`, `.admin-item-card`, `.admin-item-actions`, and `.admin-modal` to ensure full usability on mobile viewports (`<680px`).
 
 ---
 
-## [2.1.0] — 2026-09-02
+## [2.1.0] - 2026-09-02
 
-> Branch: `Worked-from-office` — CMS-to-frontend data sync deep-dive and root cause resolution.
+> Branch: `Worked-from-office` - CMS-to-frontend data sync deep-dive and root cause resolution.
 
 ### Fixed
 
-#### `index.html` — Hardcoded Metric Cards Bypassed CMS Renderer (Critical)
+#### `index.html` - Hardcoded Metric Cards Bypassed CMS Renderer (Critical)
 - **Root cause**: `#hero-metrics-container` had 4 static metric card blocks hardcoded in HTML. `renderMetrics()` uses `container.innerHTML = ...` to replace contents, but the `IntersectionObserver` in `main.js` fires on static cards on initial load and unobserves. After CMS saves, new cards render but the observer never re-fires.
 - **Fix**: Removed all hardcoded metric card HTML from `index.html`. Container is now populated dynamically by `render.js`.
 
-#### `js/main.js` + `js/render.js` — Metric Counter Animation Did Not Re-trigger After CMS Save (Major)
+#### `js/main.js` + `js/render.js` - Metric Counter Animation Did Not Re-trigger After CMS Save (Major)
 - **Root cause**: `animateMetrics()` was only wired via a one-shot `IntersectionObserver`. Subsequent CMS re-renders left counters displaying raw static numbers.
 - **Fix**: Exposed `window.triggerMetricAnimation = animateMetrics` in `main.js` and called it at the end of `renderMetrics()` in `render.js`.
 
-#### `js/admin.js` — `portfolioDataChanged` Listener Clobbered Unsaved In-Memory Edits (Critical)
-- **Root cause**: The `portfolioDataChanged` listener called `populateAll()` on every event — including during active saving, resetting form inputs from localStorage before async saves finished.
+#### `js/admin.js` - `portfolioDataChanged` Listener Clobbered Unsaved In-Memory Edits (Critical)
+- **Root cause**: The `portfolioDataChanged` listener called `populateAll()` on every event - including during active saving, resetting form inputs from localStorage before async saves finished.
 - **Fix**: Added `window._adminSaveInProgress` flag around `saveData()` calls to skip data re-fetching during active save cycles.
 
-#### `js/render.js` — `renderNavigation()` Left Nav Blank When `nav.items` Was Empty (Major)
+#### `js/render.js` - `renderNavigation()` Left Nav Blank When `nav.items` Was Empty (Major)
 - **Root cause**: If `nav.items` was empty, `renderNavigation()` skipped DOM updates, leaving the nav blank if a previous render had cleared it.
 - **Fix**: Preserved DOM when `nav.items` is empty so fallback static HTML remains intact.
 
-#### `js/render.js` — `renderAboutPage()` Rendered Blank `<p>` Tags (Medium)
+#### `js/render.js` - `renderAboutPage()` Rendered Blank `<p>` Tags (Medium)
 - **Root cause**: When the rich text editor was empty, `aboutBodyParagraphs` contained `[""]`, rendering `<p></p>` tags.
 - **Fix**: Added `.filter(text => text && text.trim())` before mapping paragraphs.
 
-#### `js/admin.js` — Hero CTA `visible` Property Hardcoded to `true` on Save (Medium)
+#### `js/admin.js` - Hero CTA `visible` Property Hardcoded to `true` on Save (Medium)
 - **Root cause**: `btn-save-all` handler set `cta.visible = true` unconditionally.
 - **Fix**: Updated to preserve existing boolean state (`cta.visible !== false`).
 
-#### `admin.html` — Recommendations Section Inputs Missing from Sections Panel (Major)
+#### `admin.html` - Recommendations Section Inputs Missing from Sections Panel (Major)
 - **Root cause**: Save handler called `getVal()` on non-existent recommendation input IDs, overwriting saved section configs with empty strings.
 - **Fix**: Added Recommendations section inputs (`input-rec-section-label`, `input-rec-section-subtext`, `checkbox-sec-rec-vis`) to `admin.html`.
 
 ---
 
-## [2.0.0] — 2026-09-02
+## [2.0.0] - 2026-09-02
 
-> Branch: `Worked-from-office` — Full end-to-end QA audit and bug-fix pass.
+> Branch: `Worked-from-office` - Full end-to-end QA audit and bug-fix pass.
 
 ### Fixed
 
@@ -315,7 +315,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [1.11.0] — 2026-09-01
+## [1.11.0] - 2026-09-01
 
 ### Added
 - **GitHub Pages Deployment**: Added `.github/workflows/deploy.yml` for automated deployment to GitHub Pages.
@@ -335,7 +335,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [1.10.0] — 2026-09-01
+## [1.10.0] - 2026-09-01
 
 ### Added
 - **CMS Section Visibility Toggles**: Added the ability to toggle the visibility of the "Recommendations / Endorsements" section directly from the admin panel (`admin.html`), syncing with the frontend renderer.
@@ -354,24 +354,24 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - **Separation of Concerns**: Extracted inline CSS strings (`style="..."`) inside `render.js` HTML templates to dedicated classes in `css/style.css`.
   - **Code Hygiene**: Removed magic numbers in `main.js`, fixed silent `catch` blocks in `store.js`, and renamed the misleading `printCV()` function to `openAboutPage()`.
 
-## [1.9.0] — 2026-08-28
+## [1.9.0] - 2026-08-28
 
 > Branch: `feature/recommendations-fix-and-linkedin-scripts` (based on `Worked-from-office`)
 
 ### Fixed
 
-#### `js/admin.js` — CSV Import Not Persisting Recommendations
+#### `js/admin.js` - CSV Import Not Persisting Recommendations
 - **Root cause**: `handleCSVImport()` updated the in-memory `data.recommendations` array and
   refreshed the admin UI list, but never called `PortfolioStore.saveData()`. When the admin
-  session ended, all imported recommendations were silently lost — they existed only in JS heap
+  session ended, all imported recommendations were silently lost - they existed only in JS heap
   memory for the duration of that browser tab.
 - **Fix**: Added `window.PortfolioStore.saveData(data)` call immediately after the import loop
-  completes. The toast message now confirms whether the save was server-synced (`— Saved!`) or
-  local-only (`— Saved locally.`), giving clear feedback based on the environment.
+  completes. The toast message now confirms whether the save was server-synced (`- Saved!`) or
+  local-only (`- Saved locally.`), giving clear feedback based on the environment.
 
-#### `js/store.js` — Server Fetch Overwriting CMS-Managed localStorage Data
+#### `js/store.js` - Server Fetch Overwriting CMS-Managed localStorage Data
 - **Root cause**: `fetchServerData()` fetched `data/portfolio-data.json` (which only had 1
-  recommendation — the baseline committed to the repo) and called
+  recommendation - the baseline committed to the repo) and called
   `localStorage.setItem(STORAGE_KEY, JSON.stringify(validated))` unconditionally, completely
   overwriting the richer localStorage state that contained all CMS-imported recommendations.
   Every page load on an HTTP server wiped the user's CMS work back to the JSON snapshot.
@@ -382,41 +382,41 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-#### `fetch-linkedin.ps1`, `fetch-linkedin2.ps1`, `fetch-linkedin3.ps1` — LinkedIn Voyager API Scripts
+#### `fetch-linkedin.ps1`, `fetch-linkedin2.ps1`, `fetch-linkedin3.ps1` - LinkedIn Voyager API Scripts
 - PowerShell scripts that authenticate to the LinkedIn Voyager private API using a session
   `li_at` cookie, fetch received recommendations via
   `/voyager/api/identity/profiles/{id}/recommendationsReceived`, and merge the results directly
-  into `data/portfolio-data.json` — populating `recommendations[]` without manual data entry.
+  into `data/portfolio-data.json` - populating `recommendations[]` without manual data entry.
 - Scripts are for local use only and are not deployed to production.
 
 ---
 
-## [1.8.0] — 2026-08-27
+## [1.8.0] - 2026-08-27
 
-### Fixed (merged from `admin-login` branch — authored by @pabonsaha)
+### Fixed (merged from `admin-login` branch - authored by @pabonsaha)
 
-#### `js/store.js` — SHA-256 Pure-JS Implementation Rewrite
+#### `js/store.js` - SHA-256 Pure-JS Implementation Rewrite
 - **Root cause**: The original `jsSha256()` implementation used a lazy prime-sieve initialization
   pattern (`jsSha256.h`, `jsSha256.k` as mutable static properties on the function object) that
   caused the internal hash state to bleed across multiple calls in the same session. After the
   first successful login attempt, the constants array was permanently mutated, producing incorrect
-  digests on all subsequent hash operations — making password changes and re-logins silently fail.
+  digests on all subsequent hash operations - making password changes and re-logins silently fail.
 - **Fix**: Replaced the stateful sieve-based SHA-256 with a clean, stateless implementation that
   uses hardcoded round constants (`K[]`) and initial hash values (`H[]`). Key improvements:
   - Constants `K[64]` and initial hash registers `H[8]` are now defined inline as local `const`
-    arrays within each function call — no shared mutable state between invocations.
+    arrays within each function call - no shared mutable state between invocations.
   - Input string pre-processing now routes through `unescape(encodeURIComponent(str))` to correctly
     handle UTF-8 multi-byte characters (e.g. passwords containing non-ASCII characters, accented
     letters, emoji) before byte-packing into the message schedule.
   - Message schedule expansion (`W[64]`) is allocated with `new Array(64)` and filled cleanly per
     block, eliminating the `words.slice()` copy pattern that caused off-by-one errors.
   - Compression round uses named register variables (`a, b, c, d, e, f, g, h`) instead of
-    destructuring array mutation — substantially easier to audit and verify for correctness.
+    destructuring array mutation - substantially easier to audit and verify for correctness.
   - Output hex encoding simplified: uses `(H[i] >>> 0).toString(16)` padded to 8 hex chars via
     `('00000000' + hex).slice(-8)`, replacing the previous double-loop with potential endianness issues.
   - Function parameter renamed from `ascii` to `str` to accurately reflect that UTF-8 strings are accepted.
 
-#### `js/admin.js` — Missing Closing Brace Bug
+#### `js/admin.js` - Missing Closing Brace Bug
 - **Root cause**: A missing `}` closing brace in the metrics gather block (around line 1452) caused
   the JavaScript parser to silently swallow the entire Navigation & Header gather section into the
   metrics `forEach` callback scope. This meant `data.navigation`, `data.sections`, and all subsequent
@@ -425,24 +425,24 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Fix**: Inserted the missing closing brace `}` to correctly terminate the `forEach` callback,
   restoring proper execution scope for all subsequent data-gather steps.
 
-#### `admin.html` — Login Form Submit Hardening
+#### `admin.html` - Login Form Submit Hardening
 - **Root cause**: The "Unlock Dashboard" button used `type="button"` with an inline `onclick`
   attribute (`window.PortfolioAdmin?.handleLogin()`). If `PortfolioAdmin` was not yet initialized
   at the moment of the click (e.g. slow device, script still executing), the optional-chain silently
-  no-opped and nothing happened — locking the user out with no error feedback.
+  no-opped and nothing happened - locking the user out with no error feedback.
   The password visibility toggle button similarly relied on `window.PortfolioAdmin?.togglePasswordVisibility()`
   inline, creating the same fragility.
 - **Fix**:
   - Changed the unlock button from `type="button"` to `type="submit"` and removed the inline
     `onclick` attribute. The form's `onsubmit` handler (`window.PortfolioAdmin?.handleLogin()`)
-    was already present and correctly connected — making it the single, reliable trigger.
+    was already present and correctly connected - making it the single, reliable trigger.
   - Removed the inline `onclick` from the password visibility toggle button; the handler is now
     registered programmatically inside `admin.js` after `PortfolioAdmin` is fully initialized,
     guaranteeing the function reference always exists before it can be invoked.
 
 ---
 
-## [1.7.0] — 2026-08-25
+## [1.7.0] - 2026-08-25
 
 ### Refactored & Enhanced
 - **Modernized CMS Admin Dashboard (`admin.html`, `css/admin.css`, `js/admin.js`)**:
@@ -454,7 +454,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [1.6.0] — 2026-08-25
+## [1.6.0] - 2026-08-25
 
 ### Refactored & Enhanced
 - **Data Layer & Store Resilience (`js/store.js`)**:
@@ -478,7 +478,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [1.5.0] — 2026-08-25
+## [1.5.0] - 2026-08-25
 
 ### Added
 - **Dynamic Theme-Adaptive Canvas Background**:
@@ -496,17 +496,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 - **Typewriter layout jumps**: Added `min-height: 1.5rem;` to the `.hero-role` wrapper in `css/style.css` to prevent layout collapse and jumps during dynamic text transitions.
-## [1.4.0] — 2026-08-25
+## [1.4.0] - 2026-08-25
 
 ### Added
-- **True AMOLED black background** — replaced charcoal (`#0A0A0F`) with pure `#000000` across all surface tokens (`--bg`, `--bg-secondary`, `--surface`, `--surface-hover`, `--surface-raised`) so the site reads as pitch black on all displays, including OLED/AMOLED screens.
-- **Animated grain / noise texture overlay** — a CSS-only, GPU-accelerated film-grain effect rendered via an inline SVG `feTurbulence` filter on `body::before`. Uses `steps(10)` keyframe animation for a living, subtle texture. Zero extra network requests.
-- **Dark / Light mode toggle** — a 🌙 / ☀️ icon button in the navigation bar that:
+- **True AMOLED black background** - replaced charcoal (`#0A0A0F`) with pure `#000000` across all surface tokens (`--bg`, `--bg-secondary`, `--surface`, `--surface-hover`, `--surface-raised`) so the site reads as pitch black on all displays, including OLED/AMOLED screens.
+- **Animated grain / noise texture overlay** - a CSS-only, GPU-accelerated film-grain effect rendered via an inline SVG `feTurbulence` filter on `body::before`. Uses `steps(10)` keyframe animation for a living, subtle texture. Zero extra network requests.
+- **Dark / Light mode toggle** - a 🌙 / ☀️ icon button in the navigation bar that:
   - Applies a full, carefully tuned **light mode palette** (`[data-theme="light"]`) with readable contrast and adjusted accent, gold, and green tones.
   - Persists the user's choice across pages and sessions via `localStorage` (`portfolio_theme`).
   - Prevents flash-of-unstyled-content (FOUC) via an inline `<script>` in `<head>` that sets `data-theme` before CSS renders.
-- **Light mode element overrides** — nav backdrop, mobile drawer, scrollbar, and modal overlay all adapt correctly to the light palette.
-- **`nav-actions` wrapper** — groups the theme toggle and mobile hamburger button together for clean responsive layout at all breakpoints.
+- **Light mode element overrides** - nav backdrop, mobile drawer, scrollbar, and modal overlay all adapt correctly to the light palette.
+- **`nav-actions` wrapper** - groups the theme toggle and mobile hamburger button together for clean responsive layout at all breakpoints.
 
 ### Changed
 - Navigation background updated from `rgba(10,10,15,...)` to `rgba(0,0,0,...)` (dark) and `rgba(255,255,255,...)` (light) to match the new AMOLED palette.
@@ -514,28 +514,28 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Body element now has `transition: background-color 0.25s, color 0.25s` for a smooth theme switch animation.
 
 ### Removed
-- **CMS keyboard shortcut** (`Ctrl+Shift+A`) removed from `main.js`. The admin panel (`/admin.html`) is now only accessible via its direct URL — no public-facing hints remain.
+- **CMS keyboard shortcut** (`Ctrl+Shift+A`) removed from `main.js`. The admin panel (`/admin.html`) is now only accessible via its direct URL - no public-facing hints remain.
 
 ### Security
 - Admin panel is fully hidden from the public frontend. No links, buttons, or keyboard shortcuts expose the CMS entry point. Password gate on `admin.html` remains intact.
 
 ---
 
-## [1.3.0] — 2026-08-25
+## [1.3.0] - 2026-08-25
 
 ### Added
 - **Rich Text WYSIWYG Editor (RTE)** in the CMS admin panel.
   - Custom formatting toolbar: Bold, Italic, Underline, H2/H3 headings, blockquote, ordered/unordered lists, links.
   - Live `contenteditable` visual editing with real-time preview rendering.
-  - HTML source toggle — switch between visual and raw HTML code views.
+  - HTML source toggle - switch between visual and raw HTML code views.
   - Applied to the "About Page Story" and "Article" content fields in `admin.html`.
 
 ---
 
-## [1.2.0] — 2026-08-25
+## [1.2.0] - 2026-08-25
 
 ### Added
-- Comprehensive **design system overhaul** — clean, modern, minimal and insightful aesthetic.
+- Comprehensive **design system overhaul** - clean, modern, minimal and insightful aesthetic.
   - 17px base font, 8px spacing grid, minor-third typographic scale.
   - Space Grotesk (display), DM Sans (body), JetBrains Mono (code) font stack.
   - Standardised CSS custom property token system for colour, spacing, shadow, and radius.
@@ -550,15 +550,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [1.1.0] — 2026-08-22
+## [1.1.0] - 2026-08-22
 
 ### Added
-- **Mobile & tablet responsiveness** — fluid grids and media queries across all pages.
+- **Mobile & tablet responsiveness** - fluid grids and media queries across all pages.
 - Increased base font size for improved readability.
 
 ---
 
-## [1.0.0] — 2026-08-21
+## [1.0.0] - 2026-08-21
 
 ### Added
 - **Animated typewriter** effect in hero section.
@@ -571,7 +571,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [0.1.0] — 2026-08-20
+## [0.1.0] - 2026-08-20
 
 ### Added
 - Initial project scaffold: `index.html`, `about.html`, `projects.html`, `admin.html`.
