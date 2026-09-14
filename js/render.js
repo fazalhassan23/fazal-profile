@@ -9,6 +9,21 @@
 
   let typewriterTimer = null;
 
+  function stripTags(html) {
+    if (!html) return '';
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    return temp.textContent || temp.innerText || '';
+  }
+
+  function renderRichText(htmlOrText) {
+    if (!htmlOrText) return '';
+    // If it already contains HTML tags, render as-is
+    if (/<\/?[a-z][\s\S]*>/i.test(htmlOrText)) return htmlOrText;
+    // Otherwise, escape and wrap in <p>
+    return `<p>${PortfolioUtils.escapeHtml(htmlOrText)}</p>`;
+  }
+
 
   function renderIdentityAndTheme(p) {
     // Dynamic Font Theme
@@ -61,7 +76,7 @@
     // Hero Bio
     const heroBio = document.getElementById('hero-bio');
     if (heroBio) {
-      heroBio.textContent = p.heroBio || '';
+      heroBio.innerHTML = renderRichText(p.heroBio || '');
     }
 
     // Typewriter
@@ -101,7 +116,7 @@
         <div class="expertise-card-body">
           <p class="card-category">${PortfolioUtils.escapeHtml(exp.category || '')}</p>
           <h3>${PortfolioUtils.escapeHtml(exp.title || '')}</h3>
-          <p>${PortfolioUtils.escapeHtml(exp.description || '')}</p>
+          ${renderRichText(exp.description || '')}
         </div>
       </div>
     `).join('');
@@ -141,7 +156,7 @@
               <span class="article-date">${PortfolioUtils.escapeHtml(art.date || '')} · ${PortfolioUtils.escapeHtml(art.readTime || '5 min read')}</span>
             </div>
             <h3 class="article-title">${PortfolioUtils.escapeHtml(art.title || '')}</h3>
-            <p class="article-summary">${PortfolioUtils.escapeHtml(art.summary || '')}</p>
+            <div class="article-summary">${renderRichText(art.summary || '')}</div>
           </div>
           <div class="article-card-right">
             <div class="article-tags">${tagsHtml}</div>
@@ -261,13 +276,18 @@
             </div>
           ` : ''}
           <div class="rec-text">
-            ${r.text.length > 240 ? `
-              <span class="rec-text-preview">${PortfolioUtils.escapeHtml(r.text.slice(0, 240))}...</span>
-              <span class="rec-text-full hidden">${PortfolioUtils.escapeHtml(r.text)}</span>
-              <button type="button" class="btn-rec-toggle" data-action="toggle-rec">Read more</button>
-            ` : `
-              <span>${PortfolioUtils.escapeHtml(r.text)}</span>
-            `}
+            ${(() => {
+              const plainText = stripTags(r.text);
+              if (plainText.length > 240) {
+                return `
+                  <div class="rec-text-preview">${PortfolioUtils.escapeHtml(plainText.slice(0, 240))}...</div>
+                  <div class="rec-text-full hidden">${renderRichText(r.text)}</div>
+                  <button type="button" class="btn-rec-toggle" data-action="toggle-rec">Read more</button>
+                `;
+              } else {
+                return `<div>${renderRichText(r.text)}</div>`;
+              }
+            })()}
           </div>
         </div>
       `;
@@ -346,7 +366,7 @@
 
   function renderAboutPage(p, data) {
     const aboutLead = document.getElementById('about-lead');
-    if (aboutLead) aboutLead.textContent = p.aboutLead || p.heroBio || '';
+    if (aboutLead) aboutLead.innerHTML = renderRichText(p.aboutLead || p.heroBio || '');
 
     const aboutParagraphs = document.getElementById('about-paragraphs');
     if (aboutParagraphs && p.aboutBodyParagraphs) {
@@ -405,7 +425,7 @@
           <div>
             <p class="card-category">${PortfolioUtils.escapeHtml(extra.category || '')}</p>
             <h3>${PortfolioUtils.escapeHtml(extra.title || '')}</h3>
-            <p>${PortfolioUtils.escapeHtml(extra.description || '')}</p>
+            ${renderRichText(extra.description || '')}
           </div>
         </div>
       `).join('');
@@ -948,7 +968,7 @@
       <${tagType} ${linkAttr} class="project-card fade-up visible">
         <div class="project-card-content">
           <h3>${PortfolioUtils.escapeHtml(proj.title || '')}</h3>
-          <p>${PortfolioUtils.escapeHtml(proj.description || '')}</p>
+          ${renderRichText(proj.description || '')}
         </div>
         <div class="project-card-right">
           <span class="project-year">${PortfolioUtils.escapeHtml(proj.year || '')}</span>
