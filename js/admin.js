@@ -581,6 +581,7 @@ function initAdminApp() {
     setVal('input-sec-hero-cta4-text', hh.cta4?.text || 'Book a Call');
     setVal('input-sec-hero-cta4-url', hh.cta4?.url || '');
     setVal('input-hero-now', hh.heroNow || '');
+    setChecked('checkbox-hero-now-visible', hh.heroNowVisible !== false);
 
     // Expertise
     const exp = s.expertise || {};
@@ -2258,6 +2259,7 @@ function initAdminApp() {
       data.sections.homeHero.cta4.visible = data.sections.homeHero.cta4.visible !== false;
       
       data.sections.homeHero.heroNow = getVal('input-hero-now');
+      data.sections.homeHero.heroNowVisible = getChecked('checkbox-hero-now-visible');
 
       // Expertise
       if (!data.sections.expertise) data.sections.expertise = {};

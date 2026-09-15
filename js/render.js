@@ -547,9 +547,9 @@
     const heroNowWrapper = document.getElementById('hero-now-wrapper');
     const heroNowText = document.getElementById('hero-now-text');
     if (heroNowWrapper && heroNowText && s.homeHero) {
-      if (s.homeHero.heroNow) {
+      if (s.homeHero.heroNow && s.homeHero.heroNowVisible !== false) {
         heroNowText.textContent = s.homeHero.heroNow;
-        heroNowWrapper.style.display = '';
+        heroNowWrapper.style.display = 'flex';
       } else {
         heroNowWrapper.style.display = 'none';
       }
