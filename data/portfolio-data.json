@@ -1,8 +1,6 @@
 {
   "profile": {
     "name": "Fazal Mahmud Hassan",
-    "firstName": "Fazal",
-    "roleTitle": "Senior Technical Project Manager",
     "heroBio": "<h3>I&nbsp; create bridge between technology, people, and business and get things done.</h3><div><br></div><div><p class=\"isSelectedEnd\">I’m Fazal Mahmud Hassan, a <strong>Technical Project Manager with a Computer Science background and an MBA in HR &amp; Management</strong>. I lead cross-functional teams, manage complex software projects, and work closely with clients and stakeholders to turn ideas into products that actually get delivered.</p><p><strong>Technology. People. Execution.</strong> That’s where I do my best work.</p></div>",
     "aboutLead": "<p>I like understanding how things work, and figuring out how to make them work better.</p>",
     "aboutBodyParagraphs": [
@@ -1134,5 +1132,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-  "_savedAt": "2026-09-15T09:58:38.351Z"
+  "_savedAt": "2026-09-15T09:58:46.037Z"
 }
