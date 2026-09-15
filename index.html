@@ -111,7 +111,7 @@
   <script defer data-domain="YOUR_DOMAIN_HERE" src="https://plausible.io/js/script.js"></script>
 
   <!-- Fonts (Localized) -->
-  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="preload" href="css/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'" /><noscript><link rel="stylesheet" href="css/fonts.css" /></noscript>
 
   <!-- Inline Theme & Font Flash Prevention -->
   <script>
@@ -170,12 +170,12 @@
   <!-- ══════════════════════════════════════════════════
        MAIN CONTENT
   ═══════════════════════════════════════════════════ -->
-  <div class="page-wrapper">
+  <main class="page-wrapper">
 
     <!-- ── HERO ─────────────────────────────────────── -->
     <section class="hero" id="home" aria-label="Introduction">
       <!-- BUG-06 FIX: Added id so CMS can update the hero section label via renderSectionHeadersAndVisibility() -->
-      <span class="section-label" id="home-section-label">home</span>
+      <h2 class="section-label" id="home-section-label">home</h2>
 
       <!-- Live Availability Badge (Wrapped in block-level div to force line break) -->
       <div>
@@ -184,7 +184,7 @@
           <span class="status-pulse"></span>
           <span id="availability-text">Open to Research &amp; Advisory</span>
         </div>
-        <div id="hero-now-wrapper" style="display: none; font-size: 0.85rem; color: var(--text-secondary); background: var(--bg-surface); padding: 0.25rem 0.75rem; border-radius: 4px; border: 1px solid var(--border-color);">
+        <div id="hero-now-wrapper" style="display: none; font-size: 0.85rem; color: var(--text-secondary); background: var(--surface); padding: 0.25rem 0.75rem; border-radius: 4px; border: 1px solid var(--border);">
           <span style="font-weight: 500; color: var(--text-primary);">Currently:</span> <span id="hero-now-text"></span>
         </div>
       </div>
@@ -219,7 +219,7 @@
 
     <!-- ── EXPERTISE ─────────────────────────────────── -->
     <section class="section" id="expertise" aria-label="Expertise">
-      <span class="section-label" id="expertise-section-label">expertise</span>
+      <h2 class="section-label" id="expertise-section-label">expertise</h2>
 
       <div class="expertise-grid" id="expertise-container">
         <!-- Rendered dynamically by js/render.js -->
@@ -230,7 +230,7 @@
     <section class="section" id="awards" aria-label="Awards & Honors">
       <div class="section-header">
         <div>
-          <span class="section-label" id="awards-section-label">recognition</span>
+          <h2 class="section-label" id="awards-section-label">recognition</h2>
           <p class="section-subtext" id="awards-section-subtext">
             Selected awards, research accolades, and honors.
           </p>
@@ -246,7 +246,7 @@
     <section class="section" id="experience" aria-label="Work experience">
       <div class="section-header">
         <div>
-          <span class="section-label" id="experience-section-label">experience</span>
+          <h2 class="section-label" id="experience-section-label">experience</h2>
           <p class="section-subtext" id="experience-section-subtext">
             Professional background and career milestones.
           </p>
@@ -262,7 +262,7 @@
     <section class="section" id="work" aria-label="Featured work">
       <div class="section-header">
         <div>
-          <span class="section-label" id="work-section-label">work</span>
+          <h2 class="section-label" id="work-section-label">work</h2>
           <p class="section-subtext" id="work-section-subtext">
             Selected academic research and engineering projects.
           </p>
@@ -279,7 +279,7 @@
     <section class="section" id="articles" aria-label="Articles & Insights">
       <div class="section-header">
         <div>
-          <span class="section-label" id="articles-section-label">insights</span>
+          <h2 class="section-label" id="articles-section-label">insights</h2>
           <p class="section-subtext" id="articles-section-subtext">
             Articles on technical project delivery, leadership, and systems architecture.
           </p>
@@ -295,7 +295,7 @@
     <section class="section" id="recommendations" aria-label="Endorsements & Recommendations">
       <div class="section-header">
         <div>
-          <span class="section-label" id="recommendations-section-label">endorsements</span>
+          <h2 class="section-label" id="recommendations-section-label">endorsements</h2>
           <p class="section-subtext" id="recommendations-section-subtext">
             What colleagues, clients, and partners say about working with me.
           </p>
@@ -323,7 +323,7 @@
 
     <!-- ── CONTACT ────────────────────────────────────── -->
     <section class="section" id="contact" aria-label="Contact">
-      <span class="section-label" id="contact-section-label">contact</span>
+      <h2 class="section-label" id="contact-section-label">contact</h2>
 
       <h2 class="section-heading" id="contact-section-heading">Let's work together.</h2>
       <p class="section-subtext" id="contact-text">
@@ -392,7 +392,7 @@
       </div>
     </section>
 
-  </div><!-- /page-wrapper -->
+  </main><!-- /page-wrapper -->
 
   <!-- ══════════════════════════════════════════════════
        FOOTER

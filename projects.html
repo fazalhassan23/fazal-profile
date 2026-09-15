@@ -44,7 +44,7 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
   <!-- Fonts (Localized) -->
-  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="preload" href="css/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'" /><noscript><link rel="stylesheet" href="css/fonts.css" /></noscript>
 
   <!-- Inline Theme & Font Flash Prevention -->
   <script>
@@ -100,11 +100,11 @@
   <!-- ══════════════════════════════════════════════════
        MAIN CONTENT
   ═══════════════════════════════════════════════════ -->
-  <div class="page-wrapper">
+  <main class="page-wrapper">
 
     <!-- ── PAGE HERO ──────────────────────────────────── -->
     <div class="page-hero">
-      <span class="section-label" id="projects-hero-label">work</span>
+      <h2 class="section-label" id="projects-hero-label">work</h2>
       <h1 id="projects-hero-title">Projects &amp; Research.</h1>
       <p id="projects-hero-subtitle">
         Academic research, engineering projects, and publications — 
@@ -116,7 +116,7 @@
          THESIS & RESEARCH
     ═══════════════════════════════════════════════════ -->
     <section class="section" id="thesis" aria-label="Thesis and research">
-      <span class="section-label" id="projects-research-label">research</span>
+      <h2 class="section-label" id="projects-research-label">research</h2>
       <div id="projects-research-container" class="projects-list">
         <!-- Rendered dynamically by js/render.js -->
       </div>
@@ -126,7 +126,7 @@
          PUBLICATION
     ═══════════════════════════════════════════════════ -->
     <section class="section" id="publication" aria-label="Publication">
-      <span class="section-label" id="projects-publication-label">publication</span>
+      <h2 class="section-label" id="projects-publication-label">publication</h2>
       <div id="projects-publication-container">
         <!-- Rendered dynamically by js/render.js -->
       </div>
@@ -136,7 +136,7 @@
          UNIVERSITY & SOFTWARE PROJECTS
     ═══════════════════════════════════════════════════ -->
     <section class="section" id="university-projects" aria-label="University projects">
-      <span class="section-label" id="projects-software-label">software &amp; engineering</span>
+      <h2 class="section-label" id="projects-software-label">software &amp; engineering</h2>
       <div id="projects-software-container" class="projects-list">
         <!-- Rendered dynamically by js/render.js -->
       </div>
@@ -146,13 +146,13 @@
          VOLUNTEER
     ═══════════════════════════════════════════════════ -->
     <section class="section" id="volunteer" aria-label="Volunteer work">
-      <span class="section-label" id="projects-volunteer-label">volunteer &amp; leadership</span>
+      <h2 class="section-label" id="projects-volunteer-label">volunteer &amp; leadership</h2>
       <div id="projects-volunteer-container" class="projects-list">
         <!-- Rendered dynamically by js/render.js -->
       </div>
     </section>
 
-  </div><!-- /page-wrapper -->
+  </main><!-- /page-wrapper -->
 
   <!-- ══════════════════════════════════════════════════
        FOOTER

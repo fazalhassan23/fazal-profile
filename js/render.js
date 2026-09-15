@@ -1235,10 +1235,11 @@
   window.openAboutPage = openAboutPage;
 
   // Initialize
+  // Since scripts are placed at the end of the body, elements exist.
+  // Execute immediately to prevent layout shifts.
+  renderAll();
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', renderAll);
-  } else {
-    renderAll();
   }
   let renderTimer = null;
   window.addEventListener('portfolioDataChanged', () => {

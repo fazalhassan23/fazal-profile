@@ -49,7 +49,7 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
   <!-- Fonts (Localized) -->
-  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="preload" href="css/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'" /><noscript><link rel="stylesheet" href="css/fonts.css" /></noscript>
 
   <!-- Inline Theme & Font Flash Prevention -->
   <script>
@@ -108,11 +108,11 @@
   <!-- ══════════════════════════════════════════════════
        MAIN CONTENT
   ═══════════════════════════════════════════════════ -->
-  <div class="page-wrapper">
+  <main class="page-wrapper">
 
     <!-- ── PAGE HERO ──────────────────────────────────── -->
     <div class="page-hero">
-      <span class="section-label" id="about-hero-label">about</span>
+      <h2 class="section-label" id="about-hero-label">about</h2>
       <h1><span data-cms="fullName">Fazal Mahmud Hassan</span>.</h1>
       <p id="about-hero-subtitle">
         Technical Project Manager. Systems thinker. Lifelong learner. 
@@ -120,7 +120,7 @@
       </p>
     </div>
 
-    <div class="persona-selector" id="persona-selector" style="margin-bottom: 2rem; background: var(--bg-surface); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+    <div class="persona-selector" id="persona-selector" style="margin-bottom: 2rem; background: var(--surface); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
       <p style="margin-bottom: 1rem; font-weight: 500;">Why are you visiting today?</p>
       <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
         <button class="btn btn-outline" data-persona="recruiter">I'm a recruiter / hiring</button>
@@ -131,7 +131,7 @@
 
     <!-- ── BIO ────────────────────────────────────────── -->
     <section class="section" id="bio" aria-label="Biography">
-      <span class="section-label" id="about-bio-label">biography</span>
+      <h2 class="section-label" id="about-bio-label">biography</h2>
 
       <div class="about-body">
         <p class="about-lead" id="about-lead">
@@ -153,7 +153,7 @@
 
     <!-- ── AWARDS & HONORS ────────────────────────────── -->
     <section class="section" id="about-awards" aria-label="Awards & Honors">
-      <span class="section-label" id="about-awards-label">recognition</span>
+      <h2 class="section-label" id="about-awards-label">recognition</h2>
       <!-- BUG-02 FIX: Renamed from awards-container to about-awards-container to avoid duplicate ID conflict with index.html -->
       <div class="awards-grid" id="about-awards-container">
         <!-- Rendered dynamically by js/render.js -->
@@ -162,7 +162,7 @@
 
     <!-- ── EDUCATION ──────────────────────────────────── -->
     <section class="section" id="about-education" aria-label="Education">
-      <span class="section-label" id="about-education-label">education</span>
+      <h2 class="section-label" id="about-education-label">education</h2>
 
       <div class="edu-list" id="education-container">
         <!-- Rendered dynamically by js/render.js -->
@@ -171,7 +171,7 @@
 
     <!-- ── FULL EXPERIENCE ───────────────────────────── -->
     <section class="section" id="about-experience" aria-label="Work history">
-      <span class="section-label" id="about-experience-label">experience</span>
+      <h2 class="section-label" id="about-experience-label">experience</h2>
 
       <div class="timeline" id="full-experience-container">
         <!-- Rendered dynamically by js/render.js -->
@@ -180,7 +180,7 @@
 
     <!-- ── RECOMMENDATIONS & TESTIMONIALS ─────────────── -->
     <section class="section" id="about-recommendations" aria-label="Recommendations & Endorsements">
-      <span class="section-label" id="about-recommendations-label">endorsements</span>
+      <h2 class="section-label" id="about-recommendations-label">endorsements</h2>
       <div class="recommendations-grid" id="about-recommendations-container">
         <!-- Rendered dynamically by js/render.js -->
       </div>
@@ -188,7 +188,7 @@
 
     <!-- ── SKILLS ──────────────────────────────────────── -->
     <section class="section" id="about-skills" aria-label="Skills">
-      <span class="section-label" id="about-skills-label">skills</span>
+      <h2 class="section-label" id="about-skills-label">skills</h2>
 
       <div id="skills-container">
         <!-- Rendered dynamically by js/render.js -->
@@ -197,14 +197,14 @@
 
     <!-- ── EXTRA CURRICULARS ──────────────────────────── -->
     <section class="section" id="about-extras" aria-label="Extra curriculars">
-      <span class="section-label" id="about-extras-label">beyond work</span>
+      <h2 class="section-label" id="about-extras-label">beyond work</h2>
 
       <div class="expertise-grid" id="extras-container">
         <!-- Rendered dynamically by js/render.js -->
       </div>
     </section>
 
-  </div><!-- /page-wrapper -->
+  </main><!-- /page-wrapper -->
 
   <!-- ══════════════════════════════════════════════════
        FOOTER

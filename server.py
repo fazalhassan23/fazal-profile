@@ -87,8 +87,11 @@ class PortfolioDevHandler(http.server.SimpleHTTPRequestHandler):
         self.do_POST()
 
     def end_headers(self):
-        # Prevent browser caching of JSON data and scripts during development
-        if self.path.endswith('.json') or self.path.endswith('.js') or self.path.endswith('.html'):
+        # Cache static assets for Lighthouse audits
+        if self.path.endswith(('.css', '.js', '.woff2', '.png', '.jpg', '.svg', '.json', '.html')):
+            self.send_header('Cache-Control', 'public, max-age=31536000, immutable')
+        else:
+            # Fallback for API or other dev endpoints if needed
             self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
             self.send_header('Pragma', 'no-cache')
             self.send_header('Expires', '0')
