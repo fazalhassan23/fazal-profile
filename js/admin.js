@@ -11,6 +11,8 @@ function initAdminApp() {
 
   let data = window.PortfolioStore.getData();
   let aboutStoryEditor = null;
+  let heroBioEditor = null;
+  let aboutLeadEditor = null;
 
   /* ── 0. Built-in Rich Text Editor (WYSIWYG) Engine ─────── */
   function createRichTextEditor(container, initialContent = '', placeholder = 'Start writing...') {
@@ -307,9 +309,16 @@ function initAdminApp() {
 
     // Profile & Bio
     setVal('input-name', p.name);
-    setVal('input-heroBio', p.heroBio);
-    setVal('input-aboutLead', p.aboutLead);
-    setVal('input-fontPair', p.fontPair || 'geometric');
+    const heroBioWrap = document.getElementById('editor-heroBio-wrap');
+    if (heroBioWrap) {
+      heroBioEditor = createRichTextEditor(heroBioWrap, p.heroBio || '', 'Write your homepage hero bio...');
+    }
+    const aboutLeadWrap = document.getElementById('editor-aboutLead-wrap');
+    if (aboutLeadWrap) {
+      aboutLeadEditor = createRichTextEditor(aboutLeadWrap, p.aboutLead || '', 'Write the about page lead paragraph...');
+    }
+
+    setVal('input-fontPair', p.fontPair || 'executive');
     
     // Initialize About Story Rich Text Editor
     const aboutStoryWrap = document.getElementById('editor-aboutParagraphs-wrap');
@@ -983,6 +992,7 @@ function initAdminApp() {
       badge: ''
     };
 
+    let awdEditor = null;
     openModal(isNew ? 'Add Award & Honor' : 'Edit Award', `
       <div class="form-grid">
         <div class="form-group full-width">
@@ -1003,7 +1013,7 @@ function initAdminApp() {
         </div>
         <div class="form-group full-width">
           <label class="form-label">Description</label>
-          <textarea id="modal-awd-desc" class="form-textarea" style="min-height:90px;" placeholder="Details about this award...">${PortfolioUtils.escapeHtml(awd.description || '')}</textarea>
+          <div id="modal-awd-editor-wrap"></div>
         </div>
       </div>
     `, () => {
@@ -1011,7 +1021,7 @@ function initAdminApp() {
       const organization = document.getElementById('modal-awd-org').value.trim();
       const year = document.getElementById('modal-awd-year').value.trim();
       const badge = document.getElementById('modal-awd-badge').value.trim();
-      const description = document.getElementById('modal-awd-desc').value.trim();
+      const description = awdEditor ? awdEditor.getHTML() : '';
 
       if (!title || !organization) {
         alert('Please provide Award Title and Organization.');
@@ -1029,6 +1039,8 @@ function initAdminApp() {
 
       renderAwardsList();
       return true;
+    }, () => {
+      awdEditor = createRichTextEditor(document.getElementById('modal-awd-editor-wrap'), awd.description || '', 'Details about this award...');
     });
   };
 
@@ -1077,6 +1089,7 @@ function initAdminApp() {
       description: ''
     };
 
+    let expEditor = null;
     openModal(isNew ? 'Add Expertise Card' : 'Edit Expertise', `
       <div class="form-grid">
         <div class="form-group full-width">
@@ -1089,7 +1102,7 @@ function initAdminApp() {
         </div>
         <div class="form-group full-width">
           <label class="form-label">Description</label>
-          <textarea id="modal-exp-desc" class="form-textarea" style="height: 100px;">${PortfolioUtils.escapeHtml(exp.description)}</textarea>
+          <div id="modal-exp-editor-wrap"></div>
         </div>
       </div>
     `, () => {
@@ -1105,7 +1118,7 @@ function initAdminApp() {
         id: exp.id,
         title: title,
         category: cat,
-        description: getVal('modal-exp-desc')
+        description: expEditor ? expEditor.getHTML() : ''
       };
 
       if (!data.expertise) data.expertise = [];
@@ -1117,6 +1130,8 @@ function initAdminApp() {
 
       renderExpertiseList();
       return true;
+    }, () => {
+      expEditor = createRichTextEditor(document.getElementById('modal-exp-editor-wrap'), exp.description || '', 'Describe this expertise area...');
     });
   };
 
@@ -1167,6 +1182,7 @@ function initAdminApp() {
       description: ''
     };
 
+    let extEditor = null;
     openModal(isNew ? 'Add Extra Activity' : 'Edit Extra Activity', `
       <div class="form-grid">
         <div class="form-group full-width">
@@ -1183,7 +1199,7 @@ function initAdminApp() {
         </div>
         <div class="form-group full-width">
           <label class="form-label">Description</label>
-          <textarea id="modal-ext-desc" class="form-textarea" style="height: 100px;">${PortfolioUtils.escapeHtml(ext.description)}</textarea>
+          <div id="modal-ext-editor-wrap"></div>
         </div>
       </div>
     `, () => {
@@ -1200,7 +1216,7 @@ function initAdminApp() {
         title: title,
         category: cat,
         icon: getVal('modal-ext-icon'),
-        description: getVal('modal-ext-desc')
+        description: extEditor ? extEditor.getHTML() : ''
       };
 
       if (!data.extraCurriculars) data.extraCurriculars = [];
@@ -1212,6 +1228,8 @@ function initAdminApp() {
 
       renderExtrasList();
       return true;
+    }, () => {
+      extEditor = createRichTextEditor(document.getElementById('modal-ext-editor-wrap'), ext.description || '', 'Describe this activity...');
     });
   };
 
@@ -1267,6 +1285,7 @@ function initAdminApp() {
 
     let currentArtEditor = null;
 
+    let summaryEditor = null;
     openModal(isNew ? 'Write New Article' : 'Edit Article', `
       <div class="form-grid">
         <div class="form-group full-width">
@@ -1286,7 +1305,7 @@ function initAdminApp() {
         </div>
         <div class="form-group full-width">
           <label class="form-label">Summary / Excerpt (Displayed on homepage preview) *</label>
-          <textarea id="modal-art-summary" class="form-textarea" style="min-height:75px;">${PortfolioUtils.escapeHtml(art.summary)}</textarea>
+          <div id="modal-art-summary-editor-wrap"></div>
         </div>
         <div class="form-group full-width">
           <label class="form-label">Tags (Comma-separated)</label>
@@ -1302,7 +1321,7 @@ function initAdminApp() {
       const category = document.getElementById('modal-art-category').value.trim();
       const date = document.getElementById('modal-art-date').value.trim();
       const readTime = document.getElementById('modal-art-readTime').value.trim();
-      const summary = document.getElementById('modal-art-summary').value.trim();
+      const summary = summaryEditor ? summaryEditor.getHTML() : '';
       const tags = document.getElementById('modal-art-tags').value.split(',').map(t => t.trim()).filter(Boolean);
       const content = currentArtEditor ? currentArtEditor.getHTML() : '';
 
@@ -1327,6 +1346,10 @@ function initAdminApp() {
       const editorWrap = document.getElementById('modal-art-editor-wrap');
       if (editorWrap) {
         currentArtEditor = createRichTextEditor(editorWrap, art.content || '', 'Write your complete article, project retrospective, or case study here...');
+      }
+      const summaryWrap = document.getElementById('modal-art-summary-editor-wrap');
+      if (summaryWrap) {
+        summaryEditor = createRichTextEditor(summaryWrap, art.summary || '', 'Write a brief summary...');
       }
     });
   };
@@ -1472,6 +1495,7 @@ function initAdminApp() {
       badge: ''
     };
 
+    let projEditor = null;
     openModal(isNew ? 'Add Project / Research' : 'Edit Project', `
       <div class="form-grid">
         <div class="form-group full-width">
@@ -1505,7 +1529,7 @@ function initAdminApp() {
         </div>
         <div class="form-group full-width">
           <label class="form-label">Project Description</label>
-          <textarea id="modal-proj-desc" class="form-textarea" style="min-height:95px;">${PortfolioUtils.escapeHtml(proj.description || '')}</textarea>
+          <div id="modal-proj-editor-wrap"></div>
         </div>
       </div>
     `, () => {
@@ -1515,7 +1539,7 @@ function initAdminApp() {
       const link = document.getElementById('modal-proj-link').value.trim();
       const badge = document.getElementById('modal-proj-badge').value.trim();
       const tags = document.getElementById('modal-proj-tags').value.split(',').map(t => t.trim()).filter(Boolean);
-      const description = document.getElementById('modal-proj-desc').value.trim();
+      const description = projEditor ? projEditor.getHTML() : '';
 
       if (!title || !year) {
         alert('Please provide Title and Year.');
@@ -1533,6 +1557,8 @@ function initAdminApp() {
 
       renderProjectsList();
       return true;
+    }, () => {
+      projEditor = createRichTextEditor(document.getElementById('modal-proj-editor-wrap'), proj.description || '', 'Details about this project...');
     });
   };
 
@@ -1984,6 +2010,7 @@ function initAdminApp() {
   }, 100);
 
   function openRecommendationFormModal(rec, isNew, idx) {
+    let recEditor = null;
     const template = `
       <div class="form-grid">
         <div class="form-group">
@@ -2016,14 +2043,14 @@ function initAdminApp() {
         </div>
         <div class="form-group full-width">
           <label class="form-label">Recommendation Text *</label>
-          <textarea id="modal-rec-text" class="form-textarea" style="min-height: 120px;" required>${PortfolioUtils.escapeHtml(rec.text || '')}</textarea>
+          <div id="modal-rec-editor-wrap"></div>
         </div>
       </div>
     `;
 
     openModal(isNew ? 'Add Recommendation' : 'Edit Recommendation', template, () => {
       const author = document.getElementById('modal-rec-author').value.trim();
-      const text = document.getElementById('modal-rec-text').value.trim();
+      const text = recEditor ? recEditor.getHTML() : '';
 
       if (!author || !text) {
         alert('Please fill in Author Name and Recommendation Text.');
@@ -2057,6 +2084,8 @@ function initAdminApp() {
       renderRecommendationsList();
       showToast(isNew ? 'Recommendation added.' : 'Recommendation updated.');
       return true;
+    }, () => {
+      recEditor = createRichTextEditor(document.getElementById('modal-rec-editor-wrap'), rec.text || '', 'Write recommendation...');
     });
   }
 
@@ -2113,8 +2142,8 @@ function initAdminApp() {
       data.profile.name = getVal('input-name');
       delete data.profile.firstName;
       delete data.profile.roleTitle;
-      data.profile.heroBio = getVal('input-heroBio');
-      data.profile.aboutLead = getVal('input-aboutLead');
+      data.profile.heroBio = heroBioEditor ? heroBioEditor.getHTML() : getVal('input-heroBio');
+      data.profile.aboutLead = aboutLeadEditor ? aboutLeadEditor.getHTML() : getVal('input-aboutLead');
       data.profile.fontPair = getVal('input-fontPair');
       
       // Save Rich Text About Story

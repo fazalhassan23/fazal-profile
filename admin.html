@@ -215,15 +215,21 @@
           </div>
           <div class="form-group full-width">
             <label class="form-label">Homepage Hero Bio</label>
-            <textarea id="input-heroBio" class="form-textarea"></textarea>
+            <div id="editor-heroBio-wrap"></div>
+            <textarea id="input-heroBio" class="form-textarea" style="display:none;"></textarea>
           </div>
           <div class="form-group full-width">
             <label class="form-label">Global Typography Theme (Whole Website)</label>
             <select id="input-fontPair" class="form-select">
-              <option value="geometric">Geometric Tech (Space Grotesk / DM Sans — Default)</option>
-              <option value="sleek">Sleek Minimalist (Outfit / Inter)</option>
-              <option value="elegant">Warm &amp; Elegant (Playfair Display / Plus Jakarta Sans)</option>
-              <option value="editorial">Bold Editorial (Syne / Manrope)</option>
+              <option value="executive">✨ Modern Executive (Plus Jakarta Sans / Inter — Recommended Default)</option>
+              <option value="modern-sans">⚡ Clean Tech Sans (Outfit / Plus Jakarta Sans)</option>
+              <option value="thought-leader">📚 Academic &amp; Research (Lora Serif / Inter)</option>
+              <option value="bricolage">🎨 Distinctive Humanist (Bricolage Grotesque / Plus Jakarta Sans)</option>
+              <option value="neo-grotesque">🏢 Precision Minimalist (Inter Tight / Inter)</option>
+              <option value="sleek">💎 Sleek Minimalist (Outfit / Inter)</option>
+              <option value="elegant">🏛️ Warm &amp; Elegant (Playfair Display / Plus Jakarta Sans)</option>
+              <option value="editorial">📰 Bold Editorial (Syne / Manrope)</option>
+              <option value="geometric">🤖 Generic Tech / AI Default (Space Grotesk / DM Sans)</option>
             </select>
           </div>
         </div>
@@ -238,7 +244,8 @@
         <div class="form-grid single">
           <div class="form-group">
             <label class="form-label">About Page Lead Paragraph</label>
-            <textarea id="input-aboutLead" class="form-textarea" style="min-height: 80px;"></textarea>
+            <div id="editor-aboutLead-wrap"></div>
+            <textarea id="input-aboutLead" class="form-textarea" style="display:none;"></textarea>
           </div>
           <div class="form-group">
             <label class="form-label">Detailed Story (Rich Text Editor)</label>
