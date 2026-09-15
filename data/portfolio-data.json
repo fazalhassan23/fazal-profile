@@ -1,10 +1,12 @@
 {
   "profile": {
     "name": "Fazal Mahmud Hassan",
-    "heroBio": "<h3>I bridge technology, people, and business to get things done.</h3><div><br></div><div><p class=\"isSelectedEnd\">I’m Fazal Mahmud Hassan, a <strong>Technical Project Manager with a Computer Science background and an MBA in HR &amp; Management</strong>. I lead cross-functional teams, manage complex software projects, and work closely with clients and stakeholders to turn ideas into products that actually get delivered.</p><p><strong>Technology. People. Execution.</strong> That’s where I do my best work.</p></div>",
-    "aboutLead": "<p>I turn complex technology into things that work.</p>",
+    "firstName": "Fazal",
+    "roleTitle": "Senior Technical Project Manager",
+    "heroBio": "<h3>I&nbsp; create bridge between technology, people, and business and get things done.</h3><div><br></div><div><p class=\"isSelectedEnd\">I’m Fazal Mahmud Hassan, a <strong>Technical Project Manager with a Computer Science background and an MBA in HR &amp; Management</strong>. I lead cross-functional teams, manage complex software projects, and work closely with clients and stakeholders to turn ideas into products that actually get delivered.</p><p><strong>Technology. People. Execution.</strong> That’s where I do my best work.</p></div>",
+    "aboutLead": "<p>I like understanding how things work, and figuring out how to make them work better.</p>",
     "aboutBodyParagraphs": [
-      "<p class=\"isSelectedEnd\">I am Fazal Mahmud Hassan, a <strong>Technical Project Manager with a Computer Science foundation and an MBA in HR &amp; Management</strong>, experienced in taking projects from idea to delivery, leading cross-functional teams, working with clients, and solving the technical challenges along the way.</p><p>From <strong>software products and healthcare technology to small- and medium-scale system &amp; network design</strong>, I bring together <strong>technology, people, and execution</strong> to turn ambitious ideas into practical, reliable outcomes.</p>"
+      "<p dir=\"auto\" data-start=\"255\" data-end=\"554\" class=\"PDq2pG_selectionAnchorContainer\">I’m a Technical Project Manager at Mediusware Limited, where I have worked on <strong data-start=\"333\" data-end=\"358\">27+ software projects</strong> across SaaS platforms, CRM systems, and custom enterprise solutions. At my busiest, I have managed <strong data-start=\"458\" data-end=\"487\">8 to 9 projects at a time</strong>, ranging from smaller engagements to large and complex deliveries.<span aria-hidden=\"true\" class=\"PDq2pG_selectionAnchor\"></span></p><p dir=\"auto\" data-start=\"556\" data-end=\"1037\">My background brings together technology and management. I have a B.Sc. in Computer Science &amp; Engineering, which gives me a solid technical foundation across software, systems, and infrastructure. I have also worked on <strong data-start=\"775\" data-end=\"836\">small and medium-scale computer system and network design</strong>, giving me practical exposure beyond software alone. My MBA in HR &amp; Management added another side to that foundation, helping me understand how people, processes, and technology need to work together.</p><p dir=\"auto\" data-start=\"1039\" data-end=\"1323\">Before moving into project management, I worked in <strong data-start=\"1090\" data-end=\"1158\">technical support, systems engineering, and training and content</strong>. Those roles taught me to troubleshoot, communicate clearly, understand different perspectives, and explain technical ideas without unnecessarily complicating them.</p><p class=\"isSelectedEnd\">\n\n\n</p><p dir=\"auto\" data-start=\"1325\" data-end=\"1672\" data-is-last-node=\"\" data-is-only-node=\"\">Outside work, I’m a photographer, a former university debater, and a lifelong technology enthusiast. I enjoy taking things apart, understanding how they work, and learning something new along the way. For me, good work usually comes down to three things: <strong data-start=\"1580\" data-end=\"1672\" data-is-last-node=\"\">understanding the problem, getting the right people aligned, and seeing the job through.</strong></p>"
     ],
     "contactIntro": "Have an interesting project, collaboration, or leadership role in mind? Send me a message below or connect with me directly.",
     "contactIntroVisible": true,
@@ -28,7 +30,7 @@
   },
   "availability": {
     "status": "available",
-    "badgeText": "Lets talk about work",
+    "badgeText": "Lets discuss work",
     "typewriterRoles": [
       "Technical Project Manager",
       "Training and Content Specialist",
@@ -967,7 +969,8 @@
         "text": "Book a Call",
         "visible": true
       },
-      "heroNow": "Leading Mediusware's SaaS delivery | Open to advisory roles"
+      "heroNow": "Leading Multiple Teams & Projects | Open to advisory roles",
+      "heroNowVisible": false
     },
     "expertise": {
       "label": "expertise",
@@ -1075,7 +1078,7 @@
     "tagline": "Technical Project Manager & Systems Engineer based in Dhaka, Bangladesh.",
     "navTitle": "Navigation",
     "connectTitle": "Connect",
-    "copyright": "© 2026 Fazal Mahmud Hassan. All rights reserved.",
+    "copyright": "Â© 2026 Fazal Mahmud Hassan. All rights reserved.",
     "links": [
       {
         "id": "fl-1",
@@ -1131,5 +1134,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-  "_savedAt": "2026-09-15T09:33:36.415Z"
+  "_savedAt": "2026-09-15T09:58:38.351Z"
 }
