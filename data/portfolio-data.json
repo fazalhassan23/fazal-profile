@@ -139,12 +139,16 @@
       "period": "September 2026",
       "isCurrent": true,
       "bullets": [
-        "Initial workflow for client onboarding",
-        "Initial discovery for client projects",
-        "Overseeing project teams and resolving their issues or blockers",
-        "Optimization of Standard Operating Procedures",
-        "Optimization of RFP workflow",
-        "Standardizing SLAs"
+        "Lead delivery across multiple software projects, working closely with clients, engineering, QA, UI/UX, business analysis, and internal leadership teams to keep projects aligned with business goals, timelines, and quality expectations.",
+        "Oversee and support Associate Project Managers, helping them with project planning, delivery processes, risk management, stakeholder communication, and day-to-day project decisions.",
+        "Work closely with the onboarding team to improve the transition of new projects and clients from initial engagement into structured delivery.",
+        "Support project discovery, requirement clarification, feasibility assessment, estimation, planning, resource allocation, and delivery strategy for new and ongoing engagements.",
+        "Provide delivery oversight across multiple projects, identifying risks, dependencies, resource constraints, and process gaps before they impact timelines or client expectations.",
+        "Mentor and guide project management team members while helping standardize practical delivery processes, documentation, reporting, and project governance.",
+        "Collaborate with technical teams to translate business requirements into actionable delivery plans without losing sight of technical constraints, dependencies, or implementation risks.",
+        "Work with clients and internal stakeholders throughout the project lifecycle, from discovery and planning through development, QA, release, and post-delivery support.",
+        "Contribute to improving internal project management practices, reusable frameworks, estimation approaches, and cross-team collaboration.",
+        "Continue to manage complex projects directly while taking on broader responsibility for delivery quality and project management team support."
       ]
     },
     {
@@ -1132,5 +1136,5 @@
   "adminAuth": {
     "passwordHash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
-  "_savedAt": "2026-09-15T09:58:46.037Z"
+  "_savedAt": "2026-09-18T19:21:03.527Z"
 }
