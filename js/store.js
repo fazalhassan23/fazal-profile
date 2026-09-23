@@ -9,10 +9,7 @@
 
   const STORAGE_KEY = 'fazal_portfolio_cms_data';
   const SESSION_AUTH_KEY = 'fazal_portfolio_auth_session';
-  const GITHUB_TOKEN_KEY = 'fazal_portfolio_github_token';
-  const GITHUB_REPO = 'fazalhassan23/fazal-profile';
-  const GITHUB_BRANCH = 'main';
-  const GITHUB_FILE = 'data/portfolio-data.json';
+  const LEGACY_GITHUB_TOKEN_KEY = 'fazal_portfolio_github_token';
 
   /**
    * Pure JavaScript SHA-256 implementation (Works in all environments including file:// and non-HTTPS IP addresses)
@@ -247,12 +244,13 @@
      * @returns {Promise<Object>}
      */
     fetchServerData: async function () {
+      if (window.__PORTFOLIO_BUILD__) return this.getData();
       if (window.location.protocol === 'file:') {
         return this.getData();
       }
 
       try {
-        const res = await fetch('data/portfolio-data.json?t=' + Date.now(), { cache: 'no-store' });
+        const res = await fetch('data/portfolio-data.json', { cache: 'no-cache' });
         if (res.ok) {
           const serverData = await res.json();
           if (serverData && typeof serverData === 'object') {
@@ -275,7 +273,8 @@
             let finalData;
             // On public pages, always prioritize fresh server data
             if (isPublicPage) {
-              finalData = (serverTime >= localTime || !localData) ? serverMerged : mergeSchema(defaults, localData);
+              // Public content must never be overridden by stale browser editor drafts.
+              finalData = serverMerged;
             } else if (localData && localData._hasLocalChanges) {
               // In CMS admin, local unsaved drafts take precedence during editing
               finalData = mergeSchema(defaults, localData);
@@ -301,32 +300,6 @@
       }
 
       return this.getData();
-    },
-
-    /**
-     * Get GitHub file SHA required by Contents API for updating
-     * @param {string} token
-     * @returns {Promise<{ sha: string|null, error?: string }>}
-     */
-    getFileSha: async function (token) {
-      const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}?ref=${GITHUB_BRANCH}`;
-      try {
-        const res = await fetch(url, {
-          cache: 'no-store',
-          headers: {
-            'Authorization': 'token ' + token,
-            'Accept': 'application/vnd.github+json'
-          }
-        });
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          return { sha: null, error: errData.message || `HTTP ${res.status}` };
-        }
-        const data = await res.json();
-        return { sha: data.sha || null };
-      } catch (e) {
-        return { sha: null, error: e.message || 'Network error fetching SHA' };
-      }
     },
 
     /**
@@ -383,57 +356,8 @@
         }
       }
 
-      // 2. Sync to GitHub repo via Contents API if token is configured
-      const token = localStorage.getItem(GITHUB_TOKEN_KEY);
-
-      if (!token) {
-        if (!serverSynced) {
-          syncError = 'No GitHub token configured in Settings.';
-        }
-      } else if (window.location.protocol === 'file:') {
-        if (!serverSynced) {
-          syncError = 'File:// protocol detected. Server sync requires running on HTTP/HTTPS.';
-        }
-      } else {
-        try {
-          const shaResult = await this.getFileSha(token);
-          const sha = shaResult.sha;
-          if (!sha && shaResult.error) {
-            console.warn('[PortfolioStore] Failed to get SHA:', shaResult.error);
-          }
-
-          const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(diskPayload, null, 2))));
-
-          const body = {
-            message: 'chore: CMS update via admin panel',
-            content: contentBase64,
-            branch: GITHUB_BRANCH
-          };
-          if (sha) body.sha = sha;
-
-          const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
-          const res = await fetch(url, {
-            method: 'PUT',
-            headers: {
-              'Authorization': 'token ' + token,
-              'Content-Type': 'application/json',
-              'Accept': 'application/vnd.github+json'
-            },
-            body: JSON.stringify(body)
-          });
-          const result = await res.json();
-          if (res.ok && result.content) {
-            serverSynced = true;
-            data._hasLocalChanges = false;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-          } else {
-            syncError = result.message || `GitHub API returned HTTP ${res.status}`;
-            console.warn('[PortfolioStore] GitHub API save failed:', syncError);
-          }
-        } catch (err) {
-          syncError = err.message || 'Network exception syncing with GitHub API.';
-          console.warn('[PortfolioStore] GitHub API sync exception:', err);
-        }
+      if (!serverSynced) {
+        syncError = 'Saved locally only. Commit the reviewed data file through Git instead of storing a repository token in the browser.';
       }
 
       return {
@@ -506,7 +430,8 @@
      * @returns {boolean}
      */
     isAuthenticated: function () {
-      return Boolean(sessionStorage.getItem(SESSION_AUTH_KEY));
+      const storedHash = this.getData().adminAuth?.passwordHash;
+      return Boolean(storedHash && sessionStorage.getItem(SESSION_AUTH_KEY) === storedHash);
     },
 
     /**
@@ -520,16 +445,8 @@
       }
 
       const currentData = this.getData();
-      const storedHash = (currentData.adminAuth && currentData.adminAuth.passwordHash) ||
-        (window.DEFAULT_PORTFOLIO_DATA && window.DEFAULT_PORTFOLIO_DATA.adminAuth && window.DEFAULT_PORTFOLIO_DATA.adminAuth.passwordHash) ||
-        '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'; // default hash for "admin"
-
-      let inputHash;
-
-      if (password === 'admin' && (storedHash === '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' || storedHash === '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918')) {
-        sessionStorage.setItem(SESSION_AUTH_KEY, '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
-        return { success: true };
-      }
+      const storedHash = currentData.adminAuth?.passwordHash;
+      if (!storedHash) return { success: false, error: 'Local admin password is not configured.' };
 
       try {
         const inputHash = await computeSha256(password);
@@ -540,10 +457,6 @@
           return { success: false, error: 'Incorrect password.' };
         }
       } catch (e) {
-        if (password === 'admin') {
-          sessionStorage.setItem(SESSION_AUTH_KEY, storedHash);
-          return { success: true };
-        }
         return { success: false, error: 'Encryption verification failed: ' + e.message };
       }
     },
@@ -567,8 +480,8 @@
         return { success: false, error: 'Current password is not correct.' };
       }
 
-      if (!newPassword || newPassword.length < 4) {
-        return { success: false, error: 'New password must be at least 4 characters long.' };
+      if (!newPassword || newPassword.length < 12) {
+        return { success: false, error: 'New password must be at least 12 characters long.' };
       }
 
       try {
@@ -589,12 +502,8 @@
      * @param {string} token
      * @returns {{ success: boolean, error?: string }}
      */
-    saveGitHubToken: function (token) {
-      if (!token || typeof token !== 'string' || (!token.trim().startsWith('github_pat_') && !token.trim().startsWith('ghp_'))) {
-        return { success: false, error: 'Invalid token format. Must be a PAT starting with github_pat_ or ghp_' };
-      }
-      localStorage.setItem(GITHUB_TOKEN_KEY, token.trim());
-      return { success: true };
+    saveGitHubToken: function () {
+      return { success: false, error: 'Browser-held GitHub tokens are disabled for security.' };
     },
 
     /**
@@ -602,11 +511,7 @@
      * @returns {{ configured: boolean, preview: string | null }}
      */
     getGitHubTokenStatus: function () {
-      const token = localStorage.getItem(GITHUB_TOKEN_KEY);
-      return {
-        configured: !!token,
-        preview: token ? token.slice(0, 18) + '...' : null
-      };
+      return { configured: false, preview: null };
     },
 
     /**
@@ -614,39 +519,14 @@
      * @returns {Promise<{ success: boolean, error?: string }>}
      */
     testGitHubToken: async function () {
-      const token = localStorage.getItem(GITHUB_TOKEN_KEY);
-      if (!token) {
-        return { success: false, error: 'No token configured.' };
-      }
-      try {
-        const url = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}?ref=${GITHUB_BRANCH}`;
-        const res = await fetch(url, {
-          headers: {
-            'Authorization': 'token ' + token,
-            'Accept': 'application/vnd.github+json'
-          }
-        });
-        
-        if (res.ok) {
-          return { success: true };
-        } else if (res.status === 404) {
-          return { success: false, error: 'Repository or file not found. Ensure the token has access to this repository.' };
-        } else if (res.status === 401) {
-          return { success: false, error: 'Unauthorized. The token is invalid or expired.' };
-        } else {
-          const data = await res.json();
-          return { success: false, error: data.message || `API Error: ${res.status}` };
-        }
-      } catch (e) {
-        return { success: false, error: 'Network error connecting to GitHub API.' };
-      }
+      return { success: false, error: 'Browser-held GitHub tokens are disabled for security.' };
     },
 
     /**
      * Clear saved GitHub PAT
      */
     clearGitHubToken: function () {
-      localStorage.removeItem(GITHUB_TOKEN_KEY);
+      localStorage.removeItem(LEGACY_GITHUB_TOKEN_KEY);
     }
   };
 

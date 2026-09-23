@@ -7,10 +7,10 @@
   <meta name="robots" content="noindex, follow" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
 
   <!-- Fonts (Localized) -->
-  <link rel="preload" href="css/fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'" /><noscript><link rel="stylesheet" href="css/fonts.css" /></noscript>
+  <link rel="stylesheet" href="/css/fonts.css" />
 
   <!-- Inline Theme & Font Flash Prevention -->
   <script>
@@ -32,7 +32,7 @@
   </script>
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
   <style>
     .error-hero {
       min-height: calc(100vh - 160px);
@@ -79,21 +79,18 @@
 </head>
 <body>
 
-  <!-- Ambient Canvas Background -->
-  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
-
   <!-- Navigation -->
   <header class="nav-header">
     <div class="nav-container">
-      <a href="index.html" class="nav-brand" aria-label="Fazal Mahmud Hassan — Homepage">
+        <a href="/" class="nav-brand" aria-label="Fazal Mahmud Hassan — Homepage">
         <span class="brand-first" data-cms="logoText">Fazal</span><span class="brand-dot">.</span>
       </a>
 
       <nav class="nav-links" id="main-nav" aria-label="Main Navigation">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="projects.html">Projects &amp; Publications</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="/">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/projects.html">Projects &amp; Publications</a>
+        <a href="/#contact">Contact</a>
       </nav>
 
       <div class="nav-actions">
@@ -118,13 +115,10 @@
       </p>
       
       <div class="hero-ctas">
-        <a href="index.html" id="error-cta-1" class="btn btn-primary">Return to Homepage ↗</a>
-        <a href="projects.html" id="error-cta-2" class="btn btn-secondary">Explore Projects</a>
+        <a href="/" id="error-cta-1" class="btn btn-primary">Return to Homepage ↗</a>
+        <a href="/projects.html" id="error-cta-2" class="btn btn-secondary">Explore Projects</a>
       </div>
 
-      <div class="redirect-timer" id="redirect-msg">
-        Auto-redirecting to homepage in <span id="countdown">10</span>s...
-      </div>
     </section>
   </main>
 
@@ -134,29 +128,16 @@
       <div class="footer-bottom">
         <p class="copyright">&copy; <span data-cms="copyrightYear">2026</span> <span data-cms="fullName">Fazal Mahmud Hassan</span>. All rights reserved.</p>
         <div class="footer-cms-hint">
-          <a href="admin.html" class="admin-quick-link" title="CMS Admin Panel">🔒 CMS</a>
         </div>
       </div>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="data/default-data.js?v=20260907-0052"></script>
-  <script src="js/utils.js?v=20260907-0052"></script>
-  <script src="js/store.js?v=20260907-0052"></script>
-  <script src="js/render.js?v=20260907-0052"></script>
-  <script src="js/main.js?v=20260907-0052"></script>
-  <script>
-    let timeLeft = 10;
-    const countdownEl = document.getElementById('countdown');
-    const timer = setInterval(() => {
-      timeLeft--;
-      if (countdownEl) countdownEl.textContent = timeLeft;
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        window.location.href = 'index.html';
-      }
-    }, 1000);
-  </script>
+  <script src="/data/default-data.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/store.js"></script>
+  <script src="/js/render.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 </html>

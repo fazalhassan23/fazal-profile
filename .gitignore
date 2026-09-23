@@ -19,3 +19,11 @@ __pycache__/
 *.tmp
 .gemini/
 
+# Local credentials
+.env
+.env.*
+!.env.example
+
+# Generated build output
+dist/
+

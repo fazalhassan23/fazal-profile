@@ -18,8 +18,8 @@
 
   function renderRichText(htmlOrText) {
     if (!htmlOrText) return '';
-    // If it already contains HTML tags, render as-is
-    if (/<\/?[a-z][\s\S]*>/i.test(htmlOrText)) return htmlOrText;
+    // Rich text is CMS-authored but must still be treated as untrusted input.
+    if (/<\/?[a-z][\s\S]*>/i.test(htmlOrText)) return PortfolioUtils.sanitizeRichHtml(htmlOrText);
     // Otherwise, escape and wrap in <p>
     return `<p>${PortfolioUtils.escapeHtml(htmlOrText)}</p>`;
   }
@@ -143,7 +143,7 @@
     container.innerHTML = articles.map(art => {
       const tagsHtml = (art.tags || []).slice(0, 2).map(t => `<span class="article-tag">${PortfolioUtils.escapeHtml(t)}</span>`).join('');
       return `
-        <div class="article-card fade-up visible" onclick="window.PortfolioApp.openArticleModal('${PortfolioUtils.escapeHtml(art.id)}')" role="button" tabindex="0" aria-label="Read article: ${PortfolioUtils.escapeHtml(art.title)}">
+        <button type="button" class="article-card fade-up visible" data-action="open-article" data-article-id="${PortfolioUtils.escapeHtml(art.id)}" aria-label="Read article: ${PortfolioUtils.escapeHtml(art.title)}">
           <div class="article-card-content">
             <div class="article-meta">
               <span class="article-category">${PortfolioUtils.escapeHtml(art.category || 'Article')}</span>
@@ -156,7 +156,7 @@
             <div class="article-tags">${tagsHtml}</div>
             <span class="article-read-btn" aria-hidden="true">→</span>
           </div>
-        </div>
+        </button>
       `;
     }).join('');
   }
@@ -237,7 +237,7 @@
 
     function getAvatarHtml(r) {
       if (r.avatar && r.avatar.trim()) {
-        return `<img src="${PortfolioUtils.escapeHtml(r.avatar)}" alt="${PortfolioUtils.escapeHtml(r.author)}" class="rec-avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" /><div class="rec-avatar-initials" style="display:none;"></div>`;
+        return `<img src="${PortfolioUtils.escapeHtml(PortfolioUtils.safeUrl(r.avatar, ''))}" alt="${PortfolioUtils.escapeHtml(r.author)}" class="rec-avatar" loading="lazy" /><div class="rec-avatar-initials" aria-hidden="true"></div>`;
       }
       const initials = (r.author || '')
         .split(' ')
@@ -274,7 +274,7 @@
               <div class="rec-author-name">
                 <span>${PortfolioUtils.escapeHtml(r.author)}</span>
                 ${r.linkedinUrl ? `
-                  <a href="${PortfolioUtils.escapeHtml(r.linkedinUrl)}" target="_blank" rel="noopener noreferrer" class="rec-linkedin-link" title="View LinkedIn Profile">
+                  <a href="${PortfolioUtils.escapeHtml(PortfolioUtils.safeUrl(r.linkedinUrl))}" target="_blank" rel="noopener noreferrer" class="rec-linkedin-link" title="View LinkedIn Profile">
                     <svg class="rec-linkedin-icon" viewBox="0 0 24 24" width="13" height="13"><path d="${PortfolioUtils.LINKEDIN_SVG_PATH}"/></svg>
                   </a>
                 ` : ''}
@@ -323,7 +323,14 @@
     const indicator = document.getElementById('rec-page-indicator');
     const prevBtn = document.getElementById('rec-prev');
     const nextBtn = document.getElementById('rec-next');
-    if (!container || recs.length === 0) return;
+    if (!container) return;
+    if (recs.length === 0) {
+      container.innerHTML = '<p class="empty-state" role="status">No recommendations match this filter.</p>';
+      if (indicator) indicator.textContent = 'No results';
+      if (prevBtn) prevBtn.disabled = true;
+      if (nextBtn) nextBtn.disabled = true;
+      return;
+    }
 
     const pageSize = 4;
     const totalPages = Math.ceil(recs.length / pageSize);
@@ -417,7 +424,7 @@
     if (aboutParagraphs && p.aboutBodyParagraphs) {
       aboutParagraphs.innerHTML = p.aboutBodyParagraphs.map(text => {
         if (!text) return '';
-        if (/<\/?[a-z][\s\S]*>/i.test(text)) return text;
+        if (/<\/?[a-z][\s\S]*>/i.test(text)) return PortfolioUtils.sanitizeRichHtml(text);
         return `<p>${PortfolioUtils.escapeHtml(text)}</p>`;
       }).join('');
     }
@@ -481,7 +488,7 @@
     const nav = navData || {};
     const logoElements = document.querySelectorAll('.nav-logo');
     logoElements.forEach(logo => {
-      if (nav.logoLink) logo.setAttribute('href', nav.logoLink);
+      if (nav.logoLink) logo.setAttribute('href', PortfolioUtils.safeUrl(nav.logoLink, 'index.html'));
       const dotHtml = nav.logoDot !== false ? '<span class="dot">.</span>' : '';
       logo.innerHTML = `<span data-cms="logoText">${PortfolioUtils.escapeHtml(nav.logoText || 'FMH11')}</span>${dotHtml}`;
     });
@@ -497,7 +504,7 @@
           const isExternal = item.isExternal || /^https?:\/\//i.test(item.url);
           const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
           const isActive = item.url === currentPage || (currentPage === 'index.html' && item.url === 'index.html') ? ' class="active"' : '';
-          return `<li><a href="${PortfolioUtils.escapeHtml(item.url)}"${targetAttr}${isActive}>${PortfolioUtils.escapeHtml(item.label)}</a></li>`;
+          return `<li><a href="${PortfolioUtils.escapeHtml(PortfolioUtils.safeUrl(item.url))}"${targetAttr}${isActive}>${PortfolioUtils.escapeHtml(item.label)}</a></li>`;
         }).join('');
     }
     // If nav.items is empty/missing, leave hardcoded HTML intact — do nothing.
@@ -519,28 +526,28 @@
     const heroCta1 = document.getElementById('hero-cta-1');
     if (heroCta1 && s.homeHero?.cta1) {
       heroCta1.textContent = s.homeHero.cta1.text || 'View My Work ↗';
-      heroCta1.setAttribute('href', s.homeHero.cta1.url || 'projects.html');
+      heroCta1.setAttribute('href', PortfolioUtils.safeUrl(s.homeHero.cta1.url, 'projects.html'));
       heroCta1.style.display = s.homeHero.cta1.visible !== false ? '' : 'none';
     }
 
     const heroCta2 = document.getElementById('hero-cta-2');
     if (heroCta2 && s.homeHero?.cta2) {
       heroCta2.textContent = s.homeHero.cta2.text || 'About & Experience';
-      heroCta2.setAttribute('href', s.homeHero.cta2.url || 'about.html');
+      heroCta2.setAttribute('href', PortfolioUtils.safeUrl(s.homeHero.cta2.url, 'about.html'));
       heroCta2.style.display = s.homeHero.cta2.visible !== false ? '' : 'none';
     }
 
     const heroCta3 = document.getElementById('hero-cta-3');
     if (heroCta3 && s.homeHero?.cta3) {
       heroCta3.textContent = s.homeHero.cta3.text || 'Download Resume';
-      heroCta3.setAttribute('href', s.homeHero.cta3.url || 'about.html');
+      heroCta3.setAttribute('href', PortfolioUtils.safeUrl(s.homeHero.cta3.url, 'about.html'));
       heroCta3.style.display = s.homeHero.cta3.visible !== false ? '' : 'none';
     }
 
     const heroCta4 = document.getElementById('hero-cta-4');
     if (heroCta4 && s.homeHero?.cta4) {
       heroCta4.textContent = s.homeHero.cta4.text || 'Book a Call';
-      heroCta4.setAttribute('href', s.homeHero.cta4.url || '#');
+      heroCta4.setAttribute('href', PortfolioUtils.safeUrl(s.homeHero.cta4.url));
       heroCta4.style.display = (s.homeHero.cta4.visible !== false && s.homeHero.cta4.url) ? '' : 'none';
     }
 
@@ -584,7 +591,7 @@
       const cta = document.getElementById('experience-section-cta');
       if (cta && s.experience.ctaText) {
         cta.innerHTML = `${PortfolioUtils.escapeHtml(s.experience.ctaText)} <span class="arrow">→</span>`;
-        if (s.experience.ctaUrl) cta.setAttribute('href', s.experience.ctaUrl);
+        if (s.experience.ctaUrl) cta.setAttribute('href', PortfolioUtils.safeUrl(s.experience.ctaUrl));
       }
     }
 
@@ -599,7 +606,7 @@
       const cta = document.getElementById('work-section-cta');
       if (cta && s.work.ctaText) {
         cta.innerHTML = `${PortfolioUtils.escapeHtml(s.work.ctaText)} <span class="arrow">→</span>`;
-        if (s.work.ctaUrl) cta.setAttribute('href', s.work.ctaUrl);
+        if (s.work.ctaUrl) cta.setAttribute('href', PortfolioUtils.safeUrl(s.work.ctaUrl));
       }
     }
 
@@ -690,17 +697,17 @@
     const abBioCta1 = document.getElementById('about-bio-cta-1');
     if (abBioCta1 && ab.bioCta1Text) {
       abBioCta1.textContent = ab.bioCta1Text;
-      if (ab.bioCta1Url) abBioCta1.setAttribute('href', ab.bioCta1Url);
+      if (ab.bioCta1Url) abBioCta1.setAttribute('href', PortfolioUtils.safeUrl(ab.bioCta1Url));
     }
     const abBioCta2 = document.getElementById('about-bio-cta-2');
     if (abBioCta2 && ab.bioCta2Text) {
       abBioCta2.textContent = ab.bioCta2Text;
-      if (ab.bioCta2Url) abBioCta2.setAttribute('href', ab.bioCta2Url);
+      if (ab.bioCta2Url) abBioCta2.setAttribute('href', PortfolioUtils.safeUrl(ab.bioCta2Url));
     }
     const abBioCta3 = document.getElementById('about-bio-cta-3');
     if (abBioCta3 && ab.bioCta3Text) {
       abBioCta3.textContent = ab.bioCta3Text;
-      if (ab.bioCta3Url) abBioCta3.setAttribute('href', ab.bioCta3Url);
+      if (ab.bioCta3Url) abBioCta3.setAttribute('href', PortfolioUtils.safeUrl(ab.bioCta3Url));
     }
 
     const secAbAwards = document.getElementById('about-awards');
@@ -798,13 +805,13 @@
     const errCta1 = document.getElementById('error-cta-1');
     if (errCta1 && err.cta1Text) {
       errCta1.textContent = err.cta1Text;
-      if (err.cta1Url) errCta1.setAttribute('href', err.cta1Url);
+      if (err.cta1Url) errCta1.setAttribute('href', PortfolioUtils.safeUrl(err.cta1Url));
     }
 
     const errCta2 = document.getElementById('error-cta-2');
     if (errCta2 && err.cta2Text) {
       errCta2.textContent = err.cta2Text;
-      if (err.cta2Url) errCta2.setAttribute('href', err.cta2Url);
+      if (err.cta2Url) errCta2.setAttribute('href', PortfolioUtils.safeUrl(err.cta2Url));
     }
   }
 
@@ -843,7 +850,7 @@
 
     // Email
     document.querySelectorAll('[data-cms-link="email"]').forEach(el => {
-      el.setAttribute('href', `mailto:${p.email || ''}`);
+      el.setAttribute('href', PortfolioUtils.safeUrl(`mailto:${p.email || ''}`, '#'));
       if (el.hasAttribute('data-cms-text')) el.textContent = p.email || '';
       const parentDiv = el.closest('div');
       if (parentDiv && el.classList.contains('contact-detail-value')) {
@@ -863,7 +870,7 @@
       phoneLabel.parentElement.style.display = isPhoneVis ? '' : 'none';
     }
     document.querySelectorAll('[data-cms-link="phone"]').forEach(el => {
-      el.setAttribute('href', `tel:${(p.phone || '').replace(/\s+/g, '')}`);
+      el.setAttribute('href', PortfolioUtils.safeUrl(`tel:${(p.phone || '').replace(/\s+/g, '')}`, '#'));
       if (el.hasAttribute('data-cms-text')) el.textContent = p.phone || '';
       const parentDiv = el.closest('div');
       if (parentDiv && el.classList.contains('contact-detail-value')) {
@@ -875,7 +882,7 @@
 
     // LinkedIn (with official SVG logo)
     document.querySelectorAll('[data-cms-link="linkedin"]').forEach(el => {
-      el.setAttribute('href', p.linkedinUrl || 'https://linkedin.com');
+      el.setAttribute('href', PortfolioUtils.safeUrl(p.linkedinUrl, 'https://linkedin.com'));
       el.style.display = isLinkedinVis ? 'inline-flex' : 'none';
       const li = el.closest('li');
       if (li) li.style.display = isLinkedinVis ? '' : 'none';
@@ -884,7 +891,7 @@
 
     // GitHub (with official SVG logo)
     document.querySelectorAll('[data-cms-link="github"]').forEach(el => {
-      if (p.githubUrl) el.setAttribute('href', p.githubUrl);
+      if (p.githubUrl) el.setAttribute('href', PortfolioUtils.safeUrl(p.githubUrl));
       el.style.display = isGithubVis ? 'inline-flex' : 'none';
       const li = el.closest('li');
       if (li) li.style.display = isGithubVis ? '' : 'none';
@@ -900,7 +907,7 @@
     // Resume CTA
     document.querySelectorAll('[data-cms-link="resume"]').forEach(el => {
       if (p.resumeUrl) {
-        el.setAttribute('href', p.resumeUrl);
+        el.setAttribute('href', PortfolioUtils.safeUrl(p.resumeUrl));
         el.setAttribute('target', '_blank');
         el.setAttribute('rel', 'noopener noreferrer');
       } else {
@@ -935,7 +942,7 @@
     const footerNavLinks = document.getElementById('footer-nav-links');
     if (footerNavLinks && Array.isArray(f.links) && f.links.length > 0) {
       footerNavLinks.innerHTML = f.links.map(link => `
-        <li><a href="${PortfolioUtils.escapeHtml(link.url)}">${PortfolioUtils.escapeHtml(link.label)}</a></li>
+        <li><a href="${PortfolioUtils.escapeHtml(PortfolioUtils.safeUrl(link.url))}">${PortfolioUtils.escapeHtml(link.label)}</a></li>
       `).join('');
     }
 
@@ -967,7 +974,7 @@
         } else if (u.includes('github') || l.includes('github')) {
           iconSvg = PortfolioUtils.getGitHubSvg(15) + ' ';
         }
-        return `<li><a href="${PortfolioUtils.escapeHtml(link.url)}"${targetAttr}>${iconSvg}<span>${PortfolioUtils.escapeHtml(link.label)}</span></a></li>`;
+        return `<li><a href="${PortfolioUtils.escapeHtml(PortfolioUtils.safeUrl(link.url))}"${targetAttr}>${iconSvg}<span>${PortfolioUtils.escapeHtml(link.label)}</span></a></li>`;
       }).join('');
     }
   }
@@ -978,7 +985,9 @@
     // BUG-11 FIX: Was a no-op block that never applied siteTitle. Now properly updates the page title.
     if (seo.siteTitle) {
       // Append the SEO-configured site title as the suffix after a page prefix (e.g. "About — New Site Title")
-      if (document.title.includes('\u2014')) {
+      if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+        document.title = seo.siteTitle;
+      } else if (document.title.includes('\u2014')) {
         const pagePrefix = document.title.split('\u2014')[0].trim();
         document.title = `${pagePrefix} \u2014 ${seo.siteTitle}`;
       } else {
@@ -995,13 +1004,26 @@
       const metaKw = document.querySelector('meta[name="keywords"]');
       if (metaKw) metaKw.setAttribute('content', seo.keywords);
     }
+
+    const setMeta = (selector, value) => {
+      const element = document.querySelector(selector);
+      if (element && value) element.setAttribute('content', value);
+    };
+    setMeta('meta[property="og:title"]', document.title);
+    setMeta('meta[property="og:description"]', seo.metaDescription);
+    setMeta('meta[property="og:image"]', PortfolioUtils.safeUrl(seo.ogImage, ''));
+    setMeta('meta[name="twitter:title"]', document.title);
+    setMeta('meta[name="twitter:description"]', seo.metaDescription);
+    setMeta('meta[name="twitter:image"]', PortfolioUtils.safeUrl(seo.ogImage, ''));
     
-    // JSON-LD Schema
-    let schemaScript = document.getElementById('json-ld-schema');
+    // Keep the page-specific static JSON-LD authoritative. Only add a fallback
+    // schema on pages that do not define one.
+    if (document.querySelector('script[type="application/ld+json"]')) return;
+    let schemaScript = document.getElementById('portfolio-runtime-schema');
     if (!schemaScript) {
       schemaScript = document.createElement('script');
       schemaScript.type = 'application/ld+json';
-      schemaScript.id = 'json-ld-schema';
+      schemaScript.id = 'portfolio-runtime-schema';
       document.head.appendChild(schemaScript);
     }
     
@@ -1046,8 +1068,9 @@
 
   function renderProjectCard(proj) {
     const tagsHtml = (proj.tags || []).map(t => `<span class="tag">${PortfolioUtils.escapeHtml(t)}</span>`).join('');
-    const linkAttr = proj.link ? `href="${PortfolioUtils.escapeHtml(proj.link)}" target="_blank" rel="noopener noreferrer"` : '';
-    const tagType = proj.link ? 'a' : 'div';
+    const safeProjectUrl = PortfolioUtils.safeUrl(proj.link, '');
+    const linkAttr = safeProjectUrl ? `href="${PortfolioUtils.escapeHtml(safeProjectUrl)}" target="_blank" rel="noopener noreferrer"` : '';
+    const tagType = safeProjectUrl ? 'a' : 'div';
 
     return `
       <${tagType} ${linkAttr} class="project-card fade-up visible">
@@ -1120,6 +1143,7 @@
     if (!art) return;
 
     let overlay = document.getElementById('article-modal-overlay');
+    const previousFocus = document.activeElement;
     if (!overlay) {
       overlay = document.createElement('div');
       overlay.id = 'article-modal-overlay';
@@ -1133,7 +1157,7 @@
           <div class="modal-header">
             <div>
               <span class="article-category" id="modal-art-category"></span>
-              <span class="article-date" class="modal-art-meta-date" id="modal-art-meta"></span>
+               <span class="article-date modal-art-meta-date" id="modal-art-meta"></span>
             </div>
             <button class="modal-close" id="btn-modal-close" aria-label="Close article modal">&times;</button>
           </div>
@@ -1141,7 +1165,7 @@
           <div class="modal-body" id="modal-art-body"></div>
           <div class="modal-footer">
             <div id="modal-art-tags" class="article-tags"></div>
-            <button class="btn btn-outline" id="btn-modal-footer-close" class="btn-outline modal-close-btn-sm">Close</button>
+             <button type="button" class="btn btn-outline modal-close-btn-sm" id="btn-modal-footer-close">Close</button>
           </div>
         </div>
       `;
@@ -1159,6 +1183,20 @@
         if (e.key === 'Escape' && overlay.classList.contains('open')) {
           closeArticleModal();
         }
+        if (e.key === 'Tab' && overlay.classList.contains('open')) {
+          const focusable = [...overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+            .filter((element) => !element.disabled);
+          if (!focusable.length) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
       });
     }
 
@@ -1168,7 +1206,7 @@
 
     const rawContent = art.content || art.summary || '';
     if (/<\/?[a-z][\s\S]*>/i.test(rawContent)) {
-      document.getElementById('modal-art-body').innerHTML = rawContent;
+      document.getElementById('modal-art-body').innerHTML = PortfolioUtils.sanitizeRichHtml(rawContent);
     } else {
       document.getElementById('modal-art-body').innerHTML = rawContent
         .split('\n\n')
@@ -1182,7 +1220,9 @@
     }
 
     overlay.classList.add('open');
+    overlay._previousFocus = previousFocus;
     document.body.style.overflow = 'hidden';
+    document.getElementById('btn-modal-close')?.focus();
   }
 
   function closeArticleModal() {
@@ -1190,6 +1230,7 @@
     if (overlay) {
       overlay.classList.remove('open');
       document.body.style.overflow = '';
+      overlay._previousFocus?.focus?.();
     }
   }
 
@@ -1248,6 +1289,11 @@
   });
 
   document.addEventListener('click', (e) => {
+    const article = e.target.closest('[data-action="open-article"]');
+    if (article) {
+      openArticleModal(article.getAttribute('data-article-id'));
+      return;
+    }
     const btn = e.target.closest('[data-action="toggle-rec"]');
     if (!btn) return;
     const full = btn.previousElementSibling;

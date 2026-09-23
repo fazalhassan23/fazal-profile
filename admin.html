@@ -1228,29 +1228,6 @@
 
     <!-- ── PANEL: RECOMMENDATIONS ───────────────────── -->
     <section id="panel-recommendations" class="admin-panel">
-      <!-- Recommendations Section Settings -->
-      <div class="admin-card">
-        <div class="admin-card-header">
-          <h2 class="admin-card-title">Recommendations Settings</h2>
-        </div>
-        <div class="form-grid">
-          <div class="form-group">
-            <label class="form-label">Section Heading Label</label>
-            <input type="text" id="input-rec-section-label" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Section Subtext</label>
-            <input type="text" id="input-rec-section-subtext" class="form-input" />
-          </div>
-          <div class="form-group" style="grid-column: 1 / -1;">
-            <label class="form-checkbox-label">
-              <input type="checkbox" id="checkbox-sec-rec-vis" />
-              <span>Show Endorsements Section on Homepage</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
       <!-- List and Action Bar -->
       <div class="admin-card">
         <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
@@ -1285,43 +1262,15 @@
 
     <!-- ── PANEL: SECURITY & SETTINGS ────────────── -->
     <section id="panel-settings" class="admin-panel">
-      <!-- GitHub API Token -->
+      <!-- Publishing guidance -->
       <div class="admin-card">
         <div class="admin-card-header">
-          <h2 class="admin-card-title">GitHub Sync Token</h2>
+          <h2 class="admin-card-title">Publishing</h2>
           <p style="font-size:0.85rem; color:var(--adm-muted); margin-top:0.25rem;">
-            Required for saving CMS changes to the live GitHub Pages site. Generate a
-            <strong>Fine-grained Personal Access Token</strong> on GitHub with
-            <code>Contents: Write</code> permission on this repository only.
+            This editor saves only to local browser storage or the local development server.
+            Review changes, then commit and push them through Git. Repository tokens are never stored in the browser.
           </p>
         </div>
-
-        <div id="github-token-status" style="margin-bottom: 1rem;"></div>
-
-        <form id="form-github-token" onsubmit="return false;" style="max-width: 460px; display: flex; flex-direction: column; gap: 1rem;">
-          <div class="form-group">
-            <label class="form-label" for="input-github-token">Personal Access Token (PAT)</label>
-            <input
-              type="password"
-              id="input-github-token"
-              class="form-input"
-              placeholder="github_pat_..."
-              autocomplete="off"
-            />
-          </div>
-
-          <div style="display: flex; gap: 0.5rem;">
-            <button type="button" id="btn-save-github-token" class="btn-adm btn-adm-primary">
-              Save Token
-            </button>
-            <button type="button" id="btn-test-github-token" class="btn-adm" style="background-color: var(--adm-surface-hover); color: var(--adm-text);">
-              Test Token
-            </button>
-            <button type="button" id="btn-clear-github-token" class="btn-adm btn-adm-danger">
-              Clear Token
-            </button>
-          </div>
-        </form>
       </div>
 
       <!-- Change Password -->
@@ -1336,7 +1285,7 @@
           </div>
           <div class="form-group">
             <label class="form-label">New Password</label>
-            <input type="password" id="input-new-pwd" class="form-input" placeholder="Enter new password (min 4 characters)..." />
+            <input type="password" id="input-new-pwd" class="form-input" placeholder="Enter new password (min 12 characters)..." />
           </div>
           <div class="form-group">
             <label class="form-label">Confirm New Password</label>

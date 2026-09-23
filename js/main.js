@@ -74,8 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Close menu when clicking nav link
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', closeMobileNav);
+    navLinks.addEventListener('click', (e) => {
+      if (e.target.closest('a')) closeMobileNav();
     });
 
     // Close menu when clicking outside
@@ -313,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAmbientCanvas();
 
   function initAmbientCanvas() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.getElementById('ambient-canvas')) return;
     const canvas = document.createElement('canvas');
     canvas.id = 'ambient-canvas';
     canvas.style.position = 'fixed';
@@ -327,12 +328,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     let width = 0;
     let height = 0;
-    let dpr = window.devicePixelRatio || 1;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
     let isTabActive = true;
     let animFrameId = null;
 
     function resize() {
-      dpr = window.devicePixelRatio || 1;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = window.innerWidth;
       height = window.innerHeight;
       canvas.width = Math.floor(width * dpr);

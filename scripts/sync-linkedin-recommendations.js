@@ -11,6 +11,13 @@ const DATA_PATH = path.join(__dirname, '..', 'data', 'portfolio-data.json');
 const LI_AT = process.env.LINKEDIN_LI_AT;
 const PROFILE_ID = process.env.LINKEDIN_PROFILE_ID || 'fazalmahmudhassan';
 
+function categorizeRecommendation(headline, text) {
+  const source = `${headline || ''} ${text || ''}`.toLowerCase();
+  if (/university|student|research|academic|thesis|course|brac/.test(source)) return 'academic';
+  if (/engineer|developer|sqa|software|technical|hardware|database|system/.test(source)) return 'technical';
+  return 'management';
+}
+
 console.log('--- Starting LinkedIn Recommendations Sync ---');
 
 // 1. Read existing data
@@ -92,8 +99,8 @@ const req = https.request(options, (res) => {
         if (!author || !text) return;
 
         const exists = portfolioData.recommendations.some(r => {
-          return r.author.toLowerCase() === author.toLowerCase() || 
-                 r.text.substring(0, 50).toLowerCase() === text.substring(0, 50).toLowerCase();
+          return String(r.author || '').toLowerCase() === author.toLowerCase() ||
+                 String(r.text || '').substring(0, 50).toLowerCase() === text.substring(0, 50).toLowerCase();
         });
 
         if (exists) {
@@ -122,6 +129,7 @@ const req = https.request(options, (res) => {
           relationship: relationship,
           date: dateStr,
           text: text,
+          category: categorizeRecommendation(headline, text),
           featured: false,
           visible: true
         });
@@ -135,6 +143,7 @@ const req = https.request(options, (res) => {
         if (isDryRun) {
           console.log('[Dry Run] Changes detected but not saved.');
         } else {
+          portfolioData._savedAt = new Date().toISOString();
           fs.writeFileSync(DATA_PATH, JSON.stringify(portfolioData, null, 2), 'utf8');
           console.log(`Successfully updated ${DATA_PATH} with new recommendations.`);
         }

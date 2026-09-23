@@ -1,0 +1,9 @@
+{
+  "name": "fazal-profile",
+  "private": true,
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "build": "node scripts/build-site.mjs",
+    "check": "node --check js/utils.js && node --check js/store.js && node --check js/render.js && node --check js/main.js && node --check js/admin.js"
+  }
+}
