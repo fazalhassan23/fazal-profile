@@ -3,6 +3,18 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.7.0] - 2026-11-03
+
+### Added
+
+- Added the Index layout with Day and AMOLED Night themes.
+- Added recruiter shortcuts, an expandable career timeline, and incremental endorsements on About.
+
+### Changed
+
+- Moved experience before recognition and refined the project and article lists.
+- Added keyboard navigation improvements, icon labels, and reduced-motion support.
+
 ## [2.6.0] - 2026-09-14
 
 > Branch: `rich-text` - Added rich text editor support across CMS text fields.

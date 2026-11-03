@@ -134,8 +134,12 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/style.css?v=20260907-0059" />
+  <link rel="stylesheet" href="css/redesign.css?v=2" />
+  <link rel="stylesheet" href="css/signal.css?v=23" />
+  <script src="js/redesign.js?v=7"></script>
 </head>
 <body>
+  <a class="skip-to-content" href="#main-content">Skip to content</a>
 
   <!-- ══════════════════════════════════════════════════
        NAVIGATION
@@ -170,7 +174,7 @@
   <!-- ══════════════════════════════════════════════════
        MAIN CONTENT
   ═══════════════════════════════════════════════════ -->
-  <main class="page-wrapper">
+  <main class="page-wrapper" id="main-content" tabindex="-1">
 
     <!-- ── HERO ─────────────────────────────────────── -->
     <section class="hero" id="home" aria-label="Introduction">
@@ -210,7 +214,8 @@
       </div>
 
       <div class="hero-ctas">
-        <a href="projects.html" id="hero-cta-1" class="btn btn-primary">View My Work ↗</a>
+        <a href="#experience" class="btn btn-primary" id="hero-experience-link">View Experience</a>
+        <a href="projects.html" id="hero-cta-1" class="btn btn-outline">View Projects</a>
         <a href="about.html" id="hero-cta-2" class="btn btn-outline">About &amp; Experience</a>
         <a href="about.html" id="hero-cta-3" data-cms-link="resume" class="btn btn-outline">Download Resume</a>
         <a href="#" id="hero-cta-4" class="btn btn-outline" style="display: none;">Book a Call</a>
@@ -222,6 +227,22 @@
       <h2 class="section-label" id="expertise-section-label">expertise</h2>
 
       <div class="expertise-grid" id="expertise-container">
+        <!-- Rendered dynamically by js/render.js -->
+      </div>
+    </section>
+
+    <!-- ── EXPERIENCE ──────────────────────────────────── -->
+    <section class="section" id="experience" tabindex="-1" aria-label="Work experience">
+      <div class="section-header">
+        <div>
+          <h2 class="section-label" id="experience-section-label">experience</h2>
+          <p class="section-subtext" id="experience-section-subtext">
+            Professional background and career milestones.
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline" id="home-experience-container">
         <!-- Rendered dynamically by js/render.js -->
       </div>
     </section>
@@ -242,32 +263,16 @@
       </div>
     </section>
 
-    <!-- ── EXPERIENCE ──────────────────────────────────── -->
-    <section class="section" id="experience" aria-label="Work experience">
-      <div class="section-header">
-        <div>
-          <h2 class="section-label" id="experience-section-label">experience</h2>
-          <p class="section-subtext" id="experience-section-subtext">
-            Professional background and career milestones.
-          </p>
-        </div>
-      </div>
-
-      <div class="timeline" id="home-experience-container">
-        <!-- Rendered dynamically by js/render.js -->
-      </div>
-    </section>
-
     <!-- ── FEATURED WORK ──────────────────────────────── -->
     <section class="section" id="work" aria-label="Featured work">
       <div class="section-header">
         <div>
-          <h2 class="section-label" id="work-section-label">work</h2>
+          <h2 class="section-label" id="work-section-label">Thesis and Project Work</h2>
           <p class="section-subtext" id="work-section-subtext">
             Selected academic research and engineering projects.
           </p>
         </div>
-        <a href="projects.html" id="work-section-cta" class="btn btn-ghost">All projects <span class="arrow">→</span></a>
+        <a href="projects.html" id="work-section-cta" class="btn btn-ghost">All projects <span class="arrow" aria-hidden="true">→</span></a>
       </div>
 
       <div class="projects-list" id="home-projects-container">
@@ -338,16 +343,16 @@
             <input type="hidden" name="access_key" id="contact-access-key" value="24bc9261-af85-40be-b33c-af52391f8d36" />
             <!-- Honeypot field for spam prevention -->
             <input type="checkbox" name="botcheck" class="hidden" style="display: none !important; position: absolute !important; left: -9999px !important;" tabindex="-1" autocomplete="off" />
-            <div id="contact-form-status" class="form-status"></div>
+            <div id="contact-form-status" class="form-status" aria-live="polite"></div>
 
             <div class="form-group">
               <label class="form-label" id="label-contact-name" for="contact-name">Your Name *</label>
-              <input type="text" id="contact-name" name="name" class="form-input" placeholder="e.g. Alex Rahman" required autocomplete="off" data-lpignore="true" data-1p-ignore="true" />
+              <input type="text" id="contact-name" name="name" class="form-input" placeholder="e.g. Alex Rahman" required autocomplete="name" />
             </div>
 
             <div class="form-group">
               <label class="form-label" id="label-contact-email" for="contact-email">Email Address *</label>
-              <input type="email" id="contact-email" name="email" class="form-input" placeholder="e.g. alex@company.com" required autocomplete="off" data-lpignore="true" data-1p-ignore="true" />
+              <input type="email" id="contact-email" name="email" class="form-input" placeholder="e.g. alex@company.com" required autocomplete="email" spellcheck="false" />
             </div>
 
             <div class="form-group">
@@ -433,7 +438,7 @@
   <script src="data/default-data.js?v=20260907-0059"></script>
   <script src="js/utils.js?v=20260907-0059"></script>
   <script src="js/store.js?v=20260907-0059"></script>
-  <script src="js/render.js?v=20260907-0059"></script>
+  <script src="js/render.js?v=20261103-index"></script>
   <script src="js/main.js?v=20260907-0059"></script>
 </body>
 </html>
