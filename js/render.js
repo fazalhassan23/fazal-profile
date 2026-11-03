@@ -16,6 +16,26 @@
     return temp.textContent || temp.innerText || '';
   }
 
+  // Repair legacy punctuation in the display copy of CMS data.
+  const punctuation = new Map([
+    ['â€“', '–'], ['â€”', '—'], ['â€˜', '‘'], ['â€™', '’'],
+    ['â€œ', '“'], ['â€\u009d', '”'], ['â†’', '→'], ['â†—', '↗'], ['Â©', '©']
+  ]);
+  const legacyPunctuation = new RegExp([...punctuation.keys()].join('|'), 'g');
+
+  function getDisplayData() {
+    return JSON.parse(JSON.stringify(window.PortfolioStore.getData()), (key, value) =>
+      typeof value === 'string' && !/url$/i.test(key)
+        ? value.replace(legacyPunctuation, match => punctuation.get(match))
+        : value
+    );
+  }
+
+  function linkedinProfilePath(value) {
+    return String(value || '').trim().toLowerCase()
+      .match(/^https?:\/\/(?:[a-z]+\.)?linkedin\.com(\/in\/[^/?#]+)/)?.[1];
+  }
+
   function renderRichText(htmlOrText) {
     if (!htmlOrText) return '';
     // If it already contains HTML tags, render as-is
@@ -212,7 +232,7 @@
 
   let currentRecCategory = 'all';
 
-  function renderRecommendations(recommendations) {
+  function renderRecommendations(recommendations, ownerProfiles) {
     if (!Array.isArray(recommendations)) return;
 
     let visibleRecs = recommendations.filter(r => r.visible !== false);
@@ -226,7 +246,7 @@
           document.querySelectorAll('#rec-filters button').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           currentRecCategory = btn.getAttribute('data-filter');
-          renderRecommendations(recommendations);
+          renderRecommendations(recommendations, ownerProfiles);
         }
       });
     }
@@ -249,6 +269,8 @@
     }
 
     function createCardHtml(r) {
+      const profilePath = linkedinProfilePath(r.linkedinUrl);
+      const showProfile = profilePath && !ownerProfiles.includes(profilePath);
       // Determine the data source icon (defaulting to LinkedIn)
       const sourceIconHtml = `
         <svg viewBox="0 0 24 24" width="18" height="18" class="rec-source-icon">
@@ -273,7 +295,7 @@
             <div class="rec-author-info">
               <div class="rec-author-name">
                 <span>${PortfolioUtils.escapeHtml(r.author)}</span>
-                ${r.linkedinUrl ? `
+                ${showProfile ? `
                   <a href="${PortfolioUtils.escapeHtml(r.linkedinUrl)}" target="_blank" rel="noopener noreferrer" class="rec-linkedin-link" title="View LinkedIn Profile">
                     <svg class="rec-linkedin-icon" viewBox="0 0 24 24" width="13" height="13"><path d="${PortfolioUtils.LINKEDIN_SVG_PATH}"/></svg>
                   </a>
@@ -518,7 +540,9 @@
 
     const heroCta1 = document.getElementById('hero-cta-1');
     if (heroCta1 && s.homeHero?.cta1) {
-      heroCta1.textContent = s.homeHero.cta1.text || 'View My Work ↗';
+      const { text, url } = s.homeHero.cta1;
+      const isCatalog = !url || /^(?:\.\/|\/)?projects\.html$/.test(url);
+      heroCta1.textContent = isCatalog && text === 'See Case Studies' ? 'View Projects' : text || 'View My Work ↗';
       heroCta1.setAttribute('href', s.homeHero.cta1.url || 'projects.html');
       heroCta1.style.display = s.homeHero.cta1.visible !== false ? '' : 'none';
     }
@@ -540,8 +564,11 @@
     const heroCta4 = document.getElementById('hero-cta-4');
     if (heroCta4 && s.homeHero?.cta4) {
       heroCta4.textContent = s.homeHero.cta4.text || 'Book a Call';
-      heroCta4.setAttribute('href', s.homeHero.cta4.url || '#');
-      heroCta4.style.display = (s.homeHero.cta4.visible !== false && s.homeHero.cta4.url) ? '' : 'none';
+      const bookingUrl = s.homeHero.cta4.url?.trim();
+      const isPlaceholder = /^https?:\/\/(?:www\.)?calendly\.com\/?(?:[?#].*)?$/i.test(bookingUrl);
+      const showBooking = s.homeHero.cta4.visible !== false && bookingUrl && !isPlaceholder;
+      heroCta4.setAttribute('href', showBooking ? bookingUrl : '#');
+      heroCta4.style.display = showBooking ? '' : 'none';
     }
 
     const heroNowWrapper = document.getElementById('hero-now-wrapper');
@@ -1114,7 +1141,7 @@
   /* ── Article Modal Reader ──────────────────────────────── */
 
   function openArticleModal(articleId) {
-    const data = window.PortfolioStore.getData();
+    const data = getDisplayData();
     if (!data || !data.articles) return;
     const art = data.articles.find(a => a.id === articleId);
     if (!art) return;
@@ -1201,7 +1228,7 @@
 
   function renderAll() {
     if (!window.PortfolioStore) return;
-    const data = window.PortfolioStore.getData();
+    const data = getDisplayData();
     if (!data || !data.profile) return;
 
     const p = data.profile;
@@ -1216,7 +1243,10 @@
     renderArticles(data.articles);
     renderExperience(data.experience);
     renderProjects(data.projects);
-    renderRecommendations(data.recommendations);
+    renderRecommendations(data.recommendations, [
+      p.linkedinUrl,
+      ...(data.footer?.socialLinks || []).map(link => link.url)
+    ].map(linkedinProfilePath).filter(Boolean));
     renderAboutPage(p, data);
     renderSectionHeadersAndVisibility(data.sections, data);
     renderContactAndFooter(p, data.footer, data.navigation);
