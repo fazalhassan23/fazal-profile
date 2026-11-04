@@ -71,7 +71,7 @@
   <!-- Analytics -->
   <script defer data-domain="YOUR_DOMAIN_HERE" src="https://plausible.io/js/script.js"></script>
   <link rel="stylesheet" href="css/redesign.css?v=2" />
-  <link rel="stylesheet" href="css/signal.css?v=23" />
+  <link rel="stylesheet" href="css/signal.css?v=26" />
   <script src="js/redesign.js?v=6"></script>
 </head>
 <body>
@@ -139,8 +139,105 @@
     <!-- ══════════════════════════════════════════════════
          UNIVERSITY & SOFTWARE PROJECTS
     ═══════════════════════════════════════════════════ -->
-    <section class="section" id="university-projects" aria-label="University projects">
+    <section class="section" id="university-projects" aria-labelledby="projects-software-label">
       <h2 class="section-label" id="projects-software-label">software &amp; engineering</h2>
+      <div class="projects-list repository-projects">
+        <article class="project-card featured-project" aria-labelledby="emr-project-title">
+          <div class="project-card-content">
+            <span class="featured-project-label">Featured Project</span>
+            <h3 id="emr-project-title">EMR for Outpatient Care</h3>
+            <p>An electronic medical records application designed for solo clinicians in Bangladesh. It brings patient registration, clinical visit notes, encounter history, and vital sign trends into one workflow.</p>
+            <p>Clinicians can build printable prescriptions using Bangladesh’s DGDA drug catalogue. The application checks for recorded allergies and keeps an audit trail of activity.</p>
+            <span class="repository-tag">Electronic Medical Records · Laravel</span>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="project-card-content">
+            <h3>wingetUI</h3>
+            <p>Early-stage C# project for a graphical interface to Windows Package Manager (WinGet).</p>
+            <span class="repository-tag">Hobby and Collaboration</span>
+          </div>
+          <a class="btn btn-outline repository-link" href="https://github.com/fazalhassan23/wingetUI" aria-label="View wingetUI on GitHub">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.64-1.25-1.64-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.62 1.22 3.26.93.1-.73.4-1.22.71-1.5-2.5-.29-5.13-1.25-5.13-5.56 0-1.23.44-2.24 1.16-3.03-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.09 1.15a10.7 10.7 0 0 1 5.63 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.55.23 2.7.12 2.98.72.79 1.15 1.8 1.15 3.03 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.04.76 2.09v3.09c0 .3.2.65.77.54A11.25 11.25 0 0 0 12 .75Z"/></svg>
+            <span>View on GitHub</span>
+          </a>
+        </article>
+        <article class="project-card">
+          <div class="project-card-content">
+            <h3>GooglePhotosBulkDL</h3>
+            <p>Early-stage project exploring bulk downloads from Google Photos.</p>
+            <span class="repository-tag">Hobby and Collaboration</span>
+          </div>
+          <a class="btn btn-outline repository-link" href="https://github.com/fazalhassan23/GooglePhotosBulkDL" aria-label="View GooglePhotosBulkDL on GitHub">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.64-1.25-1.64-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.62 1.22 3.26.93.1-.73.4-1.22.71-1.5-2.5-.29-5.13-1.25-5.13-5.56 0-1.23.44-2.24 1.16-3.03-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.09 1.15a10.7 10.7 0 0 1 5.63 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.55.23 2.7.12 2.98.72.79 1.15 1.8 1.15 3.03 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.04.76 2.09v3.09c0 .3.2.65.77.54A11.25 11.25 0 0 0 12 .75Z"/></svg>
+            <span>View on GitHub</span>
+          </a>
+        </article>
+        <article class="project-card">
+          <div class="project-card-content">
+            <h3>DeDuplicator</h3>
+            <p>Windows utility that finds exact duplicate files by comparing their contents and lets users review what to keep or quarantine.</p>
+            <span class="repository-tag">Hobby and Collaboration</span>
+          </div>
+          <a class="btn btn-outline repository-link" href="https://github.com/fazalhassan23/DeDuplicator" aria-label="View DeDuplicator on GitHub">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.64-1.25-1.64-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.62 1.22 3.26.93.1-.73.4-1.22.71-1.5-2.5-.29-5.13-1.25-5.13-5.56 0-1.23.44-2.24 1.16-3.03-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.09 1.15a10.7 10.7 0 0 1 5.63 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.55.23 2.7.12 2.98.72.79 1.15 1.8 1.15 3.03 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.04.76 2.09v3.09c0 .3.2.65.77.54A11.25 11.25 0 0 0 12 .75Z"/></svg>
+            <span>View on GitHub</span>
+          </a>
+        </article>
+        <article class="project-card">
+          <div class="project-card-content">
+            <h3>CatAstrophe</h3>
+            <p>Browser arcade game featuring a flying cat, procedurally drawn artwork, synthesized sound, and online leaderboards.</p>
+            <span class="repository-tag">Hobby and Collaboration</span>
+          </div>
+          <div class="repository-actions">
+            <a class="btn btn-primary repository-link" href="https://catastrophe-rho.vercel.app/">Play the Game</a>
+            <a class="btn btn-outline repository-link" href="https://github.com/fazalhassan23/CatAstrophe" aria-label="View CatAstrophe on GitHub">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.64-1.25-1.64-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.62 1.22 3.26.93.1-.73.4-1.22.71-1.5-2.5-.29-5.13-1.25-5.13-5.56 0-1.23.44-2.24 1.16-3.03-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.09 1.15a10.7 10.7 0 0 1 5.63 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.55.23 2.7.12 2.98.72.79 1.15 1.8 1.15 3.03 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.04.76 2.09v3.09c0 .3.2.65.77.54A11.25 11.25 0 0 0 12 .75Z"/></svg>
+              <span>View on GitHub</span>
+            </a>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="project-card-content">
+            <h3>Portfolio for Dr. Tahsin Ahmed</h3>
+            <p>Bilingual medical practice site with appointment management and a content studio for publishing educational resources.</p>
+            <span class="repository-tag">Hobby and Collaboration</span>
+          </div>
+          <div class="repository-actions">
+            <a class="btn btn-primary repository-link" href="https://drtahsinahmednafi.vercel.app/">View Live Website</a>
+            <a class="btn btn-outline repository-link" href="https://github.com/fazalhassan23/nafi-portfolio" aria-label="View Portfolio for Dr. Tahsin Ahmed on GitHub">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.64-1.25-1.64-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.62 1.22 3.26.93.1-.73.4-1.22.71-1.5-2.5-.29-5.13-1.25-5.13-5.56 0-1.23.44-2.24 1.16-3.03-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.09 1.15a10.7 10.7 0 0 1 5.63 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.55.23 2.7.12 2.98.72.79 1.15 1.8 1.15 3.03 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.04.76 2.09v3.09c0 .3.2.65.77.54A11.25 11.25 0 0 0 12 .75Z"/></svg>
+              <span>View on GitHub</span>
+            </a>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="project-card-content">
+            <h3>CampusCafe</h3>
+            <p>Responsive campus café website built with HTML, CSS, and JavaScript.</p>
+            <span class="repository-tag">Hobby and Collaboration</span>
+          </div>
+          <div class="repository-actions">
+            <a class="btn btn-primary repository-link" href="https://campuscafe-one.vercel.app/">View Live Website</a>
+            <a class="btn btn-outline repository-link" href="https://github.com/fazalhassan23/CampusCafe" aria-label="View CampusCafe on GitHub">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.64-1.25-1.64-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.62 1.22 3.26.93.1-.73.4-1.22.71-1.5-2.5-.29-5.13-1.25-5.13-5.56 0-1.23.44-2.24 1.16-3.03-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.09 1.15a10.7 10.7 0 0 1 5.63 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.55.23 2.7.12 2.98.72.79 1.15 1.8 1.15 3.03 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.04.76 2.09v3.09c0 .3.2.65.77.54A11.25 11.25 0 0 0 12 .75Z"/></svg>
+              <span>View on GitHub</span>
+            </a>
+          </div>
+        </article>
+        <article class="project-card">
+          <div class="project-card-content">
+            <h3>MySQL Experiment</h3>
+            <p>Hospital database case study with a normalized MySQL schema, sample data, and a technical report.</p>
+            <span class="repository-tag">Hobby and Collaboration</span>
+          </div>
+          <a class="btn btn-outline repository-link" href="https://github.com/fazalhassan23/MySQL-Task" aria-label="View MySQL Experiment on GitHub">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .75a11.25 11.25 0 0 0-3.56 21.92c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.64-1.25-1.64-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.62 1.22 3.26.93.1-.73.4-1.22.71-1.5-2.5-.29-5.13-1.25-5.13-5.56 0-1.23.44-2.24 1.16-3.03-.12-.28-.5-1.43.11-2.98 0 0 .95-.3 3.09 1.15a10.7 10.7 0 0 1 5.63 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.55.23 2.7.12 2.98.72.79 1.15 1.8 1.15 3.03 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.04.76 2.09v3.09c0 .3.2.65.77.54A11.25 11.25 0 0 0 12 .75Z"/></svg>
+            <span>View on GitHub</span>
+          </a>
+        </article>
+      </div>
       <div id="projects-software-container" class="projects-list">
         <!-- Rendered dynamically by js/render.js -->
       </div>
@@ -153,60 +250,6 @@
       <h2 class="section-label" id="projects-volunteer-label">volunteer &amp; leadership</h2>
       <div id="projects-volunteer-container" class="projects-list">
         <!-- Rendered dynamically by js/render.js -->
-      </div>
-    </section>
-
-    <section class="section" id="github-projects" aria-labelledby="github-projects-label">
-      <h2 class="section-label" id="github-projects-label">GitHub Projects</h2>
-      <p class="section-subtext">Public repositories with source code on GitHub.</p>
-      <div class="projects-list">
-        <a class="project-card" href="https://github.com/fazalhassan23/wingetUI">
-          <div class="project-card-content">
-            <h3>wingetUI</h3>
-            <p>C#</p>
-          </div>
-          <span class="project-year">GitHub <span aria-hidden="true">&rarr;</span></span>
-        </a>
-        <a class="project-card" href="https://github.com/fazalhassan23/GooglePhotosBulkDL">
-          <div class="project-card-content">
-            <h3>GooglePhotosBulkDL</h3>
-          </div>
-          <span class="project-year">GitHub <span aria-hidden="true">&rarr;</span></span>
-        </a>
-        <a class="project-card" href="https://github.com/fazalhassan23/DeDuplicator">
-          <div class="project-card-content">
-            <h3>DeDuplicator</h3>
-            <p>C#</p>
-          </div>
-          <span class="project-year">GitHub <span aria-hidden="true">&rarr;</span></span>
-        </a>
-        <a class="project-card" href="https://github.com/fazalhassan23/CatAstrophe">
-          <div class="project-card-content">
-            <h3>CatAstrophe</h3>
-            <p>JavaScript</p>
-          </div>
-          <span class="project-year">GitHub <span aria-hidden="true">&rarr;</span></span>
-        </a>
-        <a class="project-card" href="https://github.com/fazalhassan23/nafi-portfolio">
-          <div class="project-card-content">
-            <h3>nafi-portfolio</h3>
-            <p>HTML</p>
-          </div>
-          <span class="project-year">GitHub <span aria-hidden="true">&rarr;</span></span>
-        </a>
-        <a class="project-card" href="https://github.com/fazalhassan23/CampusCafe">
-          <div class="project-card-content">
-            <h3>CampusCafe</h3>
-            <p>CSS</p>
-          </div>
-          <span class="project-year">GitHub <span aria-hidden="true">&rarr;</span></span>
-        </a>
-        <a class="project-card" href="https://github.com/fazalhassan23/MySQL-Task">
-          <div class="project-card-content">
-            <h3>MySQL-Task</h3>
-          </div>
-          <span class="project-year">GitHub <span aria-hidden="true">&rarr;</span></span>
-        </a>
       </div>
     </section>
 

@@ -450,3 +450,45 @@ body { padding-bottom:0; background:var(--bg); }
   text-decoration:underline;
   text-underline-offset:.18em;
 }
+
+[data-design="index"] .repository-projects .project-card {
+  grid-template-columns:minmax(0, 1fr) auto;
+  align-items:center;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+
+.repository-tag {
+  color:var(--text-tertiary);
+  font-size:.78rem;
+}
+
+[data-design="index"] .repository-link {
+  display:inline-flex;
+  align-items:center;
+  justify-self:start;
+  gap:8px;
+  white-space:nowrap;
+}
+
+@media (max-width:640px) {
+  [data-design="index"] .repository-projects .project-card {
+    grid-template-columns:minmax(0, 1fr);
+  }
+}
+
+.repository-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+[data-design="index"] .repository-projects .featured-project {
+  grid-template-columns:minmax(0, 1fr);
+}
+.featured-project .project-card-content { max-width:74ch; }
+.featured-project-label {
+  color:var(--accent);
+  font-size:.78rem;
+  font-weight:700;
+}
