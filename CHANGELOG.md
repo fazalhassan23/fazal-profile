@@ -3,6 +3,16 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.7.2] - 2026-11-04
+
+### Added
+
+- Featured the outpatient EMR project and added live links for three software projects.
+
+### Changed
+
+- Moved public repositories to the top of Software & Engineering and enabled the GitHub profile link.
+
 ## [2.7.1] - 2026-11-04
 
 ### Added
