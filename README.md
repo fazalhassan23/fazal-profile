@@ -2,7 +2,7 @@
 
 > A zero-dependency, production-grade personal portfolio built entirely on **Vanilla HTML5, modern CSS, and plain JavaScript** - no frameworks, no bundlers, no build steps. Includes a fully client-side Content Management System (CMS) with SHA-256 authentication, a custom WYSIWYG rich-text editor, a dual-mode animated canvas background, and an optional PHP flat-file persistence API.
 
-**Current Version**: `v2.7.0` | **License**: MIT
+**Current Version**: `v2.7.1` | **License**: MIT
 
 ---
 
@@ -260,6 +260,7 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 
 | Version | Date | Summary |
 |---|---|---|
+| v2.7.1 | 2026-11-04 | Added a GitHub Projects section to the Projects page |
 | v2.7.0 | 2026-11-03 | Index redesign, recruiter shortcuts, career timeline, and accessible theme controls |
 | v2.6.0 | 2026-09-14 | **Rich Text Editor**: Added WYSIWYG editor support to 7 CMS text fields with frontend HTML rendering and improved text truncation |
 | v2.5.0 | 2026-09-10 | **Contact Visibility & Logos**: Field-level visibility toggles for the contact section and footer social links, including instant CMS auto-save, official LinkedIn and GitHub SVG logos, and frontend infrastructure fixes |

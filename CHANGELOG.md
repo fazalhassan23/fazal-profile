@@ -3,6 +3,12 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.7.1] - 2026-11-04
+
+### Added
+
+- Added links to seven public GitHub repositories on the Projects page.
+
 ## [2.7.0] - 2026-11-03
 
 ### Added
