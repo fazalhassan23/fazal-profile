@@ -36,6 +36,15 @@
       .match(/^https?:\/\/(?:[a-z]+\.)?linkedin\.com(\/in\/[^/?#]+)/)?.[1];
   }
 
+  // Older CMS records contain emoji decoded as Windows-1252.
+  const legacyActivityIcons = new Map([
+    ["ðŸ\u008f›ï¸\u008f", "🏛️"],
+    ["ðŸ“¸", "📸"],
+    ["ðŸŽ™ï¸\u008f", "🎙️"],
+    ["ðŸ¤\u009d", "🤝"],
+    ["âœ\u008dï¸\u008f", "✍️"]
+  ]);
+
   function renderRichText(htmlOrText) {
     if (!htmlOrText) return '';
     // Rich text is CMS-authored but must still be treated as untrusted input.
@@ -464,7 +473,7 @@
     if (extrasContainer && Array.isArray(data.extraCurriculars)) {
       extrasContainer.innerHTML = data.extraCurriculars.map(extra => `
         <div class="expertise-card fade-up visible">
-          <div class="card-icon">${PortfolioUtils.escapeHtml(extra.icon || '✨')}</div>
+          <div class="card-icon" aria-hidden="true">${PortfolioUtils.escapeHtml(legacyActivityIcons.get(extra.icon) || extra.icon || '✨')}</div>
           <div>
             <p class="card-category">${PortfolioUtils.escapeHtml(extra.category || '')}</p>
             <h3>${PortfolioUtils.escapeHtml(extra.title || '')}</h3>

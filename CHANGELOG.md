@@ -1,7 +1,13 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [2.7.4] - 2026-11-05
+
+### Fixed
+
+- Restored the Beyond Work icons for legacy CMS records.
 
 ## [2.7.3] - 2026-11-05
 
