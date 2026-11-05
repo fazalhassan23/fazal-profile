@@ -3,6 +3,12 @@
 All notable changes to **fazal-profile** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.7.3] - 2026-11-05
+
+### Removed
+
+- Removed the homepage endorsement category filters. Pagination remains available.
+
 ## [2.7.2] - 2026-11-04
 
 ### Added

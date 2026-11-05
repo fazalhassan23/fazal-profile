@@ -95,7 +95,6 @@ body::after, body::before, #ambient-canvas { display:none !important; }
 .experience-details summary { cursor:pointer; color:var(--text-secondary); font-size:12px; padding-top:12px; width:fit-content; }.experience-details[open] summary { color:var(--accent); }
 .project-card,.article-card { border-radius:0; background:transparent; border:0; border-top:1px solid var(--border); padding:26px 0; box-shadow:none; }.project-card:hover,.article-card:hover { background:var(--accent-light); transform:none; box-shadow:none; }.project-card h3,.article-title { font-size:21px; font-weight:500; letter-spacing:-.5px; }.project-card p,.article-summary { font-size:13px; }.tag,.article-tag { background:transparent; border:1px solid var(--border); color:var(--text-secondary); font-size:10px; border-radius:3px; }
 .recommendation-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--card-radius); padding:24px; box-shadow:none; }.rec-text { font-size:13px; line-height:1.85; }.rec-author-name { font-size:13px; }.rec-author-headline,.rec-author-company { font-size:11px; }.rec-source-badge { background:transparent; color:var(--accent); }
-#rec-filters { justify-content:flex-start !important; margin-bottom:24px !important; }.rec-filters .btn { padding:8px 13px; font-size:11px; }.rec-filters .active { background:var(--accent); color:var(--text-inverse); border-color:var(--accent); }
 .contact-container { gap:60px; margin-top:35px; }.contact-card-box { background:transparent; border:0; padding:0; box-shadow:none; }.form-input,.form-textarea { background:var(--surface); border:1px solid var(--border); border-radius:3px; color:var(--text-primary); font-size:13px; }.form-label { font-size:11px; }.contact-detail-value { font-size:14px; overflow-wrap:anywhere; }.contact-detail-label { font-size:10px; letter-spacing:1px; }
 .footer { background:var(--bg-secondary); border:0; padding-top:45px; }.footer-inner,.footer-bottom { max-width:var(--max-width); padding-inline:var(--page-pad); }.footer-tagline { font-size:12px; }.footer-links-title { font-size:10px; }.footer-links-list a,.footer-copy { font-size:12px; }
 .page-hero { padding:70px 0 48px; }.page-hero h1 { font:400 clamp(42px,6vw,76px)/1.1 Georgia,serif; letter-spacing:-2px; }.about-lead { font-size:23px; }.about-body { font-size:15px; max-width:780px; }
@@ -184,7 +183,6 @@ body:has(.error-hero) .footer-bottom { padding:22px 0; }
 .experience-details summary { font-size:15px; padding-block:14px; }
 .tag,.article-tag,.article-date,.article-category { font-size:12px; }
 .rec-author-name { font-size:16px; }.rec-author-headline,.rec-author-company,.rec-meta { font-size:13px; }
-.rec-filters .btn { font-size:13px; min-height:42px; }
 .form-input,.form-textarea { font-size:16px; padding:14px; }.form-label { font-size:14px; }
 .contact-detail-value { font-size:17px; }.contact-detail-label { font-size:12px; }
 .footer-tagline,.footer-links-list a,.footer-copy { font-size:14px; }
