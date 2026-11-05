@@ -2,7 +2,7 @@
 
 > A zero-dependency, production-grade personal portfolio built entirely on **Vanilla HTML5, modern CSS, and plain JavaScript** - no frameworks, no bundlers, no build steps. Includes a fully client-side Content Management System (CMS) with SHA-256 authentication, a custom WYSIWYG rich-text editor, a dual-mode animated canvas background, and an optional PHP flat-file persistence API.
 
-**Current Version**: `v2.7.2` | **License**: MIT
+**Current Version**: `v2.7.3` | **License**: MIT
 
 ---
 
@@ -260,6 +260,7 @@ This project uses [Semantic Versioning](https://semver.org/) and [Keep a Changel
 
 | Version | Date | Summary |
 |---|---|---|
+| v2.7.3 | 2026-11-05 | Removed the homepage endorsement category filters |
 | v2.7.2 | 2026-11-04 | Featured EMR and integrated software projects with live demo links |
 | v2.7.1 | 2026-11-04 | Added a GitHub Projects section to the Projects page |
 | v2.7.0 | 2026-11-03 | Index redesign, recruiter shortcuts, career timeline, and accessible theme controls |

@@ -230,30 +230,11 @@
     });
   }
 
-  let currentRecCategory = 'all';
 
   function renderRecommendations(recommendations, ownerProfiles) {
     if (!Array.isArray(recommendations)) return;
 
-    let visibleRecs = recommendations.filter(r => r.visible !== false);
-
-    const filtersContainer = document.getElementById('rec-filters');
-    if (filtersContainer && !filtersContainer.dataset.bound) {
-      filtersContainer.dataset.bound = "true";
-      filtersContainer.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-filter]');
-        if (btn) {
-          document.querySelectorAll('#rec-filters button').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          currentRecCategory = btn.getAttribute('data-filter');
-          renderRecommendations(recommendations, ownerProfiles);
-        }
-      });
-    }
-
-    if (currentRecCategory !== 'all') {
-      visibleRecs = visibleRecs.filter(r => r.category === currentRecCategory);
-    }
+    const visibleRecs = recommendations.filter(r => r.visible !== false);
 
     function getAvatarHtml(r) {
       if (r.avatar && r.avatar.trim()) {
@@ -366,7 +347,7 @@
     const nextBtn = document.getElementById('rec-next');
     if (!container) return;
     if (recs.length === 0) {
-      container.innerHTML = '<p class="empty-state" role="status">No recommendations match this filter.</p>';
+      container.innerHTML = '<p class="empty-state" role="status">No endorsements to display.</p>';
       if (indicator) indicator.textContent = 'No results';
       if (prevBtn) prevBtn.disabled = true;
       if (nextBtn) nextBtn.disabled = true;
